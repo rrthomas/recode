@@ -21,7 +21,7 @@
 This file documents the Recode program and library, which has the purpose of
 converting files between various character sets and surfaces.
 
-Copyright (C) 1990--2018 Free Software Foundation, Inc.
+Copyright (C) 1990--2022 Free Software Foundation, Inc.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -1474,40 +1474,6 @@ of mixed input.
 The default Recode behaviour is to expect pure charset files, to
 be recoded as other pure charset files.  However, the following options
 allow for a few precise kinds of mixed charset files.
-
-@ignore
-Some notes on transliteration and substitution.
-
-Transliteration is still much study, discussion and work to come, but
-when generic transliteration will be added in Recode, it will be
-added @emph{through} the Recode library.
-
-However, I agree that it might be @emph{convenient} that the
-@samp{latin1..fi} conversion works by letting all ASCII characters
-through, but then, the result would be a mix of ASCII and @code{fi}, it
-would not be pure @code{fi} anymore.  It would be convenient because,
-in practice, people might write programs in ASCII, keeping comments or
-strings directly in @code{fi}, all in the same file.  The original files
-are indeed mixed, and people sometimes expect that Recode will do mixed
-conversions.
-
-A conversion does not become @emph{right} because it is altered to be
-more convenient.  And recode is not @emph{wrong} because it does not
-offer some conveniences people would like to have.  As long as Recode
-main job is producing @code{fi}, than @samp{[} is just not representable
-in @code{fi}, and recode is rather right in not letting @samp{[}
-through.  It has to do something special about it.  The character might
-be thrown away, transliterated or replaced by a substitute, or mapped to
-some other code for reversibility purposes.
-
-Transliteration or substitution are currently not implemented in Recode,
-yet for the last few years, I've been saving documentation about these
-phenomena.  The transliteration which you are asking for, here, is that
-the '[' character in @w{Latin-1}, for example, be transliterated to
-A-umlaut in @code{fi}, which is a bit non-meaningful.  Remember, there
-is no @samp{[} in @code{fi}.
-
-@end ignore
 
 @table @samp
 @item -d
@@ -2979,7 +2945,18 @@ an external @code{iconv} library, as they likely share many charsets.
 We discuss, here, the issues related to this duplication, and other
 peculiarities specific to the @code{iconv} library.
 
-To check whether if the @code{iconv} used for a particular conversion,
+The @code{iconv} library provides transliteration between character
+sets, using encodings with the suffix @code{-translit}.  This
+corresponds to the @code{iconv} option @code{//TRANSLIT}.
+
+Similarly, the suffix @code{-ignore} tells @code{iconv} to ignore
+invalid character sequences.  This corresponds to the @code{iconv}
+option @code{//IGNORE}.
+
+The two suffixes can be combined using the suffix
+@code{-translit-ignore}; for example, @code{iso-8859-1-translit-ignore}.
+
+To check whether @code{iconv} is used for a particular conversion,
 just use the @samp{-v} or @samp{--verbose} option, @pxref{Recoding}, and
 check whether @samp{:iconv:} appears as an intermediate charset.
 

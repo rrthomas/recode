@@ -167,23 +167,64 @@ wrapped_transform (iconv_t conversion, RECODE_SUBTASK subtask)
   SUBTASK_RETURN (subtask);
 }
 
+static bool
+ends_with (const char *s, size_t s_len, const char *suff, size_t suff_len)
+{
+  return suff_len <= s_len && !memcmp (s + s_len - suff_len, suff, suff_len);
+}
+
+static char *
+iconv_fix_options (const char *charset)
+{
+  size_t charset_len = strlen (charset);
+  bool ignore = false, translit = false;
+
+  do {
+    if (ends_with (charset, charset_len, "-translit", strlen ("-translit")))
+      {
+        translit = true;
+        charset_len -= strlen ("-translit");
+      }
+    else if (ends_with (charset, charset_len, "-ignore", strlen ("-ignore")))
+      {
+        ignore = true;
+        charset_len -= strlen ("-ignore");
+      }
+    else
+      break;
+  } while (true);
+
+  char *result;
+  if (asprintf (&result, "%.*s%s%s", (int) charset_len, charset,
+                translit ? "//TRANSLIT" : "",
+                ignore ? "//IGNORE": "")
+      == -1)
+    return NULL;
+  return result;
+}
+
 bool
 transform_with_iconv (RECODE_SUBTASK subtask)
 {
   RECODE_CONST_STEP step = subtask->step;
-  iconv_t conversion = iconv_open (step->after->iconv_name,
-                                   step->before->iconv_name);
-  bool status;
+  char *tocode = iconv_fix_options (step->after->iconv_name);
+  char *fromcode = iconv_fix_options (step->before->iconv_name);
+  iconv_t conversion = (iconv_t) -1;
 
+  if (tocode && fromcode)
+    conversion = iconv_open (tocode, fromcode);
   if (conversion == (iconv_t) -1)
     {
       recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
+      free (fromcode);
+      free (tocode);
       SUBTASK_RETURN (subtask);
     }
 
-  status = wrapped_transform (conversion, subtask);
-
+  bool status = wrapped_transform (conversion, subtask);
   iconv_close (conversion);
+  free (fromcode);
+  free (tocode);
   return status;
 }
 

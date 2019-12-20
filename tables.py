@@ -467,13 +467,17 @@ class Iconv(Options):
         sys.stdout.write("Reading from `iconv -l'\n")
         libc = None
         import os
+        names = []
         for line in os.popen('iconv -l'):
             if libc is None:
                 libc = len(line.split('/')) == 3
             if libc:
                 first, second, empty = line.split('/')
                 assert empty == '\n', repr(line)
-                self.data.append((second or first, ()))
+                name = second or first
+                if name not in names:
+                    names.append(name)
+                    self.data.append((name, ()))
             else:
                 aliases = []
                 for alias in line.split():
@@ -483,12 +487,18 @@ class Iconv(Options):
                 self.data.append((aliases[0], aliases[1:]))
 
     def complete(self, french):
+        def write_charset(format, charset):
+            write(format % charset)
+            write(format % (charset + "-ignore"))
+            write(format % (charset + "-translit"))
+            write(format % (charset + "-translit-ignore"))
         if not self.do_sources:
             return
         write = Output(self.SOURCES).write
         count = 1
         for charset, aliases in self.data:
-            count = count + 2 + len(aliases)
+            versions = 4 # Normal, //IGNORE, //TRANSLIT, //TRANSLIT//IGNORE
+            count = count + (versions + len(aliases)) * versions
         write('\n'
               "/* This is derived from Bruno Haible's `libiconv' package.  */"
               '\n'
@@ -497,12 +507,12 @@ class Iconv(Options):
               % count)
         for charset, aliases in self.data:
             if aliases:
-                write('    "%s",\n' % charset)
+                write_charset('    "%s",\n', charset)
                 for alias in aliases[:-1]:
-                    write('\t"%s",\n' % alias)
-                write('\t"%s", NULL,\n' % aliases[-1])
+                    write_charset('\t"%s",\n', alias)
+                write_charset('\t"%s", NULL,\n', aliases[-1])
             else:
-                write('    "%s", NULL,\n' % charset)
+                write_charset('    "%s", NULL,\n', charset)
         write('    NULL\n'
               '  };\n')
 
