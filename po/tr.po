@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: recode 3.6\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2020-07-29 13:34+0100\n"
+"POT-Creation-Date: 2020-11-11 19:10+0000\n"
 "PO-Revision-Date: 2002-06-20 11:00EET\n"
 "Last-Translator: İrfan Macit <imacit@mail.cu.edu.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -527,7 +527,7 @@ msgstr "İstekte `..' bekleniyordu"
 msgid "Child process wait status is 0x%0.2x"
 msgstr "Ast işlem bekleme durumu: 0x%0.2x"
 
-#: src/testdump.c:300
+#: src/testdump.c:304
 msgid ""
 "UCS2   Mne   Description\n"
 "\n"

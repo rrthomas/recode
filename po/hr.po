@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: recode 3.6\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2020-07-29 13:34+0100\n"
+"POT-Creation-Date: 2020-11-11 19:10+0000\n"
 "PO-Revision-Date: 2012-07-03 00:23+0200\n"
 "Last-Translator: Tomislav Krznar <tomislav.krznar@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -535,7 +535,7 @@ msgstr "Očekujem „..” u zahtjevu"
 msgid "Child process wait status is 0x%0.2x"
 msgstr "Stanje čekanja procesa djeteta je 0x%0.2x"
 
-#: src/testdump.c:300
+#: src/testdump.c:304
 msgid ""
 "UCS2   Mne   Description\n"
 "\n"

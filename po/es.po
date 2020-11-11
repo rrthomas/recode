@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Free recode 3.6\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2020-07-29 13:34+0100\n"
+"POT-Creation-Date: 2020-11-11 19:10+0000\n"
 "PO-Revision-Date: 2002-09-17 00:28+0200\n"
 "Last-Translator: Santiago Vila Doncel <sanvila@unex.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -553,7 +553,7 @@ msgstr "Se esperaba `..' en la petición"
 msgid "Child process wait status is 0x%0.2x"
 msgstr "El estado de espera del proceso hijo es 0x%0.2x"
 
-#: src/testdump.c:300
+#: src/testdump.c:304
 msgid ""
 "UCS2   Mne   Description\n"
 "\n"
