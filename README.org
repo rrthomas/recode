@@ -44,7 +44,7 @@ official, as well as individual files.
 
 * Installation
 ** In a hurry?
-See =INSTALL=.
+See =INSTALL=. (For installing from git, see =HACKING.org=.)
 
 More fine-grained instructions follow.
 
