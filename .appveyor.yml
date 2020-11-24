@@ -1,0 +1,54 @@
+version: "{build}"
+
+environment:
+  global:
+    VERBOSE: 1 # Get test logs in output
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ASAN: 'yes'
+      LSAN_OPTIONS: verbosity=1:log_threads=1
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos
+    # (cython not available on MSYS)
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      MSYSTEM: MINGW64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      MSYSTEM: MINGW32
+
+for:
+-
+  matrix:
+    only:
+      - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+  init:
+    - sudo apt-get -y install python3 cython3 flex help2man autopoint texinfo
+-
+  matrix:
+    only:
+      - APPVEYOR_BUILD_WORKER_IMAGE: macos
+  init:
+    - brew install help2man cython flex texinfo
+    - export PATH="/usr/local/opt/flex/bin:/usr/local/opt/texinfo/bin:/usr/local/opt/gettext/bin:/usr/local/opt/cython/bin:$PATH"
+  environment:
+    LDFLAGS: "-L/usr/local/opt/flex/lib -L/usr/local/opt/texinfo/lib"
+    CPPFLAGS: "-I/usr/local/opt/flex/include"
+    PYTHON: /usr/local/bin/python3
+-
+  matrix:
+    only:
+      - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+  init:
+    - git config --global core.autocrlf input
+  install:
+    - C:\msys64\usr\bin\bash.exe -l c:/projects/recode/build-aux/appveyor-install.sh
+
+# Test APPVEYOR_WORKER_BUILD_IMAGE below because we cannot put the desired extra
+# configure arguments for Linux in a variable, owing to spaces and quotes.
+# We could use an array, but we cannot set an environment variable to an
+# array.
+build_script:
+  - cmd: C:\msys64\usr\bin\bash.exe -lc "cd c:/projects/recode && ./bootstrap && ./configure --enable-silent-rules %CONFIGURE_FLAGS% && make && make DISTCHECK_CONFIGURE_FLAGS=\"%CONFIGURE_FLAGS%\" distcheck"
+  - sh: ./bootstrap
+  - sh: if [[ "$APPVEYOR_BUILD_WORKER_IMAGE" == "macos" ]]; then ./configure --enable-silent-rules ; fi
+  - sh: if [[ "$APPVEYOR_BUILD_WORKER_IMAGE" == "Ubuntu" ]]; then ./configure --enable-silent-rules CFLAGS="-g3 -fsanitize=address -fsanitize=undefined" LDFLAGS="-fsanitize=address -fsanitize=undefined" TESTS_ENVIRONMENT_EXTRA="LD_PRELOAD=/usr/lib/gcc/x86_64-linux-gnu/7/libasan.so PYTHONMALLOC=malloc" ; fi
+  - sh: make && make distcheck
