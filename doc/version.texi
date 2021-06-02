@@ -1,4 +1,4 @@
 @set UPDATED 12 December 2019
 @set UPDATED-MONTH December 2019
-@set EDITION 3.7.8
-@set VERSION 3.7.8
+@set EDITION 3.7.9
+@set VERSION 3.7.9

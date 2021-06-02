@@ -5,7 +5,16 @@ Recode NEWS - User visible changes
 .. contents::
 .. sectnum::
 
-:Copyright: © 1993-2020 Free Software Foundation, Inc.
+:Copyright: © 1993-2021 Free Software Foundation, Inc.
+
+Version 3.7.9
+=============
+
+:Author: Reuben Thomas, 2021-06.
+
++ A fix to the CP1252 encoding: U+017E LATIN SMALL LETTER Z WITH CARON is at
+  byte 0x9e, not byte 0x8f.
++ Minor documentation fixes.
 
 Version 3.7.8
 =============
