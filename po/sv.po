@@ -9,17 +9,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: recode 3.7.1\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2021-06-02 10:47+0100\n"
-"PO-Revision-Date: 2019-12-25 15:54+0800\n"
+"POT-Creation-Date: 2018-09-24 21:14+0100\n"
+"PO-Revision-Date: 2020-05-15 07:02+0800\n"
 "Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
-"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"Language-Team: Swedish <tp-sv-list@lists.sourceforge.net>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 
 #: src/main.c:110
 msgid "No error"
@@ -54,7 +54,6 @@ msgid "Internal recoding bug"
 msgstr "Internt omkodningsfel"
 
 #: src/main.c:173
-#, fuzzy
 msgid ""
 "This program is free software; you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
@@ -67,14 +66,14 @@ msgid ""
 "GNU General Public License for more details.\n"
 "\n"
 "You should have received a copy of the GNU General Public License\n"
-"along with this program; if not, see <https://www.gnu.org/licenses/>.\n"
+"along with this program; if not, write to the Free Software Foundation,\n"
+"Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
 msgstr ""
 "Följande text är en informell översättning som enbart tillhandahålls i\n"
 "informativt syfte. För alla juridiska tolkningar gäller den engelska\n"
 "originaltexten.\n"
 "\n"
-"Detta program är fri programvara.  Du kan distribuera den och/eller "
-"modifiera\n"
+"Detta program är fri programvara.  Du kan distribuera den och/eller modifiera\n"
 "den under villkoren i GNU General Public License, publicerad av\n"
 "Free Software Foundation, antingen version 3, eller (om du så vill)\n"
 "någon senare version.\n"
@@ -85,20 +84,19 @@ msgstr ""
 "Public License för ytterligare information.\n"
 "\n"
 "Du bör ha fått en kopia av GNU General Public License\n"
-"tillsammans med detta program. Om inte, skriv till Free Software "
-"Foundation,\n"
+"tillsammans med detta program. Om inte, skriv till Free Software Foundation,\n"
 "Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
 
-#: src/main.c:197
+#: src/main.c:198
 #, c-format
 msgid "Try `%s %s' for more information.\n"
-msgstr "Försök med \"%s %s\" för mer information\n"
+msgstr "Försök med \"%s %s\" för mer information.\n"
 
-#: src/main.c:201
+#: src/main.c:202
 msgid "Recode converts files between various character sets and surfaces.\n"
 msgstr "Recode konverterar filer mellan olika teckenuppsättningar och ytor.\n"
 
-#: src/main.c:205
+#: src/main.c:206
 #, c-format
 msgid ""
 "\n"
@@ -107,7 +105,7 @@ msgstr ""
 "\n"
 "Användning: %s [FLAGGA]... [ [TECKENUPPSÄTTNING] | BEGÄRAN [FIL]...]\n"
 
-#: src/main.c:208
+#: src/main.c:209
 msgid ""
 "\n"
 "If a long option shows an argument as mandatory, then it is mandatory\n"
@@ -115,16 +113,14 @@ msgid ""
 msgstr ""
 "\n"
 "Om en lång flagga har ett obligatoriskt argument så är argumentet även\n"
-"obligatoriskt för motsvarade korta flagga.  Motsvarande för valfria "
-"argument.\n"
+"obligatoriskt för motsvarade korta flagga.  Motsvarande för valfria argument.\n"
 
-#: src/main.c:214
+#: src/main.c:215
 msgid ""
 "\n"
 "Listings:\n"
 "  -l, --list[=FORMAT]        list one or all known charsets and aliases\n"
-"  -k, --known=PAIRS          restrict charsets according to known PAIRS "
-"list\n"
+"  -k, --known=PAIRS          restrict charsets according to known PAIRS list\n"
 "  -h, --header[=[LN/]NAME]   write table NAME on stdout using LN, then exit\n"
 "  -T, --find-subsets         report all charsets being subset of others\n"
 "  -C, --copyright            display Copyright and copying conditions\n"
@@ -134,18 +130,16 @@ msgstr ""
 "\n"
 "Listningar:\n"
 "  -l, --list[=FORMAT]        visa en eller alla kända teckenuppsättningar\n"
-"  -k, --known=PAR            begränsa teckenuppsättningar till de i PAR-"
-"listan\n"
+"  -k, --known=PAR            begränsa teckenuppsättningar till de i PAR-listan\n"
 "  -h, --header[=[LN/]NAMN]   skriv tabell NAMN för LN till standard ut\n"
 "                             och avsluta.\n"
 "  -T, --find-subsets         skriv ut teckenuppsättningar som är delmängder\n"
 "                             av andra\n"
-"  -C, --copyright            visa copyrightinformation och "
-"kopieringsvillkor\n"
+"  -C, --copyright            visa copyrightinformation och kopieringsvillkor\n"
 "      --help                 visa denna hjälptext och avsluta\n"
 "      --version              visa versionsinformation och avsluta\n"
 
-#: src/main.c:226
+#: src/main.c:227
 msgid ""
 "\n"
 "Operation modes:\n"
@@ -158,22 +152,17 @@ msgstr ""
 "\n"
 "Exekveringsalternativ:\n"
 "  -v, --verbose           förklara delsteg och rapportera framsteg\n"
-"  -q, --quiet, --silent   undertryck meddelanden om irreversibla "
-"omkodningar\n"
+"  -q, --quiet, --silent   undertryck meddelanden om irreversibla omkodningar\n"
 "  -f, --force             gör omkodning även när den är irreversibel\n"
-"  -t, --touch             gör \"touch\" på filer som omkodas över sig "
-"själva\n"
+"  -t, --touch             gör \"touch\" på filer som omkodas över sig själva\n"
 "  -i, -p, --sequence=STRATEGI  hoppas över för bakåtkompatibilitet\n"
 
-#: src/main.c:236
-#, fuzzy
+#: src/main.c:237
 msgid ""
 "\n"
 "Fine tuning:\n"
-"  -s, --strict           use strict mappings; discard untranslatable "
-"characters\n"
-"  -d, --diacritics       convert only diacritics and special characters for\n"
-"                         HTML/LaTeX/BibTeX\n"
+"  -s, --strict           use strict mappings; discard untranslatable characters\n"
+"  -d, --diacritics       convert only diacritics or alike for HTML/LaTeX/BibTeX\n"
 "  -S, --source[=LN]      limit recoding to strings and comments as for LN\n"
 "  -c, --colons           use colons instead of double quotes for diaeresis\n"
 "  -g, --graphics         approximate IBMPC rulers by ASCII graphics\n"
@@ -181,14 +170,13 @@ msgid ""
 msgstr ""
 "\n"
 "Finjustering:\n"
-"  -s, --strict           använd strikt omkodning, kassera oöversättbara "
-"tecken\n"
+"  -s, --strict           använd strikt omkodning, kassera oöversättbara tecken\n"
 "  -d, --diacritics       omkoda endast diakritiska tecken eller motsvarande\n"
 "                         till HTML/LaTeX/BibTeX\n"
 "  -S, --source[=LN]      begränsa omkodning till strängar och kommentarer\n"
 "                         som för LN\n"
 "  -c, --colons           använd kolon istället för \" för trematecken\n"
-"  -g, --graphics         approximera linjer i IBMPC med ASCII grafik\n"
+"  -g, --graphics         approximera linjer i IBMPC med ASCII-grafik\n"
 "  -x, --ignore=TECKENUPPSÄTTNING\n"
 "                         ignorera TECKENUPPSÄTTNING när omkodningsväg väljs\n"
 
@@ -200,14 +188,12 @@ msgid ""
 msgstr ""
 "\n"
 "Flagga -l utan FORMAT och TECKENUPPSÄTTNING visar alla tillgängliga\n"
-"teckenuppsättningar och ytor.  FORMAT är \"decimal\", \"octal\", "
-"\"hexadecimal\"\n"
+"teckenuppsättningar och ytor.  FORMAT är \"decimal\", \"octal\", \"hexadecimal\"\n"
 "eller \"full\" (eller en av \"dohf\").\n"
 
 #: src/main.c:254
 msgid ""
-"Unless DEFAULT_CHARSET is set in environment, CHARSET defaults to the "
-"locale\n"
+"Unless DEFAULT_CHARSET is set in environment, CHARSET defaults to the locale\n"
 "dependent encoding, determined by LC_ALL, LC_CTYPE, LANG.\n"
 msgstr ""
 "Om miljövariabeln DEFAULT_CHARSET inte är satt blir standardvärdet för\n"
@@ -217,8 +203,7 @@ msgstr ""
 #: src/main.c:259
 msgid ""
 "With -k, possible before charsets are listed for the given after CHARSET,\n"
-"both being tabular charsets, with PAIRS of the form `BEF1:AFT1,BEF2:"
-"AFT2,...'\n"
+"both being tabular charsets, with PAIRS of the form `BEF1:AFT1,BEF2:AFT2,...'\n"
 "and BEFs and AFTs being codes are given as decimal numbers.\n"
 msgstr ""
 "Med -k, möjliga startuppsättningar visas för den givna slutuppsättningen,\n"
@@ -227,29 +212,22 @@ msgstr ""
 "som anges med decimala tal.\n"
 
 #: src/main.c:264
-msgid ""
-"LN is some language, it may be `c', `perl' or `po'; `c' is the default.\n"
-msgstr ""
-"LN är ett språk, det kan vara \"c\", \"perl\" eller \"po\"; \"c\" är "
-"standardvärde.\n"
+msgid "LN is some language, it may be `c', `perl' or `po'; `c' is the default.\n"
+msgstr "LN är ett språk, det kan vara \"c\", \"perl\" eller \"po\"; \"c\" är standardvärde.\n"
 
 #: src/main.c:267
 msgid ""
 "\n"
-"REQUEST is SUBREQUEST[,SUBREQUEST]...; SUBREQUEST is ENCODING[.."
-"ENCODING]...\n"
-"ENCODING is [CHARSET][/[SURFACE]]...; REQUEST often looks like BEFORE.."
-"AFTER,\n"
+"REQUEST is SUBREQUEST[,SUBREQUEST]...; SUBREQUEST is ENCODING[..ENCODING]...\n"
+"ENCODING is [CHARSET][/[SURFACE]]...; REQUEST often looks like BEFORE..AFTER,\n"
 "with BEFORE and AFTER being charsets.  An omitted CHARSET implies the usual\n"
-"charset; an omitted [/SURFACE]... means the implied surfaces for CHARSET; "
-"a /\n"
+"charset; an omitted [/SURFACE]... means the implied surfaces for CHARSET; a /\n"
 "with an empty surface name means no surfaces at all.  See the manual.\n"
 msgstr ""
 "\n"
 "BEGÄRAN är DELBEGÄRAN[,DELBEGÄRAN]..., DELBEGÄRAN är KODNING[..KODNING]...\n"
-"KODNING är [TECKENUPPSÄTTNING][/[YTA]].... BEGÄRAN ser ofta ut som START.."
-"SLUT,\n"
-"där START och SLUT är teckenuppsättningar.  Ett utelämnat TECKENUPPSÄTTNING\n"
+"KODNING är [TECKENUPPSÄTTNING][/[YTA]].... BEGÄRAN ser ofta ut som START..SLUT,\n"
+"där START och SLUT är teckenuppsättningar.  En utelämnad TECKENUPPSÄTTNING\n"
 "innebär den normala teckenuppsättningen,\n"
 "en utelämnad [/YTA]... innebär den normala ytan för TECKENUPPSÄTTNING.\n"
 "Ett / utan ytnamn innebär ingen yta alls.  Se manualen för detaljer.\n"
@@ -359,17 +337,17 @@ msgstr "Omkodar %s..."
 msgid " done\n"
 msgstr " klart\n"
 
-#: src/main.c:882
+#: src/main.c:877
 #, c-format
 msgid " failed: %s in step `%s..%s'\n"
 msgstr " misslyckades: %s i steg \"%s..%s\"\n"
 
-#: src/main.c:889
+#: src/main.c:884
 #, c-format
 msgid "%s failed: %s in step `%s..%s'"
 msgstr "%s misslyckades: %s i steg \"%s..%s\""
 
-#: src/main.c:908
+#: src/main.c:903
 #, c-format
 msgid "%s in step `%s..%s'"
 msgstr "%s i steg \"%s..%s\""
@@ -382,8 +360,7 @@ msgstr "Teckenuppsättning %s finns och är inte %s"
 #: src/names.c:847
 #, c-format
 msgid "Cannot list `%s', no names available for this charset"
-msgstr ""
-"Kan inte visa \"%s\", inga namn tillgängliga för denna teckenuppsättning"
+msgstr "Kan inte visa \"%s\", inga namn tillgängliga för denna teckenuppsättning"
 
 #: src/names.c:999 src/names.c:1045
 #, c-format
@@ -426,7 +403,7 @@ msgstr "Kan inte invertera en given ett-till-ett tabell"
 #: src/recode.c:179 src/recode.c:191
 #, c-format
 msgid "Following diagnostics for `%s' to `%s'"
-msgstr "Följande fel är för \"%s\" till \"%s\""
+msgstr "Följande diagnostik är för \"%s\" till \"%s\""
 
 #: src/recode.c:184 src/recode.c:196
 #, c-format
@@ -527,9 +504,9 @@ msgstr "Förväntar \"..\" i begäran"
 #: src/task.c:457
 #, c-format
 msgid "Child process wait status is 0x%0.2x"
-msgstr "Barnprocessens slutstatus är 0x%0.2x"
+msgstr "Barnprocessens väntestatus är 0x%0.2x"
 
-#: src/testdump.c:304
+#: src/testdump.c:300
 msgid ""
 "UCS2   Mne   Description\n"
 "\n"

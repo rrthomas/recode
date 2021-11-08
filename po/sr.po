@@ -1,22 +1,22 @@
 # Serbian translation of recode
-# Copyright (C) 2012 Free Software Foundation, Inc.
+# Copyright © 2020 Free Software Foundation, Inc.
 # This file is distributed under the same license as the recode package.
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2012.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2012–2020.
 msgid ""
 msgstr ""
-"Project-Id-Version: recode-3.6\n"
+"Project-Id-Version: recode-3.7.1\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2021-06-02 10:47+0100\n"
-"PO-Revision-Date: 2012-03-25 13:12+0200\n"
+"POT-Creation-Date: 2018-09-24 21:14+0100\n"
+"PO-Revision-Date: 2020-04-02 17:01+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: Serbian <gnu@prevod.org>\n"
+"Language-Team: Serbian <(nothing)>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Virtaal 0.7.1\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/main.c:110
 msgid "No error"
@@ -51,7 +51,6 @@ msgid "Internal recoding bug"
 msgstr "Унутрашња грешка рекодирања"
 
 #: src/main.c:173
-#, fuzzy
 msgid ""
 "This program is free software; you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
@@ -64,11 +63,12 @@ msgid ""
 "GNU General Public License for more details.\n"
 "\n"
 "You should have received a copy of the GNU General Public License\n"
-"along with this program; if not, see <https://www.gnu.org/licenses/>.\n"
+"along with this program; if not, write to the Free Software Foundation,\n"
+"Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
 msgstr ""
 "Овај програм је слободан софтвер; можете га прослеђивати\n"
 "и/или мењати под условима ГНУ Опште јавне лиценце коју је\n"
-"објавила Задужбина слободног софтвера; верзије 2 лиценце\n"
+"објавила Задужбина слободног софтвера; верзије 3 лиценце\n"
 "или (по вашем избору) било које новије верзије.\n"
 "\n"
 "Овај програм се расподељује у нади да ће бити користан,\n"
@@ -81,19 +81,16 @@ msgstr ""
 "софтвера на адресу: „Free Software Foundation, Inc.,\n"
 "59 Temple Place - Suite 330, Boston, MA 02111-1307, USA“.\n"
 
-#: src/main.c:197
+#: src/main.c:198
 #, c-format
 msgid "Try `%s %s' for more information.\n"
 msgstr "Пробајте „%s %s“ за више информација.\n"
 
-#: src/main.c:201
-#, fuzzy
+#: src/main.c:202
 msgid "Recode converts files between various character sets and surfaces.\n"
-msgstr ""
-"Слободан „recode“ претвара датотеке између различитих знаковних скупова и "
-"површина.\n"
+msgstr "„recode“ претвара датотеке између различитих знаковних скупова и површина.\n"
 
-#: src/main.c:205
+#: src/main.c:206
 #, c-format
 msgid ""
 "\n"
@@ -102,7 +99,7 @@ msgstr ""
 "\n"
 "Употреба: %s [ОПЦИЈА]... [ [СКУПЗНАКОВА] | ЗАХТЕВ [ДАТОТЕКА]... ]\n"
 
-#: src/main.c:208
+#: src/main.c:209
 msgid ""
 "\n"
 "If a long option shows an argument as mandatory, then it is mandatory\n"
@@ -112,14 +109,12 @@ msgstr ""
 "Ако је у дугој опцији неки аргумент обавезан, онда је обавезан\n"
 "и за одговарајућу кратку опцију.  Слично и за аргументе опције.\n"
 
-#: src/main.c:214
-#, fuzzy
+#: src/main.c:215
 msgid ""
 "\n"
 "Listings:\n"
 "  -l, --list[=FORMAT]        list one or all known charsets and aliases\n"
-"  -k, --known=PAIRS          restrict charsets according to known PAIRS "
-"list\n"
+"  -k, --known=PAIRS          restrict charsets according to known PAIRS list\n"
 "  -h, --header[=[LN/]NAME]   write table NAME on stdout using LN, then exit\n"
 "  -T, --find-subsets         report all charsets being subset of others\n"
 "  -C, --copyright            display Copyright and copying conditions\n"
@@ -128,21 +123,15 @@ msgid ""
 msgstr ""
 "\n"
 "Излиставања:\n"
-"  -l, --list[=ФОРМАТ]        исписује један или све познате скупове знакова "
-"и алијасе\n"
-"  -k, --known=ПАРОВИ         ограничава скупове знакова према познатом "
-"списку ПАРОВА\n"
-"  -h, --header[=[ПЈ/]НАЗИВ]  исписује НАЗИВ табеле на стандардни излаз "
-"користећи ПЈ, и затим излази\n"
-"  -F, --freeze-tables        исписује Ц модул који садржи све табеле\n"
-"  -T, --find-subsets         пријављује све скупове знакова који су "
-"подскупови других\n"
+"  -l, --list[=ФОРМАТ]        исписује један или све познате скупове знакова и алијасе\n"
+"  -k, --known=ПАРОВИ         ограничава скупове знакова према познатом списку ПАРОВА\n"
+"  -h, --header[=[ПЈ/]НАЗИВ]  исписује НАЗИВ табеле на стандардни излаз користећи ПЈ, и затим излази\n"
+"  -T, --find-subsets         пријављује све скупове знакова који су подскупови других\n"
 "  -C, --copyright            приказује ауторска права и услове умножавања\n"
 "      --help                 приказује помоћ и излази\n"
 "      --version              приказује податке о издању и излази\n"
 
-#: src/main.c:226
-#, fuzzy
+#: src/main.c:227
 msgid ""
 "\n"
 "Operation modes:\n"
@@ -158,20 +147,14 @@ msgstr ""
 "  -q, --quiet, --silent      не приказује поруке о неповратним рекодирањима\n"
 "  -f, --force                приморава рекодирања чак и кад су неповратна\n"
 "  -t, --touch                додирује рекодиране датотеке након замене\n"
-"  -i, --sequence=датотеке    користи привремене датотеке за секвенцијалне "
-"пролазе\n"
-"      --sequence=меморија    користи меморијске бафере за секвенцијалне "
-"пролазе\n"
+"  -i, -p, --sequence=СТРАТЕГИЈА    занемарено зарад сагласности\n"
 
-#: src/main.c:236
-#, fuzzy
+#: src/main.c:237
 msgid ""
 "\n"
 "Fine tuning:\n"
-"  -s, --strict           use strict mappings; discard untranslatable "
-"characters\n"
-"  -d, --diacritics       convert only diacritics and special characters for\n"
-"                         HTML/LaTeX/BibTeX\n"
+"  -s, --strict           use strict mappings; discard untranslatable characters\n"
+"  -d, --diacritics       convert only diacritics or alike for HTML/LaTeX/BibTeX\n"
 "  -S, --source[=LN]      limit recoding to strings and comments as for LN\n"
 "  -c, --colons           use colons instead of double quotes for diaeresis\n"
 "  -g, --graphics         approximate IBMPC rulers by ASCII graphics\n"
@@ -179,16 +162,12 @@ msgid ""
 msgstr ""
 "\n"
 "Фина подешавања:\n"
-"  -s, --strict               користи прецизно мапирање, чак и знакове\n"
-"  -d, --diacritics           претвара само дијакритике или сличне за ХТМЛ/"
-"ЛаТеКс\n"
-"  -S, --source[=ПЈ]          ограничава рекодирање на ниске и примедбе за "
-"ПЈ\n"
-"  -c, --colons               користи двотачку уместо дуплих наводника за "
-"диарезис\n"
+"  -s, --strict               користи прецизно мапирање, одбацује непреводиве знакове\n"
+"  -d, --diacritics           претвара само дијакритике или сличне за ХТМЛ/ЛаТеКс\n"
+"  -S, --source[=ПЈ]          ограничава рекодирање на ниске и примедбе за ПЈ\n"
+"  -c, --colons               користи двотачку уместо дуплих наводника за диарезис\n"
 "  -g, --graphics             приближава ИБМПЦ рулере АСКРИ графиком\n"
-"  -x, --ignore=ЗНАКСКУП      занемарује СКУПЗНАКОВА приликом бирања путање "
-"рекодирања\n"
+"  -x, --ignore=СКУПЗНАКОВА   занемарује СКУПЗНАКОВА приликом бирања путање рекодирања\n"
 
 #: src/main.c:248
 msgid ""
@@ -197,85 +176,64 @@ msgid ""
 "FORMAT is `decimal', `octal', `hexadecimal' or `full' (or one of `dohf').\n"
 msgstr ""
 "\n"
-"Опција -l без ФОРМАТА и без СКУПАЗНАКОВА излистава расположиве скупове "
-"знакова и површине.\n"
-"ФОРМАТ може бити „decimal“, „octal“, „hexadecimal“ или „full“ (или један од "
-"„dohf“).\n"
+"Опција -l без ФОРМАТА и без СКУПАЗНАКОВА излистава расположиве скупове знакова и површине.\n"
+"ФОРМАТ може бити „decimal“, „octal“, „hexadecimal“ или „full“ (или један од „dohf“).\n"
 
 #: src/main.c:254
 msgid ""
-"Unless DEFAULT_CHARSET is set in environment, CHARSET defaults to the "
-"locale\n"
+"Unless DEFAULT_CHARSET is set in environment, CHARSET defaults to the locale\n"
 "dependent encoding, determined by LC_ALL, LC_CTYPE, LANG.\n"
 msgstr ""
-"Уколико није постављена променљива окружења „DEFAULT_CHARSET“, СКУПЗНАКОВА "
-"биће коришћен\n"
-"основни у складу са локалним подешавањима кодирања, одређених са „LC_ALL“, "
-"„LC_CTYPE“, „ЈЕЗИК“.\n"
+"Уколико није постављена променљива окружења „DEFAULT_CHARSET“, СКУПЗНАКОВА биће коришћен\n"
+"основни у складу са локалним подешавањима кодирања, одређених са „LC_ALL“, „LC_CTYPE“, „ЈЕЗИК“.\n"
 
 #: src/main.c:259
 msgid ""
 "With -k, possible before charsets are listed for the given after CHARSET,\n"
-"both being tabular charsets, with PAIRS of the form `BEF1:AFT1,BEF2:"
-"AFT2,...'\n"
+"both being tabular charsets, with PAIRS of the form `BEF1:AFT1,BEF2:AFT2,...'\n"
 "and BEFs and AFTs being codes are given as decimal numbers.\n"
 msgstr ""
-"Са -k, излиставају се могући „пре“ скупови знакова за задати „после“ "
-"СКУПЗНАКОВА,\n"
-"где су оба табеларни скупови знакова, са ПАРОВИ-ма у облику „ПРЕ1:ПОС1,ПРЕ2:"
-"ПОС2,...“\n"
+"Са -k, излиставају се могући „пре“ скупови знакова за задати „после“ СКУПЗНАКОВА,\n"
+"где су оба табеларни скупови знакова, са ПАРОВИ-ма у облику „ПРЕ1:ПОС1,ПРЕ2:ПОС2,...“\n"
 "и ПРЕ-ови и ПОС-ови, с обзиром да су кодови, су дати у децималном облику.\n"
 
 #: src/main.c:264
-msgid ""
-"LN is some language, it may be `c', `perl' or `po'; `c' is the default.\n"
-msgstr ""
-"ПЈ је неки програмски језик, може бити „c“, „perl“ или „po“; подразумевани "
-"је „c“.\n"
+msgid "LN is some language, it may be `c', `perl' or `po'; `c' is the default.\n"
+msgstr "ПЈ је неки програмски језик, може бити „c“, „perl“ или „po“; подразумевани је „c“.\n"
 
 #: src/main.c:267
 msgid ""
 "\n"
-"REQUEST is SUBREQUEST[,SUBREQUEST]...; SUBREQUEST is ENCODING[.."
-"ENCODING]...\n"
-"ENCODING is [CHARSET][/[SURFACE]]...; REQUEST often looks like BEFORE.."
-"AFTER,\n"
+"REQUEST is SUBREQUEST[,SUBREQUEST]...; SUBREQUEST is ENCODING[..ENCODING]...\n"
+"ENCODING is [CHARSET][/[SURFACE]]...; REQUEST often looks like BEFORE..AFTER,\n"
 "with BEFORE and AFTER being charsets.  An omitted CHARSET implies the usual\n"
-"charset; an omitted [/SURFACE]... means the implied surfaces for CHARSET; "
-"a /\n"
+"charset; an omitted [/SURFACE]... means the implied surfaces for CHARSET; a /\n"
 "with an empty surface name means no surfaces at all.  See the manual.\n"
 msgstr ""
 "\n"
 "ЗАХТЕВ је ПОДЗАХТЕВ[,ПОДЗАХТЕВ]...; ПОДЗАХТЕВ је КОДИРАЊЕ[..КОДИРАЊЕ]...\n"
-"КОДИРАЊЕ је [СКУПЗНАКОВА][/[ПОВРШИНА]]...; ЗАХТЕВ често има облик ПРЕ.."
-"ПОСЛЕ,\n"
-"где су ПРЕ и ПОСЛЕ скупови знакова.  Изостављен СКУПЗНАКОВА подразумева "
-"уоби-\n"
-"чајени скуп знакова; изостављена [/ПОВРШИНА]... значи подразумевана површина "
-"за СКУПЗНАКОВА;\n"
-"/ са празним називом површине значи да је уопште и нема.  Погледајте "
-"упутство.\n"
+"КОДИРАЊЕ је [СКУПЗНАКОВА][/[ПОВРШИНА]]...; ЗАХТЕВ често има облик ПРЕ..ПОСЛЕ,\n"
+"где су ПРЕ и ПОСЛЕ скупови знакова.  Изостављен СКУПЗНАКОВА подразумева уоби-\n"
+"чајени скуп знакова; изостављена [/ПОВРШИНА]... значи подразумевана површина за СКУПЗНАКОВА;\n"
+"/ са празним називом површине значи да је уопште и нема.  Погледајте упутство.\n"
 
 #: src/main.c:275
-#, fuzzy
 msgid ""
 "\n"
 "Each FILE is recoded over itself, destroying the original.  If no\n"
 "FILE is specified, then act as a filter and recode stdin to stdout.\n"
 msgstr ""
 "\n"
-"Уколико нису дати ни „-i“ ни „-p“, претпоставља „-p“ ако нема ДАТОТЕКЕ, "
-"иначе „-i“.\n"
-"Свака ДАТОТЕКА се прекодира преко себе саме, уништавајући оригинал.  Ако "
-"ниједна\n"
-"ДАТОТЕКА није наведена, онда се понаша као филтер и рекодира станд. улаз на "
-"станд. излаз.\n"
+"Свака ДАТОТЕКА се прекодира преко себе саме, уништавајући оригинал.  Ако ниједна\n"
+"ДАТОТЕКА није наведена, онда се понаша као филтер и рекодира станд. улаз на станд. излаз.\n"
 
 #: src/main.c:280
 msgid ""
 "\n"
 "Report bugs at https://github.com/rrthomas/recode\n"
 msgstr ""
+"\n"
+"Грешке пријавите на „https://github.com/rrthomas/recode“\n"
 
 #: src/main.c:378
 #, c-format
@@ -308,19 +266,16 @@ msgid "Format `%s' is unknown"
 msgstr "Формат „%s“ је непознат"
 
 #: src/main.c:573
-#, fuzzy
 msgid "Written by François Pinard <pinard@iro.umontreal.ca>.\n"
 msgstr "Програм је написао Франсуа Пинар <pinard@iro.umontreal.ca>.\n"
 
 #: src/main.c:576
-#, fuzzy
 msgid ""
 "\n"
 "Copyright (C) 1990-2018 Free Software Foundation, Inc.\n"
 msgstr ""
 "\n"
-"Ауторска права (C) 1990, 92, 93, 94, 96, 97, 99 Задужбина слободног "
-"софтвера\n"
+"Ауторска права © 1990–2018 Задужбина слободног софтвера, Доо.\n"
 
 #: src/main.c:580
 msgid ""
@@ -328,8 +283,7 @@ msgid ""
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 "Ово је слободан софтвер; погледајте извор за услове умножавања.  Не постоји\n"
-"НИКАКВА гаранција; чак ни за ТРЖИШНУ ВРЕДНОСТ или за ИСПУЊАВАЊЕ ОДРЕЂЕНЕ "
-"ПОТРЕБЕ.\n"
+"НИКАКВА гаранција; чак ни за ТРЖИШНУ ВРЕДНОСТ или за ИСПУЊАВАЊЕ ОДРЕЂЕНЕ ПОТРЕБЕ.\n"
 
 #: src/main.c:622
 #, c-format
@@ -366,17 +320,17 @@ msgstr "Рекодирам %s..."
 msgid " done\n"
 msgstr " урађено\n"
 
-#: src/main.c:882
+#: src/main.c:877
 #, c-format
 msgid " failed: %s in step `%s..%s'\n"
 msgstr " нисам успео: %s при кораку „%s..%s“\n"
 
-#: src/main.c:889
+#: src/main.c:884
 #, c-format
 msgid "%s failed: %s in step `%s..%s'"
 msgstr "%s није успео: %s при кораку „%s..%s“"
 
-#: src/main.c:908
+#: src/main.c:903
 #, c-format
 msgid "%s in step `%s..%s'"
 msgstr "%s при кораку „%s..%s“"
@@ -416,14 +370,14 @@ msgid "Virtual memory exhausted"
 msgstr "Нема више виртуелне меморије"
 
 #: src/recode.c:108
-#, fuzzy, c-format
+#, c-format
 msgid "Codes %3d and %3u both recode to %3d"
-msgstr "Кодови „%3d“ и „%3d“ се рекодирају у „%3d“"
+msgstr "Кодови „%3d“ и „%3u“ се рекодирају у „%3d“"
 
 #: src/recode.c:122
-#, fuzzy, c-format
+#, c-format
 msgid "No character recodes to %3u"
-msgstr "Ниједан знак се не рекодира у „%3d“"
+msgstr "Ниједан знак се не рекодира у „%3u“"
 
 #: src/recode.c:123
 msgid "Cannot invert given one-to-one table"
@@ -435,9 +389,9 @@ msgid "Following diagnostics for `%s' to `%s'"
 msgstr "Пратим анализу стања за „%s“ до „%s“"
 
 #: src/recode.c:184 src/recode.c:196
-#, fuzzy, c-format
+#, c-format
 msgid "Pair no. %u: <%3d, %3d> conflicts with <%3d, %3d>"
-msgstr "Пар број %d: <%3d, %3d> је у сукобу са <%3d, %3d>"
+msgstr "Пар број %u: <%3d, %3d> је у сукобу са <%3d, %3d>"
 
 #: src/recode.c:227
 msgid "Cannot complete table from set of known pairs"
@@ -452,9 +406,9 @@ msgid "Recoding is too complex for a mere table"
 msgstr "Рекодирање је сувише сложено за коришћење једне табеле"
 
 #: src/recode.c:523
-#, fuzzy, c-format
+#, c-format
 msgid "%sConversion table generated mechanically by %s %s"
-msgstr "%sТабелу претварања је механички створио Слободни „%s“ %s"
+msgstr "%sТабелу претварања је механички створио „%s“ %s"
 
 #: src/recode.c:525
 #, c-format
@@ -535,7 +489,7 @@ msgstr "Очекујем „..“ у захтеву"
 msgid "Child process wait status is 0x%0.2x"
 msgstr "Стање чекања проистеклог процеса је 0x%0.2x"
 
-#: src/testdump.c:304
+#: src/testdump.c:300
 msgid ""
 "UCS2   Mne   Description\n"
 "\n"
@@ -544,9 +498,7 @@ msgstr ""
 "\n"
 
 #~ msgid "  -p, --sequence=pipe     use pipe machinery for sequencing passes\n"
-#~ msgstr ""
-#~ "  -p, --sequence=спојка      користи механизам спојке за сквенционирање "
-#~ "корака\n"
+#~ msgstr "  -p, --sequence=спојка      користи механизам спојке за сквенционирање корака\n"
 
 #~ msgid "  -p, --sequence=pipe     same as -i (on this system)\n"
 #~ msgstr "  -p, --sequence=спојка      исто као -i (на овом систему)\n"
