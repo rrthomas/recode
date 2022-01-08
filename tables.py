@@ -441,7 +441,7 @@ class Explodes(Options):
               '  return true;\n'
               '}\n'
               '\n'
-              '_GL_ATTRIBUTE_CONST void\n'
+              'void\n'
               'delmodule_explodes (struct recode_outer *outer _GL_UNUSED_PARAMETER)\n'
               '{\n'
               '}\n')
@@ -1091,7 +1091,7 @@ class Strips(Options):
               '  return true;\n'
               '}\n'
               '\n'
-              '_GL_ATTRIBUTE_CONST void\n'
+              'void\n'
               'delmodule_strips (struct recode_outer *outer _GL_UNUSED_PARAMETER)\n'
               '{\n'
               '}\n')

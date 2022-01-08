@@ -33,7 +33,7 @@ extern const char *program_name;
 
 #include <stdarg.h>
 
-_GL_ATTRIBUTE_FORMAT_PRINTF (2, 3) void
+_GL_ATTRIBUTE_FORMAT_PRINTF_SYSTEM (2, 3) void
 recode_error (RECODE_OUTER outer _GL_UNUSED_PARAMETER, const char *format, ...)
 {
   va_list args;
@@ -45,7 +45,7 @@ recode_error (RECODE_OUTER outer _GL_UNUSED_PARAMETER, const char *format, ...)
   fflush (stderr);
 }
 
-_GL_ATTRIBUTE_FORMAT_PRINTF (2, 3) void
+_GL_ATTRIBUTE_FORMAT_PRINTF_SYSTEM (2, 3) void
 recode_perror (RECODE_OUTER outer _GL_UNUSED_PARAMETER, const char *format, ...)
 {
   int saved_errno = errno;
@@ -58,7 +58,7 @@ recode_perror (RECODE_OUTER outer _GL_UNUSED_PARAMETER, const char *format, ...)
   fflush (stderr);
 }
 
-void *
+_GL_ATTRIBUTE_MALLOC void *
 recode_malloc (RECODE_OUTER outer, size_t size)
 {
   void *result;
