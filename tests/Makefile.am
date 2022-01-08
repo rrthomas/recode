@@ -30,6 +30,7 @@ EXTRA_DIST = Recode.c Recode.pyx pytest common.py asan-suppressions.txt $(SUITE)
 CLEANFILES = Recode.body.c
 DISTCLEANFILES = Recode.c
 
+if HAVE_CYTHON
 clean-local:
 	rm -f *@pyextext@
 
@@ -51,3 +52,8 @@ Recode.c: Recode.pyx Makefile
 	$(CYTHON) -3 -o Recode.body.c $(srcdir)/Recode.pyx && \
 	echo '#include "config.h"' > Recode.c && \
 	cat Recode.body.c >> Recode.c
+else
+check-local:
+	echo "The tests need cython to run!"
+	exit 1
+endif
