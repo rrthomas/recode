@@ -1,3 +1,4 @@
+.dirstamp
 *.[oa]
 *.l[oa]
 *.pyc
@@ -26,6 +27,7 @@ html/
 /INSTALL
 /install-sh
 /lib/.deps/
+/lib/malloc/.deps/
 /libtool
 /ltmain.sh
 /missing
