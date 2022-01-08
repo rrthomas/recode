@@ -17,7 +17,6 @@
    If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "config.h"
 #include "cleaner.h"
 
 #include <assert.h>

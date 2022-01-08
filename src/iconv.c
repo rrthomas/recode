@@ -18,6 +18,7 @@
    If not, see <https://www.gnu.org/licenses/>.
 */
 
+#include "config.h"
 #include "common.h"
 #include "decsteps.h"
 #include <iconv.h>

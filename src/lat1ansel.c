@@ -29,6 +29,7 @@
 */
 
 
+#include "config.h"
 #include "common.h"
 #include "decsteps.h"
 

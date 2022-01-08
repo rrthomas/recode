@@ -20,6 +20,7 @@
 #define ASCII "ASCII"
 /* Previously: #define ASCII "ASCII-BS" */
 
+#include "config.h"
 #include "common.h"
 #include "decsteps.h"
 

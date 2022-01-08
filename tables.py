@@ -412,6 +412,7 @@ class Explodes(Options):
         self.write = Output(self.SOURCES).write
         write = self.write
         write('\n'
+              '#include "config.h"\n'
               '#include "common.h"\n')
 
     def complete(self, french):
@@ -734,6 +735,7 @@ class Strips(Options):
             self.write_data = Output(self.DATA).write
             write = self.write_data
             write('\n'
+                  '#include "config.h"\n'
                   '#include "common.h"\n'
                   '#include "decsteps.h"\n')
 
@@ -1099,6 +1101,7 @@ class Strips(Options):
         # Write the pool file.
         write = Output(self.POOL).write
         write('\n'
+              '#include "config.h"\n'
               '#include "common.h"\n'
               '\n'
               'const recode_ucs2 ucs2_data_pool[%d] =\n'
