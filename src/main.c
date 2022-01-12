@@ -718,44 +718,9 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
 
   {
     const char *user_request = argv[optind++];
-    char *rewritten_request = NULL;
-    const char *colon = strchr (user_request, ':');
-
-    /* Try to detect old syntax, that is, no `..' and a single `:'.  In such
-       case, issue a warning, and rewrite the request to new syntax.  */
-
-    if (colon && !strchr (colon + 1, ':'))
-      {
-	const char *cursor;
-
-	for (cursor = user_request; *cursor; cursor++)
-	  if (cursor[0] == '.' && cursor[1] == '.')
-	    break;
-
-	if (!*cursor)
-	  {
-	    char *cursor2;
-
-	    rewritten_request = (char *) xmalloc (strlen (user_request) + 2);
-	    cursor2 = rewritten_request;
-	    for (cursor = user_request; *cursor != ':'; cursor++)
-	      *cursor2++ = *cursor;
-	    *cursor2++ = '.';
-	    *cursor2++ = '.';
-	    for (cursor++; *cursor; cursor++)
-	      *cursor2++ = *cursor;
-	    *cursor2 = NUL;
-
-	    user_request = rewritten_request;
-	    if (!quiet_flag)
-	      error (0, 0, _("Syntax is deprecated, please prefer `%s'"),
-		     user_request);
-	  }
-      }
 
     if (!recode_scan_request (request, user_request))
       error (EXIT_FAILURE, 0, _("Request `%s' is erroneous"), user_request);
-    free (rewritten_request);
   }
 
   /* If we merely want source code, do it and get out.  */

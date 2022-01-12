@@ -573,9 +573,8 @@ the aspect of this parameter.  We will discuss more complex situations
 later (@pxref{Requests}), but for many simple cases, this parameter
 merely looks like this@footnote{In previous versions or Recode, a single
 colon @samp{:} was used instead of the two dots @samp{..} for separating
-charsets, but this was creating problems because colons are allowed in
-official charset names.  The old request syntax is still recognised for
-compatibility purposes, but is deprecated.}:
+charsets, but this created problems, because colons are allowed in
+official charset names.}:
 
 @example
 @var{before}..@var{after}
