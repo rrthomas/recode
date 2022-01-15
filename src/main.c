@@ -19,8 +19,6 @@
 #include "config.h"
 #include "common.h"
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/stat.h>
