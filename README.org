@@ -76,11 +76,3 @@ Once you have an unpacked distribution, see files:
   | =NEWS=        | major changes in the current release           |
   | =THANKS=      | partial list of contributors                   |
   |-------------+------------------------------------------------|
-
-Besides those configure options documented in files =INSTALL= and
-=ABOUT-NLS=, a few extra options may be accepted by =./configure=:
-
-- Option =--with-dmalloc=
-
-  to trigger a debugging feature for looking at memory management
-  problems, it pre-requires Gray Watson's [[ftp://ftp.letters.com/src/dmalloc/dmalloc.tar.gz][dmalloc package]].

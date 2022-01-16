@@ -56,10 +56,4 @@
 #define IS_ASCII(Character) \
   (!((Character) & ~BIT_MASK (7)))
 
-/* Debugging the memory allocator.  */
-#if WITH_DMALLOC
-# define DMALLOC_FUNC_CHECK
-# include <dmalloc.h>
-#endif
-
 #include "recodext.h"
