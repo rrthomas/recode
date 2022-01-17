@@ -44,12 +44,11 @@ for:
     - C:\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S libtool autoconf automake help2man"
     - C:\msys64\usr\bin\bash.exe -l c:/projects/recode/build-aux/appveyor-install.sh
 
-# Test APPVEYOR_WORKER_BUILD_IMAGE below because we cannot put the desired extra
-# configure arguments for Linux in a variable, owing to spaces and quotes.
-# We could use an array, but we cannot set an environment variable to an
-# array.
+# Test ASAN below because we cannot put the desired extra configure
+# arguments for Linux in a variable, owing to spaces and quotes. We could
+# use an array, but we cannot set an environment variable to an array.
 build_script:
-  - cmd: C:\msys64\usr\bin\bash.exe -lc "cd c:/projects/recode && ./bootstrap && ./configure --enable-silent-rules %CONFIGURE_FLAGS% && make && make DISTCHECK_CONFIGURE_FLAGS=\"%CONFIGURE_FLAGS%\" distcheck"
+  - cmd: C:\msys64\usr\bin\bash.exe -lc "cd c:/projects/recode && ./bootstrap && ./configure --enable-silent-rules && make && make distcheck"
   - sh: ./bootstrap
   - sh: if [[ "$ASAN" == "yes" ]]; then ./configure --enable-silent-rules CFLAGS="-g3 -fsanitize=address -fsanitize=undefined" LDFLAGS="-fsanitize=address -fsanitize=undefined" TESTS_ENVIRONMENT_EXTRA="LD_PRELOAD=/usr/lib/gcc/x86_64-linux-gnu/7/libasan.so PYTHONMALLOC=malloc" ; else ./configure --enable-silent-rules; fi
   - sh: make && make distcheck
