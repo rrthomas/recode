@@ -41,6 +41,7 @@ for:
   init:
     - git config --global core.autocrlf input
   install:
+    - C:\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S libtool autoconf automake help2man"
     - C:\msys64\usr\bin\bash.exe -l c:/projects/recode/build-aux/appveyor-install.sh
 
 # Test APPVEYOR_WORKER_BUILD_IMAGE below because we cannot put the desired extra
