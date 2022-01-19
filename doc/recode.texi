@@ -408,9 +408,12 @@ is described by @w{RFC 1345} tables or available in a pre-installed
 external @code{iconv} library. @xref{Tabular}, and
 @pxref{iconv}@footnote{Because @code{iconv} can vary from system to
 system, and is itself a complex tool, it can cause recode to behave in
-unexpected ways. To avoid this, you can disable it with the @code{-x:}
-option; see @xref{disable-iconv}.}.  The Recode library also handles
-some charsets in some specialised ways.  These are:
+unexpected ways. Therefore, by default it is only used when a conversion
+would not be possible without it. To request that @code{iconv} be used,
+use @code{--prefer-iconv}; see @xref{prefer-iconv}.  Conversely, you can
+disable it with the @code{-x:} option; see @xref{disable-iconv}.}.  The
+Recode library also handles some charsets in some specialised ways.
+These are:
 
 @itemize @bullet
 @item
@@ -2976,42 +2979,45 @@ an external @code{iconv} library, as they likely share many charsets.
 We discuss, here, the issues related to this duplication, and other
 peculiarities specific to the @code{iconv} library.
 
-As implemented, if a recoding request can be satisfied by the
-Recode library both with and without using the @code{iconv}
-library, the external @code{iconv} library might be used.  To sort out
-if the @code{iconv} is indeed used or not, just use the @samp{-v} or
-@samp{--verbose} option, @pxref{Recoding}, and check if @samp{:iconv:}
-appears as an intermediate charset.
+To check whether if the @code{iconv} used for a particular conversion,
+just use the @samp{-v} or @samp{--verbose} option, @pxref{Recoding}, and
+check whether @samp{:iconv:} appears as an intermediate charset.
 
 @tindex iconv
 
-The @code{:iconv:} charset represents a conceptual pivot charset
-within the external @code{iconv} library (in fact, this pivot exists,
-but is not directly reachable).  This charset has a @code{:} (a mere
-colon) and @code{:libiconv:} for aliases.  It is not allowed to recode
-from or to this charset directly.  But when this charset is selected
-as an intermediate, usually by automatic means, then the external
-@code{iconv} Recode library is called to handle the transformations.  By
-using an @samp{--ignore=:iconv:} option on the @code{recode} call or
-equivalently, but more simply, @samp{-x:}, Recode is instructed to fully
-avoid this charset as an intermediate, with the consequence that the
-external @code{iconv} library is defeated.  Consider these two calls:
+@anchor{prefer-iconv}
+The @code{:iconv:} charset represents a conceptual pivot charset within
+the external @code{iconv} library (in fact, this pivot exists, but is
+not directly reachable).  This charset has a @code{:} (a mere colon) and
+@code{:libiconv:} for aliases.  It is not allowed to recode from or to
+this charset directly.  But when this charset is selected as an
+intermediate, usually by automatic means, then the external @code{iconv}
+Recode library is called to handle the transformations.  By using an
+@samp{--ignore=:iconv:} option on the @code{recode} call or
+equivalently, but more simply, @samp{-x:}, Recode is instructed to avoid
+this charset as an intermediate, with the consequence that the external
+@code{iconv} library is not used.  You can also use
+@code{--prefer-iconv} to use @code{iconv} if possible.  Consider these
+calls:
 
 @example
 recode l1..1250 < @var{input} > @var{output}
 recode -x: l1..1250 < @var{input} > @var{output}
+recode --prefer-iconv l1..1250 < @var{input} > @var{output}
 @end example
 
 @noindent
-Both should transform @var{input} from @code{ISO-8859-1} to
-@code{CP1250} on @var{output}.  The first call might use the external
-@code{iconv} library, while the second call surely avoids it.  Whatever
-the path used, the results should normally be identical.  However,
-there might be observable differences.  Most of them might result from
-reversibility issues, as the external @code{iconv} engine does not
-likely address reversibility in the same way.  Even if much less likely,
-some differences might result from slight errors in the tables used,
-such differences should then be reported as bugs.
+All should transform @var{input} from @code{ISO-8859-1} to @code{CP1250}
+on @var{output}.  The first call might use the external @code{iconv}
+library, while the second call definitely avoids it.  The third call
+will use the external @code{iconv} library if it supports the required
+conversion.  Whatever the path used, the results should normally be
+identical.  However, there might be observable differences.  Most of
+them might result from reversibility issues, as the external
+@code{iconv} engine does not likely address reversibility in the same
+way.  Even if much less likely, some differences might result from
+slight errors in the tables used, such differences should then be
+reported as bugs.
 
 Discrepancies might be seen in the area of error detection and recovery.
 The Recode library usually tries to detect canonicity errors in

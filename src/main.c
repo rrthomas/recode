@@ -242,6 +242,7 @@ Fine tuning:\n\
   -c, --colons           use colons instead of double quotes for diaeresis\n\
   -g, --graphics         approximate IBMPC rulers by ASCII graphics\n\
   -x, --ignore=CHARSET   ignore CHARSET while choosing a recoding path\n\
+  -I, --prefer-iconv     use iconv if possible\n\
 "),
 	     stdout);
       fputs (_("\
@@ -302,6 +303,7 @@ static const struct option long_options[] =
   {"ignore", required_argument, NULL, 'x'},
   {"known", required_argument, NULL, 'k'},
   {"list", optional_argument, NULL, 'l'},
+  {"prefer-iconv", no_argument, NULL, 'I'},
   {"quiet", no_argument, NULL, 'q'},
   {"sequence", required_argument, NULL, '\n'},
   {"source", optional_argument, NULL, 'S'},
@@ -407,7 +409,7 @@ main (int argc, char *const *argv)
   task_option.fail_level = RECODE_AMBIGUOUS_OUTPUT;
   task_option.abort_level = RECODE_AMBIGUOUS_OUTPUT;
 
-  while (option_char = getopt_long (argc, argv, "CFS::Tcdfgh::ik:l::pqstvx:",
+  while (option_char = getopt_long (argc, argv, "CIFS::Tcdfgh::ik:l::pqstvx:",
 				    long_options, NULL),
 	 option_char != -1)
     switch (option_char)
@@ -445,6 +447,10 @@ main (int argc, char *const *argv)
       case 'C':
 	print_copyright ();
 	exit (EXIT_SUCCESS);
+
+      case 'I':
+        request_option.prefer_iconv = true;
+        break;
 
       case 'S':
 	if (optarg)
@@ -740,10 +746,10 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
       exit (EXIT_SUCCESS);
     }
 
-  /* If we are recoding, and we are allowed to use iconv, see if we can do
-     it without iconv.  */
+  /* If we are recoding, and we are allowed to use iconv, and --prefer-iconv
+     was not used, see if we can do it without iconv.  */
 
-  if ((flags & RECODE_NO_ICONV_FLAG) == 0)
+  if ((flags & RECODE_NO_ICONV_FLAG) == 0 && !request_option.prefer_iconv)
     {
       RECODE_OUTER no_iconv_outer = new_outer (RECODE_NO_ICONV_FLAG);
       RECODE_REQUEST no_iconv_request =
