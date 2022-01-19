@@ -322,6 +322,57 @@ static const char *const language_strings[]
 static const char *const sequence_strings[]
   = { "memory", "files", "pipe", NULL };
 
+
+static RECODE_OUTER
+new_outer(unsigned flags)
+{
+  /* Register all modules and build internal tables.  */
+
+  RECODE_OUTER outer = recode_new_outer (flags | RECODE_AUTO_ABORT_FLAG);
+  if (!outer)
+    abort ();
+
+  /* Set strict mapping.  */
+
+  if (strict_mapping)
+    {
+      RECODE_SINGLE single;
+
+      for (single = outer->single_list; single; single = single->next)
+	single->fallback_routine = NULL;
+    }
+
+  /* Set the ignored charset.  */
+
+  if (ignored_name)
+    {
+      RECODE_ALIAS alias
+	= find_alias (outer, ignored_name, ALIAS_FIND_AS_CHARSET);
+
+      if (!alias)
+	{
+	  error (0, 0, _("Symbol `%s' is unknown"), ignored_name);
+	  usage (EXIT_FAILURE, 1);
+	}
+
+      alias->symbol->ignore = true;
+    }
+
+  return outer;
+}
+
+static RECODE_REQUEST
+new_request(RECODE_OUTER outer, struct recode_request *request_option)
+{
+  RECODE_REQUEST request = recode_new_request (outer);
+  request->ascii_graphics = request_option->ascii_graphics;
+  request->diacritics_only = request_option->diacritics_only;
+  request->diaeresis_char = request_option->diaeresis_char;
+  request->make_header_flag = request_option->make_header_flag;
+  request->verbose_flag = request_option->verbose_flag;
+  return request;
+}
+
 int
 main (int argc, char *const *argv)
 {
@@ -332,9 +383,6 @@ main (int argc, char *const *argv)
   struct recode_outer outer_option;
   struct recode_request request_option;
   struct recode_task task_option;
-
-  RECODE_OUTER outer;
-  RECODE_REQUEST request;
 
   program_name = argv[0];
   /* libtool creates a temporary executable whose names is prefixed with
@@ -586,44 +634,13 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
   if (show_help)
     usage (EXIT_SUCCESS, 0);
 
-  /* Register all modules and build internal tables.  */
+  /* Set up the outer level.  */
 
-  {
-    unsigned flags = RECODE_AUTO_ABORT_FLAG;
-    if (ignored_name && *ignored_name == ':')
-      flags |= RECODE_NO_ICONV_FLAG;
-    if (request_option.make_header_flag)
-      flags |= RECODE_NO_ICONV_FLAG;
-    outer = recode_new_outer (flags);
-    if (!outer)
-      abort ();
-  }
-
-  /* Set strict mapping.  */
-
-  if (strict_mapping)
-    {
-      RECODE_SINGLE single;
-
-      for (single = outer->single_list; single; single = single->next)
-	single->fallback_routine = NULL;
-    }
-
-  /* Set the ignored charset.  */
-
-  if (ignored_name)
-    {
-      RECODE_ALIAS alias
-	= find_alias (outer, ignored_name, ALIAS_FIND_AS_CHARSET);
-
-      if (!alias)
-	{
-	  error (0, 0, _("Symbol `%s' is unknown"), ignored_name);
-	  usage (EXIT_FAILURE, 1);
-	}
-
-      alias->symbol->ignore = true;
-    }
+  unsigned flags = 0;
+  if ((ignored_name && *ignored_name == ':')
+      || request_option.make_header_flag)
+    flags |= RECODE_NO_ICONV_FLAG;
+  RECODE_OUTER outer = new_outer (flags);
 
   /* Process charset listing options.  */
 
@@ -642,6 +659,7 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
 	  {
 	    error (0, 0, "Could not understand `%s'", charset_restrictions);
 	    usage (EXIT_FAILURE, 0);
+
 	  }
       if (optind + 1 < argc)
 	{
@@ -707,19 +725,12 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
       usage (EXIT_FAILURE, 0);
     }
 
-  request = recode_new_request (outer);
-  request->ascii_graphics = request_option.ascii_graphics;
-  request->diacritics_only = request_option.diacritics_only;
-  request->diaeresis_char = request_option.diaeresis_char;
-  request->make_header_flag = request_option.make_header_flag;
-  request->verbose_flag = request_option.verbose_flag;
+  RECODE_REQUEST request = new_request (outer, &request_option);
 
-  {
-    const char *user_request = argv[optind++];
+  const char *user_request = argv[optind];
 
-    if (!recode_scan_request (request, user_request))
-      error (EXIT_FAILURE, 0, _("Request `%s' is erroneous"), user_request);
-  }
+  if (!recode_scan_request (request, user_request))
+    error (EXIT_FAILURE, 0, _("Request `%s' is erroneous"), user_request);
 
   /* If we merely want source code, do it and get out.  */
 
@@ -728,6 +739,27 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
       recode_format_table (request, header_language, header_name);
       exit (EXIT_SUCCESS);
     }
+
+  /* If we are recoding, and we are allowed to use iconv, see if we can do
+     it without iconv.  */
+
+  if ((flags & RECODE_NO_ICONV_FLAG) == 0)
+    {
+      RECODE_OUTER no_iconv_outer = new_outer (RECODE_NO_ICONV_FLAG);
+      RECODE_REQUEST no_iconv_request =
+        new_request (no_iconv_outer, &request_option);
+
+      if (recode_scan_request (no_iconv_request, user_request))
+        {
+          recode_delete_request (request);
+          recode_delete_outer (outer);
+          outer = no_iconv_outer;
+          request = no_iconv_request;
+        }
+    }
+
+  /* Discard the request argument.  */
+  optind++;
 
 #if HAVE_PIPE
   setup_signals ();
