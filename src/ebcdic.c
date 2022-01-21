@@ -139,7 +139,7 @@ static unsigned char const ascii_to_ebcdic_ibm[256] =
 
 static bool
 init_ascii_ebcdic (RECODE_STEP step,
-		   RECODE_CONST_REQUEST request _GL_UNUSED_PARAMETER,
+		   RECODE_CONST_REQUEST request _GL_ATTRIBUTE_MAYBE_UNUSED,
 		   RECODE_CONST_OPTION_LIST before_options,
 		   RECODE_CONST_OPTION_LIST after_options)
 {
@@ -174,7 +174,7 @@ init_ebcdic_ascii (RECODE_STEP step,
 
 static bool
 init_ascii_ebcdic_ccc (RECODE_STEP step,
-		       RECODE_CONST_REQUEST request _GL_UNUSED_PARAMETER,
+		       RECODE_CONST_REQUEST request _GL_ATTRIBUTE_MAYBE_UNUSED,
 		       RECODE_CONST_OPTION_LIST before_options,
 		       RECODE_CONST_OPTION_LIST after_options)
 {
@@ -210,7 +210,7 @@ init_ebcdic_ccc_ascii (RECODE_STEP step,
 
 static bool
 init_ascii_ebcdic_ibm (RECODE_STEP step,
-		       RECODE_CONST_REQUEST request _GL_UNUSED_PARAMETER,
+		       RECODE_CONST_REQUEST request _GL_ATTRIBUTE_MAYBE_UNUSED,
 		       RECODE_CONST_OPTION_LIST before_options,
 		       RECODE_CONST_OPTION_LIST after_options)
 {
@@ -268,6 +268,6 @@ module_ebcdic (RECODE_OUTER outer)
 }
 
 void
-delmodule_ebcdic (RECODE_OUTER outer _GL_UNUSED_PARAMETER)
+delmodule_ebcdic (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
 {
 }

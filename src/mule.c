@@ -114,6 +114,6 @@ module_mule (RECODE_OUTER outer)
 }
 
 void
-delmodule_mule (RECODE_OUTER outer _GL_UNUSED_PARAMETER)
+delmodule_mule (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
 {
 }

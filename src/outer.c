@@ -27,7 +27,7 @@
 `-----------------------------------------------------------------------*/
 
 _GL_ATTRIBUTE_CONST bool
-reversibility (RECODE_SUBTASK subtask _GL_UNUSED_PARAMETER, unsigned code _GL_UNUSED_PARAMETER)
+reversibility (RECODE_SUBTASK subtask _GL_ATTRIBUTE_MAYBE_UNUSED, unsigned code _GL_ATTRIBUTE_MAYBE_UNUSED)
 {
   return false;
 }
@@ -288,7 +288,7 @@ declare_strip_data (RECODE_OUTER outer, struct strip_data *data,
 `---------------------------------------------------------------*/
 
 static void
-estimate_single_cost (RECODE_OUTER outer _GL_UNUSED_PARAMETER, RECODE_SINGLE single)
+estimate_single_cost (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED, RECODE_SINGLE single)
 {
   int cost;
 

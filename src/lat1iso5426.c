@@ -46,8 +46,8 @@ static struct translation diacritic_translations [] =
 static bool
 init_latin1_iso5426 (RECODE_STEP step,
                      const struct recode_request *request,
-                     RECODE_CONST_OPTION_LIST before_options _GL_UNUSED_PARAMETER,
-                     RECODE_CONST_OPTION_LIST after_options _GL_UNUSED_PARAMETER)
+                     RECODE_CONST_OPTION_LIST before_options _GL_ATTRIBUTE_MAYBE_UNUSED,
+                     RECODE_CONST_OPTION_LIST after_options _GL_ATTRIBUTE_MAYBE_UNUSED)
 {
   RECODE_OUTER outer = request->outer;
 
@@ -86,6 +86,6 @@ module_latin1_iso5426 (RECODE_OUTER outer)
 }
 
 void
-delmodule_latin1_iso5426 (RECODE_OUTER outer _GL_UNUSED_PARAMETER)
+delmodule_latin1_iso5426 (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
 {
 }

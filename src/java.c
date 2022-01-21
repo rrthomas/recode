@@ -113,6 +113,6 @@ module_java (RECODE_OUTER outer)
 }
 
 void
-delmodule_java (RECODE_OUTER outer _GL_UNUSED_PARAMETER)
+delmodule_java (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
 {
 }

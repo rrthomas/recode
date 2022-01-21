@@ -102,6 +102,6 @@ module_atarist (RECODE_OUTER outer)
 }
 
 void
-delmodule_atarist (RECODE_OUTER outer _GL_UNUSED_PARAMETER)
+delmodule_atarist (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
 {
 }

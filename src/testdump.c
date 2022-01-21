@@ -387,6 +387,6 @@ module_testdump (RECODE_OUTER outer)
 }
 
 void
-delmodule_testdump (RECODE_OUTER outer _GL_UNUSED_PARAMETER)
+delmodule_testdump (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
 {
 }

@@ -261,6 +261,6 @@ module_base64 (RECODE_OUTER outer)
 }
 
 void
-delmodule_base64 (RECODE_OUTER outer _GL_UNUSED_PARAMETER)
+delmodule_base64 (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
 {
 }

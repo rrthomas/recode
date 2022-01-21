@@ -213,6 +213,6 @@ module_utf16 (RECODE_OUTER outer)
 }
 
 void
-delmodule_utf16 (RECODE_OUTER outer _GL_UNUSED_PARAMETER)
+delmodule_utf16 (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
 {
 }
