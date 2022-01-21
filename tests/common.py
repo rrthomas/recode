@@ -59,12 +59,8 @@ def external_output(command):
     if not recode_program:
         py.test.skip()
     command = command.replace('$R', recode_program + ' --ignore=:iconv:')
-    try:
-        # FIXME: Find a more portable solution than checking the OS
-        output = subprocess.check_output(command, universal_newlines=True, shell=os.name != 'nt')
-    except subprocess.CalledProcessError as e:
-        output = e.output
-    return output
+    # FIXME: Find a more portable solution than checking the OS
+    return subprocess.check_output(command, universal_newlines=True, shell=os.name != 'nt')
 
 def recode_output(input, encoding='utf-8'):
     if type(input) != bytes:

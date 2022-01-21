@@ -451,7 +451,7 @@ expected = '''\
 '''
 
 def test_1():
-    output = common.external_output('$R -T')
+    output = common.external_output('$R --find-subsets')
     # FIXME: The output is not sorted appropriately.
     output2 = ''.join(sorted(output.splitlines(True)))
     expected2 = ''.join(sorted(expected.splitlines(True)))

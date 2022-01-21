@@ -652,10 +652,8 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
 
   if (find_subsets)
     {
-      if (find_and_report_subsets (outer))
-	exit (EXIT_SUCCESS);
-      else
-	exit (EXIT_FAILURE);
+      find_and_report_subsets (outer);
+      exit (EXIT_SUCCESS);
     }
 
   if (show_symbols || charset_restrictions)
