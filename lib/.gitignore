@@ -234,3 +234,5 @@
 /stdalign.in.h
 /sys_random.in.h
 /windows-initguard.h
+/stdio-read.c
+/stdio-write.c
