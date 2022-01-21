@@ -1,9 +1,9 @@
 # Configure template for Recode.
-# Copyright (C) 1994-2018 Free Software Foundation, Inc.
+# Copyright (C) 1994-2022 Free Software Foundation, Inc.
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.69)
-AC_INIT(recode, 3.7.9, [rrt@sc3d.org])
+AC_INIT(recode, 3.7.10, [rrt@sc3d.org])
 AC_CONFIG_SRCDIR(src/recode.c)
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE

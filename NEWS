@@ -5,7 +5,20 @@ Recode NEWS - User visible changes
 .. contents::
 .. sectnum::
 
-:Copyright: © 1993-2021 Free Software Foundation, Inc.
+:Copyright: © 1993-2022 Free Software Foundation, Inc.
+
+Version 3.7.10
+==============
+
+:Author: Reuben Thomas, 2022-01.
+
++ In recode program, only use iconv if needed; add --prefer-iconv option to
+  allow its use in all cases.
++ Remove support for pre-3.5 request syntax (colon as charset separator).
++ PO files have been updated from the Translation Project.
++ Build system fixes and improvements.
++ Update gnulib to fix a problem building on Android.
++ Fix confusingly wrong NEWS entry for 3.7.4.
 
 Version 3.7.9
 =============
@@ -57,8 +70,7 @@ Version 3.7.4
 
 :Author: Reuben Thomas, 2019-09.
 
-+ Fixes to file handling in enchant program.
-
++ Fixes to file handling in recode program.
 + Fix tests on Windows.
 
 
