@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: recode 3.6\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2021-06-02 10:47+0100\n"
+"POT-Creation-Date: 2022-01-21 19:32+0000\n"
 "PO-Revision-Date: 2005-02-20 18:44+0950\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net> \n"
@@ -16,39 +16,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 
-#: src/main.c:110
+#: src/main.c:109
 msgid "No error"
 msgstr "Không có lỗi"
 
-#: src/main.c:113
+#: src/main.c:112
 msgid "Non canonical input"
 msgstr "Dữ liệụ gõ không đúng tiêu chuẩn"
 
-#: src/main.c:116
+#: src/main.c:115
 msgid "Ambiguous output"
 msgstr "Dữ liệu xuất là mơ hồ"
 
-#: src/main.c:119
+#: src/main.c:118
 msgid "Untranslatable input"
 msgstr "Dữ liệu gõ không dịch được"
 
-#: src/main.c:122
+#: src/main.c:121
 msgid "Invalid input"
 msgstr "Dữ liệu gõ không hợp lệ"
 
-#: src/main.c:125
+#: src/main.c:124
 msgid "System detected problem"
 msgstr "Hệ thống mới gặp lỗi"
 
-#: src/main.c:128
+#: src/main.c:127
 msgid "Misuse of recoding library"
 msgstr "Không sử dụng thư viện mã hóa lại cho đúng"
 
-#: src/main.c:131
+#: src/main.c:130
 msgid "Internal recoding bug"
 msgstr "Lỗi mã hóa lại nội  bộ"
 
-#: src/main.c:173
+#: src/main.c:172
 #, fuzzy
 msgid ""
 "This program is free software; you can redistribute it and/or modify\n"
@@ -78,19 +78,19 @@ msgstr ""
 "chương trình này; nếu không thì hãy viết thư cho Free Software Foundation,\n"
 "Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA (Mỹ).\n"
 
-#: src/main.c:197
+#: src/main.c:196
 #, c-format
 msgid "Try `%s %s' for more information.\n"
 msgstr "Thử lệnh `%s %s' để tìm thấy thông tin thêm.\n"
 
-#: src/main.c:201
+#: src/main.c:200
 #, fuzzy
 msgid "Recode converts files between various character sets and surfaces.\n"
 msgstr ""
 "Chương trình `recode' (mã hóa lại) tự do thì chuyển đổi tập tin giữa nhiều "
 "bộ ký tự và mặt khác nhau.\n"
 
-#: src/main.c:205
+#: src/main.c:204
 #, c-format
 msgid ""
 "\n"
@@ -99,7 +99,7 @@ msgstr ""
 "\n"
 "Cách sử dụng: %s [TÙY_CHỌN]... [ [BỘ_KÝ_TỰ] | LỜI_YÊU_CẦU [TẬP_TIN]... ]\n"
 
-#: src/main.c:208
+#: src/main.c:207
 msgid ""
 "\n"
 "If a long option shows an argument as mandatory, then it is mandatory\n"
@@ -109,7 +109,7 @@ msgstr ""
 "Nếu tùy chọn dài phải có đối số thì tùy chọn ngắn thích hợp cũng vậy.\n"
 "Đối với đối số tùy chọn thì cách giống nhau.\n"
 
-#: src/main.c:214
+#: src/main.c:213
 #, fuzzy
 msgid ""
 "\n"
@@ -138,7 +138,7 @@ msgstr ""
 "      --help                 hiển thị _trợ giúp_ này rồi thoát\n"
 "      --version              xuất thông tin _phiên bản_ rồi thoát\n"
 
-#: src/main.c:226
+#: src/main.c:225
 #, fuzzy
 msgid ""
 "\n"
@@ -161,7 +161,7 @@ msgstr ""
 "  -i, --sequence=files    sử dụng _tâp tin_ trung cấp cho việc _sắp xếp_ \n"
 "      --sequence=memory   sử dụng bộ đệm _nhớ_ cho việc _sắp xếp_\n"
 
-#: src/main.c:236
+#: src/main.c:235
 #, fuzzy
 msgid ""
 "\n"
@@ -174,6 +174,7 @@ msgid ""
 "  -c, --colons           use colons instead of double quotes for diaeresis\n"
 "  -g, --graphics         approximate IBMPC rulers by ASCII graphics\n"
 "  -x, --ignore=CHARSET   ignore CHARSET while choosing a recoding path\n"
+"  -I, --prefer-iconv     use iconv if possible\n"
 msgstr ""
 "\n"
 "Điều hưởng tinh:\n"
@@ -269,52 +270,57 @@ msgid ""
 "Report bugs at https://github.com/rrthomas/recode\n"
 msgstr ""
 
-#: src/main.c:378
+#: src/main.c:356
+#, c-format
+msgid "Symbol `%s' is unknown"
+msgstr "Chưa biết ký hiệu `%s' "
+
+#: src/main.c:427
 #, c-format
 msgid "Sequence `%s' is ambiguous"
 msgstr "Dãy `%s' mơ hồ"
 
-#: src/main.c:383
+#: src/main.c:432
 #, c-format
 msgid "Sequence `%s' is unknown"
 msgstr "Chưa biết dãy `%s' "
 
-#: src/main.c:407 src/main.c:467
+#: src/main.c:460 src/main.c:520
 #, c-format
 msgid "Language `%s' is ambiguous"
 msgstr "Ngôn ngữ `%s' mơ hồ"
 
-#: src/main.c:412 src/main.c:472
+#: src/main.c:465 src/main.c:525
 #, c-format
 msgid "Language `%s' is unknown"
 msgstr "Chưa biết ngôn ngữ `%s'"
 
-#: src/main.c:507
+#: src/main.c:560
 #, c-format
 msgid "Format `%s' is ambiguous"
 msgstr "Dạng `%s' mơ hồ"
 
-#: src/main.c:512
+#: src/main.c:565
 #, c-format
 msgid "Format `%s' is unknown"
 msgstr "Chưa biết dạng `%s' "
 
-#: src/main.c:573
+#: src/main.c:626
 #, fuzzy
 msgid "Written by François Pinard <pinard@iro.umontreal.ca>.\n"
 msgstr "Tác giả: François Pinard <pinard@iro.umontreal.ca>.\n"
 
-#: src/main.c:576
+#: src/main.c:629
 #, fuzzy
 msgid ""
 "\n"
-"Copyright (C) 1990-2018 Free Software Foundation, Inc.\n"
+"Copyright (C) 1990-2022 Free Software Foundation, Inc.\n"
 msgstr ""
 "\n"
 "Bản quyền (C) năm 1990, 92, 93, 94, 96, 97, 99 Free Software Foundation, "
 "Inc.\n"
 
-#: src/main.c:580
+#: src/main.c:633
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -322,27 +328,17 @@ msgstr ""
 "Đây là phần mềm tự do; hãy xem mã nguồn để thấy điều kiện sao chép.\n"
 "Không bảo đảm gì cả, dù khả năng bán hay khả năng làm việc dứt khoát.\n"
 
-#: src/main.c:622
-#, c-format
-msgid "Symbol `%s' is unknown"
-msgstr "Chưa biết ký hiệu `%s' "
-
-#: src/main.c:662 src/main.c:676
+#: src/main.c:683 src/main.c:697
 #, c-format
 msgid "Charset `%s' is unknown or ambiguous"
 msgstr "Bộ ký tự `%s' là chưa được biệt hoặc mơ hồ"
 
-#: src/main.c:707
+#: src/main.c:728
 #, c-format
 msgid "Required argument is missing"
 msgstr "Thiếu đốí số bắt buộc"
 
-#: src/main.c:750
-#, c-format
-msgid "Syntax is deprecated, please prefer `%s'"
-msgstr "Phản đối cú pháp ấy, hãy sử dụng `%s' thay thế"
-
-#: src/main.c:756
+#: src/main.c:737
 #, c-format
 msgid "Request `%s' is erroneous"
 msgstr "Lời yêu cầu `%s' không đúng"
@@ -372,167 +368,170 @@ msgstr "%s không xong được: %s trong bước `%s..%s'"
 msgid "%s in step `%s..%s'"
 msgstr "%s trong bước `%s..%s'"
 
-#: src/names.c:352
+#: src/names.c:353
 #, c-format
 msgid "Charset %s already exists and is not %s"
 msgstr "Bộ ký tự %s tồn tại rồi, không là %s"
 
-#: src/names.c:847
+#: src/names.c:848
 #, c-format
 msgid "Cannot list `%s', no names available for this charset"
 msgstr "Không ghi `%s' được vì không có tên nào cho bộ ký tự này"
 
-#: src/names.c:999 src/names.c:1045
+#: src/names.c:1000 src/names.c:1046
 #, c-format
 msgid "Dec  Oct Hex   UCS2  Mne  %s\n"
 msgstr "Hệ2  Hệ8  Hệ16   UCS2  Nhớ  %s\n"
 
-#: src/names.c:1064
+#: src/names.c:1065
 #, c-format
 msgid "Sorry, no names available for `%s'"
 msgstr "Tiếc là không có tên nào cho `%s'"
 
-#: src/outer.c:114
+#: src/outer.c:115
 #, c-format
 msgid "Resurfacer set more than once for `%s'"
 msgstr "Đã lập việc tạo mặt lại hơn một lần cho `%s'"
 
-#: src/outer.c:121
+#: src/outer.c:122
 #, c-format
 msgid "Unsurfacer set more than once for `%s'"
 msgstr "Đã lập việc bỏ mặt hơn một lần cho `%s'"
 
-#: src/outer.c:469 src/recode.c:68 src/recode.c:80
+#: src/outer.c:470 src/recode.c:69 src/recode.c:81
 msgid "Virtual memory exhausted"
 msgstr "Hết bộ nhớ ảo rồì"
 
-#: src/recode.c:108
+#: src/recode.c:109
 #, fuzzy, c-format
 msgid "Codes %3d and %3u both recode to %3d"
 msgstr "Có mã hóa lại cả hai mã %3d và %3d thành %3d"
 
-#: src/recode.c:122
+#: src/recode.c:123
 #, fuzzy, c-format
 msgid "No character recodes to %3u"
 msgstr "Không mã hóa lại ký tự nào thành %3d"
 
-#: src/recode.c:123
+#: src/recode.c:124
 msgid "Cannot invert given one-to-one table"
 msgstr "Không đảo được bảng một-đối-một đã cho"
 
-#: src/recode.c:179 src/recode.c:191
+#: src/recode.c:180 src/recode.c:192
 #, c-format
 msgid "Following diagnostics for `%s' to `%s'"
 msgstr "Đang theo phương pháp chẩn đoán cho `%s' đến `%s'"
 
-#: src/recode.c:184 src/recode.c:196
+#: src/recode.c:185 src/recode.c:197
 #, fuzzy, c-format
 msgid "Pair no. %u: <%3d, %3d> conflicts with <%3d, %3d>"
 msgstr "Số cặp %d: <%3d, %3d> xung đột với <%3d, %3d>"
 
-#: src/recode.c:227
+#: src/recode.c:228
 msgid "Cannot complete table from set of known pairs"
 msgstr "Không thể xong tạo bảng từ bộ cặp được biết"
 
-#: src/recode.c:484
+#: src/recode.c:485
 msgid "Identity recoding, not worth a table"
 msgstr "Việc mã hóa lại chỉ giống hệt, không cần bảng toàn"
 
-#: src/recode.c:491
+#: src/recode.c:492
 msgid "Recoding is too complex for a mere table"
 msgstr "Việc mã hóa lại quá phức tạp đối với bảng"
 
-#: src/recode.c:523
+#: src/recode.c:524
 #, fuzzy, c-format
 msgid "%sConversion table generated mechanically by %s %s"
 msgstr "%sBảng chuyển đổi được tạo ra tự động do Free (Tự do) `%s' %s"
 
-#: src/recode.c:525
+#: src/recode.c:526
 #, c-format
 msgid "%sfor sequence %s.%s"
 msgstr "%sđối với dãy %s.%s"
 
-#: src/recode.c:747
+#: src/recode.c:748
 msgid "No table to print"
 msgstr "Không có bảng nào để in"
 
-#: src/request.c:34
+#: src/request.c:35
 msgid "reversible"
 msgstr "có thể hoàn tác"
 
-#: src/request.c:36
+#: src/request.c:37
 #, c-format
 msgid "%s to %s"
 msgstr "%s thành %s"
 
-#: src/request.c:37 src/request.c:39
+#: src/request.c:38 src/request.c:40
 msgid "byte"
 msgstr "byte"
 
-#: src/request.c:38 src/request.c:40
+#: src/request.c:39 src/request.c:41
 msgid "ucs2"
 msgstr "ucs2"
 
-#: src/request.c:38 src/request.c:40
+#: src/request.c:39 src/request.c:41
 msgid "variable"
 msgstr "biến đổi"
 
-#: src/request.c:108
+#: src/request.c:109
 msgid "*Unachievable*"
 msgstr "*Không xong đươc*"
 
-#: src/request.c:110
+#: src/request.c:111
 msgid "*mere copy*"
 msgstr "*chỉ bản sao*"
 
-#: src/request.c:227
+#: src/request.c:228
 msgid "Virtual memory exhausted!"
 msgstr "Hết bộ nhớ ảo rồi."
 
-#: src/request.c:251
+#: src/request.c:252
 msgid "Step initialisation failed"
 msgstr "Không khởi động bước được"
 
-#: src/request.c:258
+#: src/request.c:259
 msgid "Step initialisation failed (unprocessed options)"
 msgstr "Không khởi động bước được (chưa xử lý tùy chọn)"
 
-#: src/request.c:572
+#: src/request.c:573
 #, c-format
 msgid "Request: %s\n"
 msgstr "Lời yêu cầu: %s\n"
 
-#: src/request.c:739
+#: src/request.c:740
 #, c-format
 msgid "Shrunk to: %s\n"
 msgstr "Đã co lại cho: %s\n"
 
-#: src/request.c:846 src/request.c:955
+#: src/request.c:847 src/request.c:956
 #, c-format
 msgid "Unrecognised surface name `%s'"
 msgstr "Chưa chấp nhận tên mặt `%s'"
 
-#: src/request.c:926
+#: src/request.c:927
 #, c-format
 msgid "No way to recode from `%s' to `%s'"
 msgstr "Không có cách mã hóa lại tư `%s' sang `%s'"
 
-#: src/request.c:1036
+#: src/request.c:1037
 msgid "Expecting `..' in request"
 msgstr "Đang ngờ `..' trong lời yêu cầu"
 
-#: src/task.c:457
+#: src/task.c:458
 #, c-format
 msgid "Child process wait status is 0x%0.2x"
 msgstr "Trạng thái đời của xử lý con là 0x%0.2x"
 
-#: src/testdump.c:304
+#: src/testdump.c:305
 msgid ""
 "UCS2   Mne   Description\n"
 "\n"
 msgstr ""
 "UCS2   Nhớ   Mô tả\n"
 "\n"
+
+#~ msgid "Syntax is deprecated, please prefer `%s'"
+#~ msgstr "Phản đối cú pháp ấy, hãy sử dụng `%s' thay thế"
 
 #~ msgid "  -p, --sequence=pipe     use pipe machinery for sequencing passes\n"
 #~ msgstr ""

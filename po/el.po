@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU recode 3.6\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2021-06-02 10:47+0100\n"
+"POT-Creation-Date: 2022-01-21 19:32+0000\n"
 "PO-Revision-Date: 2008-02-13 01:30+0000\n"
 "Last-Translator: Simos Xenitellis <simos.lists@googlemail.com>\n"
 "Language-Team: Greek <team@lists.gnome.gr>\n"
@@ -17,47 +17,47 @@ msgstr ""
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 
 # src/main.c:157
-#: src/main.c:110
+#: src/main.c:109
 msgid "No error"
 msgstr "Κανένα σφάλμα"
 
 # src/main.c:160
-#: src/main.c:113
+#: src/main.c:112
 msgid "Non canonical input"
 msgstr "Μη κανονικοποιημένη είσοδος"
 
 # src/main.c:163
-#: src/main.c:116
+#: src/main.c:115
 msgid "Ambiguous output"
 msgstr "Ασαφής έξοδος"
 
 # src/main.c:166
-#: src/main.c:119
+#: src/main.c:118
 msgid "Untranslatable input"
 msgstr "Μη μεταφράσιμη είσοδος"
 
 # src/main.c:169
-#: src/main.c:122
+#: src/main.c:121
 msgid "Invalid input"
 msgstr "Μη έγκυρη είσοδος"
 
 # src/main.c:172
-#: src/main.c:125
+#: src/main.c:124
 msgid "System detected problem"
 msgstr "Το σύστημα διαπίστωσε πρόβλημα"
 
 # src/main.c:175
-#: src/main.c:128
+#: src/main.c:127
 msgid "Misuse of recoding library"
 msgstr "Κακή χρήση της βιβλιοθήκης recode"
 
 # src/main.c:178
-#: src/main.c:131
+#: src/main.c:130
 msgid "Internal recoding bug"
 msgstr "Εσωτερικό σφάλμα (recoding)"
 
 # src/main.c:454
-#: src/main.c:173
+#: src/main.c:172
 #, fuzzy
 msgid ""
 "This program is free software; you can redistribute it and/or modify\n"
@@ -88,13 +88,13 @@ msgstr ""
 "Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
 
 # src/main.c:479
-#: src/main.c:197
+#: src/main.c:196
 #, c-format
 msgid "Try `%s %s' for more information.\n"
 msgstr "Δοκιμάστε `%s %s' για περισσότερες πληροφορίες.\n"
 
 # src/main.c:483
-#: src/main.c:201
+#: src/main.c:200
 #, fuzzy
 msgid "Recode converts files between various character sets and surfaces.\n"
 msgstr ""
@@ -102,7 +102,7 @@ msgstr ""
 "και επιφανειών.\n"
 
 # src/main.c:486
-#: src/main.c:205
+#: src/main.c:204
 #, c-format
 msgid ""
 "\n"
@@ -112,7 +112,7 @@ msgstr ""
 "Χρήση: %s [ΕΠΙΛΟΓΗ]... [ [ΣΥΝΟΛΟΧΑΡΑΚΤΉΡΩΝ] | ΑΙΤΗΣΗ [ΑΡΧΕΙΟ]...\n"
 
 # src/main.c:489
-#: src/main.c:208
+#: src/main.c:207
 msgid ""
 "\n"
 "If a long option shows an argument as mandatory, then it is mandatory\n"
@@ -124,7 +124,7 @@ msgstr ""
 "και για τις προαιρετικές παραμέτρους.\n"
 
 # src/main.c:494
-#: src/main.c:214
+#: src/main.c:213
 #, fuzzy
 msgid ""
 "\n"
@@ -153,7 +153,7 @@ msgstr ""
 "      --version              εμφάνιση πληροφοριών έκδοσης και έξοδος\n"
 
 # src/main.c:506
-#: src/main.c:226
+#: src/main.c:225
 #, fuzzy
 msgid ""
 "\n"
@@ -177,7 +177,7 @@ msgstr ""
 "      --sequence=memory   χρήση ενταμιευτών μνήμης στα διαδοχικά περάσματα\n"
 
 # src/main.c:525
-#: src/main.c:236
+#: src/main.c:235
 #, fuzzy
 msgid ""
 "\n"
@@ -190,6 +190,7 @@ msgid ""
 "  -c, --colons           use colons instead of double quotes for diaeresis\n"
 "  -g, --graphics         approximate IBMPC rulers by ASCII graphics\n"
 "  -x, --ignore=CHARSET   ignore CHARSET while choosing a recoding path\n"
+"  -I, --prefer-iconv     use iconv if possible\n"
 msgstr ""
 "\n"
 "Ρυθμίσεις:\n"
@@ -295,54 +296,59 @@ msgid ""
 "Report bugs at https://github.com/rrthomas/recode\n"
 msgstr ""
 
-#: src/main.c:378
+#: src/main.c:356
+#, c-format
+msgid "Symbol `%s' is unknown"
+msgstr ""
+
+#: src/main.c:427
 #, c-format
 msgid "Sequence `%s' is ambiguous"
 msgstr ""
 
-#: src/main.c:383
+#: src/main.c:432
 #, c-format
 msgid "Sequence `%s' is unknown"
 msgstr ""
 
-#: src/main.c:407 src/main.c:467
+#: src/main.c:460 src/main.c:520
 #, c-format
 msgid "Language `%s' is ambiguous"
 msgstr ""
 
-#: src/main.c:412 src/main.c:472
+#: src/main.c:465 src/main.c:525
 #, c-format
 msgid "Language `%s' is unknown"
 msgstr ""
 
-#: src/main.c:507
+#: src/main.c:560
 #, c-format
 msgid "Format `%s' is ambiguous"
 msgstr ""
 
-#: src/main.c:512
+#: src/main.c:565
 #, c-format
 msgid "Format `%s' is unknown"
 msgstr ""
 
 # src/main.c:854
-#: src/main.c:573
+#: src/main.c:626
 #, fuzzy
 msgid "Written by François Pinard <pinard@iro.umontreal.ca>.\n"
 msgstr "Γραμμένο από τον Franc,ois Pinard <pinard@iro.umontreal.ca>.\n"
 
 # src/main.c:622
-#: src/main.c:576
+#: src/main.c:629
 #, fuzzy
 msgid ""
 "\n"
-"Copyright (C) 1990-2018 Free Software Foundation, Inc.\n"
+"Copyright (C) 1990-2022 Free Software Foundation, Inc.\n"
 msgstr ""
 "\n"
 "Copyright (C) 1990, 92, 93, 94, 96, 97, 99 Free Software Foundation, Inc.\n"
 
 # src/main.c:850
-#: src/main.c:580
+#: src/main.c:633
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -352,28 +358,17 @@ msgstr ""
 "ΔΕΝ υπάρχει εγγύηση· ούτε ακόμα για ΧΡΗΣΙΜΟΤΗΤΑ ή ΚΑΤΑΛΛΗΛΟΤΗΤΑ ΓΙΑ ΕΝΑ\n"
 "ΣΥΓΚΕΚΡΙΜΕΝΟ ΣΚΟΠΟ.\n"
 
-#: src/main.c:622
-#, c-format
-msgid "Symbol `%s' is unknown"
-msgstr ""
-
-#: src/main.c:662 src/main.c:676
+#: src/main.c:683 src/main.c:697
 #, c-format
 msgid "Charset `%s' is unknown or ambiguous"
 msgstr ""
 
-#: src/main.c:707
+#: src/main.c:728
 #, c-format
 msgid "Required argument is missing"
 msgstr ""
 
-# src/main.c:999
-#: src/main.c:750
-#, fuzzy, c-format
-msgid "Syntax is deprecated, please prefer `%s'"
-msgstr "Μη συνιστώμενη σύνταξη, παρακαλώ προτιμίστε `%s'"
-
-#: src/main.c:756
+#: src/main.c:737
 #, c-format
 msgid "Request `%s' is erroneous"
 msgstr ""
@@ -409,13 +404,13 @@ msgid "%s in step `%s..%s'"
 msgstr "%s σε %s..%s"
 
 # src/names.c:259
-#: src/names.c:352
+#: src/names.c:353
 #, c-format
 msgid "Charset %s already exists and is not %s"
 msgstr "Ο πίνακας χαρακτήρων %s υπάρχει ήδη και δεν είναι το %s"
 
 # src/names.c:754
-#: src/names.c:847
+#: src/names.c:848
 #, c-format
 msgid "Cannot list `%s', no names available for this charset"
 msgstr ""
@@ -423,191 +418,196 @@ msgstr ""
 "πίνακα χαρακτήρων"
 
 # src/names.c:974 src/names.c:1020
-#: src/names.c:999 src/names.c:1045
+#: src/names.c:1000 src/names.c:1046
 #, c-format
 msgid "Dec  Oct Hex   UCS2  Mne  %s\n"
 msgstr "Dec  Oct Hex   UCS2  Mne  %s\n"
 
 # src/names.c:847
-#: src/names.c:1064
+#: src/names.c:1065
 #, c-format
 msgid "Sorry, no names available for `%s'"
 msgstr "Συγνώμη, δεν υπάρχουν διαθέσιμα ονόματα για το `%s'"
 
 # src/outer.c:95
-#: src/outer.c:114
+#: src/outer.c:115
 #, c-format
 msgid "Resurfacer set more than once for `%s'"
 msgstr ""
 "Ο επανατοποθετητής επιφάνειας έχει τεθεί περισσότερο από μια φορά για το `%s'"
 
 # src/outer.c:102
-#: src/outer.c:121
+#: src/outer.c:122
 #, c-format
 msgid "Unsurfacer set more than once for `%s'"
 msgstr ""
 "Ο αντιτοποθετητής επιφάνειας έχει τεθεί περισσότερο από μια φορά για το `%s'"
 
 # src/recode.c:117 src/recode.c:129
-#: src/outer.c:469 src/recode.c:68 src/recode.c:80
+#: src/outer.c:470 src/recode.c:69 src/recode.c:81
 msgid "Virtual memory exhausted"
 msgstr "Η ιδεατή μνήμη εξαντλήθηκε"
 
 # src/recode.c:157
-#: src/recode.c:108
+#: src/recode.c:109
 #, fuzzy, c-format
 msgid "Codes %3d and %3u both recode to %3d"
 msgstr "Και οι δύο κωδικοί %3d και %3d μετατρέπονται σε %3d"
 
 # src/recode.c:171
-#: src/recode.c:122
+#: src/recode.c:123
 #, fuzzy, c-format
 msgid "No character recodes to %3u"
 msgstr "Κανένας χαρακτήρας δεν μετατρέπεται σε %3d"
 
 # src/recode.c:172
-#: src/recode.c:123
+#: src/recode.c:124
 msgid "Cannot invert given one-to-one table"
 msgstr "Αδυναμία αντιστροφής δοθέντος 1-1 πίνακα"
 
 # src/recode.c:226 src/recode.c:238
-#: src/recode.c:179 src/recode.c:191
+#: src/recode.c:180 src/recode.c:192
 #, c-format
 msgid "Following diagnostics for `%s' to `%s'"
 msgstr "Ακολουθούν διαγνωστικά για `%s' σε `%s'"
 
 # src/recode.c:231 src/recode.c:243
-#: src/recode.c:184 src/recode.c:196
+#: src/recode.c:185 src/recode.c:197
 #, fuzzy, c-format
 msgid "Pair no. %u: <%3d, %3d> conflicts with <%3d, %3d>"
 msgstr "Αριθμ. ζεύγους %d: <%3d, %3d> συγκρούεται με <%3d, %3d>"
 
 # src/recode.c:274
-#: src/recode.c:227
+#: src/recode.c:228
 msgid "Cannot complete table from set of known pairs"
 msgstr "Αδυναμία συμπλήρωσης πίνακα από το σύνολο γνωστών ζευγών"
 
 # src/recode.c:504
-#: src/recode.c:484
+#: src/recode.c:485
 msgid "Identity recoding, not worth a table"
 msgstr "Μηδαμηνή μετατροπή, δεν χρειάζεται πίνακα"
 
 # src/recode.c:512
-#: src/recode.c:491
+#: src/recode.c:492
 msgid "Recoding is too complex for a mere table"
 msgstr "Η μετατροπή είναι πολύ περίπλοκη για ένα μόνο πίνακα"
 
 # src/recode.c:544
-#: src/recode.c:523
+#: src/recode.c:524
 #, fuzzy, c-format
 msgid "%sConversion table generated mechanically by %s %s"
 msgstr "%sΠίνακας μετατροπής δημιουργήθηκε μηχανικά από το Ελεύθερο `%s' %s"
 
 # src/recode.c:546
-#: src/recode.c:525
+#: src/recode.c:526
 #, c-format
 msgid "%sfor sequence %s.%s"
 msgstr "%sγια διαδοχή %s.%s"
 
 # src/recode.c:736
-#: src/recode.c:747
+#: src/recode.c:748
 msgid "No table to print"
 msgstr "Κανένας πίνακας για εκτύπωση"
 
 # src/request.c:35
-#: src/request.c:34
+#: src/request.c:35
 msgid "reversible"
 msgstr "αντιστρεπτό"
 
 # src/request.c:37
-#: src/request.c:36
+#: src/request.c:37
 #, c-format
 msgid "%s to %s"
 msgstr "%s σε %s"
 
 # src/request.c:38 src/request.c:40
-#: src/request.c:37 src/request.c:39
+#: src/request.c:38 src/request.c:40
 msgid "byte"
 msgstr "byte"
 
 # src/request.c:39 src/request.c:41
-#: src/request.c:38 src/request.c:40
+#: src/request.c:39 src/request.c:41
 msgid "ucs2"
 msgstr "ucs2"
 
 # src/request.c:39 src/request.c:41
-#: src/request.c:38 src/request.c:40
+#: src/request.c:39 src/request.c:41
 msgid "variable"
 msgstr "μεταβλητή"
 
 # src/request.c:112
-#: src/request.c:108
+#: src/request.c:109
 msgid "*Unachievable*"
 msgstr "*Μη κατορθωτό*"
 
 # src/request.c:114
-#: src/request.c:110
+#: src/request.c:111
 msgid "*mere copy*"
 msgstr "*απλή αντιγραφή*"
 
 # src/request.c:244
-#: src/request.c:227
+#: src/request.c:228
 msgid "Virtual memory exhausted!"
 msgstr "Η ιδεατή μνήμη εξαντλήθηκε!"
 
 # src/request.c:263
-#: src/request.c:251
+#: src/request.c:252
 msgid "Step initialisation failed"
 msgstr "Το βήμα αρχικοποίησης απέτυχε"
 
 # src/request.c:270
-#: src/request.c:258
+#: src/request.c:259
 msgid "Step initialisation failed (unprocessed options)"
 msgstr "Το βήμα αρχικοποίησης απέτυχε (επιλογές που δεν έχουν επεξεργαστεί)"
 
 # src/request.c:566
-#: src/request.c:572
+#: src/request.c:573
 #, c-format
 msgid "Request: %s\n"
 msgstr "Αίτηση: %s\n"
 
 # src/request.c:702
-#: src/request.c:739
+#: src/request.c:740
 #, c-format
 msgid "Shrunk to: %s\n"
 msgstr "Συρρίκνωση σε %s\n"
 
 # src/request.c:806 src/request.c:912
-#: src/request.c:846 src/request.c:955
+#: src/request.c:847 src/request.c:956
 #, c-format
 msgid "Unrecognised surface name `%s'"
 msgstr "Μη αναγνωρίσημο όνομα επιφάνειας `%s'"
 
 # src/request.c:884
-#: src/request.c:926
+#: src/request.c:927
 #, c-format
 msgid "No way to recode from `%s' to `%s'"
 msgstr "Κανένας τρόπος να μετατραπεί από `%s' σε `%s'"
 
 # src/request.c:992
-#: src/request.c:1036
+#: src/request.c:1037
 msgid "Expecting `..' in request"
 msgstr "Αναμένεται `..' στην αίτηση"
 
 # src/task.c:751 src/task.c:915
-#: src/task.c:457
+#: src/task.c:458
 #, c-format
 msgid "Child process wait status is 0x%0.2x"
 msgstr "Η κατάσταση παραμονής της θυγατρικής διεργασίας είναι 0x%0.2x"
 
 # src/debug.c:287
-#: src/testdump.c:304
+#: src/testdump.c:305
 msgid ""
 "UCS2   Mne   Description\n"
 "\n"
 msgstr ""
 "UCS2   Mne   Περιγραφή\n"
 "\n"
+
+# src/main.c:999
+#, fuzzy
+#~ msgid "Syntax is deprecated, please prefer `%s'"
+#~ msgstr "Μη συνιστώμενη σύνταξη, παρακαλώ προτιμίστε `%s'"
 
 # src/main.c:517
 #~ msgid "  -p, --sequence=pipe     use pipe machinery for sequencing passes\n"

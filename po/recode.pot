@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Free Software Foundation, Inc.
-# This file is distributed under the same license as the recode package.
+# This file is distributed under the same license as the GNU recode package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: recode 3.7.9\n"
+"Project-Id-Version: GNU recode 3.7.10\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2021-06-02 10:47+0100\n"
+"POT-Creation-Date: 2022-01-21 19:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,39 +17,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/main.c:110
+#: src/main.c:109
 msgid "No error"
 msgstr ""
 
-#: src/main.c:113
+#: src/main.c:112
 msgid "Non canonical input"
 msgstr ""
 
-#: src/main.c:116
+#: src/main.c:115
 msgid "Ambiguous output"
 msgstr ""
 
-#: src/main.c:119
+#: src/main.c:118
 msgid "Untranslatable input"
 msgstr ""
 
-#: src/main.c:122
+#: src/main.c:121
 msgid "Invalid input"
 msgstr ""
 
-#: src/main.c:125
+#: src/main.c:124
 msgid "System detected problem"
 msgstr ""
 
-#: src/main.c:128
+#: src/main.c:127
 msgid "Misuse of recoding library"
 msgstr ""
 
-#: src/main.c:131
+#: src/main.c:130
 msgid "Internal recoding bug"
 msgstr ""
 
-#: src/main.c:173
+#: src/main.c:172
 msgid ""
 "This program is free software; you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
@@ -65,30 +65,30 @@ msgid ""
 "along with this program; if not, see <https://www.gnu.org/licenses/>.\n"
 msgstr ""
 
-#: src/main.c:197
+#: src/main.c:196
 #, c-format
 msgid "Try `%s %s' for more information.\n"
 msgstr ""
 
-#: src/main.c:201
+#: src/main.c:200
 msgid "Recode converts files between various character sets and surfaces.\n"
 msgstr ""
 
-#: src/main.c:205
+#: src/main.c:204
 #, c-format
 msgid ""
 "\n"
 "Usage: %s [OPTION]... [ [CHARSET] | REQUEST [FILE]... ]\n"
 msgstr ""
 
-#: src/main.c:208
+#: src/main.c:207
 msgid ""
 "\n"
 "If a long option shows an argument as mandatory, then it is mandatory\n"
 "for the equivalent short option also.  Similarly for optional arguments.\n"
 msgstr ""
 
-#: src/main.c:214
+#: src/main.c:213
 msgid ""
 "\n"
 "Listings:\n"
@@ -102,7 +102,7 @@ msgid ""
 "      --version              output version information and exit\n"
 msgstr ""
 
-#: src/main.c:226
+#: src/main.c:225
 msgid ""
 "\n"
 "Operation modes:\n"
@@ -113,7 +113,7 @@ msgid ""
 "  -i, -p, --sequence=STRATEGY  ignored for backwards compatibility\n"
 msgstr ""
 
-#: src/main.c:236
+#: src/main.c:235
 msgid ""
 "\n"
 "Fine tuning:\n"
@@ -125,6 +125,7 @@ msgid ""
 "  -c, --colons           use colons instead of double quotes for diaeresis\n"
 "  -g, --graphics         approximate IBMPC rulers by ASCII graphics\n"
 "  -x, --ignore=CHARSET   ignore CHARSET while choosing a recoding path\n"
+"  -I, --prefer-iconv     use iconv if possible\n"
 msgstr ""
 
 #: src/main.c:248
@@ -180,73 +181,68 @@ msgid ""
 "Report bugs at https://github.com/rrthomas/recode\n"
 msgstr ""
 
-#: src/main.c:378
+#: src/main.c:356
+#, c-format
+msgid "Symbol `%s' is unknown"
+msgstr ""
+
+#: src/main.c:427
 #, c-format
 msgid "Sequence `%s' is ambiguous"
 msgstr ""
 
-#: src/main.c:383
+#: src/main.c:432
 #, c-format
 msgid "Sequence `%s' is unknown"
 msgstr ""
 
-#: src/main.c:407 src/main.c:467
+#: src/main.c:460 src/main.c:520
 #, c-format
 msgid "Language `%s' is ambiguous"
 msgstr ""
 
-#: src/main.c:412 src/main.c:472
+#: src/main.c:465 src/main.c:525
 #, c-format
 msgid "Language `%s' is unknown"
 msgstr ""
 
-#: src/main.c:507
+#: src/main.c:560
 #, c-format
 msgid "Format `%s' is ambiguous"
 msgstr ""
 
-#: src/main.c:512
+#: src/main.c:565
 #, c-format
 msgid "Format `%s' is unknown"
 msgstr ""
 
-#: src/main.c:573
+#: src/main.c:626
 msgid "Written by François Pinard <pinard@iro.umontreal.ca>.\n"
 msgstr ""
 
-#: src/main.c:576
+#: src/main.c:629
 msgid ""
 "\n"
-"Copyright (C) 1990-2018 Free Software Foundation, Inc.\n"
+"Copyright (C) 1990-2022 Free Software Foundation, Inc.\n"
 msgstr ""
 
-#: src/main.c:580
+#: src/main.c:633
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: src/main.c:622
-#, c-format
-msgid "Symbol `%s' is unknown"
-msgstr ""
-
-#: src/main.c:662 src/main.c:676
+#: src/main.c:683 src/main.c:697
 #, c-format
 msgid "Charset `%s' is unknown or ambiguous"
 msgstr ""
 
-#: src/main.c:707
+#: src/main.c:728
 #, c-format
 msgid "Required argument is missing"
 msgstr ""
 
-#: src/main.c:750
-#, c-format
-msgid "Syntax is deprecated, please prefer `%s'"
-msgstr ""
-
-#: src/main.c:756
+#: src/main.c:737
 #, c-format
 msgid "Request `%s' is erroneous"
 msgstr ""
@@ -276,161 +272,161 @@ msgstr ""
 msgid "%s in step `%s..%s'"
 msgstr ""
 
-#: src/names.c:352
+#: src/names.c:353
 #, c-format
 msgid "Charset %s already exists and is not %s"
 msgstr ""
 
-#: src/names.c:847
+#: src/names.c:848
 #, c-format
 msgid "Cannot list `%s', no names available for this charset"
 msgstr ""
 
-#: src/names.c:999 src/names.c:1045
+#: src/names.c:1000 src/names.c:1046
 #, c-format
 msgid "Dec  Oct Hex   UCS2  Mne  %s\n"
 msgstr ""
 
-#: src/names.c:1064
+#: src/names.c:1065
 #, c-format
 msgid "Sorry, no names available for `%s'"
 msgstr ""
 
-#: src/outer.c:114
+#: src/outer.c:115
 #, c-format
 msgid "Resurfacer set more than once for `%s'"
 msgstr ""
 
-#: src/outer.c:121
+#: src/outer.c:122
 #, c-format
 msgid "Unsurfacer set more than once for `%s'"
 msgstr ""
 
-#: src/outer.c:469 src/recode.c:68 src/recode.c:80
+#: src/outer.c:470 src/recode.c:69 src/recode.c:81
 msgid "Virtual memory exhausted"
 msgstr ""
 
-#: src/recode.c:108
+#: src/recode.c:109
 #, c-format
 msgid "Codes %3d and %3u both recode to %3d"
 msgstr ""
 
-#: src/recode.c:122
+#: src/recode.c:123
 #, c-format
 msgid "No character recodes to %3u"
 msgstr ""
 
-#: src/recode.c:123
+#: src/recode.c:124
 msgid "Cannot invert given one-to-one table"
 msgstr ""
 
-#: src/recode.c:179 src/recode.c:191
+#: src/recode.c:180 src/recode.c:192
 #, c-format
 msgid "Following diagnostics for `%s' to `%s'"
 msgstr ""
 
-#: src/recode.c:184 src/recode.c:196
+#: src/recode.c:185 src/recode.c:197
 #, c-format
 msgid "Pair no. %u: <%3d, %3d> conflicts with <%3d, %3d>"
 msgstr ""
 
-#: src/recode.c:227
+#: src/recode.c:228
 msgid "Cannot complete table from set of known pairs"
 msgstr ""
 
-#: src/recode.c:484
+#: src/recode.c:485
 msgid "Identity recoding, not worth a table"
 msgstr ""
 
-#: src/recode.c:491
+#: src/recode.c:492
 msgid "Recoding is too complex for a mere table"
 msgstr ""
 
-#: src/recode.c:523
+#: src/recode.c:524
 #, c-format
 msgid "%sConversion table generated mechanically by %s %s"
 msgstr ""
 
-#: src/recode.c:525
+#: src/recode.c:526
 #, c-format
 msgid "%sfor sequence %s.%s"
 msgstr ""
 
-#: src/recode.c:747
+#: src/recode.c:748
 msgid "No table to print"
 msgstr ""
 
-#: src/request.c:34
+#: src/request.c:35
 msgid "reversible"
 msgstr ""
 
-#: src/request.c:36
+#: src/request.c:37
 #, c-format
 msgid "%s to %s"
 msgstr ""
 
-#: src/request.c:37 src/request.c:39
+#: src/request.c:38 src/request.c:40
 msgid "byte"
 msgstr ""
 
-#: src/request.c:38 src/request.c:40
+#: src/request.c:39 src/request.c:41
 msgid "ucs2"
 msgstr ""
 
-#: src/request.c:38 src/request.c:40
+#: src/request.c:39 src/request.c:41
 msgid "variable"
 msgstr ""
 
-#: src/request.c:108
+#: src/request.c:109
 msgid "*Unachievable*"
 msgstr ""
 
-#: src/request.c:110
+#: src/request.c:111
 msgid "*mere copy*"
 msgstr ""
 
-#: src/request.c:227
+#: src/request.c:228
 msgid "Virtual memory exhausted!"
 msgstr ""
 
-#: src/request.c:251
+#: src/request.c:252
 msgid "Step initialisation failed"
 msgstr ""
 
-#: src/request.c:258
+#: src/request.c:259
 msgid "Step initialisation failed (unprocessed options)"
 msgstr ""
 
-#: src/request.c:572
+#: src/request.c:573
 #, c-format
 msgid "Request: %s\n"
 msgstr ""
 
-#: src/request.c:739
+#: src/request.c:740
 #, c-format
 msgid "Shrunk to: %s\n"
 msgstr ""
 
-#: src/request.c:846 src/request.c:955
+#: src/request.c:847 src/request.c:956
 #, c-format
 msgid "Unrecognised surface name `%s'"
 msgstr ""
 
-#: src/request.c:926
+#: src/request.c:927
 #, c-format
 msgid "No way to recode from `%s' to `%s'"
 msgstr ""
 
-#: src/request.c:1036
+#: src/request.c:1037
 msgid "Expecting `..' in request"
 msgstr ""
 
-#: src/task.c:457
+#: src/task.c:458
 #, c-format
 msgid "Child process wait status is 0x%0.2x"
 msgstr ""
 
-#: src/testdump.c:304
+#: src/testdump.c:305
 msgid ""
 "UCS2   Mne   Description\n"
 "\n"
