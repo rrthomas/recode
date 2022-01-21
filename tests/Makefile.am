@@ -38,7 +38,7 @@ clean-local:
 check-local: Recode@pyextext@
 	export LD_LIBRARY_PATH=$(top_builddir)/src/@objdir@; \
 	export DYLD_LIBRARY_PATH=$(top_builddir)/src/@objdir@; \
-	export LSAN_OPTIONS=suppressions=$(srcdir)/asan-suppressions.txt; \
+	export LSAN_OPTIONS=$$LSAN_OPTIONS:print_suppressions=0:suppressions=$(srcdir)/asan-suppressions.txt; \
 	RECODE=$(top_builddir)/src/recode$(EXEEXT) PYTHONPATH=.:$(srcdir) \
 	  $(TESTS_ENVIRONMENT_EXTRA) $(PYTHON) $(srcdir)/pytest $(LIMIT) $(srcdir)/t*.py
 
