@@ -232,5 +232,5 @@ Z39.47:1993 8bitANSEL ANSEL LOC MARC USMARC Z39.47
 '''
 
 def test_1():
-    output = common.external_output('$R -l')
+    output = common.external_output('$R --ignore=:iconv: -l')
     common.assert_or_diff(output, expected)

@@ -58,7 +58,7 @@ def assert_or_diff(output, expected):
 def external_output(command):
     if not recode_program:
         py.test.skip()
-    command = command.replace('$R', recode_program + ' --ignore=:iconv:')
+    command = command.replace('$R', recode_program)
     # FIXME: Find a more portable solution than checking the OS
     return subprocess.check_output(command, universal_newlines=True, shell=os.name != 'nt')
 
