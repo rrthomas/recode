@@ -247,6 +247,6 @@ module_utf8 (RECODE_OUTER outer)
 }
 
 void
-delmodule_utf8 (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
+delmodule_utf8 (_GL_UNUSED RECODE_OUTER outer)
 {
 }

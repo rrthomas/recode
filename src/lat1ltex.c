@@ -181,6 +181,6 @@ module_latin1_latex (RECODE_OUTER outer)
 }
 
 void
-delmodule_latin1_latex (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
+delmodule_latin1_latex (_GL_UNUSED RECODE_OUTER outer)
 {
 }

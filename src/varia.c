@@ -415,6 +415,6 @@ module_varia (RECODE_OUTER outer)
 }
 
 void
-delmodule_varia (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
+delmodule_varia (_GL_UNUSED RECODE_OUTER outer)
 {
 }

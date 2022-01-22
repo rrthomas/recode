@@ -122,6 +122,6 @@ module_african (RECODE_OUTER outer)
 }
 
 void
-delmodule_african (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
+delmodule_african (_GL_UNUSED RECODE_OUTER outer)
 {
 }

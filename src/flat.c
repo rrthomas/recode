@@ -111,6 +111,6 @@ module_flat (RECODE_OUTER outer)
 }
 
 void
-delmodule_flat (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
+delmodule_flat (_GL_UNUSED RECODE_OUTER outer)
 {
 }

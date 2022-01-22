@@ -436,6 +436,6 @@ module_dump (RECODE_OUTER outer)
 }
 
 void
-delmodule_dump (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
+delmodule_dump (_GL_UNUSED RECODE_OUTER outer)
 {
 }

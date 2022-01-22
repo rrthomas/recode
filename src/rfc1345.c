@@ -238,7 +238,7 @@ term_rfc1345 (RECODE_STEP step)
 static bool
 init_rfc1345 (RECODE_CONST_REQUEST request,
 	      RECODE_STEP step,
-	      RECODE_CONST_OPTION_LIST options _GL_ATTRIBUTE_MAYBE_UNUSED)
+	      RECODE_CONST_OPTION_LIST options _GL_UNUSED)
 {
   RECODE_OUTER outer = request->outer;
   struct local *local;
@@ -307,6 +307,6 @@ module_rfc1345 (RECODE_OUTER outer)
 }
 
 void
-delmodule_rfc1345 (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
+delmodule_rfc1345 (_GL_UNUSED RECODE_OUTER outer)
 {
 }

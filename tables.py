@@ -443,7 +443,7 @@ class Explodes(Options):
               '}\n'
               '\n'
               'void\n'
-              'delmodule_explodes (struct recode_outer *outer _GL_UNUSED_PARAMETER)\n'
+              'delmodule_explodes (_GL_UNUSED struct recode_outer *outer)\n'
               '{\n'
               '}\n')
 
@@ -1061,7 +1061,7 @@ class Strips(Options):
         write = self.write_data
         write('\n'
               '_GL_ATTRIBUTE_CONST bool\n'
-              'module_strips (struct recode_outer *outer _GL_UNUSED_PARAMETER)\n'
+              'module_strips (_GL_UNUSED struct recode_outer *outer)\n'
               '{\n'
               '  RECODE_ALIAS alias;\n'
               '\n')
@@ -1094,7 +1094,7 @@ class Strips(Options):
               '}\n'
               '\n'
               'void\n'
-              'delmodule_strips (struct recode_outer *outer _GL_UNUSED_PARAMETER)\n'
+              'delmodule_strips (_GL_UNUSED struct recode_outer *outer)\n'
               '{\n'
               '}\n')
 

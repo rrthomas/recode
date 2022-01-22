@@ -285,7 +285,7 @@ static const char *const translation_table[256] =
 
 static bool
 init_latin1_bangbang (RECODE_STEP step,
-		      RECODE_CONST_REQUEST request _GL_ATTRIBUTE_MAYBE_UNUSED,
+		      RECODE_CONST_REQUEST request _GL_UNUSED,
 		      RECODE_CONST_OPTION_LIST before_options,
 		      RECODE_CONST_OPTION_LIST after_options)
 {
@@ -393,6 +393,6 @@ module_bangbang (RECODE_OUTER outer)
 }
 
 void
-delmodule_bangbang (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
+delmodule_bangbang (_GL_UNUSED RECODE_OUTER outer)
 {
 }

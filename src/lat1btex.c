@@ -179,6 +179,6 @@ module_latin1_bibtex (RECODE_OUTER outer)
 }
 
 void
-delmodule_latin1_bibtex (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
+delmodule_latin1_bibtex (_GL_UNUSED RECODE_OUTER outer)
 {
 }

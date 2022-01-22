@@ -82,7 +82,7 @@ combined_compare (const void *void_first, const void *void_second)
 
 bool
 init_explode (RECODE_STEP step,
-	      RECODE_CONST_REQUEST request _GL_ATTRIBUTE_MAYBE_UNUSED,
+	      RECODE_CONST_REQUEST request _GL_UNUSED,
 	      RECODE_CONST_OPTION_LIST before_options,
 	      RECODE_CONST_OPTION_LIST after_options)
 {
@@ -376,7 +376,7 @@ find_shifted_state (struct state *state, unsigned character,
 
 bool
 init_combine (RECODE_STEP step,
-	      RECODE_CONST_REQUEST request _GL_ATTRIBUTE_MAYBE_UNUSED,
+	      RECODE_CONST_REQUEST request _GL_UNUSED,
 	      RECODE_CONST_OPTION_LIST before_options,
 	      RECODE_CONST_OPTION_LIST after_options)
 {

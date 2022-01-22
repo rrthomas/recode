@@ -86,6 +86,6 @@ module_texinfo (RECODE_OUTER outer)
 }
 
 void
-delmodule_texinfo (RECODE_OUTER outer _GL_ATTRIBUTE_MAYBE_UNUSED)
+delmodule_texinfo (_GL_UNUSED RECODE_OUTER outer)
 {
 }
