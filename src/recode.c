@@ -551,7 +551,7 @@ recode_format_table (RECODE_REQUEST request,
 	if (underline)
 	  {
 	    *cursor++ = '_';
-	    underline =false;
+	    underline = false;
 	  }
 	*cursor++ = *cursor2;
       }
