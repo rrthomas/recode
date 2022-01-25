@@ -120,12 +120,11 @@ iconv.lo: iconvdecl.h
 iconvdecl.h: ../tables.py
 	$(TABLES_PY) -i
 
-lat1ansel.c: lat1ansel.h
-lat1iso5426.c: lat1iso5426.h
-
+lat1ansel.lo: lat1ansel.h
 lat1ansel.h: ansellat1.l
 	$(top_srcdir)/build-aux/invert-l-to-h ansellat1.l > $@
 
+lat1iso5426.lo: lat1iso5426.h
 lat1iso5426.h: iso5426lat1.l
 	$(top_srcdir)/build-aux/invert-l-to-h iso5426lat1.l > $@
 
