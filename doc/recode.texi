@@ -651,7 +651,7 @@ be ambiguous at some later recode-back time.
 @item
 The stricter setting is activated with @samp{-s}, Recode then sets the
 exit status as above, or if input is not canonically coded (and it also
-prevents itself from *completing* recoding tables for making the
+prevents itself from @emph{completing} recoding tables for making the
 recoding reversible).
 
 @end itemize
