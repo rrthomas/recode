@@ -2945,13 +2945,19 @@ an external @code{iconv} library, as they likely share many charsets.
 We discuss, here, the issues related to this duplication, and other
 peculiarities specific to the @code{iconv} library.
 
-The @code{iconv} library provides transliteration between character
-sets, using encodings with the suffix @code{-translit}.  This
-corresponds to the @code{iconv} option @code{//TRANSLIT}.
+If the string @code{-ignore} is appended to the @var{after} encoding,
+characters that cannot be converted are discarded and an error is
+printed after conversion.  This corresponds to the @code{iconv} option
+@code{//IGNORE}.
 
-Similarly, the suffix @code{-ignore} tells @code{iconv} to ignore
-invalid character sequences.  This corresponds to the @code{iconv}
-option @code{//IGNORE}.
+If the string @code{-translit} is appended to the @var{after} encoding,
+characters being converted are transliterated when needed and possible.
+This means that when a character cannot be represented in the target
+character set, it can be approximated through one or several similar
+looking characters.  Characters that are outside of the target character
+set and cannot be transliterated are replaced with a question mark (?)
+in the output.  This corresponds to the @code{iconv} option
+@code{//TRANSLIT}.
 
 The two suffixes can be combined using the suffix
 @code{-translit-ignore}; for example, @code{iso-8859-1-translit-ignore}.
