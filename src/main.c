@@ -337,12 +337,10 @@ new_outer(unsigned flags)
   /* Set strict mapping.  */
 
   if (strict_mapping)
-    {
-      RECODE_SINGLE single;
-
-      for (single = outer->single_list; single; single = single->next)
-	single->fallback_routine = NULL;
-    }
+    for (RECODE_SINGLE single = outer->single_list;
+         single;
+         single = single->next)
+      single->fallback_routine = NULL;
 
   /* Set the ignored charset.  */
 
