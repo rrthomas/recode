@@ -1798,7 +1798,7 @@ diagnostic and abort processing itself.
 
 @item RECODE_NO_ICONV_FLAG
 
-When this flag is set, the library does not initialize nor use the
+When this flag is set, the library does not initialize or use the
 external @code{iconv} library.  This means that the charsets and aliases
 provided by the @code{iconv} external library and not by Recode
 itself are not available.
@@ -4740,7 +4740,7 @@ a delayed initialisation to save it anyway, because @code{recode} option
 
 Finally, edit @file{Makefile.am} to add the source file name of your routines
 to the @code{C_STEPS} or @code{L_STEPS} macro definition, depending on
-the fact your routines is written in C or in Flex.
+whether your routines are written in C or Flex.
 
 @node New surfaces, Design, New charsets, Internals
 @section Adding new surfaces
