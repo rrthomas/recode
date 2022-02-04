@@ -4707,31 +4707,6 @@ If you do not need such delayed initialisation, merely use @code{NULL}
 for the function argument.
 
 The second function executes the elementary recoding on a whole file.
-There are a few cases when you can spare writing this function:
-
-@c FIXME: functions file_one_to_one and file_one_to_many don't exist!
-@itemize @bullet
-@item
-@findex file_one_to_one
-Some single steps do nothing else than a pure copy of the input onto the
-output, in this case, you can use the predefined function
-@code{file_one_to_one}, while having a delayed initialisation for
-presetting the @code{STEP} field @code{one_to_one} to the predefined
-value @code{one_to_same}.
-
-@item
-Some single steps are driven by a table which recodes one character into
-another; if the recoding does nothing else, you can use the predefined
-function @code{file_one_to_one}, while having a delayed initialisation
-for presetting the @code{STEP} field @code{one_to_one} with your table.
-
-@item
-@findex file_one_to_many
-Some single steps are driven by a table which recodes one character into
-a string; if the recoding does nothing else, you can use the predefined
-function @code{file_one_to_many}, while having a delayed initialisation
-for presetting the @code{STEP} field @code{one_to_many} with your table.
-@end itemize
 
 If you have a recoding table handy in a suitable format but do not use
 one of the predefined recoding functions, it is still a good idea to use
