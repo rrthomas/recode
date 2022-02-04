@@ -134,16 +134,8 @@ wrapped_transform (iconv_t conversion, RECODE_SUBTASK subtask)
                   iconv_close (check_conversion);
 		}
 
-	      /* Invalid or untranslatable input.  Skip one byte.  */
-              /* FIXME: We cannot tell how many bytes to skip for
-                 untranslatable input.  The likely result is that we'll
-                 get an "invalid input" error on the next step. */
+	      /* Invalid or untranslatable input.  */
 	      RETURN_IF_NOGO (recode_error, subtask);
-	      assert (input_left > 0);
-	      input++;
-	      input_left--;
-	      /* Why is draining required?  */
-	      drain_first = true;
 	    }
 	  else if (saved_errno == EINVAL)
 	    {
