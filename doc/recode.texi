@@ -1870,7 +1870,7 @@ int
 main (int argc, char *const *argv)
 @{
   program_name = argv[0];
-  RECODE_OUTER outer = recode_new_outer (true);
+  RECODE_OUTER outer = recode_new_outer (RECODE_AUTO_ABORT_FLAG);
   RECODE_REQUEST request = recode_new_request (outer);
   bool success;
 
@@ -2145,7 +2145,7 @@ int
 main (int argc, char *const *argv)
 @{
   program_name = argv[0];
-  RECODE_OUTER outer = recode_new_outer (false);
+  RECODE_OUTER outer = recode_new_outer (0);
   RECODE_REQUEST request = recode_new_request (outer);
   RECODE_TASK task;
   bool success;
