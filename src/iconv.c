@@ -1,5 +1,5 @@
 /* Conversion of files between different charsets and surfaces.
-   Copyright © 1999, 2000, 2001, 2008 Free Software Foundation, Inc.
+   Copyright © 1999-2022 Free Software Foundation, Inc.
    Contributed by François Pinard <pinard@iro.umontreal.ca>, 1999,
    and Bruno Haible <haible@clisp.cons.org>, 2000.
 
@@ -28,6 +28,18 @@
 | Use `iconv' to handle a double step.  |
 `--------------------------------------*/
 
+static void
+do_iconv (RECODE_OUTER outer,
+          iconv_t conversion,
+          char **input, size_t *input_left,
+          char **output, size_t *output_left,
+          int *saved_errno)
+{
+  size_t converted = iconv (conversion, input, input_left, output, output_left);
+  if (converted == (size_t) -1 && !(errno == EILSEQ && outer->force))
+    *saved_errno = errno;
+}
+
 #define BUFFER_SIZE 2048
 
 static bool
@@ -48,15 +60,16 @@ wrapped_transform (iconv_t conversion, RECODE_SUBTASK subtask)
       size_t input_left = 0;
       size_t output_left = BUFFER_SIZE;
       int saved_errno = 0;
-      size_t converted;
 
       if (drain_first)
         {
           /* Drain all accumulated partial state and emit output
              to return to the initial shift state.  */
-          converted = iconv (conversion, NULL, NULL, &output, &output_left);
-          if (converted == (size_t) -1)
-            saved_errno = errno;
+          do_iconv (subtask->task->request->outer,
+                    conversion,
+                    NULL, NULL,
+                    &output, &output_left,
+                    &saved_errno);
         }
 
       if (saved_errno == 0)
@@ -84,11 +97,11 @@ wrapped_transform (iconv_t conversion, RECODE_SUBTASK subtask)
               /* Convert accumulated input and add it to the output buffer.  */
               input = input_buffer;
               input_left = cursor - input_buffer;
-              converted = iconv (conversion,
-                                 &input, &input_left,
-                                 &output, &output_left);
-              if (converted == (size_t) -1)
-                saved_errno = errno;
+              do_iconv (subtask->task->request->outer,
+                        conversion,
+                        &input, &input_left,
+                        &output, &output_left,
+                        &saved_errno);
             }
         }
 
@@ -166,30 +179,21 @@ ends_with (const char *s, size_t s_len, const char *suff, size_t suff_len)
 }
 
 static char *
-iconv_fix_options (const char *charset)
+iconv_fix_options (RECODE_OUTER outer, const char *charset)
 {
   size_t charset_len = strlen (charset);
-  bool ignore = false, translit = false;
+  bool translit = false;
 
-  do {
-    if (ends_with (charset, charset_len, "-translit", strlen ("-translit")))
-      {
-        translit = true;
-        charset_len -= strlen ("-translit");
-      }
-    else if (ends_with (charset, charset_len, "-ignore", strlen ("-ignore")))
-      {
-        ignore = true;
-        charset_len -= strlen ("-ignore");
-      }
-    else
-      break;
-  } while (true);
+  if (ends_with (charset, charset_len, "-translit", strlen ("-translit")))
+    {
+      translit = true;
+      charset_len -= strlen ("-translit");
+    }
 
   char *result;
   if (asprintf (&result, "%.*s%s%s", (int) charset_len, charset,
                 translit ? "//TRANSLIT" : "",
-                ignore ? "//IGNORE": "")
+                outer->strict_mapping ? "//IGNORE": "")
       == -1)
     return NULL;
   return result;
@@ -198,24 +202,23 @@ iconv_fix_options (const char *charset)
 bool
 transform_with_iconv (RECODE_SUBTASK subtask)
 {
+  RECODE_OUTER outer = subtask->task->request->outer;
   RECODE_CONST_STEP step = subtask->step;
-  char *tocode = iconv_fix_options (step->after->iconv_name);
-  char *fromcode = iconv_fix_options (step->before->iconv_name);
+  char *tocode = iconv_fix_options (outer, step->after->iconv_name);
+  const char *fromcode = step->before->iconv_name;
   iconv_t conversion = (iconv_t) -1;
 
-  if (tocode && fromcode)
+  if (tocode)
     conversion = iconv_open (tocode, fromcode);
   if (conversion == (iconv_t) -1)
     {
       recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
-      free (fromcode);
       free (tocode);
       SUBTASK_RETURN (subtask);
     }
 
   bool status = wrapped_transform (conversion, subtask);
   iconv_close (conversion);
-  free (fromcode);
   free (tocode);
   return status;
 }

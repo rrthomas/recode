@@ -1,5 +1,5 @@
 /* Conversion of files between different charsets and surfaces.
-   Copyright © 1990, 93, 94, 96, 97, 98, 99, 00 Free Software Foundation, Inc.
+   Copyright © 1990-2022 Free Software Foundation, Inc.
    Contributed by François Pinard <pinard@iro.umontreal.ca>, 1988.
 
    This library is free software; you can redistribute it and/or
@@ -56,6 +56,8 @@ extern "C" {
 
 #define RECODE_AUTO_ABORT_FLAG 1
 #define RECODE_NO_ICONV_FLAG 2
+#define RECODE_STRICT_MAPPING_FLAG 4
+#define RECODE_FORCE_FLAG 8
 
 RECODE_OUTER recode_new_outer (unsigned);
 bool recode_delete_outer (RECODE_OUTER);

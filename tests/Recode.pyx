@@ -414,6 +414,7 @@ cdef extern from "common.h":
     enum:
         RECODE_AUTO_ABORT_FLAG
         RECODE_NO_ICONV_FLAG
+        RECODE_STRICT_MAPPING_FLAG
 
     RECODE_OUTER recode_new_outer(unsigned)
     bool recode_delete_outer(RECODE_OUTER)
@@ -514,6 +515,7 @@ BYTE_ORDER_MARK_SWAPPED = BYTE_ORDER_MARK_SWAPPED_
 
 AUTO_ABORT_FLAG = RECODE_AUTO_ABORT_FLAG
 NO_ICONV_FLAG = RECODE_NO_ICONV_FLAG
+STRICT_MAPPING_FLAG = RECODE_STRICT_MAPPING_FLAG
 
 ## Recode library at OUTER level.
 
@@ -528,6 +530,8 @@ cdef class Outer:
             flags = flags | RECODE_AUTO_ABORT_FLAG
         if not iconv:
             flags = flags | RECODE_NO_ICONV_FLAG
+        if strict:
+            flags = flags | RECODE_STRICT_MAPPING_FLAG
         self.outer = recode_new_outer(flags)
         if strict:
             single = self.outer.single_list

@@ -489,15 +489,13 @@ class Iconv(Options):
     def complete(self, french):
         def write_charset(format, charset):
             write(format % charset)
-            write(format % (charset + "-ignore"))
             write(format % (charset + "-translit"))
-            write(format % (charset + "-translit-ignore"))
         if not self.do_sources:
             return
         write = Output(self.SOURCES).write
         count = 1
         for charset, aliases in self.data:
-            versions = 4 # Normal, //IGNORE, //TRANSLIT, //TRANSLIT//IGNORE
+            versions = 2 # Normal, //TRANSLIT
             count = count + (versions + len(aliases)) * versions
         write('\n'
               "/* This is derived from Bruno Haible's `libiconv' package.  */"

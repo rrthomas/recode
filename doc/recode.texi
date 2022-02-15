@@ -1803,9 +1803,20 @@ external @code{iconv} library.  This means that the charsets and aliases
 provided by the @code{iconv} external library and not by Recode
 itself are not available.
 
+@item RECODE_STRICT_MAPPING_FLAG
+
+When this flag is set (corresponding to the @samp{--strict} command-line
+option), untranslatable characters are discarded, but an error is
+returned on completion unless @samp{RECODE_FORCE_FLAG} is also set.
+
+@item RECODE_FORCE_FLAG
+
+When this flag is set (corresponding to the @samp{--force} command-line
+option), errors caused by untranslatable characters are ignored.
+
 @end table
 
-In previous incatations of the Recode library, @var{flags}
+In previous incarnations of the Recode library, @var{flags}
 was a Boolean instead of a collection of flags, meant to set
 @code{RECODE_AUTO_ABORT_FLAG}.  This still works, but is deprecated.
 
@@ -2945,10 +2956,8 @@ an external @code{iconv} library, as they likely share many charsets.
 We discuss, here, the issues related to this duplication, and other
 peculiarities specific to the @code{iconv} library.
 
-If the string @code{-ignore} is appended to the @var{after} encoding,
-characters that cannot be converted are discarded and an error is
-printed after conversion.  This corresponds to the @code{iconv} option
-@code{//IGNORE}.
+The @code{strict_mapping} request option is implemented by adding
+@code{iconv} option @code{//IGNORE} to the @samp{after} encoding.
 
 If the string @code{-translit} is appended to the @var{after} encoding,
 characters being converted are transliterated when needed and possible.

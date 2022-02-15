@@ -114,6 +114,13 @@ struct recode_outer
     /* If the external `iconv' library should be initialized and used.  */
     bool use_iconv;
 
+    /* If we should discard untranslatable input and return an error,
+       unless 'force' is set (see below).  */
+    bool strict_mapping;
+
+    /* If we should ignore untranslatable input altogether.  */
+    bool force;
+
     /* charset.c */
     /* --------- */
 

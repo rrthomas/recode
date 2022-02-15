@@ -475,6 +475,8 @@ recode_new_outer (unsigned flags)
 
   outer->auto_abort = (flags & RECODE_AUTO_ABORT_FLAG) != 0;
   outer->use_iconv = (flags & RECODE_NO_ICONV_FLAG) == 0;
+  outer->strict_mapping = (flags & RECODE_STRICT_MAPPING_FLAG) != 0;
+  outer->force = (flags & RECODE_FORCE_FLAG) != 0;
 
   if (!register_all_modules (outer) || !make_argmatch_arrays (outer))
     {

@@ -333,13 +333,14 @@ new_outer(unsigned flags)
 {
   /* Register all modules and build internal tables.  */
 
-  RECODE_OUTER outer = recode_new_outer (flags | RECODE_AUTO_ABORT_FLAG);
+  RECODE_OUTER outer =
+    recode_new_outer (flags | RECODE_AUTO_ABORT_FLAG);
   if (!outer)
     abort ();
 
-  /* Set strict mapping.  */
+  /* If using strict mapping, remove fallbacks.  */
 
-  if (strict_mapping)
+  if (outer->strict_mapping)
     for (RECODE_SINGLE single = outer->single_list;
          single;
          single = single->next)
@@ -494,6 +495,7 @@ main (int argc, char *const *argv)
       case 'f':
 	task_option.fail_level = RECODE_SYSTEM_ERROR;
 	task_option.abort_level = RECODE_USER_ERROR;
+        force_flag = true;
 	break;
 
       case 'g':
@@ -647,6 +649,10 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
   if ((ignored_name && *ignored_name == ':')
       || request_option.make_header_flag)
     flags |= RECODE_NO_ICONV_FLAG;
+  if (strict_mapping)
+    flags |= RECODE_STRICT_MAPPING_FLAG;
+  if (force_flag)
+    flags |= RECODE_FORCE_FLAG;
   RECODE_OUTER outer = new_outer (flags);
 
   /* Process charset listing options.  */
