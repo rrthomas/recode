@@ -355,9 +355,6 @@ struct recode_request
        selected so to approximate these boxes.  */
     bool ascii_graphics : 1;
 
-    /* Use iconv if possible. */
-    bool prefer_iconv : 1;
-
     /* Array stating the sequence of conversions.  */
     RECODE_STEP sequence_array;
     size_t sequence_allocated;

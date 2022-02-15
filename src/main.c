@@ -85,6 +85,9 @@ static bool touch_option = false;
 /* With strict mapping, all reversibility fallbacks get defeated.  */
 static bool strict_mapping = false;
 
+/* Use iconv if possible. */
+static bool prefer_iconv = false;
+
 /* The following charset name will be ignored, if given.  */
 static const char *ignored_name = NULL;
 
@@ -447,7 +450,7 @@ main (int argc, char *const *argv)
 	exit (EXIT_SUCCESS);
 
       case 'I':
-        request_option.prefer_iconv = true;
+        prefer_iconv = true;
         break;
 
       case 'S':
@@ -745,7 +748,7 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
   /* If we are recoding, and we are allowed to use iconv, and --prefer-iconv
      was not used, see if we can do it without iconv.  */
 
-  if ((flags & RECODE_NO_ICONV_FLAG) == 0 && !request_option.prefer_iconv)
+  if ((flags & RECODE_NO_ICONV_FLAG) == 0 && !prefer_iconv)
     {
       RECODE_OUTER no_iconv_outer = new_outer (RECODE_NO_ICONV_FLAG);
       RECODE_REQUEST no_iconv_request =
