@@ -7,6 +7,16 @@ Recode NEWS - User visible changes
 
 :Copyright: © 1993-2022 Free Software Foundation, Inc.
 
+Version 3.7.12
+==============
+
+:Author: Reuben Thomas, 2022-02.
+
++ Simplify support for ignoring invalid input with iconv, integrated with
+  the --strict and --force mechanisms.
++ Various documentation improvements.
+
+
 Version 3.7.11
 ==============
 
