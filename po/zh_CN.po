@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: recode 3.6\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2022-01-25 10:10+0000\n"
+"POT-Creation-Date: 2022-02-17 11:35+0000\n"
 "PO-Revision-Date: 2005-12-03 21:43+0800\n"
 "Last-Translator: Meng Jie <zuxyhere@eastday.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -17,39 +17,39 @@ msgstr ""
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 "X-Poedit-Basepath: z:\\recode-3.6\n"
 
-#: src/main.c:109
+#: src/main.c:112
 msgid "No error"
 msgstr "没有错误"
 
-#: src/main.c:112
+#: src/main.c:115
 msgid "Non canonical input"
 msgstr "不正规的输入"
 
-#: src/main.c:115
+#: src/main.c:118
 msgid "Ambiguous output"
 msgstr "有歧义的输出"
 
-#: src/main.c:118
+#: src/main.c:121
 msgid "Untranslatable input"
 msgstr "无法翻译的输入"
 
-#: src/main.c:121
+#: src/main.c:124
 msgid "Invalid input"
 msgstr "无效的输入"
 
-#: src/main.c:124
+#: src/main.c:127
 msgid "System detected problem"
 msgstr "系统问题"
 
-#: src/main.c:127
+#: src/main.c:130
 msgid "Misuse of recoding library"
 msgstr "对重新编码库的使用不正确"
 
-#: src/main.c:130
+#: src/main.c:133
 msgid "Internal recoding bug"
 msgstr "内部重新编码缺陷"
 
-#: src/main.c:172
+#: src/main.c:175
 #, fuzzy
 msgid ""
 "This program is free software; you can redistribute it and/or modify\n"
@@ -77,17 +77,17 @@ msgstr ""
 "请写信至：Free Software Foundation, Inc., \n"
 "59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
 
-#: src/main.c:196
+#: src/main.c:199
 #, c-format
 msgid "Try `%s %s' for more information.\n"
 msgstr "请尝试执行‘%s %s’以得到更多信息。\n"
 
-#: src/main.c:200
+#: src/main.c:203
 #, fuzzy
 msgid "Recode converts files between various character sets and surfaces.\n"
 msgstr "自由的‘recode’将文件在不同的字符集和外在编码间转换。\n"
 
-#: src/main.c:204
+#: src/main.c:207
 #, c-format
 msgid ""
 "\n"
@@ -96,7 +96,7 @@ msgstr ""
 "\n"
 "用法：%s [选项]... [ [字符集] | 请求 [文件]...]\n"
 
-#: src/main.c:207
+#: src/main.c:210
 msgid ""
 "\n"
 "If a long option shows an argument as mandatory, then it is mandatory\n"
@@ -105,7 +105,7 @@ msgstr ""
 "\n"
 "长选项必须带的参数在使用与之等价的短选项时也是必须的。可选参数亦是如此。\n"
 
-#: src/main.c:213
+#: src/main.c:216
 #, fuzzy
 msgid ""
 "\n"
@@ -131,7 +131,7 @@ msgstr ""
 "      --help                 显示本帮助信息后退出\n"
 "      --version              输出版本信息后退出\n"
 
-#: src/main.c:225
+#: src/main.c:228
 #, fuzzy
 msgid ""
 "\n"
@@ -151,7 +151,7 @@ msgstr ""
 "  -i，--sequence=files    为系列转换使用中间文件\n"
 "      --sequence=memory   为系列转换使用内存缓冲区\n"
 
-#: src/main.c:235
+#: src/main.c:238
 #, fuzzy
 msgid ""
 "\n"
@@ -175,7 +175,7 @@ msgstr ""
 "  -g，--graphics         用 ASCII 符号模拟 IBMPC 标尺\n"
 "  -x，--ignore=字符集    在选择重新编码途径时忽略某字符集\n"
 
-#: src/main.c:248
+#: src/main.c:251
 msgid ""
 "\n"
 "Option -l with no FORMAT nor CHARSET list available charsets and surfaces.\n"
@@ -186,7 +186,7 @@ msgstr ""
 "“格式”可以为‘decimal’、‘octal’、‘hexadecimal’或‘full’(或者‘dohf’\n"
 "中的任一个字母)。\n"
 
-#: src/main.c:254
+#: src/main.c:257
 msgid ""
 "Unless DEFAULT_CHARSET is set in environment, CHARSET defaults to the "
 "locale\n"
@@ -196,7 +196,7 @@ msgstr ""
 "LC_ALL、\n"
 "LC_CTYPE、LANG 决定。\n"
 
-#: src/main.c:259
+#: src/main.c:262
 msgid ""
 "With -k, possible before charsets are listed for the given after CHARSET,\n"
 "both being tabular charsets, with PAIRS of the form `BEF1:AFT1,BEF2:"
@@ -208,12 +208,12 @@ msgstr ""
 "集，“映射”具有‘源1:目标1,源2:目标2,...’的形式，其中“源x”和“目标x”均\n"
 "须以十进制数的形式给出。\n"
 
-#: src/main.c:264
+#: src/main.c:267
 msgid ""
 "LN is some language, it may be `c', `perl' or `po'; `c' is the default.\n"
 msgstr "“语言”是某种编码语言，可以为‘c’、‘perl’或‘po’，‘c’为默认值。\n"
 
-#: src/main.c:267
+#: src/main.c:270
 msgid ""
 "\n"
 "REQUEST is SUBREQUEST[,SUBREQUEST]...; SUBREQUEST is ENCODING[.."
@@ -232,7 +232,7 @@ msgstr ""
 "“[/外在编码]...”则表示“字符集”默认的外在编码；只给出“/”而在其后不给出任\n"
 "何外在编码则表示没有任何外在编码。详情请参见手册。\n"
 
-#: src/main.c:275
+#: src/main.c:278
 #, fuzzy
 msgid ""
 "\n"
@@ -244,53 +244,53 @@ msgstr ""
 "为每个文件就地重新编码，丢弃其原始内容。如果没有在命令行中指定文件，\n"
 "则将标准输入的内容重新编码为标准输出。\n"
 
-#: src/main.c:280
+#: src/main.c:283
 msgid ""
 "\n"
 "Report bugs at https://github.com/rrthomas/recode\n"
 msgstr ""
 
-#: src/main.c:356
+#: src/main.c:358
 #, c-format
 msgid "Symbol `%s' is unknown"
 msgstr "符号‘%s’未知"
 
-#: src/main.c:427
+#: src/main.c:429
 #, c-format
 msgid "Sequence `%s' is ambiguous"
 msgstr "序列‘%s’意义不明确"
 
-#: src/main.c:432
+#: src/main.c:434
 #, c-format
 msgid "Sequence `%s' is unknown"
 msgstr "序列‘%s’未知"
 
-#: src/main.c:460 src/main.c:520
+#: src/main.c:462 src/main.c:523
 #, c-format
 msgid "Language `%s' is ambiguous"
 msgstr "语言‘%s’意义不明确"
 
-#: src/main.c:465 src/main.c:525
+#: src/main.c:467 src/main.c:528
 #, c-format
 msgid "Language `%s' is unknown"
 msgstr "语言‘%s’未知"
 
-#: src/main.c:560
+#: src/main.c:563
 #, c-format
 msgid "Format `%s' is ambiguous"
 msgstr "格式‘%s’意义不明确"
 
-#: src/main.c:565
+#: src/main.c:568
 #, c-format
 msgid "Format `%s' is unknown"
 msgstr "格式‘%s’未知"
 
-#: src/main.c:626
+#: src/main.c:629
 #, fuzzy
 msgid "Written by François Pinard <pinard@iro.umontreal.ca>.\n"
 msgstr "由 Francois Pinard <pinard@iro.umontreal.ca> 编写。\n"
 
-#: src/main.c:629
+#: src/main.c:632
 #, fuzzy
 msgid ""
 "\n"
@@ -299,7 +299,7 @@ msgstr ""
 "\n"
 "版权所有 (C) 1990，92，93，94，96，97，99 自由软件基金会。\n"
 
-#: src/main.c:633
+#: src/main.c:636
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -307,42 +307,42 @@ msgstr ""
 "本程序是自由软件；请参看源代码的版权声明。本软件不提供任何担保；\n"
 "包括没有适销性和某一专用目的下的适用性担保。\n"
 
-#: src/main.c:683 src/main.c:697
+#: src/main.c:690 src/main.c:704
 #, c-format
 msgid "Charset `%s' is unknown or ambiguous"
 msgstr "字符集‘%s’未知或有歧义"
 
-#: src/main.c:728
+#: src/main.c:735
 #, c-format
 msgid "Required argument is missing"
 msgstr "缺少需要的参数"
 
-#: src/main.c:737
+#: src/main.c:744
 #, c-format
 msgid "Request `%s' is erroneous"
 msgstr "请求‘%s’有错误"
 
-#: src/main.c:834
+#: src/main.c:841
 #, c-format
 msgid "Recoding %s..."
 msgstr "重新编码 %s..."
 
-#: src/main.c:844
+#: src/main.c:851
 #, c-format
 msgid " done\n"
 msgstr " 完成\n"
 
-#: src/main.c:882
+#: src/main.c:889
 #, c-format
 msgid " failed: %s in step `%s..%s'\n"
 msgstr " 失败：%s 在步骤‘%s..%s’中\n"
 
-#: src/main.c:889
+#: src/main.c:896
 #, c-format
 msgid "%s failed: %s in step `%s..%s'"
 msgstr "%s 失败：%s 在步骤‘%s..%s’中"
 
-#: src/main.c:908
+#: src/main.c:915
 #, c-format
 msgid "%s in step `%s..%s'"
 msgstr "%s 在步骤‘%s..%s’中"

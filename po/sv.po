@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: recode 3.7.1\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2022-01-25 10:10+0000\n"
+"POT-Creation-Date: 2022-02-17 11:35+0000\n"
 "PO-Revision-Date: 2020-05-15 07:02+0800\n"
 "Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
 "Language-Team: Swedish <tp-sv-list@lists.sourceforge.net>\n"
@@ -21,39 +21,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.3\n"
 
-#: src/main.c:109
+#: src/main.c:112
 msgid "No error"
 msgstr "Inget fel"
 
-#: src/main.c:112
+#: src/main.c:115
 msgid "Non canonical input"
 msgstr "Indata ej kanonisk"
 
-#: src/main.c:115
+#: src/main.c:118
 msgid "Ambiguous output"
 msgstr "Tvetydig utdata"
 
-#: src/main.c:118
+#: src/main.c:121
 msgid "Untranslatable input"
 msgstr "Oöversättbar indata"
 
-#: src/main.c:121
+#: src/main.c:124
 msgid "Invalid input"
 msgstr "Felaktig indata"
 
-#: src/main.c:124
+#: src/main.c:127
 msgid "System detected problem"
 msgstr "Systemproblem upptäcktes"
 
-#: src/main.c:127
+#: src/main.c:130
 msgid "Misuse of recoding library"
 msgstr "Felaktig användning av omkodningsbibliotek"
 
-#: src/main.c:130
+#: src/main.c:133
 msgid "Internal recoding bug"
 msgstr "Internt omkodningsfel"
 
-#: src/main.c:172
+#: src/main.c:175
 #, fuzzy
 msgid ""
 "This program is free software; you can redistribute it and/or modify\n"
@@ -89,16 +89,16 @@ msgstr ""
 "Foundation,\n"
 "Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
 
-#: src/main.c:196
+#: src/main.c:199
 #, c-format
 msgid "Try `%s %s' for more information.\n"
 msgstr "Försök med \"%s %s\" för mer information.\n"
 
-#: src/main.c:200
+#: src/main.c:203
 msgid "Recode converts files between various character sets and surfaces.\n"
 msgstr "Recode konverterar filer mellan olika teckenuppsättningar och ytor.\n"
 
-#: src/main.c:204
+#: src/main.c:207
 #, c-format
 msgid ""
 "\n"
@@ -107,7 +107,7 @@ msgstr ""
 "\n"
 "Användning: %s [FLAGGA]... [ [TECKENUPPSÄTTNING] | BEGÄRAN [FIL]...]\n"
 
-#: src/main.c:207
+#: src/main.c:210
 msgid ""
 "\n"
 "If a long option shows an argument as mandatory, then it is mandatory\n"
@@ -118,7 +118,7 @@ msgstr ""
 "obligatoriskt för motsvarade korta flagga.  Motsvarande för valfria "
 "argument.\n"
 
-#: src/main.c:213
+#: src/main.c:216
 msgid ""
 "\n"
 "Listings:\n"
@@ -145,7 +145,7 @@ msgstr ""
 "      --help                 visa denna hjälptext och avsluta\n"
 "      --version              visa versionsinformation och avsluta\n"
 
-#: src/main.c:225
+#: src/main.c:228
 msgid ""
 "\n"
 "Operation modes:\n"
@@ -165,7 +165,7 @@ msgstr ""
 "själva\n"
 "  -i, -p, --sequence=STRATEGI  hoppas över för bakåtkompatibilitet\n"
 
-#: src/main.c:235
+#: src/main.c:238
 #, fuzzy
 msgid ""
 "\n"
@@ -193,7 +193,7 @@ msgstr ""
 "  -x, --ignore=TECKENUPPSÄTTNING\n"
 "                         ignorera TECKENUPPSÄTTNING när omkodningsväg väljs\n"
 
-#: src/main.c:248
+#: src/main.c:251
 msgid ""
 "\n"
 "Option -l with no FORMAT nor CHARSET list available charsets and surfaces.\n"
@@ -205,7 +205,7 @@ msgstr ""
 "\"hexadecimal\"\n"
 "eller \"full\" (eller en av \"dohf\").\n"
 
-#: src/main.c:254
+#: src/main.c:257
 msgid ""
 "Unless DEFAULT_CHARSET is set in environment, CHARSET defaults to the "
 "locale\n"
@@ -215,7 +215,7 @@ msgstr ""
 "TECKENUPPSÄTTNING den lokalspecifika kodningen, som bestäms av\n"
 "miljövariablerna LC_ALL, LC_CTYPE och LANG.\n"
 
-#: src/main.c:259
+#: src/main.c:262
 msgid ""
 "With -k, possible before charsets are listed for the given after CHARSET,\n"
 "both being tabular charsets, with PAIRS of the form `BEF1:AFT1,BEF2:"
@@ -227,14 +227,14 @@ msgstr ""
 "\"START1:SLUT1,START2:SLUT2,...\" och START... och SLUT... är koder\n"
 "som anges med decimala tal.\n"
 
-#: src/main.c:264
+#: src/main.c:267
 msgid ""
 "LN is some language, it may be `c', `perl' or `po'; `c' is the default.\n"
 msgstr ""
 "LN är ett språk, det kan vara \"c\", \"perl\" eller \"po\"; \"c\" är "
 "standardvärde.\n"
 
-#: src/main.c:267
+#: src/main.c:270
 msgid ""
 "\n"
 "REQUEST is SUBREQUEST[,SUBREQUEST]...; SUBREQUEST is ENCODING[.."
@@ -255,7 +255,7 @@ msgstr ""
 "en utelämnad [/YTA]... innebär den normala ytan för TECKENUPPSÄTTNING.\n"
 "Ett / utan ytnamn innebär ingen yta alls.  Se manualen för detaljer.\n"
 
-#: src/main.c:275
+#: src/main.c:278
 msgid ""
 "\n"
 "Each FILE is recoded over itself, destroying the original.  If no\n"
@@ -266,7 +266,7 @@ msgstr ""
 "FIL anges så fungerar det som ett filter som omkodar standard in\n"
 "till standard ut.\n"
 
-#: src/main.c:280
+#: src/main.c:283
 msgid ""
 "\n"
 "Report bugs at https://github.com/rrthomas/recode\n"
@@ -274,46 +274,46 @@ msgstr ""
 "\n"
 "Rapportera fel till https://github.com/rrthomas/recode\n"
 
-#: src/main.c:356
+#: src/main.c:358
 #, c-format
 msgid "Symbol `%s' is unknown"
 msgstr "Symbol \"%s\" är okänd"
 
-#: src/main.c:427
+#: src/main.c:429
 #, c-format
 msgid "Sequence `%s' is ambiguous"
 msgstr "Sekvens \"%s\" är tvetydig"
 
-#: src/main.c:432
+#: src/main.c:434
 #, c-format
 msgid "Sequence `%s' is unknown"
 msgstr "Sekvens \"%s\" är okänd"
 
-#: src/main.c:460 src/main.c:520
+#: src/main.c:462 src/main.c:523
 #, c-format
 msgid "Language `%s' is ambiguous"
 msgstr "Språk \"%s\" är tvetydigt"
 
-#: src/main.c:465 src/main.c:525
+#: src/main.c:467 src/main.c:528
 #, c-format
 msgid "Language `%s' is unknown"
 msgstr "Språk \"%s\" är okänt"
 
-#: src/main.c:560
+#: src/main.c:563
 #, c-format
 msgid "Format `%s' is ambiguous"
 msgstr "Format \"%s\" är tvetydigt"
 
-#: src/main.c:565
+#: src/main.c:568
 #, c-format
 msgid "Format `%s' is unknown"
 msgstr "Format \"%s\" är okänt"
 
-#: src/main.c:626
+#: src/main.c:629
 msgid "Written by François Pinard <pinard@iro.umontreal.ca>.\n"
 msgstr "Skrivet av François Pinard <pinard@iro.umontreal.ca>.\n"
 
-#: src/main.c:629
+#: src/main.c:632
 #, fuzzy
 msgid ""
 "\n"
@@ -322,7 +322,7 @@ msgstr ""
 "\n"
 "Copyright © 1990-2018 Free Software Foundation, Inc.\n"
 
-#: src/main.c:633
+#: src/main.c:636
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -331,42 +331,42 @@ msgstr ""
 "INGEN garanti; inte ens för SÄLJBARHET eller LÄMPLIGHET FÖR NÅGOT SPECIELLT\n"
 "ÄNDAMÅL.\n"
 
-#: src/main.c:683 src/main.c:697
+#: src/main.c:690 src/main.c:704
 #, c-format
 msgid "Charset `%s' is unknown or ambiguous"
 msgstr "Teckenuppsättning \"%s\" är okänd eller tvetydig"
 
-#: src/main.c:728
+#: src/main.c:735
 #, c-format
 msgid "Required argument is missing"
 msgstr "Obligatoriskt argument saknas"
 
-#: src/main.c:737
+#: src/main.c:744
 #, c-format
 msgid "Request `%s' is erroneous"
 msgstr "Begäran \"%s\" är felaktig"
 
-#: src/main.c:834
+#: src/main.c:841
 #, c-format
 msgid "Recoding %s..."
 msgstr "Omkodar %s..."
 
-#: src/main.c:844
+#: src/main.c:851
 #, c-format
 msgid " done\n"
 msgstr " klart\n"
 
-#: src/main.c:882
+#: src/main.c:889
 #, c-format
 msgid " failed: %s in step `%s..%s'\n"
 msgstr " misslyckades: %s i steg \"%s..%s\"\n"
 
-#: src/main.c:889
+#: src/main.c:896
 #, c-format
 msgid "%s failed: %s in step `%s..%s'"
 msgstr "%s misslyckades: %s i steg \"%s..%s\""
 
-#: src/main.c:908
+#: src/main.c:915
 #, c-format
 msgid "%s in step `%s..%s'"
 msgstr "%s i steg \"%s..%s\""

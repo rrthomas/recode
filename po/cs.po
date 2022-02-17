@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: recode 3.7.1\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2022-01-25 10:10+0000\n"
+"POT-Creation-Date: 2022-02-17 11:35+0000\n"
 "PO-Revision-Date: 2019-05-21 21:28+02:00\n"
 "Last-Translator: Petr Pisar <petr.pisar@atlas.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -19,39 +19,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 
-#: src/main.c:109
+#: src/main.c:112
 msgid "No error"
 msgstr "Žádná chyba"
 
-#: src/main.c:112
+#: src/main.c:115
 msgid "Non canonical input"
 msgstr "Nekanonický vstup"
 
-#: src/main.c:115
+#: src/main.c:118
 msgid "Ambiguous output"
 msgstr "Nejednoznačný výstup"
 
-#: src/main.c:118
+#: src/main.c:121
 msgid "Untranslatable input"
 msgstr "Nepřeložitelný vstup"
 
-#: src/main.c:121
+#: src/main.c:124
 msgid "Invalid input"
 msgstr "Neplatný vstup"
 
-#: src/main.c:124
+#: src/main.c:127
 msgid "System detected problem"
 msgstr "Problém nalezený systémem"
 
-#: src/main.c:127
+#: src/main.c:130
 msgid "Misuse of recoding library"
 msgstr "Nesprávné použití převodní knihovny"
 
-#: src/main.c:130
+#: src/main.c:133
 msgid "Internal recoding bug"
 msgstr "Vnitřní chyba převodu"
 
-#: src/main.c:172
+#: src/main.c:175
 #, fuzzy
 msgid ""
 "This program is free software; you can redistribute it and/or modify\n"
@@ -80,16 +80,16 @@ msgstr ""
 "(GPL). Není-li tomu tak, napište na adresu Free Software Foundation,\n"
 "Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
 
-#: src/main.c:196
+#: src/main.c:199
 #, c-format
 msgid "Try `%s %s' for more information.\n"
 msgstr "Podrobnosti získáte pomocí „%s %s“.\n"
 
-#: src/main.c:200
+#: src/main.c:203
 msgid "Recode converts files between various character sets and surfaces.\n"
 msgstr "Recode převádí soubory mezi rozličnými znakovými sadami a povrchy.\n"
 
-#: src/main.c:204
+#: src/main.c:207
 #, c-format
 msgid ""
 "\n"
@@ -98,7 +98,7 @@ msgstr ""
 "\n"
 "Použití: %s [PŘEPÍNAČE…] [ [ZNAKOVÁ_SADA] | POŽADAVEK [SOUBOR…] ]\n"
 
-#: src/main.c:207
+#: src/main.c:210
 msgid ""
 "\n"
 "If a long option shows an argument as mandatory, then it is mandatory\n"
@@ -109,7 +109,7 @@ msgstr ""
 "odpovídající krátký přepínač. Obdobné pravidlo platí pro volitelné "
 "argumenty.\n"
 
-#: src/main.c:213
+#: src/main.c:216
 msgid ""
 "\n"
 "Listings:\n"
@@ -134,7 +134,7 @@ msgstr ""
 "      --help                 zobrazí tuto nápovědu a skončí\n"
 "      --version              vypíše informace o verzi a skončí\n"
 
-#: src/main.c:225
+#: src/main.c:228
 msgid ""
 "\n"
 "Operation modes:\n"
@@ -153,7 +153,7 @@ msgstr ""
 "časy\n"
 "  -i, -p, --sequence=STRATEGIE ignoruje se, pro zpětnou kompatibilitu\n"
 
-#: src/main.c:235
+#: src/main.c:238
 #, fuzzy
 msgid ""
 "\n"
@@ -180,7 +180,7 @@ msgstr ""
 "  -g, --graphics         aproximuje čáry IBMPC pomocí ASCII grafiky\n"
 "  -x, --ignore=SADA      ignoruje znakovou SADU při výběru cesty převodu\n"
 
-#: src/main.c:248
+#: src/main.c:251
 msgid ""
 "\n"
 "Option -l with no FORMAT nor CHARSET list available charsets and surfaces.\n"
@@ -191,7 +191,7 @@ msgstr ""
 "FORMÁT je „decimal“ (desítkový), „octal“ (osmičkový), „hexadecimal“\n"
 "(šestnáctkový) nebo „full“ (plný) nebo jeden ze znaků „dohf“.\n"
 
-#: src/main.c:254
+#: src/main.c:257
 msgid ""
 "Unless DEFAULT_CHARSET is set in environment, CHARSET defaults to the "
 "locale\n"
@@ -201,7 +201,7 @@ msgstr ""
 "kódování SADY se použije kódování národního prostředí určené podle LC_ALL,\n"
 "LC_CTYPE, LANG.\n"
 
-#: src/main.c:259
+#: src/main.c:262
 msgid ""
 "With -k, possible before charsets are listed for the given after CHARSET,\n"
 "both being tabular charsets, with PAIRS of the form `BEF1:AFT1,BEF2:"
@@ -213,14 +213,14 @@ msgstr ""
 "tabulkovými znakovými sadami, PÁRY jsouce tvaru „PŘED1:PO1,PŘED2:PO2,…“.\n"
 "PŘED a PO jsou kódy zadané jako desítkové číslo.\n"
 
-#: src/main.c:264
+#: src/main.c:267
 msgid ""
 "LN is some language, it may be `c', `perl' or `po'; `c' is the default.\n"
 msgstr ""
 "JZ představuje jazyk, nabývá hodnot „c“, „perl“ nebo „po“, implicitní je "
 "„c“.\n"
 
-#: src/main.c:267
+#: src/main.c:270
 msgid ""
 "\n"
 "REQUEST is SUBREQUEST[,SUBREQUEST]...; SUBREQUEST is ENCODING[.."
@@ -242,7 +242,7 @@ msgstr ""
 "žádný\n"
 "povrch. Vizte manuál.\n"
 
-#: src/main.c:275
+#: src/main.c:278
 msgid ""
 "\n"
 "Each FILE is recoded over itself, destroying the original.  If no\n"
@@ -253,7 +253,7 @@ msgstr ""
 "žádný SOUBOR, pak se recode chová jako filtr a převádí standardní vstup\n"
 "na standardní výstup.\n"
 
-#: src/main.c:280
+#: src/main.c:283
 msgid ""
 "\n"
 "Report bugs at https://github.com/rrthomas/recode\n"
@@ -263,46 +263,46 @@ msgstr ""
 "Chyby v překladu hlaste česky na <translation-team-cs@lists.sourceforge."
 "net>.\n"
 
-#: src/main.c:356
+#: src/main.c:358
 #, c-format
 msgid "Symbol `%s' is unknown"
 msgstr "Symbol „%s“ není znám"
 
-#: src/main.c:427
+#: src/main.c:429
 #, c-format
 msgid "Sequence `%s' is ambiguous"
 msgstr "Posloupnost „%s“ není jednoznačná"
 
-#: src/main.c:432
+#: src/main.c:434
 #, c-format
 msgid "Sequence `%s' is unknown"
 msgstr "Posloupnost „%s“ není známa"
 
-#: src/main.c:460 src/main.c:520
+#: src/main.c:462 src/main.c:523
 #, c-format
 msgid "Language `%s' is ambiguous"
 msgstr "Jazyk „%s“ není jednoznačný"
 
-#: src/main.c:465 src/main.c:525
+#: src/main.c:467 src/main.c:528
 #, c-format
 msgid "Language `%s' is unknown"
 msgstr "Jazyk „%s“ není znám"
 
-#: src/main.c:560
+#: src/main.c:563
 #, c-format
 msgid "Format `%s' is ambiguous"
 msgstr "Formát „%s“ není jednoznačný"
 
-#: src/main.c:565
+#: src/main.c:568
 #, c-format
 msgid "Format `%s' is unknown"
 msgstr "Formát „%s“ není znám"
 
-#: src/main.c:626
+#: src/main.c:629
 msgid "Written by François Pinard <pinard@iro.umontreal.ca>.\n"
 msgstr "Napsal François Pinard <pinard@iro.umontreal.ca>.\n"
 
-#: src/main.c:629
+#: src/main.c:632
 #, fuzzy
 msgid ""
 "\n"
@@ -311,7 +311,7 @@ msgstr ""
 "\n"
 "Copyright © 1990–2018 Free Software Foundation, Inc.\n"
 
-#: src/main.c:633
+#: src/main.c:636
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -321,42 +321,42 @@ msgstr ""
 "kódy. Není zde ŽÁDNÁ záruka, ani na OBCHODOVATELNOST, ani na VHODNOST PRO\n"
 "URČITÝ ÚČEL.\n"
 
-#: src/main.c:683 src/main.c:697
+#: src/main.c:690 src/main.c:704
 #, c-format
 msgid "Charset `%s' is unknown or ambiguous"
 msgstr "Znaková sada „%s“ není známa nebo není jednoznačná"
 
-#: src/main.c:728
+#: src/main.c:735
 #, c-format
 msgid "Required argument is missing"
 msgstr "Požadovaný argument chybí"
 
-#: src/main.c:737
+#: src/main.c:744
 #, c-format
 msgid "Request `%s' is erroneous"
 msgstr "Požadavek „%s“ chybný"
 
-#: src/main.c:834
+#: src/main.c:841
 #, c-format
 msgid "Recoding %s..."
 msgstr "%s se převádí…"
 
-#: src/main.c:844
+#: src/main.c:851
 #, c-format
 msgid " done\n"
 msgstr " hotovo\n"
 
-#: src/main.c:882
+#: src/main.c:889
 #, c-format
 msgid " failed: %s in step `%s..%s'\n"
 msgstr " chyba: %s v kroku „%s..%s“\n"
 
-#: src/main.c:889
+#: src/main.c:896
 #, c-format
 msgid "%s failed: %s in step `%s..%s'"
 msgstr "%s selhalo: %s v kroku „%s..%s“"
 
-#: src/main.c:908
+#: src/main.c:915
 #, c-format
 msgid "%s in step `%s..%s'"
 msgstr "%s v kroku „%s..%s“"

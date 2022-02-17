@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: recode 3.7.1\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2022-01-25 10:10+0000\n"
+"POT-Creation-Date: 2022-02-17 11:35+0000\n"
 "PO-Revision-Date: 2019-05-21 20:13+0200\n"
 "Last-Translator: Stéphane Aulery <lkppo@free.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -23,39 +23,39 @@ msgstr ""
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/main.c:109
+#: src/main.c:112
 msgid "No error"
 msgstr "Pas d'erreur"
 
-#: src/main.c:112
+#: src/main.c:115
 msgid "Non canonical input"
 msgstr "Entrée en forme non canonique"
 
-#: src/main.c:115
+#: src/main.c:118
 msgid "Ambiguous output"
 msgstr "Sortie ambiguë"
 
-#: src/main.c:118
+#: src/main.c:121
 msgid "Untranslatable input"
 msgstr "Entrée non traduisible"
 
-#: src/main.c:121
+#: src/main.c:124
 msgid "Invalid input"
 msgstr "Entrée invalide"
 
-#: src/main.c:124
+#: src/main.c:127
 msgid "System detected problem"
 msgstr "Problème rapporté par le système"
 
-#: src/main.c:127
+#: src/main.c:130
 msgid "Misuse of recoding library"
 msgstr "Mauvais usage de la logithèque de recodage"
 
-#: src/main.c:130
+#: src/main.c:133
 msgid "Internal recoding bug"
 msgstr "Problème interne durant le recodage"
 
-#: src/main.c:172
+#: src/main.c:175
 #, fuzzy
 msgid ""
 "This program is free software; you can redistribute it and/or modify\n"
@@ -85,16 +85,16 @@ msgstr ""
 "avec ce programme; sinon, écrire à la Free Software Foundation, Inc.,\n"
 "59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
 
-#: src/main.c:196
+#: src/main.c:199
 #, c-format
 msgid "Try `%s %s' for more information.\n"
 msgstr "Pour plus d'information, essayez « %s %s ».\n"
 
-#: src/main.c:200
+#: src/main.c:203
 msgid "Recode converts files between various character sets and surfaces.\n"
 msgstr "Recode transforme les jeux de caractères et les surfaces de fichiers\n"
 
-#: src/main.c:204
+#: src/main.c:207
 #, c-format
 msgid ""
 "\n"
@@ -103,7 +103,7 @@ msgstr ""
 "\n"
 "Usage: %s [OPTION]... [ [CHARSET] | DEMANDE [FICHIER]... ]\n"
 
-#: src/main.c:207
+#: src/main.c:210
 msgid ""
 "\n"
 "If a long option shows an argument as mandatory, then it is mandatory\n"
@@ -116,7 +116,7 @@ msgstr ""
 "comme\n"
 "étant optionnel.\n"
 
-#: src/main.c:213
+#: src/main.c:216
 msgid ""
 "\n"
 "Listings:\n"
@@ -143,7 +143,7 @@ msgstr ""
 "      --help                fournir ce message d'aide, puis terminer\n"
 "      --version             identifier la programme, puis terminer\n"
 
-#: src/main.c:225
+#: src/main.c:228
 msgid ""
 "\n"
 "Operation modes:\n"
@@ -163,7 +163,7 @@ msgstr ""
 "  -t, --touch                  toucher les fichiers après leur remplacement\n"
 "  -i, -p, --sequence=STRATEGIE sans effet (pour compatibilité descendante)\n"
 
-#: src/main.c:235
+#: src/main.c:238
 #, fuzzy
 msgid ""
 "\n"
@@ -189,7 +189,7 @@ msgstr ""
 "  -g, --graphics         convertir au mieux possible les « rulers » IBMPC\n"
 "  -x, --ignore=CHARSET   ignorer CHARSET durant le choix des étapes\n"
 
-#: src/main.c:248
+#: src/main.c:251
 msgid ""
 "\n"
 "Option -l with no FORMAT nor CHARSET list available charsets and surfaces.\n"
@@ -202,7 +202,7 @@ msgstr ""
 "un caractère\n"
 "dans « dohf ».\n"
 
-#: src/main.c:254
+#: src/main.c:257
 msgid ""
 "Unless DEFAULT_CHARSET is set in environment, CHARSET defaults to the "
 "locale\n"
@@ -212,7 +212,7 @@ msgstr ""
 "le CHARSET par défaut est locale selon l'encodage, déterminé par LC_ALL, "
 "LC_CTYPE, LANG.\n"
 
-#: src/main.c:259
+#: src/main.c:262
 msgid ""
 "With -k, possible before charsets are listed for the given after CHARSET,\n"
 "both being tabular charsets, with PAIRS of the form `BEF1:AFT1,BEF2:"
@@ -225,14 +225,14 @@ msgstr ""
 "AVANT\n"
 "et APRÈS est exprimé en décimal.\n"
 
-#: src/main.c:264
+#: src/main.c:267
 msgid ""
 "LN is some language, it may be `c', `perl' or `po'; `c' is the default.\n"
 msgstr ""
 "LN est un langage de programmation, valant « c » (implicite), « perl » ou « "
 "po ».\n"
 
-#: src/main.c:267
+#: src/main.c:270
 msgid ""
 "\n"
 "REQUEST is SUBREQUEST[,SUBREQUEST]...; SUBREQUEST is ENCODING[.."
@@ -254,7 +254,7 @@ msgstr ""
 "CHARSET; un / sans surface indique l'absence de toute surface.  Voir le "
 "manuel!\n"
 
-#: src/main.c:275
+#: src/main.c:278
 msgid ""
 "\n"
 "Each FILE is recoded over itself, destroying the original.  If no\n"
@@ -265,7 +265,7 @@ msgstr ""
 "FICHIER n'est donné, alors agir comme un filtre et recoder stdin sur "
 "stdout.\n"
 
-#: src/main.c:280
+#: src/main.c:283
 msgid ""
 "\n"
 "Report bugs at https://github.com/rrthomas/recode\n"
@@ -273,46 +273,46 @@ msgstr ""
 "\n"
 "Rapportez vos bogues sur https://github.com/rrthomas/recode\n"
 
-#: src/main.c:356
+#: src/main.c:358
 #, c-format
 msgid "Symbol `%s' is unknown"
 msgstr "¨Symbole « %s » est inconnu"
 
-#: src/main.c:427
+#: src/main.c:429
 #, c-format
 msgid "Sequence `%s' is ambiguous"
 msgstr "Séquence « %s » est ambiguë"
 
-#: src/main.c:432
+#: src/main.c:434
 #, c-format
 msgid "Sequence `%s' is unknown"
 msgstr "Séquence « %s » est inconnue"
 
-#: src/main.c:460 src/main.c:520
+#: src/main.c:462 src/main.c:523
 #, c-format
 msgid "Language `%s' is ambiguous"
 msgstr "Langage « %s » est ambigu"
 
-#: src/main.c:465 src/main.c:525
+#: src/main.c:467 src/main.c:528
 #, c-format
 msgid "Language `%s' is unknown"
 msgstr "Langage « %s » est inconnu"
 
-#: src/main.c:560
+#: src/main.c:563
 #, c-format
 msgid "Format `%s' is ambiguous"
 msgstr "Format « %s » est ambigu"
 
-#: src/main.c:565
+#: src/main.c:568
 #, c-format
 msgid "Format `%s' is unknown"
 msgstr "Format « %s » est inconnu"
 
-#: src/main.c:626
+#: src/main.c:629
 msgid "Written by François Pinard <pinard@iro.umontreal.ca>.\n"
 msgstr "Écrit par François Pinard <pinard@iro.umontreal.ca>.\n"
 
-#: src/main.c:629
+#: src/main.c:632
 #, fuzzy
 msgid ""
 "\n"
@@ -321,7 +321,7 @@ msgstr ""
 "\n"
 "Copyright © 1990-2018 Free Software Foundation, Inc.\n"
 
-#: src/main.c:633
+#: src/main.c:636
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -330,42 +330,42 @@ msgstr ""
 "les droits de copie.  Il n'y AUCUNE GARANTIE; même pas celle qu'il est\n"
 "DE QUALITÉ LOYALE ET MARCHANDE ou APPROPRIÉ POUR UN BUT PARTICULIER.\n"
 
-#: src/main.c:683 src/main.c:697
+#: src/main.c:690 src/main.c:704
 #, c-format
 msgid "Charset `%s' is unknown or ambiguous"
 msgstr "Charset « %s » est inconnu ou ambigu"
 
-#: src/main.c:728
+#: src/main.c:735
 #, c-format
 msgid "Required argument is missing"
 msgstr "Argument requis est manquant"
 
-#: src/main.c:737
+#: src/main.c:744
 #, c-format
 msgid "Request `%s' is erroneous"
 msgstr "Requête « %s » est erronée"
 
-#: src/main.c:834
+#: src/main.c:841
 #, c-format
 msgid "Recoding %s..."
 msgstr "Recodage de « %s »..."
 
-#: src/main.c:844
+#: src/main.c:851
 #, c-format
 msgid " done\n"
 msgstr " complété\n"
 
-#: src/main.c:882
+#: src/main.c:889
 #, c-format
 msgid " failed: %s in step `%s..%s'\n"
 msgstr " non-réussi: %s dans « %s..%s »\n"
 
-#: src/main.c:889
+#: src/main.c:896
 #, c-format
 msgid "%s failed: %s in step `%s..%s'"
 msgstr "%s non-réussi: %s dans « %s..%s »"
 
-#: src/main.c:908
+#: src/main.c:915
 #, c-format
 msgid "%s in step `%s..%s'"
 msgstr "%s dans « %s..%s »"

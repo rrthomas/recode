@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: recode 3.7.1\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2022-01-25 10:10+0000\n"
+"POT-Creation-Date: 2022-02-17 11:35+0000\n"
 "PO-Revision-Date: 2019-05-23 20:15+0200\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -18,39 +18,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 
-#: src/main.c:109
+#: src/main.c:112
 msgid "No error"
 msgstr "Brak błędu"
 
-#: src/main.c:112
+#: src/main.c:115
 msgid "Non canonical input"
 msgstr "Dane wejściowe nie są kanoniczne"
 
-#: src/main.c:115
+#: src/main.c:118
 msgid "Ambiguous output"
 msgstr "Dane wyjściowe są dwuznaczne"
 
-#: src/main.c:118
+#: src/main.c:121
 msgid "Untranslatable input"
 msgstr "Dane wejściowe nie mogą być przetłumaczone"
 
-#: src/main.c:121
+#: src/main.c:124
 msgid "Invalid input"
 msgstr "Błędne dane wejściowe"
 
-#: src/main.c:124
+#: src/main.c:127
 msgid "System detected problem"
 msgstr "System wykrył problem"
 
-#: src/main.c:127
+#: src/main.c:130
 msgid "Misuse of recoding library"
 msgstr "Błędne użycie biblioteki przekodowującej"
 
-#: src/main.c:130
+#: src/main.c:133
 msgid "Internal recoding bug"
 msgstr "Wystąpił wewnętrzny błąd przekodowania"
 
-#: src/main.c:172
+#: src/main.c:175
 #, fuzzy
 msgid ""
 "This program is free software; you can redistribute it and/or modify\n"
@@ -80,19 +80,19 @@ msgstr ""
 "tego programu. Jeśli nie, można napisać do Free Software Foundation,\n"
 "Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
 
-#: src/main.c:196
+#: src/main.c:199
 #, c-format
 msgid "Try `%s %s' for more information.\n"
 msgstr "Polecenie `%s %s' wyświetli więcej informacji.\n"
 
-#: src/main.c:200
+#: src/main.c:203
 msgid "Recode converts files between various character sets and surfaces.\n"
 msgstr ""
 "Recode konwertuje pliki pomiędzy różnymi zestawami znaków i sposobami "
 "kodowania.\n"
 
 # REQUEST tłumaczę wszędzie konsekwentnie jako POLECENIE, a nie 'żądanie' --pk
-#: src/main.c:204
+#: src/main.c:207
 #, c-format
 msgid ""
 "\n"
@@ -101,7 +101,7 @@ msgstr ""
 "\n"
 "Składnia: %s [OPCJA]... [ [ZESTAW_ZNAKÓW] | POLECENIE [PLIK]... ]\n"
 
-#: src/main.c:207
+#: src/main.c:210
 msgid ""
 "\n"
 "If a long option shows an argument as mandatory, then it is mandatory\n"
@@ -111,7 +111,7 @@ msgstr ""
 "Jeśli argumenty są obowiązkowe dla długich wersji opcji, to są one również\n"
 "obowiązkowe dla krótkich wersji. Analogicznie dla argumentów opcjonalnych.\n"
 
-#: src/main.c:213
+#: src/main.c:216
 msgid ""
 "\n"
 "Listings:\n"
@@ -139,7 +139,7 @@ msgstr ""
 "      --help                 wyświetlenie tego tekstu pomocy i zakończenie\n"
 "      --version              wyświetlenie informacji o wersji i zakończenie\n"
 
-#: src/main.c:225
+#: src/main.c:228
 msgid ""
 "\n"
 "Operation modes:\n"
@@ -159,7 +159,7 @@ msgstr ""
 "  -t, --touch             uaktualnienie czasu zastępowanych plików\n"
 "  -i, -p, --sequence=STRATEGIA  ignorowane dla zgodności wstecznej\n"
 
-#: src/main.c:235
+#: src/main.c:238
 #, fuzzy
 msgid ""
 "\n"
@@ -188,7 +188,7 @@ msgstr ""
 "drogi\n"
 "                         przekodowania\n"
 
-#: src/main.c:248
+#: src/main.c:251
 msgid ""
 "\n"
 "Option -l with no FORMAT nor CHARSET list available charsets and surfaces.\n"
@@ -199,7 +199,7 @@ msgstr ""
 "kodowania znaków. FORMAT to `decimal', `octal', `hexadecimal' lub `full',\n"
 "(lub jedna z liter `dohf').\n"
 
-#: src/main.c:254
+#: src/main.c:257
 msgid ""
 "Unless DEFAULT_CHARSET is set in environment, CHARSET defaults to the "
 "locale\n"
@@ -209,7 +209,7 @@ msgstr ""
 "zestawem znaków jest kodowanie zależne od lokalizacji, określonej przez\n"
 "zmienne LC_ALL, LC_CTYPE i LANG.\n"
 
-#: src/main.c:259
+#: src/main.c:262
 msgid ""
 "With -k, possible before charsets are listed for the given after CHARSET,\n"
 "both being tabular charsets, with PAIRS of the form `BEF1:AFT1,BEF2:"
@@ -221,14 +221,14 @@ msgstr ""
 "zestawami znaków z PARAmi postaci `SKĄD1:DOKĄD1,SKĄD2:DOKĄD2...', gdzie\n"
 "SKĄD i DOKĄD są kodami podanymi jako liczby dziesiętne.\n"
 
-#: src/main.c:264
+#: src/main.c:267
 msgid ""
 "LN is some language, it may be `c', `perl' or `po'; `c' is the default.\n"
 msgstr ""
 "LN jest językiem programowania, do wyboru `c', `perl' lub `po'.\n"
 "Domyślną wartością jest `c'.\n"
 
-#: src/main.c:267
+#: src/main.c:270
 msgid ""
 "\n"
 "REQUEST is SUBREQUEST[,SUBREQUEST]...; SUBREQUEST is ENCODING[.."
@@ -249,7 +249,7 @@ msgstr ""
 "/ bez podanego KODOWANIA oznacza brak jakiegokolwiek kodowania. Szczegóły\n"
 "w dokumentacji.\n"
 
-#: src/main.c:275
+#: src/main.c:278
 msgid ""
 "\n"
 "Each FILE is recoded over itself, destroying the original.  If no\n"
@@ -260,7 +260,7 @@ msgstr ""
 "nie podano PLIKU, program działa jako filtr i przekodowuje ze\n"
 "standardowego wejścia na standardowe wyjście.\n"
 
-#: src/main.c:280
+#: src/main.c:283
 msgid ""
 "\n"
 "Report bugs at https://github.com/rrthomas/recode\n"
@@ -268,46 +268,46 @@ msgstr ""
 "\n"
 "Błędy prosimy zgłaszać pod adresem https://github.com/rrthomas/recode\n"
 
-#: src/main.c:356
+#: src/main.c:358
 #, c-format
 msgid "Symbol `%s' is unknown"
 msgstr "Symbol `%s' jest nieznany"
 
-#: src/main.c:427
+#: src/main.c:429
 #, c-format
 msgid "Sequence `%s' is ambiguous"
 msgstr "Sekwencja `%s' jest niejednoznaczna"
 
-#: src/main.c:432
+#: src/main.c:434
 #, c-format
 msgid "Sequence `%s' is unknown"
 msgstr "Sekwencja `%s' jest nieznana"
 
-#: src/main.c:460 src/main.c:520
+#: src/main.c:462 src/main.c:523
 #, c-format
 msgid "Language `%s' is ambiguous"
 msgstr "Język `%s' jest niejednoznaczny"
 
-#: src/main.c:465 src/main.c:525
+#: src/main.c:467 src/main.c:528
 #, c-format
 msgid "Language `%s' is unknown"
 msgstr "Język `%s' jest nieznany"
 
-#: src/main.c:560
+#: src/main.c:563
 #, c-format
 msgid "Format `%s' is ambiguous"
 msgstr "Format `%s' jest niejednoznaczny"
 
-#: src/main.c:565
+#: src/main.c:568
 #, c-format
 msgid "Format `%s' is unknown"
 msgstr "Format `%s' jest nieznany"
 
-#: src/main.c:626
+#: src/main.c:629
 msgid "Written by François Pinard <pinard@iro.umontreal.ca>.\n"
 msgstr "Autorem jest François Pinard <pinard@iro.umontreal.ca>.\n"
 
-#: src/main.c:629
+#: src/main.c:632
 #, fuzzy
 msgid ""
 "\n"
@@ -316,7 +316,7 @@ msgstr ""
 "\n"
 "Copyright (C) 1990-2018 Free Software Foundation, Inc.\n"
 
-#: src/main.c:633
+#: src/main.c:636
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -325,42 +325,42 @@ msgstr ""
 "źródłowym. Nie podlega ŻADNEJ gwarancji, nawet gwarancji PRZYDATNOŚCI\n"
 "DO KONKRETNEGO ZASTOSOWANIA lub SPRZEDAŻY.\n"
 
-#: src/main.c:683 src/main.c:697
+#: src/main.c:690 src/main.c:704
 #, c-format
 msgid "Charset `%s' is unknown or ambiguous"
 msgstr "Zestaw znaków `%s' jest nieznany lub niejednoznaczny"
 
-#: src/main.c:728
+#: src/main.c:735
 #, c-format
 msgid "Required argument is missing"
 msgstr "Brak wymaganego parametru"
 
-#: src/main.c:737
+#: src/main.c:744
 #, c-format
 msgid "Request `%s' is erroneous"
 msgstr "Polecenie `%s' jest błędne"
 
-#: src/main.c:834
+#: src/main.c:841
 #, c-format
 msgid "Recoding %s..."
 msgstr "Przekodowywanie %s..."
 
-#: src/main.c:844
+#: src/main.c:851
 #, c-format
 msgid " done\n"
 msgstr " skończone\n"
 
-#: src/main.c:882
+#: src/main.c:889
 #, c-format
 msgid " failed: %s in step `%s..%s'\n"
 msgstr " nie powiodło się: %s w `%s..%s'\n"
 
-#: src/main.c:889
+#: src/main.c:896
 #, c-format
 msgid "%s failed: %s in step `%s..%s'"
 msgstr "%s nie powiodło się: %s w `%s..%s'"
 
-#: src/main.c:908
+#: src/main.c:915
 #, c-format
 msgid "%s in step `%s..%s'"
 msgstr "%s w `%s..%s'"

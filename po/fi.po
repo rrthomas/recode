@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: recode 3.7.1\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2022-01-25 10:10+0000\n"
+"POT-Creation-Date: 2022-02-17 11:35+0000\n"
 "PO-Revision-Date: 2019-05-21 18:27+0300\n"
 "Last-Translator: Jorma Karvonen <karvonen.jorma@gmail.com>\n"
 "Language-Team: Finnish <translation-team-fi@lists.sourceforge.net>\n"
@@ -19,39 +19,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.2.2\n"
 
-#: src/main.c:109
+#: src/main.c:112
 msgid "No error"
 msgstr "Ei virhettä"
 
-#: src/main.c:112
+#: src/main.c:115
 msgid "Non canonical input"
 msgstr "Ei-kanoninen syöte"
 
-#: src/main.c:115
+#: src/main.c:118
 msgid "Ambiguous output"
 msgstr "Ei yksiselitteinen tuloste"
 
-#: src/main.c:118
+#: src/main.c:121
 msgid "Untranslatable input"
 msgstr "Kääntökelvoton syöte"
 
-#: src/main.c:121
+#: src/main.c:124
 msgid "Invalid input"
 msgstr "Virheellinen syöte"
 
-#: src/main.c:124
+#: src/main.c:127
 msgid "System detected problem"
 msgstr "Järjestelmän havaitsema pulma"
 
-#: src/main.c:127
+#: src/main.c:130
 msgid "Misuse of recoding library"
 msgstr "Koodauskirjaston väärinkäyttö"
 
-#: src/main.c:130
+#: src/main.c:133
 msgid "Internal recoding bug"
 msgstr "Sisäinen koodausvirhe"
 
-#: src/main.c:172
+#: src/main.c:175
 #, fuzzy
 msgid ""
 "This program is free software; you can redistribute it and/or modify\n"
@@ -82,16 +82,16 @@ msgstr ""
 "Software\n"
 "Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
 
-#: src/main.c:196
+#: src/main.c:199
 #, c-format
 msgid "Try `%s %s' for more information.\n"
 msgstr "Lisätietoja komennolla ”%s %s”.\n"
 
-#: src/main.c:200
+#: src/main.c:203
 msgid "Recode converts files between various character sets and surfaces.\n"
 msgstr "Recode muuntaa tiedostot eri merkistöjen ja pintojen välillä.\n"
 
-#: src/main.c:204
+#: src/main.c:207
 #, c-format
 msgid ""
 "\n"
@@ -100,7 +100,7 @@ msgstr ""
 "\n"
 "Käyttö: %s [VALITSIN]... [ [MERKISTÖ] | PYYNTÖ [TIEDOSTO]... ]\n"
 
-#: src/main.c:207
+#: src/main.c:210
 msgid ""
 "\n"
 "If a long option shows an argument as mandatory, then it is mandatory\n"
@@ -110,7 +110,7 @@ msgstr ""
 "Jos pitkä valitsin näyttää argumentin pakollisena, niin se on pakollinen\n"
 "myös lyhyillä valitsimilla. Sama koskee valitsinargumentteja.\n"
 
-#: src/main.c:213
+#: src/main.c:216
 msgid ""
 "\n"
 "Listings:\n"
@@ -137,7 +137,7 @@ msgstr ""
 "      --help                 näytä tämä opaste ja poistu\n"
 "      --version              tulosta versiontiedot ja poistu\n"
 
-#: src/main.c:225
+#: src/main.c:228
 msgid ""
 "\n"
 "Operation modes:\n"
@@ -159,7 +159,7 @@ msgstr ""
 "  -i, -p, --sequence=STRATEGIA  käytä väliaikaistiedostoja peräkkäisiin "
 "vaiheisiin\n"
 
-#: src/main.c:235
+#: src/main.c:238
 #, fuzzy
 msgid ""
 "\n"
@@ -188,7 +188,7 @@ msgstr ""
 "  -x, --ignore=MERKISTÖ  älä välitä MERKISTÖstä valittaessa\n"
 "                         uudelleenkoodauspolkua\n"
 
-#: src/main.c:248
+#: src/main.c:251
 msgid ""
 "\n"
 "Option -l with no FORMAT nor CHARSET list available charsets and surfaces.\n"
@@ -201,7 +201,7 @@ msgstr ""
 "MUOTO on ’decimal’, ’octal’, ’hexadecimal’ tai ’full’ (tai yksi kirjaimista\n"
 "”dohf”).\n"
 
-#: src/main.c:254
+#: src/main.c:257
 msgid ""
 "Unless DEFAULT_CHARSET is set in environment, CHARSET defaults to the "
 "locale\n"
@@ -212,7 +212,7 @@ msgstr ""
 "on paikallisasetuksesta riippuvainen koodaus, joka määritellään muuttujissa\n"
 "LC_ALL, LC_CTYPE, LANG.\n"
 
-#: src/main.c:259
+#: src/main.c:262
 msgid ""
 "With -k, possible before charsets are listed for the given after CHARSET,\n"
 "both being tabular charsets, with PAIRS of the form `BEF1:AFT1,BEF2:"
@@ -224,13 +224,13 @@ msgstr ""
 "”ALKU1:LOPPU1,ALKU2:LOPPU2,...”-muotoisina pareina ja ALKU- ja LOPPU-\n"
 "parametrit ovat desimaalilukuina annettuja koodeja.\n"
 
-#: src/main.c:264
+#: src/main.c:267
 msgid ""
 "LN is some language, it may be `c', `perl' or `po'; `c' is the default.\n"
 msgstr ""
 "LN on joku kieli, se saattaa olla ’c’, ’perl’ tai ’po’; ’c’ on oletus.\n"
 
-#: src/main.c:267
+#: src/main.c:270
 msgid ""
 "\n"
 "REQUEST is SUBREQUEST[,SUBREQUEST]...; SUBREQUEST is ENCODING[.."
@@ -250,14 +250,14 @@ msgstr ""
 "MERKISTÖlle; ”/”-merkki tyhjän pintanimen kanssa tarkoittaa, että pintaa\n"
 "ei ole ollenkaan.  Katso käsikirjaa.\n"
 
-#: src/main.c:275
+#: src/main.c:278
 msgid ""
 "\n"
 "Each FILE is recoded over itself, destroying the original.  If no\n"
 "FILE is specified, then act as a filter and recode stdin to stdout.\n"
 msgstr "\n"
 
-#: src/main.c:280
+#: src/main.c:283
 msgid ""
 "\n"
 "Report bugs at https://github.com/rrthomas/recode\n"
@@ -265,46 +265,46 @@ msgstr ""
 "\n"
 "Ilmoita vioista osoitteeseen https://github.com/rrthomas/recode\n"
 
-#: src/main.c:356
+#: src/main.c:358
 #, c-format
 msgid "Symbol `%s' is unknown"
 msgstr "Symboli ”%s” on tuntematon"
 
-#: src/main.c:427
+#: src/main.c:429
 #, c-format
 msgid "Sequence `%s' is ambiguous"
 msgstr "Sekvenssi ”%s” ei ole yksiselitteinen"
 
-#: src/main.c:432
+#: src/main.c:434
 #, c-format
 msgid "Sequence `%s' is unknown"
 msgstr "Sekvenssi ”%s” on tuntematon"
 
-#: src/main.c:460 src/main.c:520
+#: src/main.c:462 src/main.c:523
 #, c-format
 msgid "Language `%s' is ambiguous"
 msgstr "Kieli ”%s” ei ole yksiselitteinen"
 
-#: src/main.c:465 src/main.c:525
+#: src/main.c:467 src/main.c:528
 #, c-format
 msgid "Language `%s' is unknown"
 msgstr "Kieli ”%s” on tuntematon"
 
-#: src/main.c:560
+#: src/main.c:563
 #, c-format
 msgid "Format `%s' is ambiguous"
 msgstr "Muoto ”%s” ei ole yksiselitteinen"
 
-#: src/main.c:565
+#: src/main.c:568
 #, c-format
 msgid "Format `%s' is unknown"
 msgstr "Muoto ”%s” on tuntematon"
 
-#: src/main.c:626
+#: src/main.c:629
 msgid "Written by François Pinard <pinard@iro.umontreal.ca>.\n"
 msgstr "Kirjoittaja: François Pinard <pinard@iro.umontreal.ca>.\n"
 
-#: src/main.c:629
+#: src/main.c:632
 #, fuzzy
 msgid ""
 "\n"
@@ -313,7 +313,7 @@ msgstr ""
 "\n"
 "Copyright © 1990-2018 Free Software Foundation, Inc.\n"
 
-#: src/main.c:633
+#: src/main.c:636
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -323,42 +323,42 @@ msgstr ""
 "ole takuuta; ei edes KAUPALLISUUDELLE tai SOPIVUUDELLE TIETTYYN "
 "TARKOITUKSEEN.\n"
 
-#: src/main.c:683 src/main.c:697
+#: src/main.c:690 src/main.c:704
 #, c-format
 msgid "Charset `%s' is unknown or ambiguous"
 msgstr "Merkistö ”%s” on tuntematon tai ei ole yksiselitteinen"
 
-#: src/main.c:728
+#: src/main.c:735
 #, c-format
 msgid "Required argument is missing"
 msgstr "Vaadittu argumentti puuttuu"
 
-#: src/main.c:737
+#: src/main.c:744
 #, c-format
 msgid "Request `%s' is erroneous"
 msgstr "Pyyntö ”%s” on virheellinen"
 
-#: src/main.c:834
+#: src/main.c:841
 #, c-format
 msgid "Recoding %s..."
 msgstr "Uudelleenkoodataan %s..."
 
-#: src/main.c:844
+#: src/main.c:851
 #, c-format
 msgid " done\n"
 msgstr " valmis\n"
 
-#: src/main.c:882
+#: src/main.c:889
 #, c-format
 msgid " failed: %s in step `%s..%s'\n"
 msgstr " epäonnistui: %s vaiheessa ”%s..%s”\n"
 
-#: src/main.c:889
+#: src/main.c:896
 #, c-format
 msgid "%s failed: %s in step `%s..%s'"
 msgstr "%s epäonnistui: %s vaiheessa ”%s..%s”"
 
-#: src/main.c:908
+#: src/main.c:915
 #, c-format
 msgid "%s in step `%s..%s'"
 msgstr "%s vaiheessa ”%s..%s”"
