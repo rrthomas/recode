@@ -2956,8 +2956,12 @@ an external @code{iconv} library, as they likely share many charsets.
 We discuss, here, the issues related to this duplication, and other
 peculiarities specific to the @code{iconv} library.
 
-The @code{strict_mapping} request option is implemented by adding
-@code{iconv} option @code{//IGNORE} to the @samp{after} encoding.
+The @code{RECODE_STRICT_MAPPING_FLAG} option, corresponding to the
+@samp{--strict} flag, is implemented by adding @code{iconv} option
+@code{//IGNORE} to the @samp{after} encoding. This has the side effect
+that untranslatable input is only signalled at the end of the
+conversion, whereas with Recode's built-in conversion routines the error
+will be signalled immediately.
 
 If the string @code{-translit} is appended to the @var{after} encoding,
 characters being converted are transliterated when needed and possible.
@@ -2967,9 +2971,6 @@ looking characters.  Characters that are outside of the target character
 set and cannot be transliterated are replaced with a question mark (?)
 in the output.  This corresponds to the @code{iconv} option
 @code{//TRANSLIT}.
-
-The two suffixes can be combined using the suffix
-@code{-translit-ignore}; for example, @code{iso-8859-1-translit-ignore}.
 
 To check whether @code{iconv} is used for a particular conversion,
 just use the @samp{-v} or @samp{--verbose} option, @pxref{Recoding}, and
