@@ -373,7 +373,6 @@ new_request(RECODE_OUTER outer, struct recode_request *request_option)
   request->diacritics_only = request_option->diacritics_only;
   request->diaeresis_char = request_option->diaeresis_char;
   request->make_header_flag = request_option->make_header_flag;
-  request->verbose_flag = request_option->verbose_flag;
   return request;
 }
 
@@ -610,8 +609,7 @@ main (int argc, char *const *argv)
 
       case 'v':
 	verbose_flag = true;
-	request_option.verbose_flag = true;
-	break;
+        break;
 
       case 'x':
 	ignored_name = optarg;
@@ -767,6 +765,13 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
           outer = no_iconv_outer;
           request = no_iconv_request;
         }
+    }
+
+  /* Scan the request once more to get output if in verbose mode.  */
+  if (verbose_flag)
+    {
+      request->verbose_flag = true;
+      recode_scan_request (request, user_request);
     }
 
   /* Discard the request argument.  */
