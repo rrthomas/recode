@@ -236,3 +236,7 @@
 /windows-initguard.h
 /stdio-read.c
 /stdio-write.c
+/assert.in.h
+/intprops-internal.h
+/stdckdint.in.h
+/stdckdint.h
