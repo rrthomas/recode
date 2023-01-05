@@ -169,3 +169,5 @@ strip-pool.c strip-data.c: stamp-strip
 stamp-strip: ../tables.py $(MNEMONICS_DS) $(CHARSETS_DEF)
 	$(TABLES_PY) -C $(srcdir) -p $(MNEMONICS_DS) $(CHARSETS_DEF)
 	@echo timestamp > $(srcdir)/$@
+
+DISTCLEANFILES = recode.1
