@@ -21,7 +21,7 @@
 This file documents the Recode program and library, which has the purpose of
 converting files between various character sets and surfaces.
 
-Copyright (C) 1990--2022 Free Software Foundation, Inc.
+Copyright (C) 1990--2023 Free Software Foundation, Inc.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice

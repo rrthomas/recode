@@ -5,7 +5,17 @@ Recode NEWS - User visible changes
 .. contents::
 .. sectnum::
 
-:Copyright: © 1993-2022 Free Software Foundation, Inc.
+:Copyright: © 1993-2023 Free Software Foundation, Inc.
+
+Version 3.7.13
+==============
+
+:Author: Reuben Thomas, 2023-01.
+
++ Fix request diagnostics with --verbose: avoid output of confusing and
+  possibly incorrect diagnostics.
++ Fix a file descriptor leak.
+
 
 Version 3.7.12
 ==============
