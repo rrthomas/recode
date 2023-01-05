@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: recode 3.6\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2022-02-17 11:35+0000\n"
+"POT-Creation-Date: 2023-01-05 20:50+0100\n"
 "PO-Revision-Date: 2003-04-06 23:16+0300\n"
 "Last-Translator: Ales Nyakhaychyk <nab@mail.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -275,42 +275,42 @@ msgstr ""
 msgid "Symbol `%s' is unknown"
 msgstr "Невядомы знак: `%s'"
 
-#: src/main.c:429
+#: src/main.c:428
 #, c-format
 msgid "Sequence `%s' is ambiguous"
 msgstr "Двухсэнсоўная пасьлядоўнасьць: `%s'"
 
-#: src/main.c:434
+#: src/main.c:433
 #, c-format
 msgid "Sequence `%s' is unknown"
 msgstr "Невядомая пасьлядоўнасьць: `%s'"
 
-#: src/main.c:462 src/main.c:523
+#: src/main.c:461 src/main.c:522
 #, c-format
 msgid "Language `%s' is ambiguous"
 msgstr "Невядомая мова: `%s'"
 
-#: src/main.c:467 src/main.c:528
+#: src/main.c:466 src/main.c:527
 #, c-format
 msgid "Language `%s' is unknown"
 msgstr "Невядомая мова: `%s'"
 
-#: src/main.c:563
+#: src/main.c:562
 #, c-format
 msgid "Format `%s' is ambiguous"
 msgstr "Двухсэнсоўны фармат: `%s'"
 
-#: src/main.c:568
+#: src/main.c:567
 #, c-format
 msgid "Format `%s' is unknown"
 msgstr "Невядомы фармат: `%s'"
 
-#: src/main.c:629
+#: src/main.c:627
 #, fuzzy
 msgid "Written by François Pinard <pinard@iro.umontreal.ca>.\n"
 msgstr "Напісаў: Franc,ois Pinard <pinard@iro.umontreal.ca>.\n"
 
-#: src/main.c:632
+#: src/main.c:630
 #, fuzzy
 msgid ""
 "\n"
@@ -319,7 +319,7 @@ msgstr ""
 "\n"
 "Copyright (C) 1990, 92, 93, 94, 96, 97, 99 Free Software Foundation, Inc.\n"
 
-#: src/main.c:636
+#: src/main.c:634
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -328,45 +328,58 @@ msgstr ""
 "зыходным кодзе. Няма НІЯКАЕ гарантыі, нават гарантыі КАШТОЎНАСЬЦІ ці\n"
 "ПРЫДАТНАСЬЦІ ДЛЯ КАНКРЭТНАЕ МЭТЫ.\n"
 
-#: src/main.c:690 src/main.c:704
+#: src/main.c:688 src/main.c:702
 #, c-format
 msgid "Charset `%s' is unknown or ambiguous"
 msgstr "Знаказбор `%s' невядомы ці двухсэнсоўны"
 
-#: src/main.c:735
+#: src/main.c:733
 #, c-format
 msgid "Required argument is missing"
 msgstr "Прапушчаны патрэбны парамэтар"
 
-#: src/main.c:744
+#: src/main.c:742
 #, c-format
 msgid "Request `%s' is erroneous"
 msgstr "Памылковы запыт: `%s'"
 
-#: src/main.c:841
+#: src/main.c:846
 #, c-format
 msgid "Recoding %s..."
 msgstr "Перакадаваньне %s..."
 
-#: src/main.c:851
+#: src/main.c:856
 #, c-format
 msgid " done\n"
 msgstr " зроблена\n"
 
-#: src/main.c:889
-#, c-format
-msgid " failed: %s in step `%s..%s'\n"
+#: src/main.c:894
+#, fuzzy, c-format
+msgid " failed: %s%s%s%s%s%s\n"
 msgstr " няўдалае: %s у кроку `%s..%s'\n"
 
-#: src/main.c:896
-#, c-format
-msgid "%s failed: %s in step `%s..%s'"
+#: src/main.c:896 src/main.c:906 src/main.c:928
+#, fuzzy
+msgid " in step `"
+msgstr "%s у кроку `%s..%s'"
+
+#: src/main.c:898 src/main.c:908 src/main.c:930
+msgid ".."
+msgstr ""
+
+#: src/main.c:900 src/main.c:910 src/main.c:932
+msgid "'"
+msgstr ""
+
+#: src/main.c:904
+#, fuzzy, c-format
+msgid "%s failed: %s%s%s%s%s%s"
 msgstr "Няўдалае %s: %s у кроку `%s..%s'"
 
-#: src/main.c:915
+#: src/main.c:926
 #, c-format
-msgid "%s in step `%s..%s'"
-msgstr "%s у кроку `%s..%s'"
+msgid "%s%s%s%s%s%s"
+msgstr ""
 
 #: src/names.c:353
 #, c-format
@@ -518,7 +531,7 @@ msgstr "Немагчыма перакадаваць з `%s' у `%s'"
 msgid "Expecting `..' in request"
 msgstr "У запыце чакалася `..'"
 
-#: src/task.c:458
+#: src/task.c:463
 #, c-format
 msgid "Child process wait status is 0x%0.2x"
 msgstr "Статус чаканьня даччынага працэсу -- 0x%0.2x"

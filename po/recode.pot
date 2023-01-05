@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU recode 3.7.12\n"
+"Project-Id-Version: GNU recode 3.7.13\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2022-02-17 11:35+0000\n"
+"POT-Creation-Date: 2023-01-05 20:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -186,90 +186,102 @@ msgstr ""
 msgid "Symbol `%s' is unknown"
 msgstr ""
 
-#: src/main.c:429
+#: src/main.c:428
 #, c-format
 msgid "Sequence `%s' is ambiguous"
 msgstr ""
 
-#: src/main.c:434
+#: src/main.c:433
 #, c-format
 msgid "Sequence `%s' is unknown"
 msgstr ""
 
-#: src/main.c:462 src/main.c:523
+#: src/main.c:461 src/main.c:522
 #, c-format
 msgid "Language `%s' is ambiguous"
 msgstr ""
 
-#: src/main.c:467 src/main.c:528
+#: src/main.c:466 src/main.c:527
 #, c-format
 msgid "Language `%s' is unknown"
 msgstr ""
 
-#: src/main.c:563
+#: src/main.c:562
 #, c-format
 msgid "Format `%s' is ambiguous"
 msgstr ""
 
-#: src/main.c:568
+#: src/main.c:567
 #, c-format
 msgid "Format `%s' is unknown"
 msgstr ""
 
-#: src/main.c:629
+#: src/main.c:627
 msgid "Written by François Pinard <pinard@iro.umontreal.ca>.\n"
 msgstr ""
 
-#: src/main.c:632
+#: src/main.c:630
 msgid ""
 "\n"
 "Copyright (C) 1990-2022 Free Software Foundation, Inc.\n"
 msgstr ""
 
-#: src/main.c:636
+#: src/main.c:634
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: src/main.c:690 src/main.c:704
+#: src/main.c:688 src/main.c:702
 #, c-format
 msgid "Charset `%s' is unknown or ambiguous"
 msgstr ""
 
-#: src/main.c:735
+#: src/main.c:733
 #, c-format
 msgid "Required argument is missing"
 msgstr ""
 
-#: src/main.c:744
+#: src/main.c:742
 #, c-format
 msgid "Request `%s' is erroneous"
 msgstr ""
 
-#: src/main.c:841
+#: src/main.c:846
 #, c-format
 msgid "Recoding %s..."
 msgstr ""
 
-#: src/main.c:851
+#: src/main.c:856
 #, c-format
 msgid " done\n"
 msgstr ""
 
-#: src/main.c:889
+#: src/main.c:894
 #, c-format
-msgid " failed: %s in step `%s..%s'\n"
+msgid " failed: %s%s%s%s%s%s\n"
 msgstr ""
 
-#: src/main.c:896
-#, c-format
-msgid "%s failed: %s in step `%s..%s'"
+#: src/main.c:896 src/main.c:906 src/main.c:928
+msgid " in step `"
 msgstr ""
 
-#: src/main.c:915
+#: src/main.c:898 src/main.c:908 src/main.c:930
+msgid ".."
+msgstr ""
+
+#: src/main.c:900 src/main.c:910 src/main.c:932
+msgid "'"
+msgstr ""
+
+#: src/main.c:904
 #, c-format
-msgid "%s in step `%s..%s'"
+msgid "%s failed: %s%s%s%s%s%s"
+msgstr ""
+
+#: src/main.c:926
+#, c-format
+msgid "%s%s%s%s%s%s"
 msgstr ""
 
 #: src/names.c:353
@@ -421,7 +433,7 @@ msgstr ""
 msgid "Expecting `..' in request"
 msgstr ""
 
-#: src/task.c:458
+#: src/task.c:463
 #, c-format
 msgid "Child process wait status is 0x%0.2x"
 msgstr ""
