@@ -86,7 +86,7 @@ close_mixed (struct mixed *mixed)
       && fclose (mixed->subtask.task->input.file) != 0)
     return false;
   if (mixed->subtask.task->output.file
-      && fclose (mixed->subtask.task->output.file))
+      && fclose (mixed->subtask.task->output.file) != 0)
     return false;
   return true;
 }

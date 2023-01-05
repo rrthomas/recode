@@ -172,3 +172,5 @@ gnulib-comp.m4
 /vararrays.m4
 /year2038.m4
 /zzgnulib.m4
+/assert_h.m4
+/c-bool.m4

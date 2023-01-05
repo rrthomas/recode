@@ -859,7 +859,7 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
 
                   /* Close the file. */
 
-                  if (fclose(task->output.file) == EOF)
+                  if (fclose (task->output.file) == EOF)
                     error (EXIT_FAILURE, errno, "close ()");
 
 		  /* Move the new file over the original.  */
