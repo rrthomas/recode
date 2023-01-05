@@ -28,7 +28,7 @@ for:
     only:
       - APPVEYOR_BUILD_WORKER_IMAGE: macos
   init:
-    - brew install autoconf automake help2man cython flex texinfo
+    - brew install autoconf automake help2man python cython flex texinfo
     - /usr/local/bin/python3 -V
     - export PATH="/usr/local/opt/flex/bin:/usr/local/opt/m4/bin:/usr/local/opt/texinfo/bin:/usr/local/opt/gettext/bin:/usr/local/opt/cython/bin:$PATH"
   environment:
