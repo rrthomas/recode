@@ -891,17 +891,23 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
 		  success = false;
 		  if (verbose_flag)
 		    {
-		      fprintf (stderr, _(" failed: %s in step `%s..%s'\n"),
+		      fprintf (stderr, _(" failed: %s%s%s%s%s%s\n"),
 			       task_perror (task),
-			       task->error_at_step->before->name,
-			       task->error_at_step->after->name);
+                               task->error_at_step ? _(" in step `") : "",
+			       task->error_at_step ? task->error_at_step->before->name : "",
+                               task->error_at_step ? _("..") : "",
+			       task->error_at_step ? task->error_at_step->after->name : "",
+                               task->error_at_step ? _("'") : "");
 		      fflush (stderr);
 		    }
 		  else if (!quiet_flag)
-		    error (0, 0, _("%s failed: %s in step `%s..%s'"),
+		    error (0, 0, _("%s failed: %s%s%s%s%s%s"),
 			   input_name, task_perror (task),
-			   task->error_at_step->before->name,
-			   task->error_at_step->after->name);
+                           task->error_at_step ? _(" in step `") : "",
+                           task->error_at_step ? task->error_at_step->before->name : "",
+                           task->error_at_step ? _("..") : "",
+                           task->error_at_step ? task->error_at_step->after->name : "",
+                           task->error_at_step ? _("'") : "");
 
 		  unlink (output_name);
 		}
@@ -917,10 +923,13 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
 	  {
 	    success = false;
 	    if (!quiet_flag)
-	      error (0, 0, _("%s in step `%s..%s'"),
+	      error (0, 0, _("%s%s%s%s%s%s"),
 		     task_perror (task),
-		     task->error_at_step->before->name,
-		     task->error_at_step->after->name);
+                     task->error_at_step ? _(" in step `") : "",
+                     task->error_at_step ? task->error_at_step->before->name : "",
+                     task->error_at_step ? _("..") : "",
+                     task->error_at_step ? task->error_at_step->after->name : "",
+                     task->error_at_step ? _("'") : "");
 	  }
       }
   }
