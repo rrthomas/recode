@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 1998, Wolfram Schneider <wosch@freebsd.org>
- *                     Konrad Zuse Zentrum für Informationstechnik Berlin.
+ *                     Konrad Zuse Zentrum fÃ¼r Informationstechnik Berlin.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,7 @@
  * available documentation ;-(
  * 
  * The character conversion based on the german MAB2 (Maschinelles 
- * Austauschformat für Bibliotheken) documentation, October 1996, 
+ * Austauschformat fÃ¼r Bibliotheken) documentation, October 1996, 
  * die Deutsche Bibliothek, Frankfurt am Main. 
  * URL: http://www.ddb.de, ftp://ftp.ddb.de/pub/mab/
  *

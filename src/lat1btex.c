@@ -1,5 +1,5 @@
 /* Conversion of files between different charsets and surfaces.
-   Copyright © 2006 Free Software Foundation, Inc.
+   Copyright Â© 2006 Free Software Foundation, Inc.
    Contributed by Vincent Danjean <vdanjean@debian.org>, 2006.
    Modified from lat1ltex.c
 
