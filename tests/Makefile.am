@@ -31,9 +31,6 @@ CLEANFILES = Recode.body.c
 DISTCLEANFILES = Recode.c
 
 if HAVE_CYTHON
-clean-local:
-	rm -f *@pyextext@
-
 # TESTS_ENVIRONMENT_EXTRA can be set at configure time
 check-local: Recode@pyextext@
 	export LD_LIBRARY_PATH=$(top_builddir)/src/@objdir@; \
@@ -57,3 +54,6 @@ check-local:
 	echo "The tests need cython to run!"
 	exit 1
 endif
+
+clean-local:
+	rm -rf __pycache__ *@pyextext@
