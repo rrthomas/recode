@@ -24,8 +24,6 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *  $Id: iso5426lat1.l,v 1.4 1998/02/26 17:57:38 wolfram Exp $
- *
  *
  * iso5426 to iso8859-1 conversion. This file support only a subset
  * of ISO 5426:1983. It is incomplete due the lack of free

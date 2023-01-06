@@ -24,8 +24,6 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *  $Id: ansellat1.l,v 1.1 1998/03/25 11:34:53 wolfram Exp wolfram $
- *
  *
  * 8-Bit ANSEL to ISO8859-1 conversion. This file support only a subset
  * of Z39.47-1993 (ANSEL). It is incomplete due the lack of free

@@ -1,14 +1,5 @@
-/*
- * Copyright (c) 1998, Wolfram Schneider <wosch@freebsd.org>
- *                     Konrad Zuse Zentrum für Informationstechnik Berlin.
- * All rights reserved.
- *
- * Read the file iso5426lat1.l for more information about iso5426.
- *
- */
-
 /* Conversion of files between different charsets and usages.
-   Copyright (C) 1990-1993 Free Software Foundation, Inc.
+   Copyright (C) 1990-2018 Free Software Foundation, Inc.
    Francois Pinard <pinard@iro.umontreal.ca>, 1988.
 
    This program is free software; you can redistribute it and/or modify
@@ -25,6 +16,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+
+/*
+ * Copyright (c) 1998, Wolfram Schneider <wosch@freebsd.org>
+ *                     Konrad Zuse Zentrum für Informationstechnik Berlin.
+ * All rights reserved.
+ *
+ * Read the file iso5426lat1.l for more information about iso5426.
+ *
+ */
 
 
 #include "config.h"

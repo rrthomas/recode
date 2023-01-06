@@ -1,6 +1,5 @@
 /* Conversion of files between different charsets and surfaces.
-   Copyright © 1997-2000 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
+   Copyright © 1997-2018 Free Software Foundation, Inc.
    Contributed by François Pinard <pinard@iro.umontreal.ca>, 1997.
 
    This library is free software; you can redistribute it and/or

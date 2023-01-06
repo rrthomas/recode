@@ -1,5 +1,5 @@
 /* Conversion of files between different charsets and surfaces.
-   Copyright © 1996-2000 Free Software Foundation, Inc.
+   Copyright © 1996-2019 Free Software Foundation, Inc.
    Contributed by François Pinard <pinard@iro.umontreal.ca>, 1997.
 
    This library is free software; you can redistribute it and/or

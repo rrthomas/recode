@@ -1,5 +1,5 @@
 # Makefile for Recode sources.
-# Copyright © 1991-2000 Free Software Foundation, Inc.
+# Copyright © 1991-2023 Free Software Foundation, Inc.
 # François Pinard <pinard@iro.umontreal.ca>, 1988.
 
 # This program is free software; you can redistribute it and/or modify
