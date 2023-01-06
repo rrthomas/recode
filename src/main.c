@@ -220,7 +220,7 @@ Listings:\n\
   -k, --known=PAIRS          restrict charsets according to known PAIRS list\n\
   -h, --header[=[LN/]NAME]   write table NAME on stdout using LN, then exit\n\
   -T, --find-subsets         report all charsets being subset of others\n\
-  -C, --copyright            display Copyright and copying conditions\n\
+  -C, --copyright            display copyright and copying conditions\n\
       --help                 display this help and exit\n\
       --version              output version information and exit\n\
 "),
