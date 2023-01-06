@@ -1,5 +1,5 @@
 ;;; recode.el --- Outils divers autour des jeux de caractères nationaux.
-;;; Copyright © 1995, 1997 Progiciels Bourbeau-Pinard inc.
+;;; Copyright © 1995-1997 Progiciels Bourbeau-Pinard inc.
 ;;; François Pinard <pinard@iro.umontreal.ca>, Mars 1995.
 
 ;; Ce programme est un logiciel libre; vous pouvez le redistribuer ou le

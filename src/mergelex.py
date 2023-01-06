@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Conversion of files between different charsets and surfaces.
-# Copyright © 1990, 93, 94, 95, 97, 99, 00 Free Software Foundation, Inc.
+# Copyright © 1990-2000 Free Software Foundation, Inc.
 # François Pinard <pinard@iro.umontreal.ca>, 1990.
 #
 # This program is free software; you can redistribute it and/or modify

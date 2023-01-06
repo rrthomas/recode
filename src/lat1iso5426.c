@@ -8,7 +8,7 @@
  */
 
 /* Conversion of files between different charsets and usages.
-   Copyright (C) 1990, 1993 Free Software Foundation, Inc.
+   Copyright (C) 1990-1993 Free Software Foundation, Inc.
    Francois Pinard <pinard@iro.umontreal.ca>, 1988.
 
    This program is free software; you can redistribute it and/or modify

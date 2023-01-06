@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Python interface to the Recode C library, for testing.
-# Copyright © 1996-2000, 2008 Free Software Foundation, Inc.
+# Copyright © 1996-2008 Free Software Foundation, Inc.
 # François Pinard <pinard@iro.umontreal.ca>, 1988.
 
 # This program is free software; you can redistribute it and/or modify

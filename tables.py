@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # Automatically derive Recode table files from various sources.
-# Copyright © 1993, 1994, 1997, 1998, 1999, 2000 Free Software Foundation, Inc.
+# Copyright © 1993-2000 Free Software Foundation, Inc.
 # François Pinard <pinard@iro.umontreal.ca>, 1993.
 
 # This program is free software; you can redistribute it and/or modify
