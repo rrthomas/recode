@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 1998, Wolfram Schneider <wosch@freebsd.org>
- *                     Konrad Zuse Zentrum für Informationstechnik Berlin.
+ *                     Konrad Zuse Zentrum fÃ¼r Informationstechnik Berlin.
  * All rights reserved.
  *
  * Read the file iso5426lat1.l for more information about iso5426.
