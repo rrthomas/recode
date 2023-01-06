@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 1998, Wolfram Schneider <wosch@freebsd.org>
- *                     Konrad Zuse Zentrum für Informationstechnik Berlin.
+ *                     Konrad Zuse Zentrum fÃ¼r Informationstechnik Berlin.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
