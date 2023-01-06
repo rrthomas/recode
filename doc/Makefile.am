@@ -18,6 +18,7 @@
 AUTOMAKE_OPTIONS = gnits
 info_TEXINFOS = recode.texi
 MAKEINFO = LANG= LANGUAGE= @MAKEINFO@
+TEXINFO_TEX = $(srcdir)/../build-aux/texinfo.tex
 
 EXTRA_DIST = rfc1345.texi File-Latin1
 MOSTLYCLEANFILES = recode.ops
@@ -29,12 +30,12 @@ MNEMONICS_DS = $(KELD)/iso10646.def $(KELD)/other.def $(KELD)/control.def
 
 TABLES_PY = $(PYTHON) $(top_srcdir)/tables.py
 
-$(srcdir)/recode.info: rfc1345.texi
-recode.pdf recode.dvi: rfc1345.texi
-
 # Disable dvi target, to avoid needing TeX for make distcheck
 # (and in any case, no-one wants DVI)
 dvi:
+
+$(srcdir)/recode.info: rfc1345.texi
+recode.pdf: rfc1345.texi
 
 # There is duplication of work with making src/strip-{pool,data}.c.
 # This used to be combined, but it seems clearer to keep both separate.
