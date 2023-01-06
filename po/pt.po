@@ -77,7 +77,7 @@ msgstr ""
 "COMERCIABILIDADE ou ADEQUAÇÃO A UM DETERMINADO PROPÓSITO. Veja\n"
 "a Licença Pública Geral GNU para obter mais detalhes.\n"
 "\n"
-"Junto deste programa, deve ter recebido uma cópia da Licença Pública
+"Junto deste programa, deve ter recebido uma cópia da Licença Pública\n"
 "Geral GNU. Se não a recebeu, veja <https://www.gnu.org/licenses/>.\n"
 
 #: src/main.c:199
