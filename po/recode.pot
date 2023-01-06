@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU recode 3.7.13\n"
 "Report-Msgid-Bugs-To: rrt@sc3d.org\n"
-"POT-Creation-Date: 2023-01-05 20:50+0100\n"
+"POT-Creation-Date: 2023-01-06 11:41+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -223,7 +223,7 @@ msgstr ""
 #: src/main.c:630
 msgid ""
 "\n"
-"Copyright (C) 1990-2022 Free Software Foundation, Inc.\n"
+"Copyright (C) 1990-2023 Free Software Foundation, Inc.\n"
 msgstr ""
 
 #: src/main.c:634
