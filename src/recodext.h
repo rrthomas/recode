@@ -23,18 +23,18 @@
 
 /* Internal typedefs, to supplement those in "recode.h".  */
 
-typedef struct recode_symbol *			RECODE_SYMBOL;
-typedef struct recode_option_list *		RECODE_OPTION_LIST;
-typedef struct recode_single *			RECODE_SINGLE;
-typedef struct recode_step *			RECODE_STEP;
-typedef struct recode_alias *			RECODE_ALIAS;
-typedef struct recode_subtask *			RECODE_SUBTASK;
+typedef struct recode_symbol *                  RECODE_SYMBOL;
+typedef struct recode_option_list *             RECODE_OPTION_LIST;
+typedef struct recode_single *                  RECODE_SINGLE;
+typedef struct recode_step *                    RECODE_STEP;
+typedef struct recode_alias *                   RECODE_ALIAS;
+typedef struct recode_subtask *                 RECODE_SUBTASK;
 
-typedef const struct recode_option_list *	RECODE_CONST_OPTION_LIST;
-typedef const struct recode_outer *		RECODE_CONST_OUTER;
-typedef const struct recode_step *		RECODE_CONST_STEP;
-typedef const struct recode_alias *		RECODE_CONST_ALIAS;
-typedef const struct recode_task *		RECODE_CONST_TASK;
+typedef const struct recode_option_list *       RECODE_CONST_OPTION_LIST;
+typedef const struct recode_outer *             RECODE_CONST_OUTER;
+typedef const struct recode_step *              RECODE_CONST_STEP;
+typedef const struct recode_alias *             RECODE_CONST_ALIAS;
+typedef const struct recode_task *              RECODE_CONST_TASK;
 
 /*--------------------------------------------------------------------------.
 | Return from SUBTASK, with `false' if the failure level has been reached.  |
@@ -49,9 +49,9 @@ typedef const struct recode_task *		RECODE_CONST_TASK;
 `-------------------------------------------------------------------------*/
 
 #define RETURN_IF_NOGO(Error, Subtask) \
-  do {								\
-    if (recode_if_nogo (Error, Subtask))			\
-       SUBTASK_RETURN (Subtask);				\
+  do {                                                          \
+    if (recode_if_nogo (Error, Subtask))                        \
+       SUBTASK_RETURN (Subtask);                                \
   } while (false)
 
 /* Various structure declarations.  */
@@ -64,23 +64,23 @@ typedef const struct recode_task *		RECODE_CONST_TASK;
 
 enum recode_error
   {
-    RECODE_NO_ERROR,		/* no error so far */
-    RECODE_NOT_CANONICAL,	/* input is not exact, but equivalent */
-    RECODE_AMBIGUOUS_OUTPUT,	/* output will be misleading */
-    RECODE_UNTRANSLATABLE,	/* input is getting lost, while valid */
-    RECODE_INVALID_INPUT,	/* input is getting lost, but was invalid */
-    RECODE_SYSTEM_ERROR,	/* system returned input/output failure */
-    RECODE_USER_ERROR,		/* library is being misused */
-    RECODE_INTERNAL_ERROR,	/* programming botch in the library */
-    RECODE_MAXIMUM_ERROR	/* impossible value (should be kept last) */
+    RECODE_NO_ERROR,            /* no error so far */
+    RECODE_NOT_CANONICAL,       /* input is not exact, but equivalent */
+    RECODE_AMBIGUOUS_OUTPUT,    /* output will be misleading */
+    RECODE_UNTRANSLATABLE,      /* input is getting lost, while valid */
+    RECODE_INVALID_INPUT,       /* input is getting lost, but was invalid */
+    RECODE_SYSTEM_ERROR,        /* system returned input/output failure */
+    RECODE_USER_ERROR,          /* library is being misused */
+    RECODE_INTERNAL_ERROR,      /* programming botch in the library */
+    RECODE_MAXIMUM_ERROR        /* impossible value (should be kept last) */
   };
 
 /* Structure for relating alias names to charsets and surfaces.  */
 
 struct recode_alias
   {
-    const char *name;		/* charset, surface or alias name */
-    RECODE_SYMBOL symbol;	/* associated symbol */
+    const char *name;           /* charset, surface or alias name */
+    RECODE_SYMBOL symbol;       /* associated symbol */
     /* If a charset, list of surfaces usually applied by default.  */
     struct recode_surface_list *implied_surfaces;
   };
@@ -89,19 +89,19 @@ struct recode_alias
 
 enum recode_size
   {
-    RECODE_1,			/* roughly one byte per character */
-    RECODE_2,			/* roughly two bytes per character */
-    RECODE_4,			/* roughly four bytes per character */
-    RECODE_N			/* variable number of bytes per character */
+    RECODE_1,                   /* roughly one byte per character */
+    RECODE_2,                   /* roughly two bytes per character */
+    RECODE_4,                   /* roughly four bytes per character */
+    RECODE_N                    /* variable number of bytes per character */
   };
 
 struct recode_quality
   {
     enum recode_size in_size : 3; /* rough byte size of input characters */
     enum recode_size out_size : 3; /* rough byte size of output characters */
-    bool reversible : 1;	/* transformation is known to be reversible */
-    bool slower : 1;		/* transformation is slower than average */
-    bool faster : 1;		/* transformation is faster than average */
+    bool reversible : 1;        /* transformation is known to be reversible */
+    bool slower : 1;            /* transformation is slower than average */
+    bool faster : 1;            /* transformation is faster than average */
   };
 
 /* Main variables of the initialised library.  */
@@ -157,7 +157,7 @@ struct recode_outer
     RECODE_SYMBOL ucs2_charset; /* UCS-2 */
     RECODE_SYMBOL iconv_pivot; /* `iconv' internal UCS */
     RECODE_SYMBOL crlf_surface; /* for IBM PC machines */
-    RECODE_SYMBOL cr_surface;	/* for Macintosh machines */
+    RECODE_SYMBOL cr_surface;   /* for Macintosh machines */
 
     /* Preset qualities, to make step initialisation simpler.  */
     struct recode_quality quality_byte_reversible;
@@ -177,16 +177,16 @@ struct recode_outer
 
 enum recode_symbol_type
   {
-    RECODE_NO_SYMBOL_TYPE,	/* missing value */
-    RECODE_CHARSET,		/* visible in the space of charsets */
-    RECODE_DATA_SURFACE		/* this is a mere data surface */
+    RECODE_NO_SYMBOL_TYPE,      /* missing value */
+    RECODE_CHARSET,             /* visible in the space of charsets */
+    RECODE_DATA_SURFACE         /* this is a mere data surface */
   };
 
 enum recode_data_type
   {
-    RECODE_NO_CHARSET_DATA,	/* the charset_table field is unused */
-    RECODE_STRIP_DATA,		/* pool pointer and array of strips */
-    RECODE_EXPLODE_DATA		/* explode variable length data */
+    RECODE_NO_CHARSET_DATA,     /* the charset_table field is unused */
+    RECODE_STRIP_DATA,          /* pool pointer and array of strips */
+    RECODE_EXPLODE_DATA         /* explode variable length data */
   };
 
 struct recode_symbol
@@ -277,15 +277,15 @@ struct recode_single
 
 enum recode_step_type
   {
-    RECODE_NO_STEP_TABLE,	/* the step_table field is unused */
-    RECODE_BYTE_TO_BYTE,	/* array of 256 bytes */
-    RECODE_BYTE_TO_STRING,	/* array of 256 strings */
-    RECODE_UCS2_TO_BYTE,	/* hash from ucs2 to byte */
-    RECODE_UCS2_TO_STRING,	/* hash from ucs2 to string */
-    RECODE_STRING_TO_UCS2,	/* hash from ucs2 to string, reversed */
-    RECODE_COMBINE_EXPLODE,	/* raw data for combining or exploding */
-    RECODE_COMBINE_STEP,	/* special hash for combining */
-    RECODE_EXPLODE_STEP		/* special hash for exploding */
+    RECODE_NO_STEP_TABLE,       /* the step_table field is unused */
+    RECODE_BYTE_TO_BYTE,        /* array of 256 bytes */
+    RECODE_BYTE_TO_STRING,      /* array of 256 strings */
+    RECODE_UCS2_TO_BYTE,        /* hash from ucs2 to byte */
+    RECODE_UCS2_TO_STRING,      /* hash from ucs2 to string */
+    RECODE_STRING_TO_UCS2,      /* hash from ucs2 to string, reversed */
+    RECODE_COMBINE_EXPLODE,     /* raw data for combining or exploding */
+    RECODE_COMBINE_STEP,        /* special hash for combining */
+    RECODE_EXPLODE_STEP         /* special hash for exploding */
   };
 
 struct recode_step
@@ -368,11 +368,11 @@ struct recode_request
     short sequence_length;
 
     /* Internal variables used while scanning request text.  */
-    char *work_string;		/* buffer space for generated work strings */
-    size_t work_string_length;	/* length of work_string */
+    char *work_string;          /* buffer space for generated work strings */
+    size_t work_string_length;  /* length of work_string */
     size_t work_string_allocated; /* allocated length of work_string */
-    const char *scan_cursor;	/* next character to be seen */
-    char *scanned_string;	/* buffer space to scan strings */
+    const char *scan_cursor;    /* next character to be seen */
+    char *scanned_string;       /* buffer space to scan strings */
   };
 
 /*--------------------------------------------------------------------.
@@ -414,9 +414,9 @@ struct recode_read_write_text
 
 enum recode_swap_input
   {
-    RECODE_SWAP_UNDECIDED,	/* the text has not been read yet */
-    RECODE_SWAP_NO,		/* no need to swap pair of bytes */
-    RECODE_SWAP_YES		/* should swap incoming pair of bytes */
+    RECODE_SWAP_UNDECIDED,      /* the text has not been read yet */
+    RECODE_SWAP_NO,             /* no need to swap pair of bytes */
+    RECODE_SWAP_YES             /* should swap incoming pair of bytes */
   };
 
 /*--------------------------------------------------------------------------.
@@ -490,8 +490,8 @@ struct recode_task
 
 struct recode_known_pair
   {
-    unsigned char left;		/* first character in pair */
-    unsigned char right;	/* second character in pair */
+    unsigned char left;         /* first character in pair */
+    unsigned char right;        /* second character in pair */
   };
 
 /*----------------------.
@@ -525,9 +525,9 @@ struct strip_data
 
 struct ucs2_to_string
   {
-    recode_ucs2 code;		/* UCS-2 value */
-    unsigned short flags;	/* various flags */
-    const char *string;		/* corresponding string */
+    recode_ucs2 code;           /* UCS-2 value */
+    unsigned short flags;       /* various flags */
+    const char *string;         /* corresponding string */
   };
 
 /* Per module declarations.  */
@@ -545,8 +545,8 @@ extern "C" {
   ALLOC_SIZE (Variable, (Count) * sizeof (Type), Type)
 
 #define REALLOC(Variable, Count, Type) \
-  (Variable = (Type *) recode_realloc (outer, Variable,		\
-				       (Count) * sizeof(Type)), \
+  (Variable = (Type *) recode_realloc (outer, Variable,         \
+                                       (Count) * sizeof(Type)), \
    Variable)
 
 void recode_error (RECODE_OUTER, const char *, ...);
@@ -573,11 +573,11 @@ const char *ucs2_to_french_charname (int);
 
 enum alias_find_type
 {
-  SYMBOL_CREATE_CHARSET,	/* charset as given, create as needed */
-  SYMBOL_CREATE_DATA_SURFACE,	/* data surface as given, create as needed */
-  ALIAS_FIND_AS_CHARSET,	/* disambiguate only as a charset */
-  ALIAS_FIND_AS_SURFACE,	/* disambiguate only as a surface */
-  ALIAS_FIND_AS_EITHER		/* disambiguate as a charset or a surface */
+  SYMBOL_CREATE_CHARSET,        /* charset as given, create as needed */
+  SYMBOL_CREATE_DATA_SURFACE,   /* data surface as given, create as needed */
+  ALIAS_FIND_AS_CHARSET,        /* disambiguate only as a charset */
+  ALIAS_FIND_AS_SURFACE,        /* disambiguate only as a surface */
+  ALIAS_FIND_AS_EITHER          /* disambiguate as a charset or a surface */
 };
 
 int code_to_ucs2 (RECODE_CONST_SYMBOL, unsigned);
@@ -701,9 +701,9 @@ bool put_ucs4 (unsigned, RECODE_SUBTASK);
 #ifdef FLEX_SCANNER
 
 # define PUT_NON_DIACRITIC_BYTE(Byte, Subtask) \
-    if (request->diacritics_only)				\
-      ECHO;							\
-    else							\
+    if (request->diacritics_only)                               \
+      ECHO;                                                     \
+    else                                                        \
       put_byte ((Byte), (Subtask))
 
 /* ECHO may not have a (Subtask) argument, because some ECHO without argument
@@ -711,11 +711,11 @@ bool put_ucs4 (unsigned, RECODE_SUBTASK);
    the rule about default copying.  Happily enough, within Flex, Subtask is
    `subtask' quite systematically, so it may be used as a constant, here.  */
 # define ECHO \
-    do {							\
-      const char *cursor = librecode_yytext;			\
-      int counter = librecode_yyleng;				\
-      for (; counter > 0; cursor++, counter--)			\
-	put_byte (*cursor, subtask);				\
+    do {                                                        \
+      const char *cursor = librecode_yytext;                    \
+      int counter = librecode_yyleng;                           \
+      for (; counter > 0; cursor++, counter--)                  \
+        put_byte (*cursor, subtask);                            \
     } while (false)
 
 #endif /* FLEX_SCANNER */

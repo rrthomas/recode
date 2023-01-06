@@ -23,7 +23,7 @@
 /* Quality handling.  */
 
 /*---------------------------------------.
-| Return a string describing a quality.	 |
+| Return a string describing a quality.  |
 `---------------------------------------*/
 
 static const char *
@@ -35,10 +35,10 @@ quality_to_string (struct recode_quality quality)
     return _("reversible");
 
   sprintf (buffer, _("%s to %s"),
-	   (quality.in_size == RECODE_1 ? _("byte")
-	    : quality.in_size == RECODE_2 ? _("ucs2") : _("variable")),
-	   (quality.out_size == RECODE_1 ? _("byte")
-	    : quality.out_size == RECODE_2 ? _("ucs2") : _("variable")));
+           (quality.in_size == RECODE_1 ? _("byte")
+            : quality.in_size == RECODE_2 ? _("ucs2") : _("variable")),
+           (quality.out_size == RECODE_1 ? _("byte")
+            : quality.out_size == RECODE_2 ? _("ucs2") : _("variable")));
   return buffer;
 }
 
@@ -49,7 +49,7 @@ quality_to_string (struct recode_quality quality)
 
 static void
 merge_qualities (struct recode_quality *first,
-		 const struct recode_quality second)
+                 const struct recode_quality second)
 {
   first->out_size = second.out_size;
   first->reversible = first->reversible && second.reversible;
@@ -72,7 +72,7 @@ add_work_character (RECODE_REQUEST request, int character)
 
       request->work_string_allocated += 100;
       new_work_string = (char *)
-	realloc (request->work_string, request->work_string_allocated);
+        realloc (request->work_string, request->work_string_allocated);
       if (new_work_string)
         request->work_string = new_work_string;
       else
@@ -95,7 +95,7 @@ add_work_string (RECODE_REQUEST request, const char *string)
 /*----------------------------------------------------------------------.
 | Generate a string describing the current sequence and return it.      |
 | Include a description of recoding quality only if EDIT_QUALITY is not |
-| zero.								        |
+| zero.                                                                 |
 `----------------------------------------------------------------------*/
 
 char *
@@ -115,83 +115,83 @@ edit_sequence (RECODE_REQUEST request, bool edit_quality)
       RECODE_STEP step = request->sequence_array;
 
       while (step < request->sequence_array + request->sequence_length)
-	{
-	  RECODE_STEP unsurfacer_start = step;
-	  RECODE_STEP unsurfacer_end;
+        {
+          RECODE_STEP unsurfacer_start = step;
+          RECODE_STEP unsurfacer_end;
 
-	  /* Find unsurfacers.  */
+          /* Find unsurfacers.  */
 
-	  while (step < request->sequence_array + request->sequence_length
-		 && step->after == outer->data_symbol)
-	    step++;
-	  unsurfacer_end = step;
+          while (step < request->sequence_array + request->sequence_length
+                 && step->after == outer->data_symbol)
+            step++;
+          unsurfacer_end = step;
 
-	  /* Print BEFORE, sparing it if syntax permits.  */
+          /* Print BEFORE, sparing it if syntax permits.  */
 
-	  if (step != unsurfacer_start
-	      || step == request->sequence_array + request->sequence_length
-	      || step->before != last_charset_printed)
-	    {
-	      if (unsurfacer_start != request->sequence_array)
-		add_work_character (request, ',');
-	      if (step < request->sequence_array + request->sequence_length)
-		{
-		  last_charset_printed = step->before;
-		  add_work_string (request, last_charset_printed->name);
-		}
-	    }
+          if (step != unsurfacer_start
+              || step == request->sequence_array + request->sequence_length
+              || step->before != last_charset_printed)
+            {
+              if (unsurfacer_start != request->sequence_array)
+                add_work_character (request, ',');
+              if (step < request->sequence_array + request->sequence_length)
+                {
+                  last_charset_printed = step->before;
+                  add_work_string (request, last_charset_printed->name);
+                }
+            }
 
-	  /* Print unsurfacers.  */
+          /* Print unsurfacers.  */
 
-	  for (step = unsurfacer_end - 1; step >= unsurfacer_start; step--)
-	    {
-	      add_work_character (request, '/');
-	      add_work_string (request, step->before->name);
-	    }
-	  step = unsurfacer_end;
+          for (step = unsurfacer_end - 1; step >= unsurfacer_start; step--)
+            {
+              add_work_character (request, '/');
+              add_work_string (request, step->before->name);
+            }
+          step = unsurfacer_end;
 
-	  /* Print AFTER.  */
+          /* Print AFTER.  */
 
-	  add_work_string (request, "..");
-	  if (step < request->sequence_array + request->sequence_length
-	      && step->before != outer->data_symbol)
-	    {
-	      last_charset_printed = step->after;
-	      add_work_string (request, last_charset_printed->name);
-	      step++;
-	    }
-	  else
-	    {
-	      last_charset_printed = outer->data_symbol;
-	      add_work_string (request, last_charset_printed->name);
-	    }
+          add_work_string (request, "..");
+          if (step < request->sequence_array + request->sequence_length
+              && step->before != outer->data_symbol)
+            {
+              last_charset_printed = step->after;
+              add_work_string (request, last_charset_printed->name);
+              step++;
+            }
+          else
+            {
+              last_charset_printed = outer->data_symbol;
+              add_work_string (request, last_charset_printed->name);
+            }
 
-	  /* Print resurfacers.  */
+          /* Print resurfacers.  */
 
-	  while (step < request->sequence_array + request->sequence_length
-		 && step->before == outer->data_symbol)
-	    {
-	      add_work_character (request, '/');
-	      last_charset_printed = NULL;
-	      add_work_string (request, step->after->name);
-	      step++;
-	    }
-	}
+          while (step < request->sequence_array + request->sequence_length
+                 && step->before == outer->data_symbol)
+            {
+              add_work_character (request, '/');
+              last_charset_printed = NULL;
+              add_work_string (request, step->after->name);
+              step++;
+            }
+        }
 
       if (edit_quality)
-	{
-	  struct recode_quality quality = outer->quality_byte_reversible;
-	  RECODE_CONST_STEP step2;
+        {
+          struct recode_quality quality = outer->quality_byte_reversible;
+          RECODE_CONST_STEP step2;
 
-	  for (step2 = request->sequence_array;
-	       step2 < request->sequence_array + request->sequence_length;
-	       step2++)
-	    merge_qualities (&quality, step2->quality);
-	  add_work_character (request, ' ');
-	  add_work_character (request, '(');
-	  add_work_string (request, quality_to_string (quality));
-	  add_work_character (request, ')');
-	}
+          for (step2 = request->sequence_array;
+               step2 < request->sequence_array + request->sequence_length;
+               step2++)
+            merge_qualities (&quality, step2->quality);
+          add_work_character (request, ' ');
+          add_work_character (request, '(');
+          add_work_string (request, quality_to_string (quality));
+          add_work_character (request, ')');
+        }
     }
 
   add_work_character (request, NUL);
@@ -207,8 +207,8 @@ edit_sequence (RECODE_REQUEST request, bool edit_quality)
 
 static bool
 add_to_sequence (RECODE_REQUEST request, RECODE_SINGLE single,
-		 RECODE_CONST_OPTION_LIST before_options,
-		 RECODE_CONST_OPTION_LIST after_options)
+                 RECODE_CONST_OPTION_LIST before_options,
+                 RECODE_CONST_OPTION_LIST after_options)
 {
   RECODE_OUTER outer = request->outer;
   RECODE_STEP step;
@@ -218,16 +218,16 @@ add_to_sequence (RECODE_REQUEST request, RECODE_SINGLE single,
       unsigned old_allocated = request->sequence_allocated;
 
       if (request->sequence_allocated == 0)
-	request->sequence_allocated = 16;
+        request->sequence_allocated = 16;
       else
-	request->sequence_allocated *= 2;
+        request->sequence_allocated *= 2;
 
       if (!REALLOC (request->sequence_array, request->sequence_allocated,
-		    struct recode_step))
-	{
-	  recode_error (outer, _("Virtual memory exhausted!"));
-	  return false;
-	}
+                    struct recode_step))
+        {
+          recode_error (outer, _("Virtual memory exhausted!"));
+          return false;
+        }
 
       memset (request->sequence_array + old_allocated, 0,
               (request->sequence_allocated - old_allocated) * sizeof (struct recode_step));
@@ -247,16 +247,16 @@ add_to_sequence (RECODE_REQUEST request, RECODE_SINGLE single,
   if (single->init_routine)
     {
       if (!(*single->init_routine) (step, request,
-				    before_options, after_options))
-	{
-	  recode_error (outer, _("Step initialisation failed"));
-	  return false;
-	}
+                                    before_options, after_options))
+        {
+          recode_error (outer, _("Step initialisation failed"));
+          return false;
+        }
     }
   else if (before_options || after_options)
     {
       recode_error (outer,
-		    _("Step initialisation failed (unprocessed options)"));
+                    _("Step initialisation failed (unprocessed options)"));
       return false;
     }
 
@@ -270,27 +270,27 @@ add_to_sequence (RECODE_REQUEST request, RECODE_SINGLE single,
 `----------------------------------------------------------------------*/
 
 /* Cost corresponding to an impossible conversion.  */
-#define UNREACHABLE	30000
+#define UNREACHABLE     30000
 
 static bool
 find_sequence (RECODE_REQUEST request,
-	       RECODE_CONST_SYMBOL before,
-	       RECODE_CONST_OPTION_LIST before_options,
-	       RECODE_CONST_SYMBOL after,
-	       RECODE_CONST_OPTION_LIST after_options)
+               RECODE_CONST_SYMBOL before,
+               RECODE_CONST_OPTION_LIST before_options,
+               RECODE_CONST_SYMBOL after,
+               RECODE_CONST_OPTION_LIST after_options)
 {
   RECODE_OUTER outer = request->outer;
   struct search
     {
       RECODE_SINGLE single; /* single step aiming towards after */
-      int cost;			/* cost from here through after */
+      int cost;                 /* cost from here through after */
     };
-  struct search *search_array;	/* critical path search tree */
-  struct search *search;	/* item in search_array for charset */
-  RECODE_SINGLE single;	/* cursor in possible single_singles */
-  int cost;			/* cost under consideration */
-  bool modified;		/* if modified since last iteration */
-  RECODE_CONST_SYMBOL charset;	/* charset while reconstructing */
+  struct search *search_array;  /* critical path search tree */
+  struct search *search;        /* item in search_array for charset */
+  RECODE_SINGLE single; /* cursor in possible single_singles */
+  int cost;                     /* cost under consideration */
+  bool modified;                /* if modified since last iteration */
+  RECODE_CONST_SYMBOL charset;  /* charset while reconstructing */
 
   if (!ALLOC (search_array, outer->number_of_symbols, struct search))
     return false;
@@ -312,21 +312,21 @@ find_sequence (RECODE_REQUEST request,
     {
       modified = false;
       for (single = outer->single_list; single; single = single->next)
-	if (!single->before->ignore)
-	  {
-	    cost = search_array[single->after->ordinal].cost;
-	    if (cost != UNREACHABLE)
-	      {
-		cost += single->conversion_cost;
-		search = search_array + single->before->ordinal;
-		if (cost < search->cost)
-		  {
-		    search->single = single;
-		    search->cost = cost;
-		    modified = true;
-		  }
-	      }
-	  }
+        if (!single->before->ignore)
+          {
+            cost = search_array[single->after->ordinal].cost;
+            if (cost != UNREACHABLE)
+              {
+                cost += single->conversion_cost;
+                search = search_array + single->before->ordinal;
+                if (cost < search->cost)
+                  {
+                    search->single = single;
+                    search->cost = cost;
+                    modified = true;
+                  }
+              }
+          }
     }
 
   if (search_array[before->ordinal].cost == UNREACHABLE)
@@ -343,9 +343,9 @@ find_sequence (RECODE_REQUEST request,
     {
       single = search_array[charset->ordinal].single;
       if (!add_to_sequence (request, single,
-			    charset == before ? before_options : NULL,
-			    single->after == after ? after_options : NULL))
-	break;
+                            charset == before ? before_options : NULL,
+                            single->after == after ? after_options : NULL))
+        break;
     }
 
   free (search_array);
@@ -360,7 +360,7 @@ find_sequence (RECODE_REQUEST request,
 
 static enum recode_step_type
 table_type (RECODE_CONST_REQUEST request,
-	    RECODE_CONST_STEP step)
+            RECODE_CONST_STEP step)
 {
   /* When producing source headers, we do not care about algorithms.  */
 
@@ -369,37 +369,37 @@ table_type (RECODE_CONST_REQUEST request,
     switch (step->step_type)
       {
       case RECODE_BYTE_TO_BYTE:
-	if (step->transform_routine != transform_byte_to_byte)
-	  return RECODE_NO_STEP_TABLE;
-	break;
+        if (step->transform_routine != transform_byte_to_byte)
+          return RECODE_NO_STEP_TABLE;
+        break;
 
       case RECODE_BYTE_TO_STRING:
-	if (step->transform_routine != transform_byte_to_variable)
-	  return RECODE_NO_STEP_TABLE;
-	break;
+        if (step->transform_routine != transform_byte_to_variable)
+          return RECODE_NO_STEP_TABLE;
+        break;
 
       default:
-	return RECODE_NO_STEP_TABLE;
+        return RECODE_NO_STEP_TABLE;
       }
 
   return step->step_type;
 }
 
 /*---------------------------------------------------------------.
-| Order two struct item's lexicographically of their key value.	 |
+| Order two struct item's lexicographically of their key value.  |
 `---------------------------------------------------------------*/
 
 struct item
   {
-    unsigned short code;	/* UCS-2 value */
-    unsigned char byte;		/* charset code [0..255] */
+    unsigned short code;        /* UCS-2 value */
+    unsigned char byte;         /* charset code [0..255] */
   };
 
 static int
 compare_struct_item (const void *void_first, const void *void_second)
 {
   return (((const struct item *) void_first)->code
-	  - ((const struct item *) void_second)->code);
+          - ((const struct item *) void_second)->code);
 }
 
 /*------------------------------------------------------------------------.
@@ -414,25 +414,25 @@ complete_double_ucs2_step (RECODE_OUTER outer, RECODE_STEP step)
 {
   struct side
     {
-      RECODE_SYMBOL charset;	/* charset */
-      struct item item[256];	/* array of binding items */
-      size_t number_of_items;	/* number of binding items in array */
+      RECODE_SYMBOL charset;    /* charset */
+      struct item item[256];    /* array of binding items */
+      size_t number_of_items;   /* number of binding items in array */
     };
 
   const struct strip_data *data; /* UCS-2 data table */
-  struct side side_array[2];	/* information for each side */
-  struct side *side;		/* cursor into side_array */
-  bool reversed;		/* if both sides reversed */
-  const recode_ucs2 *pool;	/* pool for fetching UCS-2 characters */
-  unsigned offset;		/* cursor in double table strings */
-  unsigned byte;		/* character code */
-  unsigned row_counter;		/* double table row counter */
-  unsigned position_counter;	/* double table column counter */
-  struct item *item_cursor;	/* cursor in arrays of binding items */
-  struct item *left;		/* left binding items cursor */
-  struct item *left_limit;	/* limit value for left */
-  struct item *right;		/* right binding items cursor */
-  struct item *right_limit;	/* limit value for right */
+  struct side side_array[2];    /* information for each side */
+  struct side *side;            /* cursor into side_array */
+  bool reversed;                /* if both sides reversed */
+  const recode_ucs2 *pool;      /* pool for fetching UCS-2 characters */
+  unsigned offset;              /* cursor in double table strings */
+  unsigned byte;                /* character code */
+  unsigned row_counter;         /* double table row counter */
+  unsigned position_counter;    /* double table column counter */
+  struct item *item_cursor;     /* cursor in arrays of binding items */
+  struct item *left;            /* left binding items cursor */
+  struct item *left_limit;      /* limit value for left */
+  struct item *right;           /* right binding items cursor */
+  struct item *right_limit;     /* limit value for right */
   struct recode_known_pair pair_array[256]; /* obtained pairings */
   struct recode_known_pair *pair_cursor; /* cursor in array of pairings */
 
@@ -465,26 +465,26 @@ complete_double_ucs2_step (RECODE_OUTER outer, RECODE_STEP step)
       byte = 0;
 
       for (row_counter = 0;
-	   row_counter < (256 / STRIP_SIZE);
-	   row_counter++)
-	if (offset = data->offset[row_counter], offset)
-	  for (position_counter = 0;
-	       position_counter < STRIP_SIZE;
-	       position_counter++)
-	    {
-	      unsigned code = pool[offset + position_counter];
+           row_counter < (256 / STRIP_SIZE);
+           row_counter++)
+        if (offset = data->offset[row_counter], offset)
+          for (position_counter = 0;
+               position_counter < STRIP_SIZE;
+               position_counter++)
+            {
+              unsigned code = pool[offset + position_counter];
 
-	      if (code != BIT_MASK (16))
-		{
-		  /* Establish a new binding item.  */
-		  item_cursor->byte = byte;
-		  item_cursor->code = code;
-		  item_cursor++;
-		}
-	      byte++;
-	    }
-	else
-	  byte += STRIP_SIZE;
+              if (code != BIT_MASK (16))
+                {
+                  /* Establish a new binding item.  */
+                  item_cursor->byte = byte;
+                  item_cursor->code = code;
+                  item_cursor++;
+                }
+              byte++;
+            }
+        else
+          byte += STRIP_SIZE;
 
       side->number_of_items = item_cursor - side->item;
     }
@@ -494,9 +494,9 @@ complete_double_ucs2_step (RECODE_OUTER outer, RECODE_STEP step)
      pairing is completed in a time which is linear instead of quadratic.  */
 
   qsort (side_array[0].item, side_array[0].number_of_items,
-	 sizeof (struct item), compare_struct_item);
+         sizeof (struct item), compare_struct_item);
   qsort (side_array[1].item, side_array[1].number_of_items,
-	 sizeof (struct item), compare_struct_item);
+         sizeof (struct item), compare_struct_item);
 
   /* Scan both arrays of binding items simultaneously, saving as pairs
      those codes having the same UCS-2 value.  */
@@ -512,22 +512,22 @@ complete_double_ucs2_step (RECODE_OUTER outer, RECODE_STEP step)
       int value = left->code - right->code;
 
       if (value < 0)
-	left++;
+        left++;
       else if (value > 0)
-	right++;
+        right++;
       else
-	{
-	  pair_cursor->left = (left++)->byte;
-	  pair_cursor->right = (right++)->byte;
-	  pair_cursor++;
-	}
+        {
+          pair_cursor->left = (left++)->byte;
+          pair_cursor->right = (right++)->byte;
+          pair_cursor++;
+        }
     }
 
   /* Complete the recoding table out of this.  */
 
   return
     complete_pairs (outer, step,
-		    pair_array, pair_cursor - pair_array, false, reversed);
+                    pair_array, pair_cursor - pair_array, false, reversed);
 }
 
 static bool
@@ -558,14 +558,14 @@ simplify_sequence (RECODE_REQUEST request)
 {
   RECODE_OUTER outer = request->outer;
 
-  unsigned saved_steps;		/* number of saved steps */
+  unsigned saved_steps;         /* number of saved steps */
   RECODE_STEP in;               /* next studied sequence step */
   RECODE_STEP out;              /* next rewritten sequence step */
   RECODE_STEP limit;            /* last value for IN */
-  unsigned char *accum;		/* byte_to_byte accumulated recoding */
-  const char **string;		/* byte_to_variable recoding */
-  unsigned char temp[256];	/* temporary value for accum array */
-  unsigned counter;		/* all purpose counter */
+  unsigned char *accum;         /* byte_to_byte accumulated recoding */
+  const char **string;          /* byte_to_variable recoding */
+  unsigned char temp[256];      /* temporary value for accum array */
+  unsigned counter;             /* all purpose counter */
 
   /* Tell users what is the goal.  */
 
@@ -582,49 +582,49 @@ simplify_sequence (RECODE_REQUEST request)
 
   while (in < limit)
     if (in < limit - 1
-	&& in[0].before->data_type == RECODE_STRIP_DATA
-	&& in[0].after == outer->ucs2_charset
-	&& in[1].before == outer->ucs2_charset
-	&& in[1].after->data_type == RECODE_STRIP_DATA)
+        && in[0].before->data_type == RECODE_STRIP_DATA
+        && in[0].after == outer->ucs2_charset
+        && in[1].before == outer->ucs2_charset
+        && in[1].after->data_type == RECODE_STRIP_DATA)
       {
         /* Free old steps before overwriting anything.  */
         delete_step (in);
         delete_step (in + 1);
 
-	/* This is a double UCS-2 step.  */
-	out->before = in[0].before;
-	out->after = in[1].after;
-	out->quality = in[0].quality;
-	merge_qualities (&out->quality, in[1].quality);
-	out->transform_routine = transform_byte_to_byte;
+        /* This is a double UCS-2 step.  */
+        out->before = in[0].before;
+        out->after = in[1].after;
+        out->quality = in[0].quality;
+        merge_qualities (&out->quality, in[1].quality);
+        out->transform_routine = transform_byte_to_byte;
 
-	/* Initialize the new single step, so it can be later merged with
-	   others.  */
-	if (!complete_double_ucs2_step (outer, out))
-	  return false;
+        /* Initialize the new single step, so it can be later merged with
+           others.  */
+        if (!complete_double_ucs2_step (outer, out))
+          return false;
 
-	in += 2;
-	saved_steps++;
-	out++;
+        in += 2;
+        saved_steps++;
+        out++;
       }
     else if (in < limit - 1
-	     && in[0].after == outer->iconv_pivot
-	     && in[1].before == outer->iconv_pivot)
+             && in[0].after == outer->iconv_pivot
+             && in[1].before == outer->iconv_pivot)
       {
         /* Free old steps before overwriting anything.  */
         delete_step (in);
         delete_step (in + 1);
 
-	/* This is a double `iconv' step.  */
-	out->before = in[0].before;
-	out->after = in[1].after;
-	out->quality = in[0].quality;
-	merge_qualities (&out->quality, in[1].quality);
-	out->transform_routine = transform_with_iconv;
+        /* This is a double `iconv' step.  */
+        out->before = in[0].before;
+        out->after = in[1].after;
+        out->quality = in[0].quality;
+        merge_qualities (&out->quality, in[1].quality);
+        out->transform_routine = transform_with_iconv;
 
-	in += 2;
-	saved_steps++;
-	out++;
+        in += 2;
+        saved_steps++;
+        out++;
       }
     else if (out != in)
       *out++ = *in++;
@@ -643,75 +643,75 @@ simplify_sequence (RECODE_REQUEST request)
 
   while (in < limit)
     if (in < limit - 1
-	&& table_type (request, in) == RECODE_BYTE_TO_BYTE
-	&& table_type (request, in + 1) != RECODE_NO_STEP_TABLE
+        && table_type (request, in) == RECODE_BYTE_TO_BYTE
+        && table_type (request, in + 1) != RECODE_NO_STEP_TABLE
 
-	/* Initialise a cumulative one-to-one recoding with the identity
-	   permutation.  Just avoid doing it if not enough memory.  */
+        /* Initialise a cumulative one-to-one recoding with the identity
+           permutation.  Just avoid doing it if not enough memory.  */
 
-	&& ALLOC (accum, 256, unsigned char))
+        && ALLOC (accum, 256, unsigned char))
       {
-	memcpy (accum, in->step_table, 256);
-	out->before = in->before;
-	out->after = in->after;
-	out->quality = in->quality;
-	delete_step (in++);
+        memcpy (accum, in->step_table, 256);
+        out->before = in->before;
+        out->after = in->after;
+        out->quality = in->quality;
+        delete_step (in++);
 
-	/* Merge in all consecutive one-to-one recodings.  */
+        /* Merge in all consecutive one-to-one recodings.  */
 
-	while (in < limit
-	       && (table_type (request, in) == RECODE_BYTE_TO_BYTE))
-	  {
-	    const unsigned char *table = (const unsigned char *) in->step_table;
+        while (in < limit
+               && (table_type (request, in) == RECODE_BYTE_TO_BYTE))
+          {
+            const unsigned char *table = (const unsigned char *) in->step_table;
 
-	    for (counter = 0; counter < 256; counter++)
-	      temp[counter] = table[accum[counter]];
-	    memcpy (accum, temp, 256);
+            for (counter = 0; counter < 256; counter++)
+              temp[counter] = table[accum[counter]];
+            memcpy (accum, temp, 256);
 
-	    out->after = in->after;
-	    merge_qualities (&out->quality, in->quality);
-	    delete_step (in++);
-	    saved_steps++;
-	  }
+            out->after = in->after;
+            merge_qualities (&out->quality, in->quality);
+            delete_step (in++);
+            saved_steps++;
+          }
 
-	/* Check for *one* possible one-to-many recoding.  */
+        /* Check for *one* possible one-to-many recoding.  */
 
-	if (in < limit && (table_type (request, in) == RECODE_BYTE_TO_STRING)
+        if (in < limit && (table_type (request, in) == RECODE_BYTE_TO_STRING)
 
-	    /* Merge in the one-to-many recoding.  Just avoid doing it if not
-	       enough memory.  */
+            /* Merge in the one-to-many recoding.  Just avoid doing it if not
+               enough memory.  */
 
-	    && (ALLOC (string, 256, const char *)))
-	  {
-	    const char *const *table = (const char *const *) in->step_table;
+            && (ALLOC (string, 256, const char *)))
+          {
+            const char *const *table = (const char *const *) in->step_table;
 
-	    for (counter = 0; counter < 256; counter++)
-	      string[counter] = table[accum[counter]];
-	    free (accum);
-	    out->step_type = RECODE_BYTE_TO_STRING;
-	    out->step_table = string;
+            for (counter = 0; counter < 256; counter++)
+              string[counter] = table[accum[counter]];
+            free (accum);
+            out->step_type = RECODE_BYTE_TO_STRING;
+            out->step_table = string;
             if (in->step_table_term_routine)
               {
                 out->local = (void *) table;   /* Save reference to old table for destructor.  */
                 out->term_routine = delete_compressed_one_to_many;
               }
             out->step_table_term_routine = free;
-	    out->transform_routine = transform_byte_to_variable;
-	    out->after = in->after;
-	    merge_qualities (&out->quality, in->quality);
-	    in++;
-	    saved_steps++;
-	  }
-	else
-	  {
-	    /* Make the new single step be a one-to-one recoding.  */
+            out->transform_routine = transform_byte_to_variable;
+            out->after = in->after;
+            merge_qualities (&out->quality, in->quality);
+            in++;
+            saved_steps++;
+          }
+        else
+          {
+            /* Make the new single step be a one-to-one recoding.  */
 
-	    out->step_type = RECODE_BYTE_TO_BYTE;
-	    out->step_table = accum;
-	    out->transform_routine = transform_byte_to_byte;
-	  }
+            out->step_type = RECODE_BYTE_TO_BYTE;
+            out->step_table = accum;
+            out->transform_routine = transform_byte_to_byte;
+          }
 
-	out++;
+        out++;
       }
     else if (out != in)
       *out++ = *in++;
@@ -753,8 +753,8 @@ scan_identifier (RECODE_REQUEST request)
   char *cursor = request->scanned_string;
 
   while (*request->scan_cursor && *request->scan_cursor != ','
-	 && (request->scan_cursor[0] != '.' || request->scan_cursor[1] != '.')
-	 && *request->scan_cursor != '/' && *request->scan_cursor != '+')
+         && (request->scan_cursor[0] != '.' || request->scan_cursor[1] != '.')
+         && *request->scan_cursor != '/' && *request->scan_cursor != '+')
     *cursor++ = *request->scan_cursor++;
   *cursor = NUL;
 
@@ -776,25 +776,25 @@ scan_options (RECODE_REQUEST request)
   while (*request->scan_cursor == '+')
     {
       RECODE_OPTION_LIST new_
-	= ALLOC (new_, 1, struct recode_option_list);
+        = ALLOC (new_, 1, struct recode_option_list);
       char *copy;
 
       if (!new_)
-	break;			/* FIXME: should interrupt decoding */
+        break;                  /* FIXME: should interrupt decoding */
 
       request->scan_cursor++;
       scan_identifier (request);
       ALLOC (copy, strlen (request->scanned_string) + 1, char);
       if (!copy)
-	{
-	  free (new_);
-	  break;		/* FIXME: should interrupt decoding */
-	}
+        {
+          free (new_);
+          break;                /* FIXME: should interrupt decoding */
+        }
       strcpy (copy, request->scanned_string);
 
       new_->option = copy;
       if (!list)
-	list = new_;
+        list = new_;
       new_->next = last;
       last = new_;
     }
@@ -840,14 +840,14 @@ scan_unsurfacers (RECODE_REQUEST request)
   if (*request->scanned_string)
     {
       RECODE_ALIAS alias = find_alias (outer, request->scanned_string,
-					  ALIAS_FIND_AS_SURFACE);
+                                          ALIAS_FIND_AS_SURFACE);
 
       if (!alias)
-	{
-	  recode_error (outer, _("Unrecognised surface name `%s'"),
-			request->scanned_string);
-	  return false;
-	}
+        {
+          recode_error (outer, _("Unrecognised surface name `%s'"),
+                        request->scanned_string);
+          return false;
+        }
       surface = alias->symbol;
       /* FIXME: Should check that it does not itself have implied surfaces?  */
     }
@@ -872,7 +872,7 @@ scan_unsurfacers (RECODE_REQUEST request)
 
 static bool
 add_unsurfacers_to_sequence (RECODE_REQUEST request,
-			     struct recode_surface_list *list)
+                             struct recode_surface_list *list)
 {
   if (list->next)
     if (!add_unsurfacers_to_sequence (request, list->next))
@@ -900,9 +900,9 @@ add_unsurfacers_to_sequence (RECODE_REQUEST request,
 
 static RECODE_SYMBOL
 scan_charset (RECODE_REQUEST request,
-	      RECODE_CONST_SYMBOL before,
-	      RECODE_CONST_OPTION_LIST before_options,
-	      RECODE_OPTION_LIST *options_pointer)
+              RECODE_CONST_SYMBOL before,
+              RECODE_CONST_OPTION_LIST before_options,
+              RECODE_OPTION_LIST *options_pointer)
 {
   RECODE_OUTER outer = request->outer;
   RECODE_ALIAS alias;
@@ -922,65 +922,65 @@ scan_charset (RECODE_REQUEST request,
       /* We are scanning in an AFTER position.  */
 
       if (!find_sequence (request, before, before_options,
-			  charset, charset_options))
-	{
-	  recode_error (outer, _("No way to recode from `%s' to `%s'"),
-			before->name, charset->name);
-	  return NULL;
-	}
+                          charset, charset_options))
+        {
+          recode_error (outer, _("No way to recode from `%s' to `%s'"),
+                        before->name, charset->name);
+          return NULL;
+        }
 
       /* Ignore everything about surfaces, except in last position of a
-	 subrequest.  This optimises out the application of surfaces, when
-	 these would be immediately followed by their removal.  */
+         subrequest.  This optimises out the application of surfaces, when
+         these would be immediately followed by their removal.  */
 
       if (scan_check_if_last_charset (request))
-	{
-	  if (*request->scan_cursor == '/')
-	    {
-	      while (*request->scan_cursor == '/')
-		{
-		  RECODE_SYMBOL surface = NULL;
-		  RECODE_OPTION_LIST surface_options = NULL;
+        {
+          if (*request->scan_cursor == '/')
+            {
+              while (*request->scan_cursor == '/')
+                {
+                  RECODE_SYMBOL surface = NULL;
+                  RECODE_OPTION_LIST surface_options = NULL;
 
-		  request->scan_cursor++;
-		  scan_identifier (request);
-		  if (*request->scanned_string)
-		    {
-		      RECODE_ALIAS alias2
-			= find_alias (outer, request->scanned_string,
-				      ALIAS_FIND_AS_SURFACE);
+                  request->scan_cursor++;
+                  scan_identifier (request);
+                  if (*request->scanned_string)
+                    {
+                      RECODE_ALIAS alias2
+                        = find_alias (outer, request->scanned_string,
+                                      ALIAS_FIND_AS_SURFACE);
 
-		      if (!alias2)
-			{
-			  recode_error (outer,
-					_("Unrecognised surface name `%s'"),
-					request->scanned_string);
-			  return NULL;
-			}
-		      surface = alias2->symbol;
-		      /* FIXME: Should check that it does not itself have
-			 implied surfaces?  */
-		    }
-		  if (*request->scan_cursor == '+')
-		    surface_options = scan_options (request);
+                      if (!alias2)
+                        {
+                          recode_error (outer,
+                                        _("Unrecognised surface name `%s'"),
+                                        request->scanned_string);
+                          return NULL;
+                        }
+                      surface = alias2->symbol;
+                      /* FIXME: Should check that it does not itself have
+                         implied surfaces?  */
+                    }
+                  if (*request->scan_cursor == '+')
+                    surface_options = scan_options (request);
 
-		  if (surface && surface->resurfacer)
-		    if (!add_to_sequence (request, surface->resurfacer,
-					  NULL, surface_options))
-		      return NULL;
-		}
-	    }
-	  else if (alias->implied_surfaces && !request->make_header_flag)
-	    {
-	      struct recode_surface_list *list;
+                  if (surface && surface->resurfacer)
+                    if (!add_to_sequence (request, surface->resurfacer,
+                                          NULL, surface_options))
+                      return NULL;
+                }
+            }
+          else if (alias->implied_surfaces && !request->make_header_flag)
+            {
+              struct recode_surface_list *list;
 
-	      for (list = alias->implied_surfaces; list; list = list->next)
-		if (list->surface->resurfacer)
-		  if (!add_to_sequence (request, list->surface->resurfacer,
-					NULL, NULL))
-		    return NULL;
-	    }
-	}
+              for (list = alias->implied_surfaces; list; list = list->next)
+                if (list->surface->resurfacer)
+                  if (!add_to_sequence (request, list->surface->resurfacer,
+                                        NULL, NULL))
+                    return NULL;
+            }
+        }
     }
   else
     {
@@ -989,15 +989,15 @@ scan_charset (RECODE_REQUEST request,
       *options_pointer = charset_options;
 
       if (*request->scan_cursor == '/')
-	{
-	  if (!scan_unsurfacers (request))
-	    return NULL;
-	}
+        {
+          if (!scan_unsurfacers (request))
+            return NULL;
+        }
       else if (alias->implied_surfaces && !request->make_header_flag)
-	{
-	  if (!add_unsurfacers_to_sequence (request, alias->implied_surfaces))
-	    return NULL;
-	}
+        {
+          if (!add_unsurfacers_to_sequence (request, alias->implied_surfaces))
+            return NULL;
+        }
     }
 
   return charset;
@@ -1020,17 +1020,17 @@ scan_request (RECODE_REQUEST request)
   if (request->scan_cursor[0] == '.' && request->scan_cursor[1] == '.')
     while (request->scan_cursor[0] == '.' && request->scan_cursor[1] == '.')
       {
-	request->scan_cursor += 2;
-	charset = scan_charset (request, charset, options, NULL);
-	if (!charset)
-	  return false;
+        request->scan_cursor += 2;
+        charset = scan_charset (request, charset, options, NULL);
+        if (!charset)
+          return false;
       }
   else if (*request->scan_cursor == NUL)
     {
       /* No `..' at all implies a conversion to the default charset.  */
       charset = scan_charset (request, charset, options, NULL);
       if (!charset)
-	return false;
+        return false;
     }
   else
     {
@@ -1059,19 +1059,19 @@ decode_request (RECODE_REQUEST request, const char *string)
   if (*request->scan_cursor)
     {
       if (!scan_request (request))
-	{
-	  free (request->scanned_string);
-	  return false;
-	}
+        {
+          free (request->scanned_string);
+          return false;
+        }
       while (*request->scan_cursor == ',')
-	{
-	  request->scan_cursor++;
-	  if (!scan_request (request))
-	    {
-	      free (request->scanned_string);
-	      return false;
-	    }
-	}
+        {
+          request->scan_cursor++;
+          if (!scan_request (request))
+            {
+              free (request->scanned_string);
+              return false;
+            }
+        }
     }
 
   free (request->scanned_string);
@@ -1099,10 +1099,10 @@ guarantee_nul_terminator (RECODE_TASK task)
       size_t size = task->output.cursor - task->output.buffer;
 
       if (REALLOC (task->output.buffer, size + 4, char))
-	{
-	  task->output.cursor = task->output.buffer + size;
-	  task->output.limit = task->output.buffer + size + 4;
-	}
+        {
+          task->output.cursor = task->output.buffer + size;
+          task->output.limit = task->output.buffer + size + 4;
+        }
       else
         return false;
     }
@@ -1158,40 +1158,40 @@ recode_string (RECODE_CONST_REQUEST request, const char *input_string)
   size_t output_allocated = 0;
 
   recode_buffer_to_buffer (request, input_string, strlen (input_string),
-			   &output_buffer, &output_length, &output_allocated);
+                           &output_buffer, &output_length, &output_allocated);
   return output_buffer;
 }
 
 bool
 recode_string_to_buffer (RECODE_CONST_REQUEST request,
-			 const char *input_string,
-			 char **output_buffer_pointer,
-			 size_t *output_length_pointer,
-			 size_t *output_allocated_pointer)
+                         const char *input_string,
+                         char **output_buffer_pointer,
+                         size_t *output_length_pointer,
+                         size_t *output_allocated_pointer)
 {
   return
     recode_buffer_to_buffer (request, input_string, strlen (input_string),
-			     output_buffer_pointer, output_length_pointer,
-			     output_allocated_pointer);
+                             output_buffer_pointer, output_length_pointer,
+                             output_allocated_pointer);
 }
 
 bool
 recode_string_to_file (RECODE_CONST_REQUEST request,
-		       const char *input_string,
-		       FILE *output_file)
+                       const char *input_string,
+                       FILE *output_file)
 {
   return
     recode_buffer_to_file (request, input_string, strlen (input_string),
-			   output_file);
+                           output_file);
 }
 
 bool
 recode_buffer_to_buffer (RECODE_CONST_REQUEST request,
-			 const char *input_buffer,
-			 size_t input_length,
-			 char **output_buffer_pointer,
-			 size_t *output_length_pointer,
-			 size_t *output_allocated_pointer)
+                         const char *input_buffer,
+                         size_t input_length,
+                         char **output_buffer_pointer,
+                         size_t *output_length_pointer,
+                         size_t *output_allocated_pointer)
 {
   RECODE_TASK task = recode_new_task (request);
   bool success;
@@ -1217,9 +1217,9 @@ recode_buffer_to_buffer (RECODE_CONST_REQUEST request,
 
 bool
 recode_buffer_to_file (RECODE_CONST_REQUEST request,
-		       const char *input_buffer,
-		       size_t input_length,
-		       FILE *output_file)
+                       const char *input_buffer,
+                       size_t input_length,
+                       FILE *output_file)
 {
   RECODE_TASK task = recode_new_task (request);
   bool success;
@@ -1240,10 +1240,10 @@ recode_buffer_to_file (RECODE_CONST_REQUEST request,
 
 bool
 recode_file_to_buffer (RECODE_CONST_REQUEST request,
-		       FILE *input_file,
-		       char **output_buffer_pointer,
-		       size_t *output_length_pointer,
-		       size_t *output_allocated_pointer)
+                       FILE *input_file,
+                       char **output_buffer_pointer,
+                       size_t *output_length_pointer,
+                       size_t *output_allocated_pointer)
 {
   RECODE_TASK task = recode_new_task (request);
   bool success;
@@ -1267,8 +1267,8 @@ recode_file_to_buffer (RECODE_CONST_REQUEST request,
 
 bool
 recode_file_to_file (RECODE_CONST_REQUEST request,
-		     FILE *input_file,
-		     FILE *output_file)
+                     FILE *input_file,
+                     FILE *output_file)
 {
   RECODE_TASK task = recode_new_task (request);
   bool success;

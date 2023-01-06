@@ -21,18 +21,18 @@
 #include "common.h"
 #include "decsteps.h"
 
-#define DOS_CR 13		/* carriage return */
-#define DOS_LF 10		/* line feed */
-#define DOS_EOF 26		/* old end of file */
+#define DOS_CR 13               /* carriage return */
+#define DOS_LF 10               /* line feed */
+#define DOS_EOF 26              /* old end of file */
 
-#define ESCAPE 25		/* escape for diacritic application */
-#define ENDLINE 30		/* end-line code for QNX */
+#define ESCAPE 25               /* escape for diacritic application */
+#define ENDLINE 30              /* end-line code for QNX */
 
 #define TRANSLATE_AND_BREAK(c2, c3) \
-  put_byte (ESCAPE, subtask);		\
-  put_byte (c2, subtask);		\
-  put_byte (c3, subtask);		\
-  input_char = get_byte (subtask);	\
+  put_byte (ESCAPE, subtask);           \
+  put_byte (c2, subtask);               \
+  put_byte (c3, subtask);               \
+  input_char = get_byte (subtask);      \
   break;
 
 static bool
@@ -45,11 +45,11 @@ transform_ibmpc_iconqnx (RECODE_SUBTASK subtask)
     switch (input_char)
       {
       case DOS_EOF:
-	RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	FALLTHROUGH;
+        RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
+        FALLTHROUGH;
 
       case EOF:
-	SUBTASK_RETURN (subtask);
+        SUBTASK_RETURN (subtask);
 
       case 133: TRANSLATE_AND_BREAK ('A', 'a');
       case 138: TRANSLATE_AND_BREAK ('A', 'e');
@@ -68,152 +68,152 @@ transform_ibmpc_iconqnx (RECODE_SUBTASK subtask)
       case 128: TRANSLATE_AND_BREAK ('K', 'C');
 
       case DOS_CR:
-	input_char = get_byte (subtask);
-	if (input_char == DOS_LF)
-	  {
-	    put_byte (ENDLINE, subtask);
-	    input_char = get_byte (subtask);
-	  }
-	else
-	  put_byte (DOS_CR, subtask);
-	break;
+        input_char = get_byte (subtask);
+        if (input_char == DOS_LF)
+          {
+            put_byte (ENDLINE, subtask);
+            input_char = get_byte (subtask);
+          }
+        else
+          put_byte (DOS_CR, subtask);
+        break;
 
       case ENDLINE:
       case ESCAPE:
-	RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
-	FALLTHROUGH;
+        RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
+        FALLTHROUGH;
 
       default:
-	put_byte (input_char, subtask);
-	input_char = get_byte (subtask);
+        put_byte (input_char, subtask);
+        input_char = get_byte (subtask);
       }
 }
 
 static bool
 transform_iconqnx_ibmpc (RECODE_SUBTASK subtask)
 {
-  int input_char;		/* current character */
+  int input_char;               /* current character */
 
   input_char = get_byte (subtask);
   while (true)
     switch (input_char)
       {
       case EOF:
-	SUBTASK_RETURN (subtask);
+        SUBTASK_RETURN (subtask);
 
       case ENDLINE:
-	put_byte (DOS_CR, subtask);
-	put_byte (DOS_LF, subtask);
-	input_char = get_byte (subtask);
-	break;
+        put_byte (DOS_CR, subtask);
+        put_byte (DOS_LF, subtask);
+        input_char = get_byte (subtask);
+        break;
 
       case DOS_CR:
-	input_char = get_byte (subtask);
-	if (input_char == DOS_LF)
-	  RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
-	put_byte (DOS_CR, subtask);
-	break;
+        input_char = get_byte (subtask);
+        if (input_char == DOS_LF)
+          RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
+        put_byte (DOS_CR, subtask);
+        break;
 
       case ESCAPE:
-	input_char = get_byte (subtask);
-	switch (input_char)
-	  {
-	  case 'A':
-	    input_char = get_byte (subtask);
-	    switch (input_char)
-	      {
-	      case 'a': input_char = 133; break;
-	      case 'e': input_char = 138; break;
-	      case 'u': input_char = 151; break;
+        input_char = get_byte (subtask);
+        switch (input_char)
+          {
+          case 'A':
+            input_char = get_byte (subtask);
+            switch (input_char)
+              {
+              case 'a': input_char = 133; break;
+              case 'e': input_char = 138; break;
+              case 'u': input_char = 151; break;
 
-	      default:
-		RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-		put_byte (ESCAPE, subtask);
-		put_byte ('A', subtask);
-		if (input_char == EOF)
-		  SUBTASK_RETURN (subtask);
-	      }
-	    break;
+              default:
+                RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+                put_byte (ESCAPE, subtask);
+                put_byte ('A', subtask);
+                if (input_char == EOF)
+                  SUBTASK_RETURN (subtask);
+              }
+            break;
 
-	  case 'B':
-	    input_char = get_byte (subtask);
-	    switch (input_char)
-	      {
-	      case 'e': input_char = 130; break;
-	      case 'E': input_char = 144; break;
+          case 'B':
+            input_char = get_byte (subtask);
+            switch (input_char)
+              {
+              case 'e': input_char = 130; break;
+              case 'E': input_char = 144; break;
 
-	      default:
-		RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-		put_byte (ESCAPE, subtask);
-		put_byte ('B', subtask);
-		if (input_char == EOF)
-		  SUBTASK_RETURN (subtask);
-	      }
-	    break;
+              default:
+                RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+                put_byte (ESCAPE, subtask);
+                put_byte ('B', subtask);
+                if (input_char == EOF)
+                  SUBTASK_RETURN (subtask);
+              }
+            break;
 
-	  case 'C':
-	    input_char = get_byte (subtask);
-	    switch (input_char)
-	      {
-	      case 'a': input_char = 131; break;
-	      case 'e': input_char = 136; break;
-	      case 'i': input_char = 140; break;
-	      case 'o': input_char = 147; break;
-	      case 'u': input_char = 150; break;
+          case 'C':
+            input_char = get_byte (subtask);
+            switch (input_char)
+              {
+              case 'a': input_char = 131; break;
+              case 'e': input_char = 136; break;
+              case 'i': input_char = 140; break;
+              case 'o': input_char = 147; break;
+              case 'u': input_char = 150; break;
 
-	      default:
-		RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-		put_byte (ESCAPE, subtask);
-		put_byte ('C', subtask);
-		if (input_char == EOF)
-		  SUBTASK_RETURN (subtask);
-	      }
-	    break;
+              default:
+                RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+                put_byte (ESCAPE, subtask);
+                put_byte ('C', subtask);
+                if (input_char == EOF)
+                  SUBTASK_RETURN (subtask);
+              }
+            break;
 
-	  case 'H':
-	    input_char = get_byte (subtask);
-	    switch (input_char)
-	      {
-	      case 'e': input_char = 137; break;
-	      case 'i': input_char = 139; break;
-	      case 'u': input_char = 129; break;
+          case 'H':
+            input_char = get_byte (subtask);
+            switch (input_char)
+              {
+              case 'e': input_char = 137; break;
+              case 'i': input_char = 139; break;
+              case 'u': input_char = 129; break;
 
-	      default:
-		RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-		put_byte (ESCAPE, subtask);
-		put_byte ('H', subtask);
-		if (input_char == EOF)
-		  SUBTASK_RETURN (subtask);
-	      }
-	    break;
+              default:
+                RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+                put_byte (ESCAPE, subtask);
+                put_byte ('H', subtask);
+                if (input_char == EOF)
+                  SUBTASK_RETURN (subtask);
+              }
+            break;
 
-	  case 'K':
-	    input_char = get_byte (subtask);
-	    switch (input_char)
-	      {
-	      case 'c': input_char = 135; break;
-	      case 'C': input_char = 128; break;
+          case 'K':
+            input_char = get_byte (subtask);
+            switch (input_char)
+              {
+              case 'c': input_char = 135; break;
+              case 'C': input_char = 128; break;
 
-	      default:
-		RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-		put_byte (ESCAPE, subtask);
-		put_byte ('K', subtask);
-		if (input_char == EOF)
-		  SUBTASK_RETURN (subtask);
-	      }
-	    break;
+              default:
+                RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+                put_byte (ESCAPE, subtask);
+                put_byte ('K', subtask);
+                if (input_char == EOF)
+                  SUBTASK_RETURN (subtask);
+              }
+            break;
 
-	  default:
-	    RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	    put_byte (ESCAPE, subtask);
-	    if (input_char == EOF)
-	      SUBTASK_RETURN (subtask);
-	  }
-	FALLTHROUGH;
+          default:
+            RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+            put_byte (ESCAPE, subtask);
+            if (input_char == EOF)
+              SUBTASK_RETURN (subtask);
+          }
+        FALLTHROUGH;
 
       default:
-	put_byte (input_char, subtask);
-	input_char = get_byte (subtask);
+        put_byte (input_char, subtask);
+        input_char = get_byte (subtask);
       }
 }
 
@@ -222,11 +222,11 @@ module_iconqnx (RECODE_OUTER outer)
 {
   return
     declare_single (outer, "IBM-PC", "Icon-QNX",
-		    outer->quality_variable_to_variable,
-		    NULL, transform_ibmpc_iconqnx)
+                    outer->quality_variable_to_variable,
+                    NULL, transform_ibmpc_iconqnx)
     && declare_single (outer, "Icon-QNX", "IBM-PC",
-		       outer->quality_variable_to_variable,
-		       NULL, transform_iconqnx_ibmpc)
+                       outer->quality_variable_to_variable,
+                       NULL, transform_iconqnx_ibmpc)
     && declare_alias (outer, "QNX", "Icon-QNX");
 }
 

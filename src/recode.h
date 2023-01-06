@@ -18,30 +18,30 @@
 */
 
 /* Published (opaque) typedefs.  */
-typedef struct recode_outer * 			RECODE_OUTER;
-typedef struct recode_request *			RECODE_REQUEST;
-typedef struct recode_task *			RECODE_TASK;
-typedef const struct recode_request *		RECODE_CONST_REQUEST;
-typedef const struct recode_symbol *		RECODE_CONST_SYMBOL;
+typedef struct recode_outer *                   RECODE_OUTER;
+typedef struct recode_request *                 RECODE_REQUEST;
+typedef struct recode_task *                    RECODE_TASK;
+typedef const struct recode_request *           RECODE_CONST_REQUEST;
+typedef const struct recode_symbol *            RECODE_CONST_SYMBOL;
 
 /* Description of list formats.  */
 
 enum recode_list_format
 {
-  RECODE_NO_FORMAT,		/* format not decided yet */
-  RECODE_DECIMAL_FORMAT,	/* concise tabular list using decimal */
-  RECODE_OCTAL_FORMAT,		/* concise tabular list using octal */
-  RECODE_HEXADECIMAL_FORMAT,	/* concise tabular list using hexadecimal */
-  RECODE_FULL_FORMAT		/* full list, one character per line */
+  RECODE_NO_FORMAT,             /* format not decided yet */
+  RECODE_DECIMAL_FORMAT,        /* concise tabular list using decimal */
+  RECODE_OCTAL_FORMAT,          /* concise tabular list using octal */
+  RECODE_HEXADECIMAL_FORMAT,    /* concise tabular list using hexadecimal */
+  RECODE_FULL_FORMAT            /* full list, one character per line */
 };
 
 /* Description of programming languages.  */
 
 enum recode_programming_language
 {
-  RECODE_NO_LANGUAGE,		/* language not decided yet */
-  RECODE_LANGUAGE_C,		/* C (or C++) */
-  RECODE_LANGUAGE_PERL		/* Perl */
+  RECODE_NO_LANGUAGE,           /* language not decided yet */
+  RECODE_LANGUAGE_C,            /* C (or C++) */
+  RECODE_LANGUAGE_PERL          /* Perl */
 };
 
 /* Function prototypes.  */

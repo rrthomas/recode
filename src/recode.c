@@ -105,22 +105,22 @@ invert_table (RECODE_OUTER outer, const unsigned char *table)
   for (counter = 0; counter < 256; counter++)
     {
       if (flag[table[counter]])
-	{
-	  recode_error (outer, _("Codes %3d and %3u both recode to %3d"),
-			result[table[counter]], counter, table[counter]);
-	  table_error = true;
-	}
+        {
+          recode_error (outer, _("Codes %3d and %3u both recode to %3d"),
+                        result[table[counter]], counter, table[counter]);
+          table_error = true;
+        }
       else
-	{
-	  result[table[counter]] = counter;
-	  flag[table[counter]] = 1;
-	}
+        {
+          result[table[counter]] = counter;
+          flag[table[counter]] = 1;
+        }
     }
   if (table_error)
     {
       for (counter = 0; counter < 256; counter++)
-	if (!flag[counter])
-	  recode_error (outer, _("No character recodes to %3u"), counter);
+        if (!flag[counter])
+          recode_error (outer, _("No character recodes to %3u"), counter);
       recode_error (outer, _("Cannot invert given one-to-one table"));
     }
   return result;
@@ -137,8 +137,8 @@ invert_table (RECODE_OUTER outer, const unsigned char *table)
 
 bool
 complete_pairs (RECODE_OUTER outer, RECODE_STEP step,
-		const struct recode_known_pair *known_pairs,
-		unsigned number_of_pairs, bool first_half_implied, bool reverse)
+                const struct recode_known_pair *known_pairs,
+                unsigned number_of_pairs, bool first_half_implied, bool reverse)
 {
   unsigned char left_flag[256];
   unsigned char right_flag[256];
@@ -174,36 +174,36 @@ complete_pairs (RECODE_OUTER outer, RECODE_STEP step,
       /* Set one known correspondence.  */
 
       if (left_flag[left])
-	{
-	  if (!table_error)
-	    {
-	      recode_error (outer, _("Following diagnostics for `%s' to `%s'"),
-			    step->before->name, step->after->name);
-	      table_error = true;
-	    }
-	  recode_error (outer,
-			_("Pair no. %u: <%3d, %3d> conflicts with <%3d, %3d>"),
-			counter, left, right, left, left_table[left]);
-	}
+        {
+          if (!table_error)
+            {
+              recode_error (outer, _("Following diagnostics for `%s' to `%s'"),
+                            step->before->name, step->after->name);
+              table_error = true;
+            }
+          recode_error (outer,
+                        _("Pair no. %u: <%3d, %3d> conflicts with <%3d, %3d>"),
+                        counter, left, right, left, left_table[left]);
+        }
       else if (right_flag[right])
-	{
-	  if (!table_error)
-	    {
-	      recode_error (outer, _("Following diagnostics for `%s' to `%s'"),
-			   step->before->name, step->after->name);
-	      table_error = true;
-	    }
-	  recode_error (outer,
-			_("Pair no. %u: <%3d, %3d> conflicts with <%3d, %3d>"),
-			counter, left, right, right_table[right], right);
-	}
+        {
+          if (!table_error)
+            {
+              recode_error (outer, _("Following diagnostics for `%s' to `%s'"),
+                           step->before->name, step->after->name);
+              table_error = true;
+            }
+          recode_error (outer,
+                        _("Pair no. %u: <%3d, %3d> conflicts with <%3d, %3d>"),
+                        counter, left, right, right_table[right], right);
+        }
       else
-	{
-	  left_flag[left] = 1;
-	  left_table[left] = right;
-	  right_flag[right] = 1;
-	  right_table[right] = left;
-	}
+        {
+          left_flag[left] = 1;
+          left_table[left] = right;
+          right_flag[right] = 1;
+          right_table[right] = left;
+        }
     }
 
   /* Set all the implied correspondances.  */
@@ -211,41 +211,41 @@ complete_pairs (RECODE_OUTER outer, RECODE_STEP step,
   if (first_half_implied)
     for (counter = 0; counter < 128; counter++)
       if (!left_flag[counter] && !right_flag[counter])
-	{
-	  left_flag[counter] = 1;
-	  left_table[counter] = counter;
-	  right_flag[counter] = 1;
-	  right_table[counter] = counter;
-	}
+        {
+          left_flag[counter] = 1;
+          left_table[counter] = counter;
+          right_flag[counter] = 1;
+          right_table[counter] = counter;
+        }
 
   if (step->fallback_routine == reversibility)
     {
       /* If the recoding is not strict, compute a reversible one to one
-	 table.  */
+         table.  */
 
       if (table_error)
-	recode_error (outer,
-		      _("Cannot complete table from set of known pairs"));
+        recode_error (outer,
+                      _("Cannot complete table from set of known pairs"));
 
       /* Close the table with small permutation cycles.  */
 
       for (counter = 0; counter < 256; counter++)
-	if (!right_flag[counter])
-	  {
-	    search = counter;
-	    while (left_flag[search])
-	      search = left_table[search];
-	    left_flag[search] = 1;
-	    left_table[search] = counter;
-	    right_flag[counter] = 1;
-	    right_table[counter] = search;
-	  }
+        if (!right_flag[counter])
+          {
+            search = counter;
+            while (left_flag[search])
+              search = left_table[search];
+            left_flag[search] = 1;
+            left_table[search] = counter;
+            right_flag[counter] = 1;
+            right_table[counter] = search;
+          }
 
       /* Save a copy of the proper table.  */
 
       step->transform_routine = transform_byte_to_byte;
       if (!ALLOC (table, 256, unsigned char))
-	return false;
+        return false;
       memcpy (table, reverse ? right_table : left_table, 256);
       step->step_type = RECODE_BYTE_TO_BYTE;
       step->step_table = table;
@@ -258,43 +258,43 @@ complete_pairs (RECODE_OUTER outer, RECODE_STEP step,
   else
     {
       /* If the recoding is strict, prepare a one to many table, each
-	 entry being NULL or a string of a single character.  */
+         entry being NULL or a string of a single character.  */
 
       /* Select the proper table.  */
 
       if (reverse)
-	{
-	  flag = right_flag;
-	  table = right_table;
-	}
+        {
+          flag = right_flag;
+          table = right_table;
+        }
       else
-	{
-	  flag = left_flag;
-	  table = left_table;
-	}
+        {
+          flag = left_flag;
+          table = left_table;
+        }
 
       /* Allocate everything in one blow, so it will be freed likewise.  */
 
       used = 0;
       for (counter = 0; counter < 256; counter++)
-	if (flag[counter])
-	  used++;
+        if (flag[counter])
+          used++;
 
       if (!ALLOC_SIZE (table2, 256 * sizeof (char *) + 2 * used, const char *))
-	return false;
+        return false;
       cursor = (char *) (table2 + 256);
 
       /* Construct the table and the strings in parallel.  */
 
       for (counter = 0; counter < 256; counter++)
-	if (flag[counter])
-	  {
-	    table2[counter] = cursor;
-	    *cursor++ = table[counter];
-	    *cursor++ = NUL;
-	  }
-	else
-	  table2[counter] = NULL;
+        if (flag[counter])
+          {
+            table2[counter] = cursor;
+            *cursor++ = table[counter];
+            *cursor++ = NUL;
+          }
+        else
+          table2[counter] = NULL;
 
       /* Save a one to many recoding table.  */
 
@@ -316,27 +316,27 @@ complete_pairs (RECODE_OUTER outer, RECODE_STEP step,
 bool
 transform_byte_to_ucs2 (RECODE_SUBTASK subtask)
 {
-  int input_char;		/* current character */
-  int output_value;		/* value being output */
+  int input_char;               /* current character */
+  int output_value;             /* value being output */
 
   if (input_char = get_byte (subtask), input_char != EOF)
     {
       if (subtask->task->byte_order_mark)
-	put_ucs2 (BYTE_ORDER_MARK, subtask);
+        put_ucs2 (BYTE_ORDER_MARK, subtask);
 
       while (input_char != EOF)
-	{
-	  output_value = code_to_ucs2 (subtask->step->before, input_char);
-	  if (output_value < 0)
-	    {
-	      RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
-	      put_ucs2 (REPLACEMENT_CHARACTER, subtask);
-	    }
-	  else
-	    put_ucs2 (output_value, subtask);
+        {
+          output_value = code_to_ucs2 (subtask->step->before, input_char);
+          if (output_value < 0)
+            {
+              RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
+              put_ucs2 (REPLACEMENT_CHARACTER, subtask);
+            }
+          else
+            put_ucs2 (output_value, subtask);
 
-	  input_char = get_byte (subtask);
-	}
+          input_char = get_byte (subtask);
+        }
     }
 
   SUBTASK_RETURN (subtask);
@@ -348,8 +348,8 @@ transform_byte_to_ucs2 (RECODE_SUBTASK subtask)
 
 struct ucs2_to_byte
   {
-    recode_ucs2 code;		/* UCS-2 value */
-    unsigned char byte;		/* corresponding byte */
+    recode_ucs2 code;           /* UCS-2 value */
+    unsigned char byte;         /* corresponding byte */
   };
 
 struct ucs2_to_byte_local
@@ -386,9 +386,9 @@ term_ucs2_to_byte (RECODE_STEP step)
 
 bool
 init_ucs2_to_byte (RECODE_STEP step,
-		   RECODE_CONST_REQUEST request,
-		   RECODE_CONST_OPTION_LIST before_options,
-		   RECODE_CONST_OPTION_LIST after_options)
+                   RECODE_CONST_REQUEST request,
+                   RECODE_CONST_OPTION_LIST before_options,
+                   RECODE_CONST_OPTION_LIST after_options)
 {
   RECODE_OUTER outer = request->outer;
   Hash_table *table;
@@ -399,7 +399,7 @@ init_ucs2_to_byte (RECODE_STEP step,
     return false;
 
   table = hash_initialize (0, NULL,
-			   ucs2_to_byte_hash, ucs2_to_byte_compare, NULL);
+                           ucs2_to_byte_hash, ucs2_to_byte_compare, NULL);
   if (!table)
     return false;
 
@@ -414,11 +414,11 @@ init_ucs2_to_byte (RECODE_STEP step,
       data[counter].code = code_to_ucs2 (step->after, counter);
       data[counter].byte = counter;
       if (!hash_insert (table, data + counter))
-	{
-	  hash_free (table);
-	  free (data);
-	  return false;
-	}
+        {
+          hash_free (table);
+          free (data);
+          return false;
+        }
     }
 
   if (!ALLOC (step->local, 1, struct ucs2_to_byte_local))
@@ -440,16 +440,16 @@ transform_ucs2_to_byte (RECODE_SUBTASK subtask)
   Hash_table *table = ((struct ucs2_to_byte_local *) subtask->step->local)->table;
   struct ucs2_to_byte lookup;
   struct ucs2_to_byte *entry;
-  unsigned input_value;		/* current UCS-2 character */
+  unsigned input_value;         /* current UCS-2 character */
 
   while (get_ucs2 (&input_value, subtask))
     {
       lookup.code = input_value;
       entry = (struct ucs2_to_byte *) hash_lookup (table, &lookup);
       if (entry)
-	put_byte (entry->byte, subtask);
+        put_byte (entry->byte, subtask);
       else
-	RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
+        RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
     }
 
   SUBTASK_RETURN (subtask);
@@ -463,22 +463,22 @@ transform_ucs2_to_byte (RECODE_SUBTASK subtask)
 
 bool
 recode_format_table (RECODE_REQUEST request,
-		     enum recode_programming_language header_language,
-		     const char *header_name)
+                     enum recode_programming_language header_language,
+                     const char *header_name)
 {
   RECODE_OUTER outer = request->outer;
 
   RECODE_CONST_STEP step; /* step being analysed */
-  unsigned column;		/* column counter */
-  char *name;			/* constructed name */
-  char *cursor;			/* cursor in constructed name */
-  const char *cursor2;		/* cursor to study strings */
-  unsigned counter;		/* general purpose counter */
-  bool underline;		/* previous character was underline */
+  unsigned column;              /* column counter */
+  char *name;                   /* constructed name */
+  char *cursor;                 /* cursor in constructed name */
+  const char *cursor2;          /* cursor to study strings */
+  unsigned counter;             /* general purpose counter */
+  bool underline;               /* previous character was underline */
 
-  const char *start_comment;	/* string starting a comment block */
-  const char *wrap_comment;	/* string separating two comment lines */
-  const char *end_comment;	/* string ending a comment block */
+  const char *start_comment;    /* string starting a comment block */
+  const char *wrap_comment;     /* string separating two comment lines */
+  const char *end_comment;      /* string ending a comment block */
 
   if (request->sequence_length == 0)
     {
@@ -522,9 +522,9 @@ recode_format_table (RECODE_REQUEST request,
   /* Print the header of the header file.  */
 
   printf (_("%sConversion table generated mechanically by %s %s"),
-	  start_comment, PACKAGE, VERSION);
+          start_comment, PACKAGE, VERSION);
   printf (_("%sfor sequence %s.%s"),
-	  wrap_comment, edit_sequence (request, 1), end_comment);
+          wrap_comment, edit_sequence (request, 1), end_comment);
   printf ("\n");
 
   /* Construct the name of the resulting table.  */
@@ -532,7 +532,7 @@ recode_format_table (RECODE_REQUEST request,
   if (header_name)
     {
       if (!ALLOC (name, strlen (header_name) + 1, char))
-	return false;
+        return false;
       strcpy (name, header_name);
     }
   else
@@ -545,15 +545,15 @@ recode_format_table (RECODE_REQUEST request,
   cursor = name;
   for (cursor2 = name; *cursor2; cursor2++)
     if ((*cursor2 >= 'a' && *cursor2 <= 'z')
-	|| (*cursor2 >= 'A' && *cursor2 <= 'Z')
-	|| (*cursor2 >= '0' && *cursor2 <= '9'))
+        || (*cursor2 >= 'A' && *cursor2 <= 'Z')
+        || (*cursor2 >= '0' && *cursor2 <= '9'))
       {
-	if (underline)
-	  {
-	    *cursor++ = '_';
-	    underline = false;
-	  }
-	*cursor++ = *cursor2;
+        if (underline)
+          {
+            *cursor++ = '_';
+            underline = false;
+          }
+        *cursor++ = *cursor2;
       }
     else if (cursor != name)
       underline = true;
@@ -568,46 +568,46 @@ recode_format_table (RECODE_REQUEST request,
       /* Produce a one to one recoding table.  */
 
       switch (header_language)
-	{
-	case RECODE_NO_LANGUAGE:
-	  assert (0);
+        {
+        case RECODE_NO_LANGUAGE:
+          assert (0);
 
-	case RECODE_LANGUAGE_C:
-	  printf ("unsigned char const %s[256] =\n", name);
-	  printf ("  {\n");
-	  break;
+        case RECODE_LANGUAGE_C:
+          printf ("unsigned char const %s[256] =\n", name);
+          printf ("  {\n");
+          break;
 
-	case RECODE_LANGUAGE_PERL:
-	  printf ("@%s =\n", name);
-	  printf ("  (\n");
-	  break;
+        case RECODE_LANGUAGE_PERL:
+          printf ("@%s =\n", name);
+          printf ("  (\n");
+          break;
 
         default:
           break;
-	}
+        }
       for (counter = 0; counter < 256; counter++)
-	{
-	  printf ("%s%3d,", counter % 8 == 0 ? "    " : " ", table[counter]);
-	  if (counter % 8 == 7)
-	    printf ("\t%s%3u - %3u%s",
-		    start_comment, counter - 7, counter, end_comment);
-	}
+        {
+          printf ("%s%3d,", counter % 8 == 0 ? "    " : " ", table[counter]);
+          if (counter % 8 == 7)
+            printf ("\t%s%3u - %3u%s",
+                    start_comment, counter - 7, counter, end_comment);
+        }
       switch (header_language)
-	{
-	case RECODE_NO_LANGUAGE:
-	  assert (0);
+        {
+        case RECODE_NO_LANGUAGE:
+          assert (0);
 
-	case RECODE_LANGUAGE_C:
-	  printf ("  };\n");
-	  break;
+        case RECODE_LANGUAGE_C:
+          printf ("  };\n");
+          break;
 
-	case RECODE_LANGUAGE_PERL:
-	  printf ("  );\n");
-	  break;
+        case RECODE_LANGUAGE_PERL:
+          printf ("  );\n");
+          break;
 
         default:
           break;
-	}
+        }
     }
   else if (step->step_type == RECODE_BYTE_TO_STRING)
     {
@@ -616,132 +616,132 @@ recode_format_table (RECODE_REQUEST request,
       /* Produce a one to many recoding table.  */
 
       switch (header_language)
-	{
-	case RECODE_NO_LANGUAGE:
-	  assert (0);
+        {
+        case RECODE_NO_LANGUAGE:
+          assert (0);
 
-	case RECODE_LANGUAGE_C:
-	  printf ("const char *%s[256] =\n", name);
-	  printf ("  {\n");
-	  break;
+        case RECODE_LANGUAGE_C:
+          printf ("const char *%s[256] =\n", name);
+          printf ("  {\n");
+          break;
 
-	case RECODE_LANGUAGE_PERL:
-	  printf ("@%s =\n", name);
-	  printf ("  (\n");
-	  break;
+        case RECODE_LANGUAGE_PERL:
+          printf ("@%s =\n", name);
+          printf ("  (\n");
+          break;
 
         default:
           break;
-	}
+        }
       for (counter = 0; counter < 256; counter++)
-	{
-	  printf ("    ");
-	  column = 4;
-	  if (table[counter])
-	    {
-	      printf ("\"");
-	      column++;
-	      for (cursor2 = table[counter]; *cursor2; cursor2++)
-		switch (*cursor2)
-		  {
-		  case ' ':
-		    printf (" ");
-		    column++;
-		    break;
+        {
+          printf ("    ");
+          column = 4;
+          if (table[counter])
+            {
+              printf ("\"");
+              column++;
+              for (cursor2 = table[counter]; *cursor2; cursor2++)
+                switch (*cursor2)
+                  {
+                  case ' ':
+                    printf (" ");
+                    column++;
+                    break;
 
-		  case '\b':
-		    printf ("\\b");
-		    column += 2;
-		    break;
+                  case '\b':
+                    printf ("\\b");
+                    column += 2;
+                    break;
 
-		  case '\t':
-		    printf ("\\t");
-		    column += 2;
-		    break;
+                  case '\t':
+                    printf ("\\t");
+                    column += 2;
+                    break;
 
-		  case '\n':
-		    printf ("\\n");
-		    column += 2;
-		    break;
+                  case '\n':
+                    printf ("\\n");
+                    column += 2;
+                    break;
 
-		  case '"':
-		    printf ("\\\"");
-		    column += 2;
-		    break;
+                  case '"':
+                    printf ("\\\"");
+                    column += 2;
+                    break;
 
-		  case '\\':
-		    printf ("\\\\");
-		    column += 2;
-		    break;
+                  case '\\':
+                    printf ("\\\\");
+                    column += 2;
+                    break;
 
-		  case '$':
-		    if (header_language == RECODE_LANGUAGE_PERL)
-		      {
-			printf ("\\$");
-			column += 2;
-			break;
-		      }
+                  case '$':
+                    if (header_language == RECODE_LANGUAGE_PERL)
+                      {
+                        printf ("\\$");
+                        column += 2;
+                        break;
+                      }
                     FALLTHROUGH;
 
-		  default:
-		    if (isprint (*cursor2))
-		      {
-			printf ("%c", *cursor2);
-			column++;
-		      }
-		    else
-		      {
-			printf ("\\%.3o", *(const unsigned char *) cursor2);
-			column += 4;
-		      }
-		  }
-	      printf ("\"");
-	      column++;
-	    }
-	  else
-	    switch (header_language)
-	      {
-	      case RECODE_NO_LANGUAGE:
-		assert (0);
+                  default:
+                    if (isprint (*cursor2))
+                      {
+                        printf ("%c", *cursor2);
+                        column++;
+                      }
+                    else
+                      {
+                        printf ("\\%.3o", *(const unsigned char *) cursor2);
+                        column += 4;
+                      }
+                  }
+              printf ("\"");
+              column++;
+            }
+          else
+            switch (header_language)
+              {
+              case RECODE_NO_LANGUAGE:
+                assert (0);
 
-	      case RECODE_LANGUAGE_C:
-		printf ("0");
-		column++;
-		break;
+              case RECODE_LANGUAGE_C:
+                printf ("0");
+                column++;
+                break;
 
-	      case RECODE_LANGUAGE_PERL:
-		printf ("''");
-		column += 2;
-		break;
+              case RECODE_LANGUAGE_PERL:
+                printf ("''");
+                column += 2;
+                break;
 
               default:
                 break;
-	      }
-	  printf (",");
-	  column++;
-	  while (column < 32)
-	    {
-	      printf ("\t");
-	      column += 8 - column % 8;
-	    }
-	  printf ("%s%3u%s", start_comment, counter, end_comment);
-	}
+              }
+          printf (",");
+          column++;
+          while (column < 32)
+            {
+              printf ("\t");
+              column += 8 - column % 8;
+            }
+          printf ("%s%3u%s", start_comment, counter, end_comment);
+        }
       switch (header_language)
-	{
-	case RECODE_NO_LANGUAGE:
-	  assert (0);
+        {
+        case RECODE_NO_LANGUAGE:
+          assert (0);
 
-	case RECODE_LANGUAGE_C:
-	  printf ("  };\n");
-	  break;
+        case RECODE_LANGUAGE_C:
+          printf ("  };\n");
+          break;
 
-	case RECODE_LANGUAGE_PERL:
-	  printf ("  );\n");
-	  break;
+        case RECODE_LANGUAGE_PERL:
+          printf ("  );\n");
+          break;
 
         default:
           break;
-	}
+        }
     }
   else
     {

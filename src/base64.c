@@ -25,32 +25,32 @@
 /* Table of characters coding the 64 values.  */
 char base64_value_to_char[64] =
 {
-  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',	/*  0- 9 */
-  'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',	/* 10-19 */
-  'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',	/* 20-29 */
-  'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',	/* 30-39 */
-  'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',	/* 40-49 */
-  'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7',	/* 50-59 */
-  '8', '9', '+', '/'					/* 60-63 */
+  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',     /*  0- 9 */
+  'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',     /* 10-19 */
+  'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',     /* 20-29 */
+  'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',     /* 30-39 */
+  'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',     /* 40-49 */
+  'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7',     /* 50-59 */
+  '8', '9', '+', '/'                                    /* 60-63 */
 };
 
 /* Table of base64 values for first 128 characters.  */
 #define z -1
 short base64_char_to_value[128] =
 {
-  z,   z,   z,   z,   z,   z,   z,   z,   z,   z,	/*   0-  9 */
-  z,   z,   z,   z,   z,   z,   z,   z,   z,   z,	/*  10- 19 */
-  z,   z,   z,   z,   z,   z,   z,   z,   z,   z,	/*  20- 29 */
-  z,   z,   z,   z,   z,   z,   z,   z,   z,   z,	/*  30- 39 */
-  z,   z,   z,   62,  z,   z,   z,   63,  52,  53,	/*  40- 49 */
-  54,  55,  56,  57,  58,  59,  60,  61,  z,   z,	/*  50- 59 */
-  z,   z,   z,   z,   z,   0,   1,   2,   3,   4,	/*  60- 69 */
-  5,   6,   7,   8,   9,   10,  11,  12,  13,  14,	/*  70- 79 */
-  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,	/*  80- 89 */
-  25,  z,   z,   z,   z,   z,   z,   26,  27,  28,	/*  90- 99 */
-  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,	/* 100-109 */
-  39,  40,  41,  42,  43,  44,  45,  46,  47,  48,	/* 110-119 */
-  49,  50,  51,  z,   z,   z,   z,   z			/* 120-127 */
+  z,   z,   z,   z,   z,   z,   z,   z,   z,   z,       /*   0-  9 */
+  z,   z,   z,   z,   z,   z,   z,   z,   z,   z,       /*  10- 19 */
+  z,   z,   z,   z,   z,   z,   z,   z,   z,   z,       /*  20- 29 */
+  z,   z,   z,   z,   z,   z,   z,   z,   z,   z,       /*  30- 39 */
+  z,   z,   z,   62,  z,   z,   z,   63,  52,  53,      /*  40- 49 */
+  54,  55,  56,  57,  58,  59,  60,  61,  z,   z,       /*  50- 59 */
+  z,   z,   z,   z,   z,   0,   1,   2,   3,   4,       /*  60- 69 */
+  5,   6,   7,   8,   9,   10,  11,  12,  13,  14,      /*  70- 79 */
+  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,      /*  80- 89 */
+  25,  z,   z,   z,   z,   z,   z,   26,  27,  28,      /*  90- 99 */
+  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,      /* 100-109 */
+  39,  40,  41,  42,  43,  44,  45,  46,  47,  48,      /* 110-119 */
+  49,  50,  51,  z,   z,   z,   z,   z                  /* 120-127 */
 };
 #undef z
 
@@ -58,17 +58,17 @@ short base64_char_to_value[128] =
    get transformed into eight Base64 characters.  It helps understanding
    shifts and masks in the transformation functions.
 
-		 .--------.  .--------.  .--------.
-		 |aaaaaabb|  |bbbbcccc|  |ccdddddd|
-		 `--------'  `--------'  `--------'
+                 .--------.  .--------.  .--------.
+                 |aaaaaabb|  |bbbbcccc|  |ccdddddd|
+                 `--------'  `--------'  `--------'
                     6   2      4   4       2   6
-	       .--------+--------+--------+--------.
-	       |00aaaaaa|00bbbbbb|00cccccc|00dddddd|
-	       `--------+--------+--------+--------'
+               .--------+--------+--------+--------.
+               |00aaaaaa|00bbbbbb|00cccccc|00dddddd|
+               `--------+--------+--------+--------'
 
-	       .--------+--------+--------+--------.
-	       |AAAAAAAA|BBBBBBBB|CCCCCCCC|DDDDDDDD|
-	       `--------+--------+--------+--------'
+               .--------+--------+--------+--------.
+               |AAAAAAAA|BBBBBBBB|CCCCCCCC|DDDDDDDD|
+               `--------+--------+--------+--------'
 
    The octets are divided into 6 bit chunks, which are then encoded into
    Base64 characters.  */
@@ -85,17 +85,17 @@ transform_data_base64 (RECODE_SUBTASK subtask)
     {
       character = get_byte (subtask);
       if (character == EOF)
-	break;
+        break;
 
       /* Wrap line every 76 characters.  */
 
       if (counter < MIME_LINE_LENGTH / 4)
-	counter++;
+        counter++;
       else
-	{
-	  put_byte ('\n', subtask);
-	  counter = 1;
-	}
+        {
+          put_byte ('\n', subtask);
+          counter = 1;
+        }
 
       /* Process first byte of a triplet.  */
 
@@ -106,27 +106,27 @@ transform_data_base64 (RECODE_SUBTASK subtask)
 
       character = get_byte (subtask);
       if (character == EOF)
-	{
-	  put_byte (base64_value_to_char[value], subtask);
-	  put_byte ('=', subtask);
-	  put_byte ('=', subtask);
-	  break;
-	}
+        {
+          put_byte (base64_value_to_char[value], subtask);
+          put_byte ('=', subtask);
+          put_byte ('=', subtask);
+          break;
+        }
       put_byte (base64_value_to_char[value | (BIT_MASK (4) & character >> 4)],
-		subtask);
+                subtask);
       value = (BIT_MASK (4) & character) << 2;
 
       /* Process third byte of a triplet.  */
 
       character = get_byte (subtask);
       if (character == EOF)
-	{
-	  put_byte (base64_value_to_char[value], subtask);
-	  put_byte ('=', subtask);
-	  break;
-	}
+        {
+          put_byte (base64_value_to_char[value], subtask);
+          put_byte ('=', subtask);
+          break;
+        }
       put_byte (base64_value_to_char[value | (BIT_MASK (2) & character >> 6)],
-		subtask);
+                subtask);
       put_byte (base64_value_to_char[BIT_MASK (6) & character], subtask);
     }
 
@@ -153,51 +153,51 @@ transform_base64_data (RECODE_SUBTASK subtask)
 
     top:
       if (character == EOF)
-	SUBTASK_RETURN (subtask);
+        SUBTASK_RETURN (subtask);
 
       if (character == '\n')
-	{
+        {
           character = get_byte (subtask);
-	  if (character == EOF)
+          if (character == EOF)
             SUBTASK_RETURN (subtask);
-	  if (counter != MIME_LINE_LENGTH / 4)
-	    RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	  counter = 0;
-	  goto top;
-	}
+          if (counter != MIME_LINE_LENGTH / 4)
+            RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
+          counter = 0;
+          goto top;
+        }
 
       if (character == '\r')
-	{
-	  RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	  counter = 0;
-	  continue;
-	}
+        {
+          RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
+          counter = 0;
+          continue;
+        }
 
       /* Process first byte of a quadruplet.  */
 
       counter++;
 
       if (IS_BASE64 (character))
-	value = base64_char_to_value[character] << 18;
+        value = base64_char_to_value[character] << 18;
       else
-	{
-	  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	  value = 0;
-	}
+        {
+          RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+          value = 0;
+        }
 
       /* Process second byte of a quadruplet.  */
 
       character = get_byte (subtask);
       if (character == EOF)
-	{
-	  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	  SUBTASK_RETURN (subtask);
-	}
+        {
+          RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+          SUBTASK_RETURN (subtask);
+        }
 
       if (IS_BASE64 (character))
-	value |= base64_char_to_value[character] << 12;
+        value |= base64_char_to_value[character] << 12;
       else
-	RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+        RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
 
       put_byte (value >> 16, subtask);
 
@@ -205,23 +205,23 @@ transform_base64_data (RECODE_SUBTASK subtask)
 
       character = get_byte (subtask);
       if (character == EOF)
-	{
-	  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	  SUBTASK_RETURN (subtask);
-	}
+        {
+          RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+          SUBTASK_RETURN (subtask);
+        }
 
       if (character == '=')
-	{
-	  character = get_byte (subtask);
-	  if (character != '=')
-	    RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	  continue;
-	}
+        {
+          character = get_byte (subtask);
+          if (character != '=')
+            RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+          continue;
+        }
 
       if (IS_BASE64 (character))
-	value |= base64_char_to_value[character] << 6;
+        value |= base64_char_to_value[character] << 6;
       else
-	RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+        RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
 
       put_byte (BIT_MASK (8) & value >> 8, subtask);
 
@@ -229,18 +229,18 @@ transform_base64_data (RECODE_SUBTASK subtask)
 
       character = get_byte (subtask);
       if (character == EOF)
-	{
-	  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	  SUBTASK_RETURN (subtask);
-	}
+        {
+          RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+          SUBTASK_RETURN (subtask);
+        }
 
       if (character == '=')
-	continue;
+        continue;
 
       if (IS_BASE64 (character))
-	value |= base64_char_to_value[character];
+        value |= base64_char_to_value[character];
       else
-	RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+        RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
 
       put_byte (BIT_MASK (8) & value, subtask);
     }
@@ -251,11 +251,11 @@ module_base64 (RECODE_OUTER outer)
 {
   return
     declare_single (outer, "data", "Base64",
-		    outer->quality_variable_to_variable,
-		    NULL, transform_data_base64)
+                    outer->quality_variable_to_variable,
+                    NULL, transform_data_base64)
     && declare_single (outer, "Base64", "data",
-		       outer->quality_variable_to_variable,
-		       NULL, transform_base64_data)
+                       outer->quality_variable_to_variable,
+                       NULL, transform_base64_data)
     && declare_alias (outer, "b64", "Base64")
     && declare_alias (outer, "64", "Base64");
 }

@@ -81,10 +81,10 @@ test15_data (RECODE_SUBTASK subtask)
       case REPLACEMENT_CHARACTER:
       case BYTE_ORDER_MARK_SWAPPED:
       case NOT_A_CHARACTER:
-	break;
+        break;
 
       default:
-	put_ucs2 (counter, subtask);
+        put_ucs2 (counter, subtask);
       }
 
   /* Copy the rest verbatim.  */
@@ -116,8 +116,8 @@ test16_data (RECODE_SUBTASK subtask)
 
 struct ucs2_to_count
   {
-    recode_ucs2 code;		/* UCS-2 value */
-    unsigned count;		/* corresponding count */
+    recode_ucs2 code;           /* UCS-2 value */
+    unsigned count;             /* corresponding count */
   };
 
 static size_t
@@ -163,45 +163,45 @@ static bool
 produce_count (RECODE_SUBTASK subtask)
 {
   RECODE_OUTER outer = subtask->task->request->outer;
-  Hash_table *table;		/* hash table for UCS-2 characters */
-  size_t size;			/* number of different characters */
-  struct ucs2_to_count **array;	/* array into hash table items */
+  Hash_table *table;            /* hash table for UCS-2 characters */
+  size_t size;                  /* number of different characters */
+  struct ucs2_to_count **array; /* array into hash table items */
 
   table = hash_initialize (0, NULL,
-			   ucs2_to_count_hash, ucs2_to_count_compare, free);
+                           ucs2_to_count_hash, ucs2_to_count_compare, free);
   if (!table)
     return false;
 
   /* Count characters.  */
 
   {
-    unsigned character;		/* current character being counted */
+    unsigned character;         /* current character being counted */
 
     while (get_ucs2 (&character, subtask))
       {
-	struct ucs2_to_count lookup;
-	struct ucs2_to_count *entry;
+        struct ucs2_to_count lookup;
+        struct ucs2_to_count *entry;
 
-	lookup.code = character;
-	entry = (struct ucs2_to_count *) hash_lookup (table, &lookup);
-	if (entry)
-	  entry->count++;
-	else
-	  {
-	    if (!ALLOC (entry, 1, struct ucs2_to_count))
-	      {
-		hash_free (table);
-		return false;
-	      }
-	    entry->code = character;
-	    entry->count = 1;
-	    if (!hash_insert (table, entry))
-	      {
-		hash_free (table);
-		free (entry);
-		return false;
-	      }
-	  }
+        lookup.code = character;
+        entry = (struct ucs2_to_count *) hash_lookup (table, &lookup);
+        if (entry)
+          entry->count++;
+        else
+          {
+            if (!ALLOC (entry, 1, struct ucs2_to_count))
+              {
+                hash_free (table);
+                return false;
+              }
+            entry->code = character;
+            entry->count = 1;
+            if (!hash_insert (table, entry))
+              {
+                hash_free (table);
+                free (entry);
+                return false;
+              }
+          }
       }
   }
 
@@ -233,7 +233,7 @@ produce_count (RECODE_SUBTASK subtask)
 
     for (cursor = array; cursor < array + size; cursor++)
       if ((*cursor)->count > maximum_count)
-	maximum_count = (*cursor)->count;
+        maximum_count = (*cursor)->count;
     if (asprintf (&buffer, "%u", maximum_count) == -1)
       return false;
     count_width = strlen (buffer);
@@ -241,36 +241,36 @@ produce_count (RECODE_SUBTASK subtask)
 
     for (cursor = array; cursor < array + size; cursor++)
       {
-	unsigned character = (*cursor)->code;
-	const char *mnemonic = ucs2_to_rfc1345 (character);
+        unsigned character = (*cursor)->code;
+        const char *mnemonic = ucs2_to_rfc1345 (character);
 
-	if (column + count_width + non_count_width > 80)
-	  {
-	    put_byte ('\n', subtask);
-	    delayed = 0;
-	    column = 0;
-	  }
-	else
-	  while (delayed)
-	    {
-	      put_byte (' ', subtask);
-	      delayed--;
-	    }
+        if (column + count_width + non_count_width > 80)
+          {
+            put_byte ('\n', subtask);
+            delayed = 0;
+            column = 0;
+          }
+        else
+          while (delayed)
+            {
+              put_byte (' ', subtask);
+              delayed--;
+            }
 
-	if (asprintf (&buffer, "%*u  %.4X", (int)count_width, (*cursor)->count, character) == -1)
+        if (asprintf (&buffer, "%*u  %.4X", (int)count_width, (*cursor)->count, character) == -1)
           return false;
         put_string (buffer, subtask);
         free (buffer);
-	if (mnemonic)
-	  {
-	    put_byte (' ', subtask);
-	    put_string (mnemonic, subtask);
-	    delayed = 6 - 1 - strlen (mnemonic);
-	  }
-	else
-	  delayed = 6;
+        if (mnemonic)
+          {
+            put_byte (' ', subtask);
+            put_string (mnemonic, subtask);
+            delayed = 6 - 1 - strlen (mnemonic);
+          }
+        else
+          delayed = 6;
 
-	column += count_width + non_count_width;
+        column += count_width + non_count_width;
       }
 
     if (column)
@@ -292,55 +292,55 @@ produce_count (RECODE_SUBTASK subtask)
 static bool
 produce_full_dump (RECODE_SUBTASK subtask)
 {
-  unsigned character;		/* character to dump */
+  unsigned character;           /* character to dump */
 
   /* Dump all characters.  */
 
   if (get_ucs2 (&character, subtask))
     {
       bool french = should_prefer_french();
-      const char *charname;	/* charname for code */
+      const char *charname;     /* charname for code */
       char buffer[50];
 
       put_string (_("UCS2   Mne   Description\n\n"), subtask);
 
       while (1)
-	{
-	  const char *mnemonic = ucs2_to_rfc1345 (character);
+        {
+          const char *mnemonic = ucs2_to_rfc1345 (character);
 
-	  sprintf (buffer, "%.4X", character);
+          sprintf (buffer, "%.4X", character);
           put_string (buffer, subtask);
-	  if (mnemonic)
+          if (mnemonic)
             {
               sprintf (buffer, "   %-3s", mnemonic);
               put_string (buffer, subtask);
             }
-	  else
-	    put_string ("      ", subtask);
+          else
+            put_string ("      ", subtask);
 
-	  if (french)
-	    {
-	      charname = ucs2_to_french_charname (character);
-	      if (!charname)
-		charname = ucs2_to_charname (character);
-	    }
-	  else
-	    {
-	      charname = ucs2_to_charname (character);
-	      if (!charname)
-		charname = ucs2_to_french_charname (character);
-	    }
+          if (french)
+            {
+              charname = ucs2_to_french_charname (character);
+              if (!charname)
+                charname = ucs2_to_charname (character);
+            }
+          else
+            {
+              charname = ucs2_to_charname (character);
+              if (!charname)
+                charname = ucs2_to_french_charname (character);
+            }
 
-	  if (charname)
-	    {
-	      put_string ("   ", subtask);
-	      put_string (charname, subtask);
-	    }
-	  put_byte ('\n', subtask);
+          if (charname)
+            {
+              put_string ("   ", subtask);
+              put_string (charname, subtask);
+            }
+          put_byte ('\n', subtask);
 
-	  if (!get_ucs2 (&character, subtask))
-	    break;
-	}
+          if (!get_ucs2 (&character, subtask))
+            break;
+        }
     }
 
   SUBTASK_RETURN (subtask);
@@ -356,31 +356,31 @@ module_testdump (RECODE_OUTER outer)
   /* Test surfaces.  */
 
   if (!declare_single (outer, "test7", "data",
-		       outer->quality_variable_to_byte,
-		       NULL, test7_data))
+                       outer->quality_variable_to_byte,
+                       NULL, test7_data))
     return false;
   if (!declare_single (outer, "test8", "data",
-		       outer->quality_variable_to_byte,
-		       NULL, test8_data))
+                       outer->quality_variable_to_byte,
+                       NULL, test8_data))
     return false;
   if (!declare_single (outer, "test15", "data",
-		       outer->quality_variable_to_ucs2,
-		       NULL, test15_data))
+                       outer->quality_variable_to_ucs2,
+                       NULL, test15_data))
     return false;
   if (!declare_single (outer, "test16", "data",
-		       outer->quality_variable_to_ucs2,
-		       NULL, test16_data))
+                       outer->quality_variable_to_ucs2,
+                       NULL, test16_data))
     return false;
 
   /* Analysis charsets.  */
 
   if (!declare_single (outer, "ISO-10646-UCS-2", "count-characters",
-		       outer->quality_ucs2_to_variable,
-		       NULL, produce_count))
+                       outer->quality_ucs2_to_variable,
+                       NULL, produce_count))
     return false;
   if (!declare_single (outer, "ISO-10646-UCS-2", "dump-with-names",
-		       outer->quality_ucs2_to_variable,
-		       NULL, produce_full_dump))
+                       outer->quality_ucs2_to_variable,
+                       NULL, produce_full_dump))
     return false;
 
   return true;

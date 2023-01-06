@@ -54,14 +54,14 @@ static const char safe_char_bitnet[1 << 7] =
 };
 
 #define PUT_QUOTED(Character) \
-  do {								\
-    unsigned nibble;							\
-								\
-    put_byte ('=', subtask);					\
-    nibble = BIT_MASK (4) & (Character) >> 4;			\
-    put_byte ((nibble < 10 ? '0' : 'A' - 10) + nibble, subtask);	\
-    nibble = BIT_MASK (4) & (Character);				\
-    put_byte ((nibble < 10 ? '0' : 'A' - 10) + nibble, subtask);	\
+  do {                                                          \
+    unsigned nibble;                                                    \
+                                                                \
+    put_byte ('=', subtask);                                    \
+    nibble = BIT_MASK (4) & (Character) >> 4;                   \
+    put_byte ((nibble < 10 ? '0' : 'A' - 10) + nibble, subtask);        \
+    nibble = BIT_MASK (4) & (Character);                                \
+    put_byte ((nibble < 10 ? '0' : 'A' - 10) + nibble, subtask);        \
   } while (false)
 
 static bool
@@ -81,128 +81,128 @@ transform_data_quoted_printable (RECODE_SUBTASK subtask)
       /* Case of a safe character.  */
 
       if (available > 1)
-	{
-	  put_byte (character, subtask);
-	  available--;
-	  character = get_byte (subtask);
-	}
+        {
+          put_byte (character, subtask);
+          available--;
+          character = get_byte (subtask);
+        }
       else
-	{
-	  next_character = get_byte (subtask);
-	  if (next_character == '\n')
-	    {
-	      put_byte (character, subtask);
-	      put_byte ('\n', subtask);
-	      available = MIME_LINE_LENGTH;
-	      character = get_byte (subtask);
-	    }
-	  else if (next_character == EOF)
-	    {
-	      put_byte (character, subtask);
-	      available--;
-	      character = EOF;
-	    }
-	  else
-	    {
-	      put_byte ('=', subtask);
-	      put_byte ('\n', subtask);
-	      put_byte (character, subtask);
-	      available = MIME_LINE_LENGTH - 1;
-	      character = next_character;
-	    }
-	}
+        {
+          next_character = get_byte (subtask);
+          if (next_character == '\n')
+            {
+              put_byte (character, subtask);
+              put_byte ('\n', subtask);
+              available = MIME_LINE_LENGTH;
+              character = get_byte (subtask);
+            }
+          else if (next_character == EOF)
+            {
+              put_byte (character, subtask);
+              available--;
+              character = EOF;
+            }
+          else
+            {
+              put_byte ('=', subtask);
+              put_byte ('\n', subtask);
+              put_byte (character, subtask);
+              available = MIME_LINE_LENGTH - 1;
+              character = next_character;
+            }
+        }
     else
       switch (character)
-	{
-	case '\n':
+        {
+        case '\n':
 
-	  /* Case of a newline.  */
+          /* Case of a newline.  */
 
-	  put_byte ('\n', subtask);
-	  available = MIME_LINE_LENGTH;
-	  character = get_byte (subtask);
-	  break;
+          put_byte ('\n', subtask);
+          available = MIME_LINE_LENGTH;
+          character = get_byte (subtask);
+          break;
 
-	case '\t':
-	case ' ':
+        case '\t':
+        case ' ':
 
-	  /* Case of a space character.  */
+          /* Case of a space character.  */
 
-	  next_character = get_byte (subtask);
-	  if (next_character == '\n')
-	    {
-	      if (available < 3)
-		{
-		  put_byte ('=', subtask);
-		  put_byte ('\n', subtask);
-		}
-	      PUT_QUOTED (character);
-	      put_byte ('\n', subtask);
-	      available = MIME_LINE_LENGTH;
-	      character = get_byte (subtask);
-	    }
-	  else if (next_character == EOF)
-	    {
-	      if (available < 3)
-		{
-		  put_byte ('=', subtask);
-		  put_byte ('\n', subtask);
-		  available = MIME_LINE_LENGTH;
-		}
-	      PUT_QUOTED (character);
-	      available--;
-	      character = EOF;
-	    }
-	  else
-	    {
-	      if (available == 1)
-		{
-		  put_byte ('=', subtask);
-		  put_byte ('\n', subtask);
-		  available = MIME_LINE_LENGTH;
-		}
-	      put_byte (character, subtask);
-	      available--;
-	      character = next_character;
-	    }
-	  break;
+          next_character = get_byte (subtask);
+          if (next_character == '\n')
+            {
+              if (available < 3)
+                {
+                  put_byte ('=', subtask);
+                  put_byte ('\n', subtask);
+                }
+              PUT_QUOTED (character);
+              put_byte ('\n', subtask);
+              available = MIME_LINE_LENGTH;
+              character = get_byte (subtask);
+            }
+          else if (next_character == EOF)
+            {
+              if (available < 3)
+                {
+                  put_byte ('=', subtask);
+                  put_byte ('\n', subtask);
+                  available = MIME_LINE_LENGTH;
+                }
+              PUT_QUOTED (character);
+              available--;
+              character = EOF;
+            }
+          else
+            {
+              if (available == 1)
+                {
+                  put_byte ('=', subtask);
+                  put_byte ('\n', subtask);
+                  available = MIME_LINE_LENGTH;
+                }
+              put_byte (character, subtask);
+              available--;
+              character = next_character;
+            }
+          break;
 
-	default:
+        default:
 
-	  /* Case of an inconditional quotable character.  */
+          /* Case of an inconditional quotable character.  */
 
-	  if (available > 3)
-	    {
-	      PUT_QUOTED (character);
-	      available -= 3;
-	      character = get_byte (subtask);
-	    }
-	  else
-	    {
-	      next_character = get_byte (subtask);
-	      if (available == 3 && next_character == '\n')
-		{
-		  PUT_QUOTED (character);
-		  put_byte ('\n', subtask);
-		  available = MIME_LINE_LENGTH;
-		  character = get_byte (subtask);
-		}
-	      else if (next_character == EOF)
-		{
-		  PUT_QUOTED (character);
-		  available--;
-		  character = EOF;
-		}
-	      else
-		{
-		  put_byte ('=', subtask);
-		  put_byte ('\n', subtask);
-		  PUT_QUOTED (character);
-		  available = MIME_LINE_LENGTH - 3;
-		  character = next_character;
-		}
-	    }
-	}
+          if (available > 3)
+            {
+              PUT_QUOTED (character);
+              available -= 3;
+              character = get_byte (subtask);
+            }
+          else
+            {
+              next_character = get_byte (subtask);
+              if (available == 3 && next_character == '\n')
+                {
+                  PUT_QUOTED (character);
+                  put_byte ('\n', subtask);
+                  available = MIME_LINE_LENGTH;
+                  character = get_byte (subtask);
+                }
+              else if (next_character == EOF)
+                {
+                  PUT_QUOTED (character);
+                  available--;
+                  character = EOF;
+                }
+              else
+                {
+                  put_byte ('=', subtask);
+                  put_byte ('\n', subtask);
+                  PUT_QUOTED (character);
+                  available = MIME_LINE_LENGTH - 3;
+                  character = next_character;
+                }
+            }
+        }
 
   if (available != MIME_LINE_LENGTH)
     {
@@ -229,115 +229,115 @@ transform_quoted_printable_data (RECODE_SUBTASK subtask)
     switch (character)
       {
       case '\n':
-	/* Process hard line break.  */
+        /* Process hard line break.  */
 
-	if (counter > MIME_LINE_LENGTH)
-	  RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	counter = 0;
-	put_byte ('\n', subtask);
-	character = get_byte (subtask);
-	break;
+        if (counter > MIME_LINE_LENGTH)
+          RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
+        counter = 0;
+        put_byte ('\n', subtask);
+        character = get_byte (subtask);
+        break;
 
       case ' ':
       case '\t':
-	/* Process white space.  */
+        /* Process white space.  */
 
-	cursor = buffer;
-	while (character == ' ' || character == '\t')
-	  {
-	    if (cursor == buffer + MIME_LINE_LENGTH)
-	      {
-		RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-		for (cursor = buffer;
-		     cursor < buffer + MIME_LINE_LENGTH;
-		     cursor++)
-		  put_byte (*cursor, subtask);
-	      }
-	    counter++;
-	    *cursor++ = character;
-	    character = get_byte (subtask);
-	  }
-	if (character == '\n' || character == EOF)
-	  {
-	    RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	    counter = 0;
-	    break;
-	  }
-	*cursor = '\0';
-	for (cursor = buffer; *cursor; cursor++)
-	  put_byte (*cursor, subtask);
-	break;
+        cursor = buffer;
+        while (character == ' ' || character == '\t')
+          {
+            if (cursor == buffer + MIME_LINE_LENGTH)
+              {
+                RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+                for (cursor = buffer;
+                     cursor < buffer + MIME_LINE_LENGTH;
+                     cursor++)
+                  put_byte (*cursor, subtask);
+              }
+            counter++;
+            *cursor++ = character;
+            character = get_byte (subtask);
+          }
+        if (character == '\n' || character == EOF)
+          {
+            RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
+            counter = 0;
+            break;
+          }
+        *cursor = '\0';
+        for (cursor = buffer; *cursor; cursor++)
+          put_byte (*cursor, subtask);
+        break;
 
       case '=':
-	counter++;
-	character = get_byte (subtask);
-	if (character == ' ' || character == '\t' || character == '\n')
-	  {
-	    /* Process soft line break.  */
+        counter++;
+        character = get_byte (subtask);
+        if (character == ' ' || character == '\t' || character == '\n')
+          {
+            /* Process soft line break.  */
 
-	    if (character == ' ' || character == '\t')
-	      {
-		RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-		while (character == ' ' || character == '\t')
-		  {
-		    counter++;
-		    character = get_byte (subtask);
-		  }
-	      }
-	    if (character != '\n')
-	      {
-		RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-		break;
-	      }
-	    if (counter > MIME_LINE_LENGTH)
-	      RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	    counter = 0;
-	    character = get_byte (subtask);
-	    break;
-	  }
+            if (character == ' ' || character == '\t')
+              {
+                RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
+                while (character == ' ' || character == '\t')
+                  {
+                    counter++;
+                    character = get_byte (subtask);
+                  }
+              }
+            if (character != '\n')
+              {
+                RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+                break;
+              }
+            if (counter > MIME_LINE_LENGTH)
+              RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
+            counter = 0;
+            character = get_byte (subtask);
+            break;
+          }
 
-	/* Process quoted value.  */
+        /* Process quoted value.  */
 
-	counter++;
-	if (character >= '0' && character <= '9')
-	  value = (character - '0') << 4;
-	else if (character >= 'a' && character <= 'f')
-	  value = (character - 'a' + 10) << 4;
-	else if (character >= 'A' && character <= 'F')
-	  value = (character - 'A' + 10) << 4;
-	else
-	  {
-	    RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	    break;
-	  }
-	character = get_byte (subtask);
-	counter++;
-	if (character >= '0' && character <= '9')
-	  value |= character - '0';
-	else if (character >= 'a' && character <= 'f')
-	  value |= character - 'a' + 10;
-	else if (character >= 'A' && character <= 'F')
-	  value |= character - 'A' + 10;
-	else
-	  {
-	    RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	    break;
-	  }
-	if (!(value & (1 << 7)) && safe_char[value])
-	  RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
+        counter++;
+        if (character >= '0' && character <= '9')
+          value = (character - '0') << 4;
+        else if (character >= 'a' && character <= 'f')
+          value = (character - 'a' + 10) << 4;
+        else if (character >= 'A' && character <= 'F')
+          value = (character - 'A' + 10) << 4;
+        else
+          {
+            RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+            break;
+          }
+        character = get_byte (subtask);
+        counter++;
+        if (character >= '0' && character <= '9')
+          value |= character - '0';
+        else if (character >= 'a' && character <= 'f')
+          value |= character - 'a' + 10;
+        else if (character >= 'A' && character <= 'F')
+          value |= character - 'A' + 10;
+        else
+          {
+            RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+            break;
+          }
+        if (!(value & (1 << 7)) && safe_char[value])
+          RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
 
-	put_byte (value, subtask);
-	character = get_byte (subtask);
-	break;
+        put_byte (value, subtask);
+        character = get_byte (subtask);
+        break;
 
       default:
-	/* Process safe character.  */
+        /* Process safe character.  */
 
-	counter++;
-	if (character & (1 << 7) || !safe_char[character])
-	  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	put_byte (character, subtask);
-	character = get_byte (subtask);
+        counter++;
+        if (character & (1 << 7) || !safe_char[character])
+          RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+        put_byte (character, subtask);
+        character = get_byte (subtask);
       }
 
   if (counter != 0)
@@ -352,11 +352,11 @@ module_quoted_printable (RECODE_OUTER outer)
 {
   return
     declare_single (outer, "data", "Quoted-Printable",
-		    outer->quality_variable_to_variable,
-		    NULL, transform_data_quoted_printable)
+                    outer->quality_variable_to_variable,
+                    NULL, transform_data_quoted_printable)
     && declare_single (outer, "Quoted-Printable", "data",
-		       outer->quality_variable_to_variable,
-		       NULL, transform_quoted_printable_data)
+                       outer->quality_variable_to_variable,
+                       NULL, transform_quoted_printable_data)
     && declare_alias (outer, "quote-printable", "Quoted-Printable")
     && declare_alias (outer, "QP", "Quoted-Printable");
 }

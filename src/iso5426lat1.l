@@ -91,103 +91,103 @@
 
 
 %%
-\173	{ put_byte (123, subtask); }
+\173    { put_byte (123, subtask); }
 \174    { put_byte (124, subtask); }
 \175    { put_byte (125, subtask); }
 \37     { put_byte (36, subtask); }
-\266	{ put_byte (158, subtask); } 
-\241	{ put_byte (161, subtask); }
-\243	{ put_byte (163, subtask); }
-\244	{ put_byte (36, subtask);  }
-\247	{ put_byte (167, subtask); } 
+\266    { put_byte (158, subtask); } 
+\241    { put_byte (161, subtask); }
+\243    { put_byte (163, subtask); }
+\244    { put_byte (36, subtask);  }
+\247    { put_byte (167, subtask); } 
 
 \210    { put_byte (172, subtask); }
 \211    { put_byte (172, subtask); }
 
-\253	{ put_byte (171, subtask); } 
-\273	{ put_byte (187, subtask); }
-\277	{ put_byte (191, subtask); } 
+\253    { put_byte (171, subtask); } 
+\273    { put_byte (187, subtask); }
+\277    { put_byte (191, subtask); } 
 
-\341	{ put_byte (198, subtask); }
-\342	{ put_byte (208, subtask); }
+\341    { put_byte (198, subtask); }
+\342    { put_byte (208, subtask); }
 
 \350    { put_byte (76, subtask); }
-\351	{ put_byte (216, subtask); }
-\354	{ put_byte (254, subtask); }
-\361	{ put_byte (230, subtask); }
-\362	{ put_byte (100, subtask); }
-\363	{ put_byte (240, subtask); }
-\365	{ put_byte (134, subtask); }
-\370	{ put_byte (108, subtask); }
-\371	{ put_byte (248, subtask); }
-\373	{ put_byte (223, subtask); }
-\374	{ put_byte (222, subtask); } 
+\351    { put_byte (216, subtask); }
+\354    { put_byte (254, subtask); }
+\361    { put_byte (230, subtask); }
+\362    { put_byte (100, subtask); }
+\363    { put_byte (240, subtask); }
+\365    { put_byte (134, subtask); }
+\370    { put_byte (108, subtask); }
+\371    { put_byte (248, subtask); }
+\373    { put_byte (223, subtask); }
+\374    { put_byte (222, subtask); } 
 
-\301a	{ put_byte (224, subtask); } 
-\301e	{ put_byte (232, subtask); } 
-\301i	{ put_byte (236, subtask); } 
-\301o	{ put_byte (242, subtask); } 
-\301u	{ put_byte (249, subtask); } 
+\301a   { put_byte (224, subtask); } 
+\301e   { put_byte (232, subtask); } 
+\301i   { put_byte (236, subtask); } 
+\301o   { put_byte (242, subtask); } 
+\301u   { put_byte (249, subtask); } 
 
-\301A	{ put_byte (192, subtask); } 
-\301E	{ put_byte (200, subtask); } 
-\301I	{ put_byte (204, subtask); } 
-\301O	{ put_byte (210, subtask); } 
-\301U	{ put_byte (217, subtask); } 
+\301A   { put_byte (192, subtask); } 
+\301E   { put_byte (200, subtask); } 
+\301I   { put_byte (204, subtask); } 
+\301O   { put_byte (210, subtask); } 
+\301U   { put_byte (217, subtask); } 
 
-\302a	{ put_byte (225, subtask); } 
-\302e	{ put_byte (233, subtask); } 
-\302i	{ put_byte (237, subtask); } 
-\302o	{ put_byte (243, subtask); } 
-\302u	{ put_byte (250, subtask); } 
-\302y	{ put_byte (253, subtask); } 
+\302a   { put_byte (225, subtask); } 
+\302e   { put_byte (233, subtask); } 
+\302i   { put_byte (237, subtask); } 
+\302o   { put_byte (243, subtask); } 
+\302u   { put_byte (250, subtask); } 
+\302y   { put_byte (253, subtask); } 
 
-\302A	{ put_byte (193, subtask); } 
-\302E	{ put_byte (201, subtask); } 
-\302I	{ put_byte (205, subtask); } 
-\302O	{ put_byte (211, subtask); } 
-\302U	{ put_byte (218, subtask); } 
-\302Y	{ put_byte (221, subtask); } 
+\302A   { put_byte (193, subtask); } 
+\302E   { put_byte (201, subtask); } 
+\302I   { put_byte (205, subtask); } 
+\302O   { put_byte (211, subtask); } 
+\302U   { put_byte (218, subtask); } 
+\302Y   { put_byte (221, subtask); } 
 
-\303a	{ put_byte (226, subtask); } 
-\303e	{ put_byte (234, subtask); } 
-\303i	{ put_byte (238, subtask); } 
-\303o	{ put_byte (244, subtask); } 
-\303u	{ put_byte (251, subtask); } 
+\303a   { put_byte (226, subtask); } 
+\303e   { put_byte (234, subtask); } 
+\303i   { put_byte (238, subtask); } 
+\303o   { put_byte (244, subtask); } 
+\303u   { put_byte (251, subtask); } 
 
-\303A	{ put_byte (194, subtask); } 
-\303E	{ put_byte (202, subtask); } 
-\303I	{ put_byte (206, subtask); } 
-\303O	{ put_byte (212, subtask); } 
-\303U	{ put_byte (219, subtask); } 
+\303A   { put_byte (194, subtask); } 
+\303E   { put_byte (202, subtask); } 
+\303I   { put_byte (206, subtask); } 
+\303O   { put_byte (212, subtask); } 
+\303U   { put_byte (219, subtask); } 
 
-\304a	{ put_byte (227, subtask); } 
-\304o	{ put_byte (245, subtask); } 
-\304n	{ put_byte (241, subtask); } 
+\304a   { put_byte (227, subtask); } 
+\304o   { put_byte (245, subtask); } 
+\304n   { put_byte (241, subtask); } 
 
-\304A	{ put_byte (195, subtask); } 
-\304O	{ put_byte (213, subtask); } 
-\304N	{ put_byte (209, subtask); } 
+\304A   { put_byte (195, subtask); } 
+\304O   { put_byte (213, subtask); } 
+\304N   { put_byte (209, subtask); } 
 
-\310e	{ put_byte (235, subtask); } 
-\310i	{ put_byte (239, subtask); } 
-\310y	{ put_byte (255, subtask); } 
+\310e   { put_byte (235, subtask); } 
+\310i   { put_byte (239, subtask); } 
+\310y   { put_byte (255, subtask); } 
 
-\310E	{ put_byte (203, subtask); } 
-\310I	{ put_byte (207, subtask); } 
+\310E   { put_byte (203, subtask); } 
+\310I   { put_byte (207, subtask); } 
 
-\312a	{ put_byte (229, subtask); } 
-\312A	{ put_byte (197, subtask); } 
+\312a   { put_byte (229, subtask); } 
+\312A   { put_byte (197, subtask); } 
 
-\320c	{ put_byte (231, subtask); } 
-\320C	{ put_byte (199, subtask); } 
+\320c   { put_byte (231, subtask); } 
+\320C   { put_byte (199, subtask); } 
 
-\311a	{ put_byte (228, subtask); } 
-\311o	{ put_byte (246, subtask); } 
-\311u	{ put_byte (252, subtask); } 
-\311A	{ put_byte (196, subtask); } 
-\311O	{ put_byte (214, subtask); } 
-\311U	{ put_byte (220, subtask); }   
+\311a   { put_byte (228, subtask); } 
+\311o   { put_byte (246, subtask); } 
+\311u   { put_byte (252, subtask); } 
+\311A   { put_byte (196, subtask); } 
+\311O   { put_byte (214, subtask); } 
+\311U   { put_byte (220, subtask); }   
 %%
 
 bool

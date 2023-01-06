@@ -26,7 +26,7 @@
 
 /*-------------------------------------------------------------------------.
 | Return the corresponding UCS-2 value in a CHARSET for a given CODE, or a |
-| negative number if this symbol is not defined.			   |
+| negative number if this symbol is not defined.                           |
 `-------------------------------------------------------------------------*/
 
 _GL_ATTRIBUTE_PURE int
@@ -50,8 +50,8 @@ code_to_ucs2 (RECODE_CONST_SYMBOL charset, unsigned code)
 
 static _GL_ATTRIBUTE_PURE bool
 check_restricted (RECODE_CONST_OUTER outer,
-		  RECODE_CONST_SYMBOL before,
-		  RECODE_CONST_SYMBOL after)
+                  RECODE_CONST_SYMBOL before,
+                  RECODE_CONST_SYMBOL after)
 {
   struct recode_known_pair *pair;
   int left;
@@ -62,16 +62,16 @@ check_restricted (RECODE_CONST_OUTER outer,
        pair++)
     {
       /* Reject the charset if the characters in the pair do not exist of
-	 if their respective definition do not match.  */
+         if their respective definition do not match.  */
 
       left = code_to_ucs2 (before, pair->left);
       if (left < 0)
-	return true;
+        return true;
       right = code_to_ucs2 (after, pair->right);
       if (right < 0)
-	return true;
+        return true;
       if (left != right)
-	return true;
+        return true;
     }
 
   /* No restriction found.  */
@@ -151,10 +151,10 @@ name_for_argmatch (RECODE_OUTER outer, const char *name)
     {
       character = *(const unsigned char *) in;
       if ((character >= 'a' && character <= 'z')
-	  || (character >= '0' && character <= '9'))
-	*out++ = character;
+          || (character >= '0' && character <= '9'))
+        *out++ = character;
       else if (character >= 'A' && character <= 'Z')
-	*out++ = character - 'A' + 'a';
+        *out++ = character - 'A' + 'a';
     }
   *out = NUL;
 
@@ -170,13 +170,13 @@ name_for_argmatch (RECODE_OUTER outer, const char *name)
 
 static const char *
 disambiguate_name (RECODE_OUTER outer,
-		   const char *name, enum alias_find_type find_type)
+                   const char *name, enum alias_find_type find_type)
 {
   char *hashname;
   int ordinal;
   const char *result;
 
-  result = NULL;		/* for lint */
+  result = NULL;                /* for lint */
 
   /* Look for a match.  */
 
@@ -185,15 +185,15 @@ disambiguate_name (RECODE_OUTER outer,
       {
       case ALIAS_FIND_AS_CHARSET:
       case ALIAS_FIND_AS_EITHER:
-	name = getenv ("DEFAULT_CHARSET");
-	if (!name || !*name)
+        name = getenv ("DEFAULT_CHARSET");
+        if (!name || !*name)
           name = locale_charset();
-	if (!name || !*name)
+        if (!name || !*name)
           return NULL;
-	break;
+        break;
 
       default:
-	return NULL;
+        return NULL;
       }
 
   hashname = name_for_argmatch (outer, name);
@@ -219,12 +219,12 @@ disambiguate_name (RECODE_OUTER outer,
     case ALIAS_FIND_AS_EITHER:
       ordinal = argmatch (hashname, outer->argmatch_charset_array, NULL, 0);
       if (ordinal >= 0)
-	result = outer->realname_charset_array[ordinal];
+        result = outer->realname_charset_array[ordinal];
       else
-	{
-	  ordinal = argmatch (hashname, outer->argmatch_surface_array, NULL, 0);
-	  result = ordinal < 0 ? NULL : outer->realname_surface_array[ordinal];
-	}
+        {
+          ordinal = argmatch (hashname, outer->argmatch_surface_array, NULL, 0);
+          result = ordinal < 0 ? NULL : outer->realname_surface_array[ordinal];
+        }
       break;
 
     default:
@@ -256,7 +256,7 @@ delete_alias (RECODE_ALIAS alias)
 
 RECODE_ALIAS
 find_alias (RECODE_OUTER outer, const char *name,
-	    enum alias_find_type find_type)
+            enum alias_find_type find_type)
 {
   struct recode_alias lookup;
   RECODE_ALIAS alias;
@@ -278,7 +278,7 @@ find_alias (RECODE_OUTER outer, const char *name,
 
       name = disambiguate_name (outer, name, find_type);
       if (!name)
-	return NULL;
+        return NULL;
     }
 
   /* Search the whole hash bucket and return any match.  */
@@ -349,9 +349,9 @@ declare_alias (RECODE_OUTER outer, const char *name, const char *old_name)
       ((Hash_table *) outer->alias_table, &lookup), alias)
     {
       if (alias->symbol == symbol)
-	return alias;
+        return alias;
       recode_error (outer, _("Charset %s already exists and is not %s"),
-		    name, old_name);
+                    name, old_name);
       return NULL;
     }
 
@@ -378,7 +378,7 @@ declare_alias (RECODE_OUTER outer, const char *name, const char *old_name)
 
 bool
 declare_implied_surface (RECODE_OUTER outer, RECODE_ALIAS alias,
-			 RECODE_CONST_SYMBOL surface)
+                         RECODE_CONST_SYMBOL surface)
 {
   struct recode_surface_list *list;
   struct recode_surface_list *hook;
@@ -393,7 +393,7 @@ declare_implied_surface (RECODE_OUTER outer, RECODE_ALIAS alias,
     {
       list = alias->implied_surfaces;
       while (list->next)
-	list = list->next;
+        list = list->next;
       list->next = hook;
     }
   else
@@ -409,8 +409,8 @@ declare_implied_surface (RECODE_OUTER outer, RECODE_ALIAS alias,
 struct make_argmatch_walk
   {
     RECODE_OUTER outer;
-    unsigned charset_counter;	/* number of acceptable charset names */
-    unsigned surface_counter;	/* number of acceptable surface names */
+    unsigned charset_counter;   /* number of acceptable charset names */
+    unsigned surface_counter;   /* number of acceptable surface names */
   };
 
 static bool
@@ -439,7 +439,7 @@ make_argmatch_walker_2 (void *void_alias, void *void_walk)
       char *string = name_for_argmatch (outer, alias->name);
 
       if (!string)
-	abort ();
+        abort ();
       outer->argmatch_charset_array[walk->charset_counter] = string;
       outer->realname_charset_array[walk->charset_counter] = alias->name;
       walk->charset_counter++;
@@ -449,7 +449,7 @@ make_argmatch_walker_2 (void *void_alias, void *void_walk)
       char *string = name_for_argmatch (outer, alias->name);
 
       if (!string)
-	abort ();
+        abort ();
       outer->argmatch_surface_array[walk->surface_counter] = string;
       outer->realname_surface_array[walk->surface_counter] = alias->name;
       walk->surface_counter++;
@@ -471,9 +471,9 @@ make_argmatch_arrays (RECODE_OUTER outer)
       const char **cursor;
 
       for (cursor = outer->argmatch_charset_array; *cursor; cursor++)
-	free ((char *) *cursor);
+        free ((char *) *cursor);
       for (cursor = outer->argmatch_surface_array; *cursor; cursor++)
-	free ((char *) *cursor);
+        free ((char *) *cursor);
       free (outer->argmatch_charset_array);
     }
 
@@ -483,7 +483,7 @@ make_argmatch_arrays (RECODE_OUTER outer)
   walk.charset_counter = 0;
   walk.surface_counter = 0;
   hash_do_for_each ((Hash_table *) outer->alias_table,
-	 	    make_argmatch_walker_1, &walk);
+                    make_argmatch_walker_1, &walk);
 
   /* Allocate the argmatch and realname arrays, each with a NULL sentinel.  */
 
@@ -491,7 +491,7 @@ make_argmatch_arrays (RECODE_OUTER outer)
     const char **cursor;
 
     if (!ALLOC (cursor, 2*walk.charset_counter + 2*walk.surface_counter + 4,
-		const char *))
+                const char *))
       return false;
 
     outer->argmatch_charset_array = cursor;
@@ -516,7 +516,7 @@ make_argmatch_arrays (RECODE_OUTER outer)
   walk.charset_counter = 0;
   walk.surface_counter = 0;
   hash_do_for_each ((Hash_table *) outer->alias_table,
-	 	    make_argmatch_walker_2, &walk);
+                    make_argmatch_walker_2, &walk);
 
   return true;
 }
@@ -534,58 +534,58 @@ compare_strings (const char *stringA, const char *stringB)
   while (*stringA && *stringB)
     if (*stringA >= '0' && *stringA <= '9')
       if (*stringB >= '0' && *stringB <= '9')
-	{
-	  unsigned valueA = 0;
-	  unsigned valueB = 0;
+        {
+          unsigned valueA = 0;
+          unsigned valueB = 0;
 
-	  while (*stringA >= '0' && *stringA <= '9'
-		 && *stringB >= '0' && *stringB <= '9')
-	    {
-	      valueA = 10 * valueA + *stringA - '0';
-	      valueB = 10 * valueB + *stringB - '0';
-	      if (delayed == 0)
-		delayed = *stringA - *stringB;
-	      stringA++;
-	      stringB++;
-	    }
-	  while (*stringA >= '0' && *stringA <= '9')
-	    {
-	      valueA = 10 * valueA + *stringA - '0';
-	      if (delayed == 0)
-		delayed = 1;
-	      stringA++;
-	    }
-	  while (*stringB >= '0' && *stringB <= '9')
-	    {
-	      valueB = 10 * valueB + *stringB - '0';
-	      if (delayed == 0)
-		delayed = -1;
-	      stringB++;
-	    }
-	  if (valueA - valueB != 0)
-	    return valueA - valueB;
-	}
+          while (*stringA >= '0' && *stringA <= '9'
+                 && *stringB >= '0' && *stringB <= '9')
+            {
+              valueA = 10 * valueA + *stringA - '0';
+              valueB = 10 * valueB + *stringB - '0';
+              if (delayed == 0)
+                delayed = *stringA - *stringB;
+              stringA++;
+              stringB++;
+            }
+          while (*stringA >= '0' && *stringA <= '9')
+            {
+              valueA = 10 * valueA + *stringA - '0';
+              if (delayed == 0)
+                delayed = 1;
+              stringA++;
+            }
+          while (*stringB >= '0' && *stringB <= '9')
+            {
+              valueB = 10 * valueB + *stringB - '0';
+              if (delayed == 0)
+                delayed = -1;
+              stringB++;
+            }
+          if (valueA - valueB != 0)
+            return valueA - valueB;
+        }
       else
-	return -1;
+        return -1;
     else
       if (*stringB >= '0' && *stringB <= '9')
-	return 1;
+        return 1;
       else
-	{
-	  char charA = *stringA;
-	  char charB = *stringB;
+        {
+          char charA = *stringA;
+          char charB = *stringB;
 
-	  if (charA >= 'a' && charA <= 'z')
-	    charA += 'A' - 'a';
-	  if (charB >= 'a' && charB <= 'z')
-	    charB += 'A' - 'a';
-	  if (charA - charB != 0)
-	    return charA - charB;
-	  if (delayed == 0)
-	    delayed = *stringA - *stringB;
-	  stringA++;
-	  stringB++;
-	}
+          if (charA >= 'a' && charA <= 'z')
+            charA += 'A' - 'a';
+          if (charB >= 'a' && charB <= 'z')
+            charB += 'A' - 'a';
+          if (charA - charB != 0)
+            return charA - charB;
+          if (delayed == 0)
+            delayed = *stringA - *stringB;
+          stringA++;
+          stringB++;
+        }
 
   return *stringA ? 1 : *stringB ? -1 : delayed;
 }
@@ -664,14 +664,14 @@ bool
 list_all_symbols (RECODE_OUTER outer, RECODE_CONST_SYMBOL after)
 {
   struct list_symbols_walk walk; /* wanderer's data */
-  RECODE_ALIAS alias;		/* cursor into sorted array */
-  bool list_flag;		/* if the current alias should be listed */
+  RECODE_ALIAS alias;           /* cursor into sorted array */
+  bool list_flag;               /* if the current alias should be listed */
 
   /* Count how many symbols we have.  */
 
   walk.number = 0;
   hash_do_for_each ((Hash_table *) outer->alias_table,
-	 	    list_symbols_walker_1, &walk);
+                    list_symbols_walker_1, &walk);
 
   /* Allocate a structure to hold them.  */
 
@@ -682,12 +682,12 @@ list_all_symbols (RECODE_OUTER outer, RECODE_CONST_SYMBOL after)
 
   walk.number = 0;
   hash_do_for_each ((Hash_table *) outer->alias_table,
-	 	    list_symbols_walker_2, &walk);
+                    list_symbols_walker_2, &walk);
 
   /* Sort it.  */
 
   qsort (walk.array, (size_t) walk.number, sizeof (struct recode_alias),
-	 compare_struct_alias);
+         compare_struct_alias);
 
   /* Print it, one line per symbol, giving the true symbol name first,
      followed by all its alias in lexicographic order.  */
@@ -698,33 +698,33 @@ list_all_symbols (RECODE_OUTER outer, RECODE_CONST_SYMBOL after)
       /* Begin a new line with the true symbol name when it changes.  */
 
       if (alias == walk.array
-	  || alias->symbol->name != (alias - 1)->symbol->name)
-	{
-	  if (list_flag && alias != walk.array)
-	    putchar ('\n');
+          || alias->symbol->name != (alias - 1)->symbol->name)
+        {
+          if (list_flag && alias != walk.array)
+            putchar ('\n');
 
-	  list_flag
-	    = !after || !check_restricted (outer, alias->symbol, after);
+          list_flag
+            = !after || !check_restricted (outer, alias->symbol, after);
 
-	  if (list_flag && alias->symbol->type != RECODE_CHARSET)
-	    putchar ('/');
-	}
+          if (list_flag && alias->symbol->type != RECODE_CHARSET)
+            putchar ('/');
+        }
       else if (list_flag)
-	putchar (' ');
+        putchar (' ');
 
       /* Print a name and its usual surfaces.  */
 
       if (list_flag)
-	{
-	  struct recode_surface_list *cursor;
+        {
+          struct recode_surface_list *cursor;
 
-	  fputs (alias->name, stdout);
-	  for (cursor = alias->implied_surfaces; cursor; cursor = cursor->next)
-	    {
-	      putchar ('/');
-	      fputs (cursor->surface->name, stdout);
-	    }
-	}
+          fputs (alias->name, stdout);
+          for (cursor = alias->implied_surfaces; cursor; cursor = cursor->next)
+            {
+              putchar ('/');
+              fputs (cursor->surface->name, stdout);
+            }
+        }
     }
   if (list_flag)
     putchar ('\n');
@@ -763,7 +763,7 @@ decode_known_pairs (RECODE_OUTER outer, const char *string)
     switch (*cursor)
       {
       default:
-	return false;
+        return false;
 
       case '0':
       case '1':
@@ -775,40 +775,40 @@ decode_known_pairs (RECODE_OUTER outer, const char *string)
       case '7':
       case '8':
       case '9':
-	*pointer = strtoul (cursor, &after, 0);
-	cursor = after;
-	if (*pointer > 255)
-	  return false;
-	break;
+        *pointer = strtoul (cursor, &after, 0);
+        cursor = after;
+        if (*pointer > 255)
+          return false;
+        break;
 
       case ':':
-	cursor++;
-	if (left_value < 0 || pointer != &left_value)
-	  return false;
-	pointer = &right_value;
-	break;
+        cursor++;
+        if (left_value < 0 || pointer != &left_value)
+          return false;
+        pointer = &right_value;
+        break;
 
       case ',':
-	cursor++;
-	if (left_value < 0 || right_value < 0)
-	  return false;
+        cursor++;
+        if (left_value < 0 || right_value < 0)
+          return false;
 
-	outer->pair_restriction[outer->pair_restrictions].left
-	  = (unsigned char) left_value;
-	outer->pair_restriction[outer->pair_restrictions].right
-	  = (unsigned char) right_value;
-	outer->pair_restrictions++;
+        outer->pair_restriction[outer->pair_restrictions].left
+          = (unsigned char) left_value;
+        outer->pair_restriction[outer->pair_restrictions].right
+          = (unsigned char) right_value;
+        outer->pair_restrictions++;
 
-	if (outer->pair_restrictions % 16 == 0)
-	  if (!REALLOC (outer->pair_restriction,
-			outer->pair_restrictions + 16,
-			struct recode_known_pair))
-	    return false;
+        if (outer->pair_restrictions % 16 == 0)
+          if (!REALLOC (outer->pair_restriction,
+                        outer->pair_restrictions + 16,
+                        struct recode_known_pair))
+            return false;
 
-	left_value = -1;
-	right_value = -1;
-	pointer = &left_value;
-	break;
+        left_value = -1;
+        right_value = -1;
+        pointer = &left_value;
+        break;
       }
 
   if (left_value < 0 || right_value < 0)
@@ -830,23 +830,23 @@ decode_known_pairs (RECODE_OUTER outer, const char *string)
 
 bool
 list_concise_charset (RECODE_OUTER outer,
-		      RECODE_CONST_SYMBOL charset,
-		      const enum recode_list_format list_format)
+                      RECODE_CONST_SYMBOL charset,
+                      const enum recode_list_format list_format)
 {
-  unsigned half;		/* half 0, half 1 of the table */
-  const char *format;		/* format string */
-  const char *blanks;		/* white space to replace format string */
-  unsigned counter;		/* code counter */
-  unsigned counter2;		/* code counter */
-  unsigned code;		/* code value */
+  unsigned half;                /* half 0, half 1 of the table */
+  const char *format;           /* format string */
+  const char *blanks;           /* white space to replace format string */
+  unsigned counter;             /* code counter */
+  unsigned counter2;            /* code counter */
+  unsigned code;                /* code value */
 
   /* Ensure we have a strip table to play with.  */
 
   if (charset->data_type != RECODE_STRIP_DATA)
     {
       recode_error (outer,
-		    _("Cannot list `%s', no names available for this charset"),
-		    charset->name);
+                    _("Cannot list `%s', no names available for this charset"),
+                    charset->name);
       return false;
     }
 
@@ -857,7 +857,7 @@ list_concise_charset (RECODE_OUTER outer,
   switch (list_format)
     {
     default:
-      return false;			/* cannot happen */
+      return false;                     /* cannot happen */
 
     case RECODE_NO_FORMAT:
     case RECODE_DECIMAL_FORMAT:
@@ -883,42 +883,42 @@ list_concise_charset (RECODE_OUTER outer,
       /* Skip printing this half if it is empty.  */
 
       for (code = 128 * half; code < 128 * (half + 1); code++)
-	if (code_to_ucs2 (charset, code) >= 0)
-	  break;
+        if (code_to_ucs2 (charset, code) >= 0)
+          break;
       if (code == 128 * (half + 1))
-	continue;
+        continue;
 
       /* Print this half.  */
 
       printf ("\n");
       for (counter = 128 * half; counter < 128 * half + 16; counter++)
-	for (counter2 = 0; counter2 < 128; counter2 += 16)
-	  {
-	    int ucs2;
-	    const char *mnemonic;
+        for (counter2 = 0; counter2 < 128; counter2 += 16)
+          {
+            int ucs2;
+            const char *mnemonic;
 
-	    if (counter2 > 0)
-	      printf ("  ");
+            if (counter2 > 0)
+              printf ("  ");
 
-	    code = counter + counter2;
-	    ucs2 = code_to_ucs2 (charset, code);
-	    mnemonic = ucs2 >= 0 ? ucs2_to_rfc1345 (ucs2) : NULL;
+            code = counter + counter2;
+            ucs2 = code_to_ucs2 (charset, code);
+            mnemonic = ucs2 >= 0 ? ucs2_to_rfc1345 (ucs2) : NULL;
 
-	    /* FIXME: Trailing space elimination is not always effective.  */
+            /* FIXME: Trailing space elimination is not always effective.  */
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-nonliteral"
-	    if (ucs2 >= 0)
-	      printf (format, code);
-	    else if (mnemonic || counter2 != 112)
-	      fputs (blanks,  stdout);
+            if (ucs2 >= 0)
+              printf (format, code);
+            else if (mnemonic || counter2 != 112)
+              fputs (blanks,  stdout);
 #pragma GCC diagnostic pop
 
-	    if (mnemonic)
-	      printf (counter2 == 112 ? " %s\n" : " %-3s", mnemonic);
-	    else
-	      printf (counter2 == 112 ? "\n" : "    ");
-	  }
+            if (mnemonic)
+              printf (counter2 == 112 ? " %s\n" : " %-3s", mnemonic);
+            else
+              printf (counter2 == 112 ? "\n" : "    ");
+          }
     }
 
   return true;
@@ -950,13 +950,13 @@ list_full_charset_line (int code, recode_ucs2 ucs2, bool french)
     {
       charname = ucs2_to_french_charname (ucs2);
       if (!charname)
-	charname = ucs2_to_charname (ucs2);
+        charname = ucs2_to_charname (ucs2);
     }
   else
     {
       charname = ucs2_to_charname (ucs2);
       if (!charname)
-	charname = ucs2_to_french_charname (ucs2);
+        charname = ucs2_to_french_charname (ucs2);
     }
 
   if (charname)
@@ -990,80 +990,80 @@ list_full_charset (RECODE_OUTER outer, RECODE_CONST_SYMBOL charset)
     {
     case RECODE_EXPLODE_DATA:
       {
-	const unsigned short *data = (const unsigned short *) charset->data;
-	unsigned code;		/* code counter */
-	unsigned expected;	/* expected value for code counter */
-	bool insert_white;	/* insert a while line before printing */
+        const unsigned short *data = (const unsigned short *) charset->data;
+        unsigned code;          /* code counter */
+        unsigned expected;      /* expected value for code counter */
+        bool insert_white;      /* insert a while line before printing */
 
-	/* Print the long table according to explode data.  */
+        /* Print the long table according to explode data.  */
 
-	printf (_("Dec  Oct Hex   UCS2  Mne  %s\n"), charset->name);
-	insert_white = true;
-	expected = 0;
+        printf (_("Dec  Oct Hex   UCS2  Mne  %s\n"), charset->name);
+        insert_white = true;
+        expected = 0;
 
-	while (*data != DONE)
-	  {
-	    code = *data++;
-	    while (expected < code)
-	      {
-		if (insert_white)
-		  {
-		    putchar ('\n');
-		    insert_white = false;
-		  }
-		list_full_charset_line (expected, expected, french);
-		expected++;
-	      }
-	    if (*data == ELSE || *data == DONE)
-	      insert_white = true;
-	    else
-	      {
-		if (insert_white)
-		  {
-		    putchar ('\n');
-		    insert_white = false;
-		  }
-		list_full_charset_line (code, *data++, french);
-		while (*data != ELSE && *data != DONE)
-		  list_full_charset_line (-1, *data++, french);
-	      }
-	    while (*data != DONE)
-	      data++;
-	    expected = code + 1;
-	    data++;
-	  }
+        while (*data != DONE)
+          {
+            code = *data++;
+            while (expected < code)
+              {
+                if (insert_white)
+                  {
+                    putchar ('\n');
+                    insert_white = false;
+                  }
+                list_full_charset_line (expected, expected, french);
+                expected++;
+              }
+            if (*data == ELSE || *data == DONE)
+              insert_white = true;
+            else
+              {
+                if (insert_white)
+                  {
+                    putchar ('\n');
+                    insert_white = false;
+                  }
+                list_full_charset_line (code, *data++, french);
+                while (*data != ELSE && *data != DONE)
+                  list_full_charset_line (-1, *data++, french);
+              }
+            while (*data != DONE)
+              data++;
+            expected = code + 1;
+            data++;
+          }
       }
       return true;
 
     case RECODE_STRIP_DATA:
       {
-	unsigned code;		/* code counter */
-	int ucs2;		/* UCS-2 translation */
-	bool insert_white;	/* insert a while line before printing */
+        unsigned code;          /* code counter */
+        int ucs2;               /* UCS-2 translation */
+        bool insert_white;      /* insert a while line before printing */
 
-	/* Print the long table according to strip data.  */
+        /* Print the long table according to strip data.  */
 
-	printf (_("Dec  Oct Hex   UCS2  Mne  %s\n"), charset->name);
-	insert_white = true;
+        printf (_("Dec  Oct Hex   UCS2  Mne  %s\n"), charset->name);
+        insert_white = true;
 
-	for (code = 0; code < 256; code++)
-	  if ((ucs2 = code_to_ucs2 (charset, code)), ucs2 >= 0)
-	    {
-	      if (insert_white)
-		{
-		  putchar ('\n');
-		  insert_white = false;
-		}
-	      list_full_charset_line (code, ucs2, french);
-	    }
-	  else
-	    insert_white = true;
+        for (code = 0; code < 256; code++)
+          if ((ucs2 = code_to_ucs2 (charset, code)), ucs2 >= 0)
+            {
+              if (insert_white)
+                {
+                  putchar ('\n');
+                  insert_white = false;
+                }
+              list_full_charset_line (code, ucs2, french);
+            }
+          else
+            insert_white = true;
       }
       return true;
 
     default:
       recode_error (outer, _("Sorry, no names available for `%s'"),
-		    charset->name);
+                    charset->name);
       return false;
     }
 }
@@ -1084,70 +1084,70 @@ find_and_report_subsets (RECODE_OUTER outer)
        charset1 = charset1->next)
     {
       const struct strip_data *table1
-	= (const struct strip_data *) charset1->data;
+        = (const struct strip_data *) charset1->data;
       RECODE_SYMBOL charset2;
 
       if (charset1->ignore || charset1->data_type != RECODE_STRIP_DATA)
-	continue;
+        continue;
 
       for (charset2 = outer->symbol_list;
-	   charset2;
-	   charset2 = charset2->next)
-	{
-	  const struct strip_data *table2
-	    = (const struct strip_data *) charset2->data;
+           charset2;
+           charset2 = charset2->next)
+        {
+          const struct strip_data *table2
+            = (const struct strip_data *) charset2->data;
 
-	  if (charset2->ignore || charset2->data_type != RECODE_STRIP_DATA
-	      || charset2 == charset1)
-	    continue;
+          if (charset2->ignore || charset2->data_type != RECODE_STRIP_DATA
+              || charset2 == charset1)
+            continue;
 
-	  {
-	    bool subset = true;
-	    unsigned distance = 0;
-	    unsigned counter;
-	    unsigned slider;
+          {
+            bool subset = true;
+            unsigned distance = 0;
+            unsigned counter;
+            unsigned slider;
 
-	    for (counter = 0; counter < 256/STRIP_SIZE; counter++)
-	      {
-		const recode_ucs2 *pool1 = table1->pool;
-		const recode_ucs2 *pool2 = table2->pool;
-		const short offset1 = table1->offset[counter];
-		const short offset2 = table2->offset[counter];
+            for (counter = 0; counter < 256/STRIP_SIZE; counter++)
+              {
+                const recode_ucs2 *pool1 = table1->pool;
+                const recode_ucs2 *pool2 = table2->pool;
+                const short offset1 = table1->offset[counter];
+                const short offset2 = table2->offset[counter];
 
-		if (pool1 != pool2 || offset1 != offset2)
-		  for (slider = 0; slider < STRIP_SIZE; slider++)
-		    {
-		      recode_ucs2 value1 = pool1[offset1 + slider];
-		      recode_ucs2 value2 = pool2[offset2 + slider];
+                if (pool1 != pool2 || offset1 != offset2)
+                  for (slider = 0; slider < STRIP_SIZE; slider++)
+                    {
+                      recode_ucs2 value1 = pool1[offset1 + slider];
+                      recode_ucs2 value2 = pool2[offset2 + slider];
 
-		      if (value1 != value2)
-			{
-			  if (value1 == BIT_MASK (16))
-			    distance++;
-			  else
-			    {
-			      subset = false;
-			      break;
-			    }
-			}
-		    }
-		if (!subset)
-		  break;
-	      }
+                      if (value1 != value2)
+                        {
+                          if (value1 == BIT_MASK (16))
+                            distance++;
+                          else
+                            {
+                              subset = false;
+                              break;
+                            }
+                        }
+                    }
+                if (!subset)
+                  break;
+              }
 
-	    if (subset)
-	      {
-		if (distance == 0)
-		  printf ("[  0] %s == %s\n",
-			  charset1->name, charset2->name);
-		else
-		  printf ("[%3u] %s < %s\n", distance,
-			  charset1->name, charset2->name);
+            if (subset)
+              {
+                if (distance == 0)
+                  printf ("[  0] %s == %s\n",
+                          charset1->name, charset2->name);
+                else
+                  printf ("[%3u] %s < %s\n", distance,
+                          charset1->name, charset2->name);
 
-		success = false;
-	      }
-	  }
-	}
+                success = false;
+              }
+          }
+        }
     }
 
   return success;

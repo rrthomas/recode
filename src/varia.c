@@ -72,7 +72,7 @@ static const unsigned short data_kamenicky[] =
     156, 0x013D, DONE,
     157, 0x00DD, DONE,
     158, 0x0158, DONE,
-    159, 0x0165, DONE,		/* latin small letter t with caron */
+    159, 0x0165, DONE,          /* latin small letter t with caron */
     160, 0x00E1, DONE,
     161, 0x00ED, DONE,
     162, 0x00F3, DONE,
@@ -150,10 +150,10 @@ static const unsigned short data_kamenicky[] =
     234, 0x03A9, DONE,
     235, 0x03B4, DONE,
     236, 0x221E, DONE,
-    237, 0x03C6, DONE,		/* greek small letter phi */
-    238, 0x03B5, DONE,		/* element of */
-    239, 0x2229, DONE,		/* intersection */
-    240, 0x224D, DONE,		/* equivalent to */
+    237, 0x03C6, DONE,          /* greek small letter phi */
+    238, 0x03B5, DONE,          /* element of */
+    239, 0x2229, DONE,          /* intersection */
+    240, 0x224D, DONE,          /* equivalent to */
     241, 0x00B1, DONE,
     242, 0x2265, DONE,
     243, 0x2264, DONE,
@@ -161,9 +161,9 @@ static const unsigned short data_kamenicky[] =
     245, 0x2321, DONE,
     246, 0x00F7, DONE,
     247, 0x2248, DONE,
-    248, 0x00B0, DONE,		/* degree sign */
-    249, 0x2219, DONE,		/* bullet operator */
-    250, 0x00B7, DONE,		/* middle dot */
+    248, 0x00B0, DONE,          /* degree sign */
+    249, 0x2219, DONE,          /* bullet operator */
+    250, 0x00B7, DONE,          /* middle dot */
     251, 0x221A, DONE,
     252, 0x207F, DONE,
     253, 0x00B2, DONE,
@@ -327,8 +327,8 @@ static const unsigned short data_koi8cs2[] =
     196, 0x010F, DONE,
     197, 0x011B, DONE,
     198, 0x0155, DONE,
-    199, DONE,			/* ch digraph as a single character,
-				   as used in the Czech alphabet, FIXME!  */
+    199, DONE,                  /* ch digraph as a single character,
+                                   as used in the Czech alphabet, FIXME!  */
     200, 0x00FC, DONE,
     201, 0x00ED, DONE,
     202, 0x016F, DONE,
@@ -359,8 +359,8 @@ static const unsigned short data_koi8cs2[] =
     228, 0x010E, DONE,
     229, 0x011A, DONE,
     230, 0x0154, DONE,
-    231, DONE,			/* CH digraph as a single character,
-				   as used in the Czech alphabet, FIXME!  */
+    231, DONE,                  /* CH digraph as a single character,
+                                   as used in the Czech alphabet, FIXME!  */
     232, 0x00DC, DONE,
     233, 0x00CD, DONE,
     234, 0x016E, DONE,

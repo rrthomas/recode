@@ -105,11 +105,11 @@ module_java (RECODE_OUTER outer)
 {
   return
     declare_single (outer, "UTF-16", "Java",
-		       outer->quality_ucs2_to_variable,
-		       NULL, transform_utf16_java)
+                       outer->quality_ucs2_to_variable,
+                       NULL, transform_utf16_java)
     && declare_single (outer, "Java", "UTF-16",
-		       outer->quality_variable_to_ucs2,
-		       NULL, transform_java_utf16);
+                       outer->quality_variable_to_ucs2,
+                       NULL, transform_java_utf16);
 }
 
 void

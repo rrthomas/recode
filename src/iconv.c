@@ -113,23 +113,23 @@ wrapped_transform (iconv_t conversion, RECODE_SUBTASK subtask)
 
       drain_first = false;
       if (saved_errno != 0 && saved_errno != E2BIG)
-	{
-	  if (saved_errno == EILSEQ)
-	    {
-	      /* Check whether the input was really just untranslatable.  */
+        {
+          if (saved_errno == EILSEQ)
+            {
+              /* Check whether the input was really just untranslatable.  */
               enum recode_error recode_error = RECODE_INVALID_INPUT;
-	      RECODE_CONST_STEP step = subtask->step;
-	      iconv_t check_conversion = iconv_open (step->before->iconv_name,
-						     step->before->iconv_name);
+              RECODE_CONST_STEP step = subtask->step;
+              iconv_t check_conversion = iconv_open (step->before->iconv_name,
+                                                     step->before->iconv_name);
 
-	      /* On error, give up and assume input is invalid.  */
-	      if (input_left > 0 && check_conversion != (iconv_t) -1)
-		{
+              /* On error, give up and assume input is invalid.  */
+              if (input_left > 0 && check_conversion != (iconv_t) -1)
+                {
                   /* Assume iconv does not modify its input.  */
-		  char *check_input = input;
-		  size_t check_input_left = input_left;
+                  char *check_input = input;
+                  size_t check_input_left = input_left;
                   size_t check_output_left = input_left;
-		  char *check_output_buffer, *check_output;
+                  char *check_output_buffer, *check_output;
                   RECODE_OUTER outer = subtask->task->request->outer;
 
                   if ((check_output = ALLOC (check_output_buffer, input_left, char)) != NULL)
@@ -145,24 +145,24 @@ wrapped_transform (iconv_t conversion, RECODE_SUBTASK subtask)
                     }
 
                   iconv_close (check_conversion);
-		}
+                }
 
-	      /* Invalid or untranslatable input.  */
-	      RETURN_IF_NOGO (recode_error, subtask);
-	    }
-	  else if (saved_errno == EINVAL)
-	    {
-	      if (input + input_left < input_buffer + BUFFER_SIZE
-		  && input_char == EOF)
-		/* Incomplete multibyte sequence at end of input.  */
-		RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	    }
-	  else
-	    {
-	      recode_perror (subtask->task->request->outer, "iconv ()");
-	      RETURN_IF_NOGO (RECODE_SYSTEM_ERROR, subtask);
-	    }
-	}
+              /* Invalid or untranslatable input.  */
+              RETURN_IF_NOGO (recode_error, subtask);
+            }
+          else if (saved_errno == EINVAL)
+            {
+              if (input + input_left < input_buffer + BUFFER_SIZE
+                  && input_char == EOF)
+                /* Incomplete multibyte sequence at end of input.  */
+                RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+            }
+          else
+            {
+              recode_perror (subtask->task->request->outer, "iconv ()");
+              RETURN_IF_NOGO (RECODE_SYSTEM_ERROR, subtask);
+            }
+        }
 
       /* Move back any unprocessed part of the input buffer.  */
       for (cursor = input_buffer; input_left != 0; input_left--)
@@ -238,39 +238,39 @@ module_iconv (RECODE_OUTER outer)
       const char *charset_name = *cursor;
 
       /* Scan aliases for some charset which would already be known.  If any,
-	 use its official name as a charset.  Else, use the first alias.  */
+         use its official name as a charset.  Else, use the first alias.  */
 
       while (*cursor)
-	{
+        {
           RECODE_ALIAS alias
             = find_alias (outer, *cursor, ALIAS_FIND_AS_CHARSET);
 
-	  if (alias)
-	    {
-	      charset_name = alias->symbol->name;
-	      break;
-	    }
-	  cursor++;
-	}
+          if (alias)
+            {
+              charset_name = alias->symbol->name;
+              break;
+            }
+          cursor++;
+        }
 
       if (!declare_iconv (outer, charset_name, *aliases))
-	return false;
+        return false;
 
       /* Declare all aliases, given they bring something we do not already
-	 know.  Even then, we still declare too many useless aliases, as the
-	 disambiguating tables are not recomputed as we go.  FIXME!  */
+         know.  Even then, we still declare too many useless aliases, as the
+         disambiguating tables are not recomputed as we go.  FIXME!  */
 
       for (cursor = aliases; *cursor; cursor++)
-	{
-	  RECODE_ALIAS alias
-	    = find_alias (outer, *cursor, ALIAS_FIND_AS_CHARSET);
+        {
+          RECODE_ALIAS alias
+            = find_alias (outer, *cursor, ALIAS_FIND_AS_CHARSET);
 
-	  /* If there is a charset contradiction, call declare_alias
-	     nevertheless, as the error processing will occur there.  */
-	  if (!alias || alias->symbol->name != charset_name)
-	    if (!declare_alias (outer, *cursor, charset_name))
-	      return false;
-	}
+          /* If there is a charset contradiction, call declare_alias
+             nevertheless, as the error processing will occur there.  */
+          if (!alias || alias->symbol->name != charset_name)
+            if (!declare_alias (outer, *cursor, charset_name))
+              return false;
+        }
     }
 
   return true;

@@ -28,7 +28,7 @@
 #include "minmax.h"
 #include "xbinary-io.h"
 
-bool recode_interrupted = 0;	/* set by signal handler when some signal has been received */
+bool recode_interrupted = 0;    /* set by signal handler when some signal has been received */
 
 
 /* Input and output helpers.  */
@@ -158,10 +158,10 @@ transform_mere_copy (RECODE_SUBTASK subtask)
       size_t size;
 
       while (size = get_bytes (subtask, buffer, BUFSIZ),
-	     size == BUFSIZ)
-	put_bytes (buffer, BUFSIZ, subtask);
+             size == BUFSIZ)
+        put_bytes (buffer, BUFSIZ, subtask);
       if (size > 0)
-	put_bytes (buffer, size, subtask);
+        put_bytes (buffer, size, subtask);
     }
   else
     /* Reading from buffer.  */
@@ -205,10 +205,10 @@ transform_byte_to_variable (RECODE_SUBTASK subtask)
   while (input_char = get_byte (subtask), input_char != EOF)
     if (output_string = table[input_char], output_string)
       while (*output_string)
-	{
-	  put_byte (*output_string, subtask);
-	  output_string++;
-	}
+        {
+          put_byte (*output_string, subtask);
+          output_string++;
+        }
    else
      RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
 
@@ -230,8 +230,8 @@ recode_perform_task (RECODE_TASK task)
   RECODE_SUBTASK subtask = &subtask_block;
 
 #if HAVE_PIPE
-  int pipe_pair[2];		/* pair of file descriptors for a pipe */
-  pid_t wait_status;		/* status returned by wait() */
+  int pipe_pair[2];             /* pair of file descriptors for a pipe */
+  pid_t wait_status;            /* status returned by wait() */
 #endif
 
   struct recode_read_write_text input;
@@ -260,19 +260,19 @@ recode_perform_task (RECODE_TASK task)
   if (subtask->input.name)
     {
       if (!*subtask->input.name)
-	subtask->input.file = stdin;
+        subtask->input.file = stdin;
       else if (subtask->input.file = fopen (subtask->input.name, "rb"),
-	       subtask->input.file == NULL)
-	{
-	  recode_perror (NULL, "fopen (%s)", subtask->input.name);
-	  recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
-	  SUBTASK_RETURN (subtask);
-	}
+               subtask->input.file == NULL)
+        {
+          recode_perror (NULL, "fopen (%s)", subtask->input.name);
+          recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
+          SUBTASK_RETURN (subtask);
+        }
     }
 
   /* Execute one pass for each step of the sequence.  */
 
-  int child_process = -1;	/* child process number, -1 if process has not forked */
+  int child_process = -1;       /* child process number, -1 if process has not forked */
   for (unsigned sequence_index = 0;
        task->error_so_far < task->abort_level;
        sequence_index++)
@@ -292,7 +292,7 @@ recode_perform_task (RECODE_TASK task)
       /* Select the output text for this step.  */
 
       if (sequence_index + 1 < (unsigned)request->sequence_length)
-	{
+        {
           subtask->output = output;
           subtask->output.cursor = subtask->output.buffer;
 
@@ -359,70 +359,70 @@ recode_perform_task (RECODE_TASK task)
                 fclose (subtask->input.file);
             }
 #endif
-	}
+        }
       else
-	{
-	  /* Prepare the final output file.  */
+        {
+          /* Prepare the final output file.  */
 
-	  subtask->output = task->output;
-	  if (subtask->output.name)
-	    {
-	      if (!*subtask->output.name)
-		subtask->output.file = stdout;
-	      else if (subtask->output.file = fopen (subtask->output.name, "wb"),
-		       subtask->output.file == NULL)
-		{
-		  recode_perror (NULL, "fopen (%s)", subtask->output.name);
-		  recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
-		  goto exit;
-		}
-	    }
-	}
+          subtask->output = task->output;
+          if (subtask->output.name)
+            {
+              if (!*subtask->output.name)
+                subtask->output.file = stdout;
+              else if (subtask->output.file = fopen (subtask->output.name, "wb"),
+                       subtask->output.file == NULL)
+                {
+                  recode_perror (NULL, "fopen (%s)", subtask->output.name);
+                  recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
+                  goto exit;
+                }
+            }
+        }
 
       /* Execute one recoding step.  */
 
       if (request->sequence_length == 0) {
-	transform_mere_copy (subtask);
-	break;
+        transform_mere_copy (subtask);
+        break;
       }
 
       if (child_process <= 0)
-	{
-	  subtask->step = request->sequence_array + sequence_index;
-	  (*subtask->step->transform_routine) (subtask);
+        {
+          subtask->step = request->sequence_array + sequence_index;
+          (*subtask->step->transform_routine) (subtask);
 
 #if HAVE_PIPE
-          break;	/* child/top-level process: escape from loop */
+          break;        /* child/top-level process: escape from loop */
 #else
-	  /* Post-step clean up for memory sequence.  */
+          /* Post-step clean up for memory sequence.  */
 
-	  if (subtask->input.file)
-	    {
-	      FILE *fp = subtask->input.file;
+          if (subtask->input.file)
+            {
+              FILE *fp = subtask->input.file;
 
-	      subtask->input.file = NULL;
-	      if (fclose (fp) != 0)
-		{
-		  recode_perror (NULL, "fclose (%s)", subtask->input.name);
-		  recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
-		  goto exit;
-		}
-	    }
+              subtask->input.file = NULL;
+              if (fclose (fp) != 0)
+                {
+                  recode_perror (NULL, "fclose (%s)", subtask->input.name);
+                  recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
+                  goto exit;
+                }
+            }
 
-	  /* Prepare for next step.  */
+          /* Prepare for next step.  */
 
-	  task->swap_input = RECODE_SWAP_UNDECIDED;
+          task->swap_input = RECODE_SWAP_UNDECIDED;
 
-	  if (sequence_index + 1 < (unsigned)request->sequence_length)
-	    {
-	      output = input;
-	      input = subtask->output;
-	    }
+          if (sequence_index + 1 < (unsigned)request->sequence_length)
+            {
+              output = input;
+              input = subtask->output;
+            }
 #endif
-	}
+        }
 
       if (sequence_index + 1 == (unsigned)request->sequence_length)
-	break;
+        break;
     }
 
   /* Final clean up.  */

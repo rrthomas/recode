@@ -25,17 +25,17 @@
    This macro is meant to be used only within the `while' loop in
    `transform_utf8_ucs[24]'.  */
 #define GET_DATA_BYTE \
-  character = get_byte (subtask);						\
-  if (character == EOF)							\
-    {									\
-      RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);		\
-      break;								\
-    }									\
-  else if ((BIT_MASK (2) << 6 & character) != 1 << 7)			\
-    {									\
-      RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);		\
-      continue;								\
-    }									\
+  character = get_byte (subtask);                                               \
+  if (character == EOF)                                                 \
+    {                                                                   \
+      RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);           \
+      break;                                                            \
+    }                                                                   \
+  else if ((BIT_MASK (2) << 6 & character) != 1 << 7)                   \
+    {                                                                   \
+      RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);           \
+      continue;                                                         \
+    }                                                                   \
   else
 
 /* Read next data byte and check its value, discard an illegal sequence.
@@ -52,22 +52,22 @@ transform_ucs2_utf8 (RECODE_SUBTASK subtask)
   while (get_ucs2 (&value, subtask))
     {
       if (value & ~BIT_MASK (7))
-	if (value & ~BIT_MASK (11))
-	  {
-	    /* 3 bytes - more than 11 bits, but not more than 16.  */
-	    put_byte ((BIT_MASK (3) << 5) | (BIT_MASK (6) & value >> 12), subtask);
-	    put_byte ((1 << 7) | (BIT_MASK (6) & value >> 6), subtask);
-	    put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
-	  }
-	else
-	  {
-	    /* 2 bytes - more than 7 bits, but not more than 11.  */
-	    put_byte ((BIT_MASK (2) << 6) | (BIT_MASK (6) & value >> 6), subtask);
-	    put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
-	  }
+        if (value & ~BIT_MASK (11))
+          {
+            /* 3 bytes - more than 11 bits, but not more than 16.  */
+            put_byte ((BIT_MASK (3) << 5) | (BIT_MASK (6) & value >> 12), subtask);
+            put_byte ((1 << 7) | (BIT_MASK (6) & value >> 6), subtask);
+            put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
+          }
+        else
+          {
+            /* 2 bytes - more than 7 bits, but not more than 11.  */
+            put_byte ((BIT_MASK (2) << 6) | (BIT_MASK (6) & value >> 6), subtask);
+            put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
+          }
       else
-	/* 1 byte - not more than 7 bits (that is, ASCII).  */
-	put_byte (value, subtask);
+        /* 1 byte - not more than 7 bits (that is, ASCII).  */
+        put_byte (value, subtask);
     }
 
   SUBTASK_RETURN (subtask);
@@ -81,51 +81,51 @@ transform_ucs4_utf8 (RECODE_SUBTASK subtask)
   while (get_ucs4 (&value, subtask))
     if (value & ~BIT_MASK (16))
       if (value & ~BIT_MASK (26))
-	if (value & ~BIT_MASK (31))
-	  {
-	    RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	  }
-  	else
-	  {
-	    /* 6 bytes - more than 26 bits, but not more than 31.  */
-	    put_byte ((BIT_MASK (6) << 2) | (BIT_MASK (6) & value >> 30), subtask);
-	    put_byte ((1 << 7) | (BIT_MASK (6) & value >> 24), subtask);
-	    put_byte ((1 << 7) | (BIT_MASK (6) & value >> 18), subtask);
-	    put_byte ((1 << 7) | (BIT_MASK (6) & value >> 12), subtask);
-	    put_byte ((1 << 7) | (BIT_MASK (6) & value >> 6), subtask);
-	    put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
-	  }
+        if (value & ~BIT_MASK (31))
+          {
+            RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+          }
+        else
+          {
+            /* 6 bytes - more than 26 bits, but not more than 31.  */
+            put_byte ((BIT_MASK (6) << 2) | (BIT_MASK (6) & value >> 30), subtask);
+            put_byte ((1 << 7) | (BIT_MASK (6) & value >> 24), subtask);
+            put_byte ((1 << 7) | (BIT_MASK (6) & value >> 18), subtask);
+            put_byte ((1 << 7) | (BIT_MASK (6) & value >> 12), subtask);
+            put_byte ((1 << 7) | (BIT_MASK (6) & value >> 6), subtask);
+            put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
+          }
       else if (value & ~BIT_MASK (21))
-	{
-	  /* 5 bytes - more than 21 bits, but not more than 26.  */
-	  put_byte ((BIT_MASK (5) << 3) | (BIT_MASK (6) & value >> 24), subtask);
-	  put_byte ((1 << 7) | (BIT_MASK (6) & value >> 18), subtask);
-	  put_byte ((1 << 7) | (BIT_MASK (6) & value >> 12), subtask);
-	  put_byte ((1 << 7) | (BIT_MASK (6) & value >> 6), subtask);
-	  put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
-	}
+        {
+          /* 5 bytes - more than 21 bits, but not more than 26.  */
+          put_byte ((BIT_MASK (5) << 3) | (BIT_MASK (6) & value >> 24), subtask);
+          put_byte ((1 << 7) | (BIT_MASK (6) & value >> 18), subtask);
+          put_byte ((1 << 7) | (BIT_MASK (6) & value >> 12), subtask);
+          put_byte ((1 << 7) | (BIT_MASK (6) & value >> 6), subtask);
+          put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
+        }
       else
-	{
-	  /* 4 bytes - more than 16 bits, but not more than 21.  */
-	  put_byte ((BIT_MASK (4) << 4) | (BIT_MASK (6) & value >> 18), subtask);
-	  put_byte ((1 << 7) | (BIT_MASK (6) & value >> 12), subtask);
-	  put_byte ((1 << 7) | (BIT_MASK (6) & value >> 6), subtask);
-	  put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
-	}
+        {
+          /* 4 bytes - more than 16 bits, but not more than 21.  */
+          put_byte ((BIT_MASK (4) << 4) | (BIT_MASK (6) & value >> 18), subtask);
+          put_byte ((1 << 7) | (BIT_MASK (6) & value >> 12), subtask);
+          put_byte ((1 << 7) | (BIT_MASK (6) & value >> 6), subtask);
+          put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
+        }
     else if (value & ~BIT_MASK (7))
       if (value & ~BIT_MASK (11))
-	{
-	  /* 3 bytes - more than 11 bits, but not more than 16.  */
-	  put_byte ((BIT_MASK (3) << 5) | (BIT_MASK (6) & value >> 12), subtask);
-	  put_byte ((1 << 7) | (BIT_MASK (6) & value >> 6), subtask);
-	  put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
-	}
+        {
+          /* 3 bytes - more than 11 bits, but not more than 16.  */
+          put_byte ((BIT_MASK (3) << 5) | (BIT_MASK (6) & value >> 12), subtask);
+          put_byte ((1 << 7) | (BIT_MASK (6) & value >> 6), subtask);
+          put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
+        }
       else
-	{
-	  /* 2 bytes - more than 7 bits, but not more than 11.  */
-	  put_byte ((BIT_MASK (2) << 6) | (BIT_MASK (6) & value >> 6), subtask);
-	  put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
-	}
+        {
+          /* 2 bytes - more than 7 bits, but not more than 11.  */
+          put_byte ((BIT_MASK (2) << 6) | (BIT_MASK (6) & value >> 6), subtask);
+          put_byte ((1 << 7) | (BIT_MASK (6) & value), subtask);
+        }
     else
       /* 1 byte - not more than 7 bits (that is, ASCII).  */
       put_byte (value, subtask);
@@ -150,74 +150,74 @@ transform_utf8_ucs4 (RECODE_SUBTASK subtask)
 
     if ((character & BIT_MASK (4) << 4) == BIT_MASK (4) << 4)
       if ((character & BIT_MASK (6) << 2) == BIT_MASK (6) << 2)
-	if ((character & BIT_MASK (7) << 1) == BIT_MASK (7) << 1)
-	  {
-	    /* 7 bytes - more than 31 bits (that is, exactly 32 :-).  */
-	    RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	    character = get_byte (subtask);
-	  }
-	else
-	  {
-	    /* 6 bytes - more than 26 bits, but not more than 31.  */
-	    value = (BIT_MASK (1) & character) << 30;
-	    GET_DATA_BYTE_AT (24);
-	    GET_DATA_BYTE_AT (18);
-	    GET_DATA_BYTE_AT (12);
-	    GET_DATA_BYTE_AT (6);
-	    GET_DATA_BYTE_AT (0);
-	    put_ucs4 (value, subtask);
-	    character = get_byte (subtask);
-	  }
+        if ((character & BIT_MASK (7) << 1) == BIT_MASK (7) << 1)
+          {
+            /* 7 bytes - more than 31 bits (that is, exactly 32 :-).  */
+            RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+            character = get_byte (subtask);
+          }
+        else
+          {
+            /* 6 bytes - more than 26 bits, but not more than 31.  */
+            value = (BIT_MASK (1) & character) << 30;
+            GET_DATA_BYTE_AT (24);
+            GET_DATA_BYTE_AT (18);
+            GET_DATA_BYTE_AT (12);
+            GET_DATA_BYTE_AT (6);
+            GET_DATA_BYTE_AT (0);
+            put_ucs4 (value, subtask);
+            character = get_byte (subtask);
+          }
       else if ((character & BIT_MASK (5) << 3) == BIT_MASK (5) << 3)
-	{
-	  /* 5 bytes - more than 21 bits, but not more than 26.  */
-	  value = (BIT_MASK (2) & character) << 24;
-	  GET_DATA_BYTE_AT (18);
-	  GET_DATA_BYTE_AT (12);
-	  GET_DATA_BYTE_AT (6);
-	  GET_DATA_BYTE_AT (0);
-	  put_ucs4 (value, subtask);
-	  character = get_byte (subtask);
-	}
+        {
+          /* 5 bytes - more than 21 bits, but not more than 26.  */
+          value = (BIT_MASK (2) & character) << 24;
+          GET_DATA_BYTE_AT (18);
+          GET_DATA_BYTE_AT (12);
+          GET_DATA_BYTE_AT (6);
+          GET_DATA_BYTE_AT (0);
+          put_ucs4 (value, subtask);
+          character = get_byte (subtask);
+        }
       else
-	{
-	  /* 4 bytes - more than 16 bits, but not more than 21.  */
-	  value = (BIT_MASK (3) & character) << 18;
-	  GET_DATA_BYTE_AT (12);
-	  GET_DATA_BYTE_AT (6);
-	  GET_DATA_BYTE_AT (0);
-	  put_ucs4 (value, subtask);
-	  character = get_byte (subtask);
-	}
+        {
+          /* 4 bytes - more than 16 bits, but not more than 21.  */
+          value = (BIT_MASK (3) & character) << 18;
+          GET_DATA_BYTE_AT (12);
+          GET_DATA_BYTE_AT (6);
+          GET_DATA_BYTE_AT (0);
+          put_ucs4 (value, subtask);
+          character = get_byte (subtask);
+        }
     else if ((character & BIT_MASK (2) << 6) == BIT_MASK (2) << 6)
       if ((character & BIT_MASK (3) << 5) == BIT_MASK (3) << 5)
-	{
-	  /* 3 bytes - more than 11 bits, but not more than 16.  */
-	  value = (BIT_MASK (4) & character) << 12;
-	  GET_DATA_BYTE_AT (6);
-	  GET_DATA_BYTE_AT (0);
-	  put_ucs4 (value, subtask);
-	  character = get_byte (subtask);
-	}
+        {
+          /* 3 bytes - more than 11 bits, but not more than 16.  */
+          value = (BIT_MASK (4) & character) << 12;
+          GET_DATA_BYTE_AT (6);
+          GET_DATA_BYTE_AT (0);
+          put_ucs4 (value, subtask);
+          character = get_byte (subtask);
+        }
       else
-	{
-	  /* 2 bytes - more than 7 bits, but not more than 11.  */
-	  value = (BIT_MASK (5) & character) << 6;
-	  GET_DATA_BYTE_AT (0);
-	  put_ucs4 (value, subtask);
-	  character = get_byte (subtask);
-	}
+        {
+          /* 2 bytes - more than 7 bits, but not more than 11.  */
+          value = (BIT_MASK (5) & character) << 6;
+          GET_DATA_BYTE_AT (0);
+          put_ucs4 (value, subtask);
+          character = get_byte (subtask);
+        }
     else if ((character & 1 << 7) == 1 << 7)
       {
-	/* Valid only as a continuation byte.  */
-	RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	character = get_byte (subtask);
+        /* Valid only as a continuation byte.  */
+        RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+        character = get_byte (subtask);
       }
     else
       {
-	/* 1 byte - not more than 7 bits (that is, ASCII).  */
-	put_ucs4 (BIT_MASK (8) & character, subtask);
-	character = get_byte (subtask);
+        /* 1 byte - not more than 7 bits (that is, ASCII).  */
+        put_ucs4 (BIT_MASK (8) & character, subtask);
+        character = get_byte (subtask);
       }
 
   SUBTASK_RETURN (subtask);
@@ -228,11 +228,11 @@ module_utf8 (RECODE_OUTER outer)
 {
   return
     declare_single (outer, "ISO-10646-UCS-4", "UTF-8",
-		    outer->quality_variable_to_variable,
-		    NULL, transform_ucs4_utf8)
+                    outer->quality_variable_to_variable,
+                    NULL, transform_ucs4_utf8)
     && declare_single (outer, "UTF-8", "ISO-10646-UCS-4",
-		       outer->quality_variable_to_variable,
-		       NULL, transform_utf8_ucs4)
+                       outer->quality_variable_to_variable,
+                       NULL, transform_utf8_ucs4)
 
     && declare_alias (outer, "UTF-2", "UTF-8")
     && declare_alias (outer, "UTF-FSS", "UTF-8")
@@ -242,8 +242,8 @@ module_utf8 (RECODE_OUTER outer)
 
     /* Simple UCS-2 does not have to go through UTF-16.  */
     && declare_single (outer, "ISO-10646-UCS-2", "UTF-8",
-		       outer->quality_variable_to_variable,
-		       NULL, transform_ucs2_utf8);
+                       outer->quality_variable_to_variable,
+                       NULL, transform_ucs2_utf8);
 }
 
 void

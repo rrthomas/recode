@@ -34,7 +34,7 @@ reversibility (_GL_UNUSED RECODE_SUBTASK subtask, _GL_UNUSED unsigned code)
 
 /*-------------------------------------------------------------------------.
 | Allocate and initialize a new single step, save for the before and after |
-| charsets and quality.							   |
+| charsets and quality.                                                    |
 `-------------------------------------------------------------------------*/
 
 static RECODE_SINGLE
@@ -64,9 +64,9 @@ new_single_step (RECODE_OUTER outer)
 
 RECODE_SINGLE
 declare_single (RECODE_OUTER outer,
-		const char *before_name, const char *after_name,
-		struct recode_quality quality,
-		Recode_init init_routine, Recode_transform transform_routine)
+                const char *before_name, const char *after_name,
+                struct recode_quality quality,
+                Recode_init init_routine, Recode_transform transform_routine)
 {
   RECODE_SINGLE single = new_single_step (outer);
   RECODE_ALIAS before = NULL, after = NULL;
@@ -112,15 +112,15 @@ declare_single (RECODE_OUTER outer,
   if (single->before == outer->data_symbol)
     {
       if (single->after->resurfacer)
-	recode_error (outer, _("Resurfacer set more than once for `%s'"),
-		      after_name);
+        recode_error (outer, _("Resurfacer set more than once for `%s'"),
+                      after_name);
       single->after->resurfacer = single;
     }
   else if (single->after == outer->data_symbol)
     {
       if (single->before->unsurfacer)
-	recode_error (outer, _("Unsurfacer set more than once for `%s'"),
-		      before_name);
+        recode_error (outer, _("Unsurfacer set more than once for `%s'"),
+                      before_name);
       single->before->unsurfacer = single;
     }
 
@@ -150,7 +150,7 @@ declare_iconv (RECODE_OUTER outer, const char *name, const char *iconv_name)
   if (alias = find_alias (outer, name, ALIAS_FIND_AS_EITHER),
       !alias)
     if (alias = find_alias (outer, name, SYMBOL_CREATE_CHARSET),
-	!alias)
+        !alias)
       return false;
   assert(alias->symbol->type == RECODE_CHARSET);
 
@@ -184,7 +184,7 @@ declare_iconv (RECODE_OUTER outer, const char *name, const char *iconv_name)
 
 bool
 declare_explode_data (RECODE_OUTER outer, const unsigned short *data,
-		      const char *name_combined, const char *name_exploded)
+                      const char *name_combined, const char *name_exploded)
 {
   RECODE_ALIAS alias;
   RECODE_SYMBOL charset_combined;
@@ -201,8 +201,8 @@ declare_explode_data (RECODE_OUTER outer, const unsigned short *data,
   if (name_exploded)
     {
       if (alias = find_alias (outer, name_exploded, SYMBOL_CREATE_CHARSET),
-	  !alias)
-	return false;
+          !alias)
+        return false;
 
       charset_exploded = alias->symbol;
       assert(charset_exploded->type == RECODE_CHARSET);
@@ -247,7 +247,7 @@ declare_explode_data (RECODE_OUTER outer, const unsigned short *data,
 
 bool
 declare_strip_data (RECODE_OUTER outer, struct strip_data *data,
-		    const char *name)
+                    const char *name)
 {
   RECODE_ALIAS alias;
   RECODE_SYMBOL charset;
@@ -469,7 +469,7 @@ recode_new_outer (unsigned flags)
     {
       recode_error (NULL, _("Virtual memory exhausted"));
       if (flags & RECODE_AUTO_ABORT_FLAG)
-	exit (1);
+        exit (1);
       return NULL;
     }
 

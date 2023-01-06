@@ -23,7 +23,7 @@
 
 /*--------------------------------------------------------------------.
 | Return a statically allocated full charname associated with a given |
-| SYMBOL, or NULL if not found.					      |
+| SYMBOL, or NULL if not found.                                       |
 `--------------------------------------------------------------------*/
 
 const char *
@@ -46,11 +46,11 @@ ucs2_to_charname (int ucs2)
     {
       middle = (first + last) / 2;
       if (charname[middle].code < ucs2)
-	first = middle + 1;
+        first = middle + 1;
       else if (charname[middle].code > ucs2)
-	last = middle;
+        last = middle;
       else
-	break;
+        break;
     }
 
   /* If the UCS value has not been found, return the NULL string.  */
@@ -68,18 +68,18 @@ ucs2_to_charname (int ucs2)
 
       value = *(const unsigned char *) in - 1;
       if (value >= NUMBER_OF_SINGLES)
-	value = (NUMBER_OF_SINGLES + 255 * (value - NUMBER_OF_SINGLES)
-		 + *(const unsigned char *) ++in - 1);
+        value = (NUMBER_OF_SINGLES + 255 * (value - NUMBER_OF_SINGLES)
+                 + *(const unsigned char *) ++in - 1);
 
       /* Copy it.  */
 
       if (out)
-	*out++ = ' ';
+        *out++ = ' ';
       else
-	out = result;
+        out = result;
 
       for (cursor = word[value]; *cursor; cursor++)
-	*out++ = *cursor;
+        *out++ = *cursor;
     }
 
   /* Return the result.  */

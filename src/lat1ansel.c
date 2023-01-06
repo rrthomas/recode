@@ -5,7 +5,7 @@
  *
  * Read the file ansellat1.l for more information about Z39.47-1993.
  *
- * 	$Id: lat1ansel.c,v 1.1 1998/02/19 15:51:31 wolfram Exp $
+ *      $Id: lat1ansel.c,v 1.1 1998/02/19 15:51:31 wolfram Exp $
  *
  */
 
@@ -35,8 +35,8 @@
 
 struct translation
   {
-    int code;			/* code being translated */
-    const char *string;		/* translation string */
+    int code;                   /* code being translated */
+    const char *string;         /* translation string */
   };
 
 static struct translation diacritic_translations [] =
@@ -47,9 +47,9 @@ static struct translation diacritic_translations [] =
 
 static bool
 init_latin1_ansel (RECODE_STEP step,
-		   const struct recode_request *request,
-		   RECODE_CONST_OPTION_LIST before_options _GL_UNUSED,
-		   RECODE_CONST_OPTION_LIST after_options _GL_UNUSED)
+                   const struct recode_request *request,
+                   RECODE_CONST_OPTION_LIST before_options _GL_UNUSED,
+                   RECODE_CONST_OPTION_LIST after_options _GL_UNUSED)
 {
   RECODE_OUTER outer = request->outer;
   

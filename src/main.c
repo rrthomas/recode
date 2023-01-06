@@ -185,11 +185,11 @@ GNU General Public License for more details.\n\
 \n\
 You should have received a copy of the GNU General Public License\n\
 along with this program; if not, see <https://www.gnu.org/licenses/>.\n"),
-	 stdout);
+         stdout);
 }
 
 /*-----------------------------------------------.
-| Explain how to use the program, then get out.	 |
+| Explain how to use the program, then get out.  |
 `-----------------------------------------------*/
 
 static void
@@ -197,13 +197,13 @@ usage (int status, bool list)
 {
   if (status != EXIT_SUCCESS)
     fprintf (stderr, _("Try `%s %s' for more information.\n"), program_name,
-	     list ? "--list" : "--help");
+             list ? "--list" : "--help");
   else
     {
       fputs (_("\
 Recode converts files between various character sets and surfaces.\n\
 "),
-	     stdout);
+             stdout);
       printf (_("\
 \n\
 Usage: %s [OPTION]... [ [CHARSET] | REQUEST [FILE]... ]\n"), program_name);
@@ -212,7 +212,7 @@ Usage: %s [OPTION]... [ [CHARSET] | REQUEST [FILE]... ]\n"), program_name);
 If a long option shows an argument as mandatory, then it is mandatory\n\
 for the equivalent short option also.  Similarly for optional arguments.\n\
 "),
-	     stdout);
+             stdout);
       fputs (_("\
 \n\
 Listings:\n\
@@ -224,7 +224,7 @@ Listings:\n\
       --help                 display this help and exit\n\
       --version              output version information and exit\n\
 "),
-	     stdout);
+             stdout);
       fputs (_("\
 \n\
 Operation modes:\n\
@@ -234,7 +234,7 @@ Operation modes:\n\
   -t, --touch             touch the recoded files after replacement\n\
   -i, -p, --sequence=STRATEGY  ignored for backwards compatibility\n\
 "),
-	     stdout);
+             stdout);
       fputs (_("\
 \n\
 Fine tuning:\n\
@@ -247,26 +247,26 @@ Fine tuning:\n\
   -x, --ignore=CHARSET   ignore CHARSET while choosing a recoding path\n\
   -I, --prefer-iconv     use iconv if possible\n\
 "),
-	     stdout);
+             stdout);
       fputs (_("\
 \n\
 Option -l with no FORMAT nor CHARSET list available charsets and surfaces.\n\
 FORMAT is `decimal', `octal', `hexadecimal' or `full' (or one of `dohf').\n\
 "),
-	     stdout);
+             stdout);
       fputs (_("\
 Unless DEFAULT_CHARSET is set in environment, CHARSET defaults to the locale\n\
 dependent encoding, determined by LC_ALL, LC_CTYPE, LANG.\n\
 "),
-	       stdout);
+               stdout);
       fputs (_("\
 With -k, possible before charsets are listed for the given after CHARSET,\n\
 both being tabular charsets, with PAIRS of the form `BEF1:AFT1,BEF2:AFT2,...'\n\
 and BEFs and AFTs being codes are given as decimal numbers.\n"),
-	      stdout);
+              stdout);
       fputs (_("\
 LN is some language, it may be `c', `perl' or `po'; `c' is the default.\n"),
-	     stdout);
+             stdout);
       fputs (_("\
 \n\
 REQUEST is SUBREQUEST[,SUBREQUEST]...; SUBREQUEST is ENCODING[..ENCODING]...\n\
@@ -274,23 +274,23 @@ ENCODING is [CHARSET][/[SURFACE]]...; REQUEST often looks like BEFORE..AFTER,\n\
 with BEFORE and AFTER being charsets.  An omitted CHARSET implies the usual\n\
 charset; an omitted [/SURFACE]... means the implied surfaces for CHARSET; a /\n\
 with an empty surface name means no surfaces at all.  See the manual.\n"),
-	     stdout);
+             stdout);
       fputs (_("\
 \n\
 Each FILE is recoded over itself, destroying the original.  If no\n\
 FILE is specified, then act as a filter and recode stdin to stdout.\n"),
-	     stdout);
+             stdout);
       fputs (_("\
 \n\
 Report bugs at https://github.com/rrthomas/recode\n"),
-	       stdout);
+               stdout);
     }
   exit (status);
 }
 
 /*----------------------------------------------------------------------.
 | Main program.  Decode ARGC arguments passed through the ARGV array of |
-| strings, then launch execution.				        |
+| strings, then launch execution.                                       |
 `----------------------------------------------------------------------*/
 
 /* Long options equivalences.  */
@@ -351,13 +351,13 @@ new_outer(unsigned flags)
   if (ignored_name)
     {
       RECODE_ALIAS alias
-	= find_alias (outer, ignored_name, ALIAS_FIND_AS_CHARSET);
+        = find_alias (outer, ignored_name, ALIAS_FIND_AS_CHARSET);
 
       if (!alias)
-	{
-	  error (0, 0, _("Symbol `%s' is unknown"), ignored_name);
-	  usage (EXIT_FAILURE, 1);
-	}
+        {
+          error (0, 0, _("Symbol `%s' is unknown"), ignored_name);
+          usage (EXIT_FAILURE, 1);
+        }
 
       alias->symbol->ignore = true;
     }
@@ -379,8 +379,8 @@ new_request(RECODE_OUTER outer, struct recode_request *request_option)
 int
 main (int argc, char *const *argv)
 {
-  int option_char;		/* option character */
-  bool success = true;		/* reversibility of all recodings */
+  int option_char;              /* option character */
+  bool success = true;          /* reversibility of all recodings */
 
   static bool (*processor) (RECODE_TASK);
   struct recode_outer outer_option;
@@ -411,209 +411,209 @@ main (int argc, char *const *argv)
   task_option.abort_level = RECODE_AMBIGUOUS_OUTPUT;
 
   while (option_char = getopt_long (argc, argv, "CIFS::Tcdfgh::ik:l::pqstvx:",
-				    long_options, NULL),
-	 option_char != -1)
+                                    long_options, NULL),
+         option_char != -1)
     switch (option_char)
       {
       default:
-	usage (EXIT_FAILURE, 0);
+        usage (EXIT_FAILURE, 0);
 
       case NUL:
-	break;
+        break;
 
       case '\n':
-	switch (argmatch (optarg, sequence_strings, NULL, 0))
-	  {
-	  case -2:
-	    error (0, 0, _("Sequence `%s' is ambiguous"), optarg);
-	    usage (EXIT_FAILURE, 0);
+        switch (argmatch (optarg, sequence_strings, NULL, 0))
+          {
+          case -2:
+            error (0, 0, _("Sequence `%s' is ambiguous"), optarg);
+            usage (EXIT_FAILURE, 0);
             break;
 
-	  case -1:
-	    error (0, 0, _("Sequence `%s' is unknown"), optarg);
-	    usage (EXIT_FAILURE, 0);
+          case -1:
+            error (0, 0, _("Sequence `%s' is unknown"), optarg);
+            usage (EXIT_FAILURE, 0);
             break;
 
             /* Ignore for backwards compatibility with version 3.6.  */
-	  case 0:
-	  case 1:
-	  case 2:
-	    break;
+          case 0:
+          case 1:
+          case 2:
+            break;
 
           default:
             break;
-	  }
-	break;
+          }
+        break;
 
       case 'C':
-	print_copyright ();
-	exit (EXIT_SUCCESS);
+        print_copyright ();
+        exit (EXIT_SUCCESS);
 
       case 'I':
         prefer_iconv = true;
         break;
 
       case 'S':
-	if (optarg)
-	  switch (argmatch (optarg, language_strings, NULL, 0))
-	    {
-	    case -2:
-	      error (0, 0, _("Language `%s' is ambiguous"), optarg);
-	      usage (EXIT_FAILURE, 0);
+        if (optarg)
+          switch (argmatch (optarg, language_strings, NULL, 0))
+            {
+            case -2:
+              error (0, 0, _("Language `%s' is ambiguous"), optarg);
+              usage (EXIT_FAILURE, 0);
               break;
 
-	    default:		/* -1 */
-	      error (0, 0, _("Language `%s' is unknown"), optarg);
-	      usage (EXIT_FAILURE, 0);
+            default:            /* -1 */
+              error (0, 0, _("Language `%s' is unknown"), optarg);
+              usage (EXIT_FAILURE, 0);
               break;
 
-	    case 0:
-	      processor = transform_c_source;
-	      break;
+            case 0:
+              processor = transform_c_source;
+              break;
 
-	    case 2:
-	      processor = transform_po_source;
-	      break;
-	    }
-	else
-	  processor = transform_c_source;
-	break;
+            case 2:
+              processor = transform_po_source;
+              break;
+            }
+        else
+          processor = transform_c_source;
+        break;
 
       case 'T':
-	find_subsets = true;
-	break;
+        find_subsets = true;
+        break;
 
       case 'c':
-	request_option.diaeresis_char = ':';
-	break;
+        request_option.diaeresis_char = ':';
+        break;
 
       case 'd':
-	request_option.diacritics_only = true;
-	break;
+        request_option.diacritics_only = true;
+        break;
 
       case 'f':
-	task_option.fail_level = RECODE_SYSTEM_ERROR;
-	task_option.abort_level = RECODE_USER_ERROR;
+        task_option.fail_level = RECODE_SYSTEM_ERROR;
+        task_option.abort_level = RECODE_USER_ERROR;
         force_flag = true;
-	break;
+        break;
 
       case 'g':
-	request_option.ascii_graphics = true;
-	break;
+        request_option.ascii_graphics = true;
+        break;
 
       case 'h':
-	request_option.make_header_flag = true;
-	header_name = optarg ? strrchr (optarg, '/') : NULL;
-	if (header_name)
-	  {
-	    char *buffer;
-	    unsigned counter;
+        request_option.make_header_flag = true;
+        header_name = optarg ? strrchr (optarg, '/') : NULL;
+        if (header_name)
+          {
+            char *buffer;
+            unsigned counter;
 
-	    header_name++;
-	    buffer = (char *) xmalloc ((size_t) (header_name - optarg));
-	    if (*header_name == NUL)
-	      header_name = NULL;
-	    for (counter = 0; optarg[counter] != '/'; counter++)
-	      buffer[counter] = tolower (optarg[counter]);
-	    buffer[counter] = NUL;
-	    switch (argmatch (buffer, language_strings, NULL, 0))
-	      {
-	      case -2:
-		error (0, 0, _("Language `%s' is ambiguous"), buffer);
-		usage (EXIT_FAILURE, 0);
+            header_name++;
+            buffer = (char *) xmalloc ((size_t) (header_name - optarg));
+            if (*header_name == NUL)
+              header_name = NULL;
+            for (counter = 0; optarg[counter] != '/'; counter++)
+              buffer[counter] = tolower (optarg[counter]);
+            buffer[counter] = NUL;
+            switch (argmatch (buffer, language_strings, NULL, 0))
+              {
+              case -2:
+                error (0, 0, _("Language `%s' is ambiguous"), buffer);
+                usage (EXIT_FAILURE, 0);
                 break;
 
-	      default:		/* -1 */
-		error (0, 0, _("Language `%s' is unknown"), buffer);
-		usage (EXIT_FAILURE, 0);
+              default:          /* -1 */
+                error (0, 0, _("Language `%s' is unknown"), buffer);
+                usage (EXIT_FAILURE, 0);
                 break;
 
-	      case 0:
-		header_language = RECODE_LANGUAGE_C;
-		break;
+              case 0:
+                header_language = RECODE_LANGUAGE_C;
+                break;
 
-	      case 1:
-		header_language = RECODE_LANGUAGE_PERL;
-		break;
-	      }
-	    free (buffer);
-	  }
-	else
-	  {
-	    header_name = optarg;
-	    header_language = RECODE_LANGUAGE_C;
-	  }
-	break;
+              case 1:
+                header_language = RECODE_LANGUAGE_PERL;
+                break;
+              }
+            free (buffer);
+          }
+        else
+          {
+            header_name = optarg;
+            header_language = RECODE_LANGUAGE_C;
+          }
+        break;
 
       case 'i':
         /* Ignore for backwards compatibility with version 3.6.  */
-	break;
+        break;
 
       case 'k':
-	charset_restrictions = optarg;
-	break;
+        charset_restrictions = optarg;
+        break;
 
       case 'l':
-	show_symbols = true;
-	if (optarg)
-	  switch (argmatch (optarg, format_strings, NULL, 0))
-	    {
-	    case -2:
-	      error (0, 0, _("Format `%s' is ambiguous"), optarg);
-	      usage (EXIT_FAILURE, 0);
+        show_symbols = true;
+        if (optarg)
+          switch (argmatch (optarg, format_strings, NULL, 0))
+            {
+            case -2:
+              error (0, 0, _("Format `%s' is ambiguous"), optarg);
+              usage (EXIT_FAILURE, 0);
               break;
 
-	    case -1:
-	      error (0, 0, _("Format `%s' is unknown"), optarg);
-	      usage (EXIT_FAILURE, 0);
+            case -1:
+              error (0, 0, _("Format `%s' is unknown"), optarg);
+              usage (EXIT_FAILURE, 0);
               break;
 
-	    case 0:
-	      list_format = RECODE_DECIMAL_FORMAT;
-	      break;
+            case 0:
+              list_format = RECODE_DECIMAL_FORMAT;
+              break;
 
-	    case 1:
-	      list_format = RECODE_OCTAL_FORMAT;
-	      break;
+            case 1:
+              list_format = RECODE_OCTAL_FORMAT;
+              break;
 
-	    case 2:
-	      list_format = RECODE_HEXADECIMAL_FORMAT;
-	      break;
+            case 2:
+              list_format = RECODE_HEXADECIMAL_FORMAT;
+              break;
 
-	    case 3:
-	      list_format = RECODE_FULL_FORMAT;
-	      break;
+            case 3:
+              list_format = RECODE_FULL_FORMAT;
+              break;
 
             default:
               break;
-	    }
-	break;
+            }
+        break;
 
       case 'p':
         /* Ignore for backwards compatibility with version 3.6.  */
-	break;
+        break;
 
       case 'q':
-	quiet_flag = true;
-	break;
+        quiet_flag = true;
+        break;
 
       case 's':
-	strict_mapping = true;
-	task_option.fail_level = RECODE_NOT_CANONICAL;
-	task_option.abort_level = RECODE_NOT_CANONICAL;
-	break;
+        strict_mapping = true;
+        task_option.fail_level = RECODE_NOT_CANONICAL;
+        task_option.abort_level = RECODE_NOT_CANONICAL;
+        break;
 
       case 't':
-	touch_option = true;
-	break;
+        touch_option = true;
+        break;
 
       case 'v':
-	verbose_flag = true;
+        verbose_flag = true;
         break;
 
       case 'x':
-	ignored_name = optarg;
-	break;
+        ignored_name = optarg;
+        break;
       }
 
   if (request_option.ascii_graphics)
@@ -626,15 +626,15 @@ main (int argc, char *const *argv)
       printf ("%s %s\n", PACKAGE, VERSION);
       fputs (_("\
 Written by François Pinard <pinard@iro.umontreal.ca>.\n"),
-	     stdout);
+             stdout);
       fputs (_("\
 \n\
 Copyright (C) 1990-2022 Free Software Foundation, Inc.\n"),
-	     stdout);
+             stdout);
       fputs (_("\
 This is free software; see the source for copying conditions.  There is NO\n\
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
-	     stdout);
+             stdout);
       exit (EXIT_SUCCESS);
     }
 
@@ -664,62 +664,62 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
   if (show_symbols || charset_restrictions)
     {
       if (charset_restrictions)
-	if (!decode_known_pairs (outer, charset_restrictions))
-	  {
-	    error (0, 0, "Could not understand `%s'", charset_restrictions);
-	    usage (EXIT_FAILURE, 0);
+        if (!decode_known_pairs (outer, charset_restrictions))
+          {
+            error (0, 0, "Could not understand `%s'", charset_restrictions);
+            usage (EXIT_FAILURE, 0);
 
-	  }
+          }
       if (optind + 1 < argc)
-	{
-	  error (0, 0, "Argument `%s' is extraneous", argv[optind]);
-	  usage (EXIT_FAILURE, 0);
-	}
+        {
+          error (0, 0, "Argument `%s' is extraneous", argv[optind]);
+          usage (EXIT_FAILURE, 0);
+        }
 
       /* Select a possible charset and a default format.  */
 
       if (optind < argc)
-	{
-	  RECODE_ALIAS alias
-	    = find_alias (outer, argv[optind], ALIAS_FIND_AS_CHARSET);
+        {
+          RECODE_ALIAS alias
+            = find_alias (outer, argv[optind], ALIAS_FIND_AS_CHARSET);
 
-	  if (!alias)
-	    {
-	      error (0, 0, _("Charset `%s' is unknown or ambiguous"),
-		     argv[optind]);
-	      usage (EXIT_FAILURE, 1);
-	    }
+          if (!alias)
+            {
+              error (0, 0, _("Charset `%s' is unknown or ambiguous"),
+                     argv[optind]);
+              usage (EXIT_FAILURE, 1);
+            }
 
-	  list_charset = alias->symbol;
-	}
+          list_charset = alias->symbol;
+        }
       else if (list_format != RECODE_NO_FORMAT || charset_restrictions)
-	{
-	  RECODE_ALIAS alias
-	    = find_alias (outer, NULL, ALIAS_FIND_AS_CHARSET);
+        {
+          RECODE_ALIAS alias
+            = find_alias (outer, NULL, ALIAS_FIND_AS_CHARSET);
 
-	  if (!alias)
-	    {
-	      error (0, 0, _("Charset `%s' is unknown or ambiguous"),
-		     argv[optind]);
-	      usage (EXIT_FAILURE, 1);
-	    }
+          if (!alias)
+            {
+              error (0, 0, _("Charset `%s' is unknown or ambiguous"),
+                     argv[optind]);
+              usage (EXIT_FAILURE, 1);
+            }
 
-	  list_charset = alias->symbol;
-	}
+          list_charset = alias->symbol;
+        }
       else
-	list_charset = NULL;
+        list_charset = NULL;
 
       /* List the charset(s) appropriately.  */
 
       if (charset_restrictions)
-	list_all_symbols (outer, list_charset);
+        list_all_symbols (outer, list_charset);
       else if (list_charset)
-	if (list_format == RECODE_FULL_FORMAT)
-	  list_full_charset (outer, list_charset);
-	else
-	  list_concise_charset (outer, list_charset, list_format);
+        if (list_format == RECODE_FULL_FORMAT)
+          list_full_charset (outer, list_charset);
+        else
+          list_concise_charset (outer, list_charset, list_format);
       else
-	list_all_symbols (outer, NULL);
+        list_all_symbols (outer, NULL);
 
       /* Then get out.  */
 
@@ -793,144 +793,144 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
 
     if (optind < argc)
       {
-	/* In case files are recoded over themselves and there is no
-	   recoding step at all, do not even try to touch the files.  */
+        /* In case files are recoded over themselves and there is no
+           recoding step at all, do not even try to touch the files.  */
 
-	if (request->sequence_length > 0)
+        if (request->sequence_length > 0)
 
-	  /* Process files, one at a time.  */
+          /* Process files, one at a time.  */
 
-	  for (; optind < argc; optind++)
-	    {
-	      const char *input_name;
-	      FILE *file;
-	      struct stat file_stat;
-	      struct utimbuf file_utime;
+          for (; optind < argc; optind++)
+            {
+              const char *input_name;
+              FILE *file;
+              struct stat file_stat;
+              struct utimbuf file_utime;
 
-	      input_name = realpath (argv[optind], NULL);
-	      if (input_name == NULL)
-		error (EXIT_FAILURE, errno, "realpath (%s)", argv[optind]);
+              input_name = realpath (argv[optind], NULL);
+              if (input_name == NULL)
+                error (EXIT_FAILURE, errno, "realpath (%s)", argv[optind]);
 
-	      /* Check if the file can be read and rewritten.  */
+              /* Check if the file can be read and rewritten.  */
 
-	      if (file = fopen (input_name, "r+"), file == NULL)
-		error (EXIT_FAILURE, errno, "fopen (%s)", input_name);
+              if (file = fopen (input_name, "r+"), file == NULL)
+                error (EXIT_FAILURE, errno, "fopen (%s)", input_name);
 
-	      /* Save the input file attributes.  */
+              /* Save the input file attributes.  */
 
-	      fstat (fileno (file), &file_stat);
-	      fclose (file);
+              fstat (fileno (file), &file_stat);
+              fclose (file);
 
-	      /* Choose an output file in the same directory.  */
+              /* Choose an output file in the same directory.  */
 
-	      char *input_name_copy = xstrdup (input_name);
-	      char *output_dir = dirname (input_name_copy);
-	      char *output_name;
-	      if (asprintf (&output_name, "%s/recode-XXXXXX.tmp", output_dir) == -1)
-		error (EXIT_FAILURE, errno, "asprintf");
-	      int fd = mkstemps (output_name, 4);
-	      if (fd == -1)
-		error (EXIT_FAILURE, errno, "mkstemps (%s)", output_name);
-	      xset_binary_mode (fd, O_BINARY);
+              char *input_name_copy = xstrdup (input_name);
+              char *output_dir = dirname (input_name_copy);
+              char *output_name;
+              if (asprintf (&output_name, "%s/recode-XXXXXX.tmp", output_dir) == -1)
+                error (EXIT_FAILURE, errno, "asprintf");
+              int fd = mkstemps (output_name, 4);
+              if (fd == -1)
+                error (EXIT_FAILURE, errno, "mkstemps (%s)", output_name);
+              xset_binary_mode (fd, O_BINARY);
 
-	      /* Recode the file.  */
+              /* Recode the file.  */
 
-	      task->input.name = input_name;
-	      task->output.name = NULL;
-	      task->output.file = fdopen (fd, "w+");
-	      if (task->output.file == NULL)
-	      	error (EXIT_FAILURE, errno, "fdopen ()");
+              task->input.name = input_name;
+              task->output.name = NULL;
+              task->output.file = fdopen (fd, "w+");
+              if (task->output.file == NULL)
+                error (EXIT_FAILURE, errno, "fdopen ()");
 
-	      if (verbose_flag)
-		{
-		  fprintf (stderr, _("Recoding %s..."), task->input.name);
-		  fflush (stderr);
-		}
+              if (verbose_flag)
+                {
+                  fprintf (stderr, _("Recoding %s..."), task->input.name);
+                  fflush (stderr);
+                }
 
-	      if ((*processor) (task))
-		{
-		  /* Recoding was successful.  */
+              if ((*processor) (task))
+                {
+                  /* Recoding was successful.  */
 
-		  if (verbose_flag)
-		    {
-		      fprintf (stderr, _(" done\n"));
-		      fflush (stderr);
-		    }
+                  if (verbose_flag)
+                    {
+                      fprintf (stderr, _(" done\n"));
+                      fflush (stderr);
+                    }
 
                   /* Close the file. */
 
                   if (fclose (task->output.file) == EOF)
                     error (EXIT_FAILURE, errno, "close ()");
 
-		  /* Move the new file over the original.  */
+                  /* Move the new file over the original.  */
 
-		  if (unlink (input_name) < 0)
-		    error (EXIT_FAILURE, errno, "unlink (%s)", input_name);
+                  if (unlink (input_name) < 0)
+                    error (EXIT_FAILURE, errno, "unlink (%s)", input_name);
 
-		  /* Preserve the file permissions if possible.  */
+                  /* Preserve the file permissions if possible.  */
 
-		  chmod (output_name, file_stat.st_mode & 07777);
+                  chmod (output_name, file_stat.st_mode & 07777);
 
-		  if (rename (output_name, input_name) < 0)
-		    error (EXIT_FAILURE, errno, "rename (%s, %s)",
-			   output_name, input_name);
+                  if (rename (output_name, input_name) < 0)
+                    error (EXIT_FAILURE, errno, "rename (%s, %s)",
+                           output_name, input_name);
 
-		  /* Adjust the time stamp for the new file.  */
+                  /* Adjust the time stamp for the new file.  */
 
-		  if (!touch_option)
-		    {
-		      file_utime.actime = file_stat.st_atime;
-		      file_utime.modtime = file_stat.st_mtime;
-		      utime (input_name, &file_utime);
-		    }
-		}
-	      else
-		{
-		  /* Recoding failed, discard output.  */
+                  if (!touch_option)
+                    {
+                      file_utime.actime = file_stat.st_atime;
+                      file_utime.modtime = file_stat.st_mtime;
+                      utime (input_name, &file_utime);
+                    }
+                }
+              else
+                {
+                  /* Recoding failed, discard output.  */
 
-		  success = false;
-		  if (verbose_flag)
-		    {
-		      fprintf (stderr, _(" failed: %s%s%s%s%s%s\n"),
-			       task_perror (task),
+                  success = false;
+                  if (verbose_flag)
+                    {
+                      fprintf (stderr, _(" failed: %s%s%s%s%s%s\n"),
+                               task_perror (task),
                                task->error_at_step ? _(" in step `") : "",
-			       task->error_at_step ? task->error_at_step->before->name : "",
+                               task->error_at_step ? task->error_at_step->before->name : "",
                                task->error_at_step ? _("..") : "",
-			       task->error_at_step ? task->error_at_step->after->name : "",
+                               task->error_at_step ? task->error_at_step->after->name : "",
                                task->error_at_step ? _("'") : "");
-		      fflush (stderr);
-		    }
-		  else if (!quiet_flag)
-		    error (0, 0, _("%s failed: %s%s%s%s%s%s"),
-			   input_name, task_perror (task),
+                      fflush (stderr);
+                    }
+                  else if (!quiet_flag)
+                    error (0, 0, _("%s failed: %s%s%s%s%s%s"),
+                           input_name, task_perror (task),
                            task->error_at_step ? _(" in step `") : "",
                            task->error_at_step ? task->error_at_step->before->name : "",
                            task->error_at_step ? _("..") : "",
                            task->error_at_step ? task->error_at_step->after->name : "",
                            task->error_at_step ? _("'") : "");
 
-		  unlink (output_name);
-		}
-	      free (output_name);
-	      free (input_name_copy);
-	    }
+                  unlink (output_name);
+                }
+              free (output_name);
+              free (input_name_copy);
+            }
       }
     else
       {
-	task->input.name = "";
-	task->output.name = "";
-	if (!(*processor) (task))
-	  {
-	    success = false;
-	    if (!quiet_flag)
-	      error (0, 0, _("%s%s%s%s%s%s"),
-		     task_perror (task),
+        task->input.name = "";
+        task->output.name = "";
+        if (!(*processor) (task))
+          {
+            success = false;
+            if (!quiet_flag)
+              error (0, 0, _("%s%s%s%s%s%s"),
+                     task_perror (task),
                      task->error_at_step ? _(" in step `") : "",
                      task->error_at_step ? task->error_at_step->before->name : "",
                      task->error_at_step ? _("..") : "",
                      task->error_at_step ? task->error_at_step->after->name : "",
                      task->error_at_step ? _("'") : "");
-	  }
+          }
       }
   }
 

@@ -386,78 +386,78 @@ get_ucs2 (unsigned *value, RECODE_SUBTASK subtask)
 
       character1 = get_byte (subtask);
       if (character1 == EOF)
-	return false;
+        return false;
       character2 = get_byte (subtask);
       if (character2 == EOF)
-	{
-	  recode_if_nogo (RECODE_INVALID_INPUT, subtask);
-	  return false;
-	}
+        {
+          recode_if_nogo (RECODE_INVALID_INPUT, subtask);
+          return false;
+        }
 
       switch (subtask->task->swap_input)
-	{
-	case RECODE_SWAP_UNDECIDED:
-	  chunk = ((BIT_MASK (8) & character1) << 8) | (BIT_MASK (8) & character2);
-	  switch (chunk)
-	    {
-	    case BYTE_ORDER_MARK:
-	      subtask->task->swap_input = RECODE_SWAP_NO;
-	      break;
+        {
+        case RECODE_SWAP_UNDECIDED:
+          chunk = ((BIT_MASK (8) & character1) << 8) | (BIT_MASK (8) & character2);
+          switch (chunk)
+            {
+            case BYTE_ORDER_MARK:
+              subtask->task->swap_input = RECODE_SWAP_NO;
+              break;
 
-	    case BYTE_ORDER_MARK_SWAPPED:
-	      subtask->task->swap_input = RECODE_SWAP_YES;
-	      break;
+            case BYTE_ORDER_MARK_SWAPPED:
+              subtask->task->swap_input = RECODE_SWAP_YES;
+              break;
 
-	    default:
-	      *value = chunk;
-	      subtask->task->swap_input = RECODE_SWAP_NO;
-	      if (subtask->task->byte_order_mark)
-		RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	      return true;
-	    }
-	  break;
+            default:
+              *value = chunk;
+              subtask->task->swap_input = RECODE_SWAP_NO;
+              if (subtask->task->byte_order_mark)
+                RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
+              return true;
+            }
+          break;
 
-	case RECODE_SWAP_NO:
-	  chunk = ((BIT_MASK (8) & character1) << 8) | (BIT_MASK (8) & character2);
-	  switch (chunk)
-	    {
-	    case BYTE_ORDER_MARK:
-	      RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	      break;
+        case RECODE_SWAP_NO:
+          chunk = ((BIT_MASK (8) & character1) << 8) | (BIT_MASK (8) & character2);
+          switch (chunk)
+            {
+            case BYTE_ORDER_MARK:
+              RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
+              break;
 
-	    case BYTE_ORDER_MARK_SWAPPED:
-	      subtask->task->swap_input = RECODE_SWAP_YES;
-	      RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	      break;
+            case BYTE_ORDER_MARK_SWAPPED:
+              subtask->task->swap_input = RECODE_SWAP_YES;
+              RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
+              break;
 
-	    default:
-	      *value = chunk;
-	      return true;
-	    }
-	  break;
+            default:
+              *value = chunk;
+              return true;
+            }
+          break;
 
-	case RECODE_SWAP_YES:
-	  chunk = ((BIT_MASK (8) & character2) << 8) | (BIT_MASK (8) & character1);
-	  switch (chunk)
-	    {
-	    case BYTE_ORDER_MARK:
-	      RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	      break;
+        case RECODE_SWAP_YES:
+          chunk = ((BIT_MASK (8) & character2) << 8) | (BIT_MASK (8) & character1);
+          switch (chunk)
+            {
+            case BYTE_ORDER_MARK:
+              RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
+              break;
 
-	    case BYTE_ORDER_MARK_SWAPPED:
-	      subtask->task->swap_input = RECODE_SWAP_NO;
-	      RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	      break;
+            case BYTE_ORDER_MARK_SWAPPED:
+              subtask->task->swap_input = RECODE_SWAP_NO;
+              RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
+              break;
 
-	    default:
-	      *value = chunk;
-	      return true;
-	    }
-	  break;
+            default:
+              *value = chunk;
+              return true;
+            }
+          break;
 
         default:
           break;
-	}
+        }
     }
 }
 
@@ -540,9 +540,9 @@ put_ucs4 (unsigned value, RECODE_SUBTASK subtask)
 
 static bool
 init_combined_ucs2 (RECODE_STEP step,
-		    RECODE_CONST_REQUEST request,
-		    RECODE_CONST_OPTION_LIST before_options,
-		    RECODE_CONST_OPTION_LIST after_options)
+                    RECODE_CONST_REQUEST request,
+                    RECODE_CONST_OPTION_LIST before_options,
+                    RECODE_CONST_OPTION_LIST after_options)
 {
   step->before->data_type = RECODE_EXPLODE_DATA;
   step->before->data = (void *) combining_data;
@@ -551,9 +551,9 @@ init_combined_ucs2 (RECODE_STEP step,
 
 static bool
 init_ucs2_combined (RECODE_STEP step,
-		    RECODE_CONST_REQUEST request,
-		    RECODE_CONST_OPTION_LIST before_options,
-		    RECODE_CONST_OPTION_LIST after_options)
+                    RECODE_CONST_REQUEST request,
+                    RECODE_CONST_OPTION_LIST before_options,
+                    RECODE_CONST_OPTION_LIST after_options)
 {
   step->after->data_type = RECODE_EXPLODE_DATA;
   step->after->data = (void *) combining_data;
@@ -599,17 +599,17 @@ module_ucs (RECODE_OUTER outer)
 {
   return
     declare_single (outer, "combined-UCS-2", "ISO-10646-UCS-2",
-		    outer->quality_ucs2_to_variable,
-		    init_combined_ucs2, explode_ucs2_ucs2)
+                    outer->quality_ucs2_to_variable,
+                    init_combined_ucs2, explode_ucs2_ucs2)
     && declare_single (outer, "ISO-10646-UCS-2", "combined-UCS-2",
-		       outer->quality_variable_to_ucs2,
-		       init_ucs2_combined, combine_ucs2_ucs2)
+                       outer->quality_variable_to_ucs2,
+                       init_ucs2_combined, combine_ucs2_ucs2)
     && declare_single (outer, "latin1", "ISO-10646-UCS-4",
-		       outer->quality_byte_to_variable,
-		       NULL, transform_latin1_ucs4)
+                       outer->quality_byte_to_variable,
+                       NULL, transform_latin1_ucs4)
     && declare_single (outer, "ISO-10646-UCS-2", "ISO-10646-UCS-4",
-		       outer->quality_variable_to_variable,
-		       NULL, transform_ucs2_ucs4)
+                       outer->quality_variable_to_variable,
+                       NULL, transform_ucs2_ucs4)
 
     && declare_alias (outer, "UCS", "ISO-10646-UCS-4")
     && declare_alias (outer, "UCS-4", "ISO-10646-UCS-4")

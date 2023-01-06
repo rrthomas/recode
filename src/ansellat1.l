@@ -82,14 +82,14 @@
  * ========
  * Fix ansel characters 
  * 
- * 	Capital C with cedilla
- * 	Lower case C with cedilla
- * 	Capital ETH 
- * 	Lower case eth
- * 	Capital O with slash
- * 	Capital Y with acute accent
- * 	Lower case Icelandic thorn     
- * 	capital OE ligature
+ *      Capital C with cedilla
+ *      Lower case C with cedilla
+ *      Capital ETH 
+ *      Lower case eth
+ *      Capital O with slash
+ *      Capital Y with acute accent
+ *      Lower case Icelandic thorn     
+ *      capital OE ligature
  * 
  * Thanks to Larry E. Dixson <ldix@loc.gov>
  * 

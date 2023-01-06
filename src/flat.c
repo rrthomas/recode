@@ -24,41 +24,41 @@
 static bool
 transform_ascii_flat (RECODE_SUBTASK subtask)
 {
-  int input_char;		/* current character */
-  int temp_char;		/* look ahead character */
+  int input_char;               /* current character */
+  int temp_char;                /* look ahead character */
 
   input_char = get_byte (subtask);
   while (true)
     switch (input_char)
       {
       case EOF:
-	SUBTASK_RETURN (subtask);
+        SUBTASK_RETURN (subtask);
 
       case '\n':
       case '\t':
-	put_byte (input_char, subtask);
-	input_char = get_byte (subtask);
-	break;
+        put_byte (input_char, subtask);
+        input_char = get_byte (subtask);
+        break;
 
       case '\b':
-	input_char = get_byte (subtask);
-	switch (input_char)
-	  {
-	  case '\'':
-	  case '`':
-	  case '^':
-	  case '"':
-	  case '~':
-	  case ',':
-	  case '_':
-	    RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
-	    input_char = get_byte (subtask);
-	    break;
+        input_char = get_byte (subtask);
+        switch (input_char)
+          {
+          case '\'':
+          case '`':
+          case '^':
+          case '"':
+          case '~':
+          case ',':
+          case '_':
+            RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
+            input_char = get_byte (subtask);
+            break;
 
-	  default:
-	    put_byte ('\b', subtask);
-	  }
-	break;
+          default:
+            put_byte ('\b', subtask);
+          }
+        break;
 
       case '\'':
       case '`':
@@ -67,35 +67,35 @@ transform_ascii_flat (RECODE_SUBTASK subtask)
       case '~':
       case ',':
       case '_':
-	temp_char = get_byte (subtask);
-	if (temp_char == '\b')
-	  {
-	    RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
-	    input_char = get_byte (subtask);
-	  }
-	else
-	  {
-	    put_byte (input_char, subtask);
-	    input_char = temp_char;
-	  }
-	break;
+        temp_char = get_byte (subtask);
+        if (temp_char == '\b')
+          {
+            RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
+            input_char = get_byte (subtask);
+          }
+        else
+          {
+            put_byte (input_char, subtask);
+            input_char = temp_char;
+          }
+        break;
 
       default:
-	if (!IS_ASCII (input_char))
-	  {
-	    RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
-	    put_byte ('M', subtask);
-	    put_byte ('-', subtask);
-	    input_char &= BIT_MASK (7);
-	  }
-	if (input_char < ' ' || input_char == BIT_MASK (7))
-	  {
-	    RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
-	    put_byte ('^', subtask);
-	    input_char ^= (1 << 6);
-	  }
-	put_byte (input_char, subtask);
-	input_char = get_byte (subtask);
+        if (!IS_ASCII (input_char))
+          {
+            RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
+            put_byte ('M', subtask);
+            put_byte ('-', subtask);
+            input_char &= BIT_MASK (7);
+          }
+        if (input_char < ' ' || input_char == BIT_MASK (7))
+          {
+            RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
+            put_byte ('^', subtask);
+            input_char ^= (1 << 6);
+          }
+        put_byte (input_char, subtask);
+        input_char = get_byte (subtask);
       }
 }
 
@@ -103,8 +103,8 @@ bool
 module_flat (RECODE_OUTER outer)
 {
   if (!declare_single (outer, "ASCII-BS", "flat",
-		       outer->quality_variable_to_variable,
-		       NULL, transform_ascii_flat))
+                       outer->quality_variable_to_variable,
+                       NULL, transform_ascii_flat))
     return false;
 
   return true;

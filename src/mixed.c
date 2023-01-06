@@ -48,7 +48,7 @@ open_mixed (struct mixed *mixed, RECODE_TASK task)
   if (!*(task->input.name))
     task->input.file = stdin;
   else if (task->input.file = fopen (mixed->input_name, "rb"),
-	   !task->input.file)
+           !task->input.file)
     {
       recode_perror (NULL, "fopen (%s)", task->input.name);
       return false;
@@ -58,7 +58,7 @@ open_mixed (struct mixed *mixed, RECODE_TASK task)
   if (!*(task->output.name))
     task->output.file = stdout;
   else if (task->output.file = fopen (mixed->output_name, "wb"),
-	   !task->output.file)
+           !task->output.file)
     {
       recode_perror (NULL, "fopen (%s)", task->output.name);
       fclose (task->input.file);
@@ -135,150 +135,150 @@ transform_c_source (RECODE_TASK task)
     {
       character = get_byte (&mixed.subtask);
       while (character != EOF)
-	switch (character)
-	  {
-	  case '\'':
-	    /* Skip character constant, while copying it untranslated.  */
+        switch (character)
+          {
+          case '\'':
+            /* Skip character constant, while copying it untranslated.  */
 
-	    put_byte ('\'', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+            put_byte ('\'', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
 
-	    if (character == EOF)
-	      {
-		recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-		break;
-	      }
+            if (character == EOF)
+              {
+                recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
+                break;
+              }
 
-	    if (character == '\\')
-	      {
-		put_byte ('\\', &mixed.subtask);
-		character = get_byte (&mixed.subtask);
-		if (character == EOF)
-		  {
-		    recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-		    break;
-		  }
-		put_byte (character, &mixed.subtask);
-		character = get_byte (&mixed.subtask);
-	      }
+            if (character == '\\')
+              {
+                put_byte ('\\', &mixed.subtask);
+                character = get_byte (&mixed.subtask);
+                if (character == EOF)
+                  {
+                    recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
+                    break;
+                  }
+                put_byte (character, &mixed.subtask);
+                character = get_byte (&mixed.subtask);
+              }
 
-	    if (character == '\'')
-	      {
-		put_byte ('\'', &mixed.subtask);
-		character = get_byte (&mixed.subtask);
-	      }
-	    else
-	      recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-	    break;
+            if (character == '\'')
+              {
+                put_byte ('\'', &mixed.subtask);
+                character = get_byte (&mixed.subtask);
+              }
+            else
+              recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
+            break;
 
-	  case '"':
-	    /* Copy the string, translated.  */
+          case '"':
+            /* Copy the string, translated.  */
 
-	    put_byte ('"', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+            put_byte ('"', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
 
-	    /* Read in string.  */
+            /* Read in string.  */
 
-	    start_accumulation (&mixed);
+            start_accumulation (&mixed);
 
-	    while (true)
-	      {
-		if (character == EOF)
-		  {
-		    recode_accumulated (&mixed);
-		    recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-		    break;
-		  }
-		if (character == '"')
-		  break;
+            while (true)
+              {
+                if (character == EOF)
+                  {
+                    recode_accumulated (&mixed);
+                    recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
+                    break;
+                  }
+                if (character == '"')
+                  break;
 
-		if (character == '\\')
-		  {
-		    put_byte ('\\', &mixed.subtask);
-		    character = get_byte (&mixed.subtask);
-		    if (character == EOF)
-		      {
-			recode_accumulated (&mixed);
-			recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-			break;
-		      }
-		  }
-		put_byte (character, &mixed.subtask);
-		character = get_byte (&mixed.subtask);
-	      }
-	    if (character == EOF)
-	      break;
+                if (character == '\\')
+                  {
+                    put_byte ('\\', &mixed.subtask);
+                    character = get_byte (&mixed.subtask);
+                    if (character == EOF)
+                      {
+                        recode_accumulated (&mixed);
+                        recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
+                        break;
+                      }
+                  }
+                put_byte (character, &mixed.subtask);
+                character = get_byte (&mixed.subtask);
+              }
+            if (character == EOF)
+              break;
 
-	    /* Translate string and dump it.  */
+            /* Translate string and dump it.  */
 
-	    if (!recode_accumulated (&mixed))
-	      recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-	    put_byte ('"', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
-	    break;
+            if (!recode_accumulated (&mixed))
+              recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
+            put_byte ('"', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
+            break;
 
-	  case '/':
-	    put_byte ('/', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
-	    if (character == EOF)
-	      break;
-	    if (character == '*')
-	      {
-		/* Copy the comment, translated.  */
+          case '/':
+            put_byte ('/', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
+            if (character == EOF)
+              break;
+            if (character == '*')
+              {
+                /* Copy the comment, translated.  */
 
-		put_byte ('*', &mixed.subtask);
-		character = get_byte (&mixed.subtask);
+                put_byte ('*', &mixed.subtask);
+                character = get_byte (&mixed.subtask);
 
-		/* Read in comment.  */
+                /* Read in comment.  */
 
-		start_accumulation (&mixed);
-		while (true)
-		  {
-		    if (character == EOF)
-		      {
-			recode_accumulated (&mixed);
-			recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-			break;
-		      }
-		    if (character == '*')
-		      {
-			character = get_byte (&mixed.subtask);
-			if (character == EOF)
-			  {
-			    recode_accumulated (&mixed);
-			    recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-			    put_byte ('*', &mixed.subtask);
-			    break;
-			  }
-			if (character == '/')
-			  break;
-			put_byte ('*', &mixed.subtask);
-		      }
-		    else
-		      {
-			put_byte (character, &mixed.subtask);
-			character = get_byte (&mixed.subtask);
-		      }
-		  }
+                start_accumulation (&mixed);
+                while (true)
+                  {
+                    if (character == EOF)
+                      {
+                        recode_accumulated (&mixed);
+                        recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
+                        break;
+                      }
+                    if (character == '*')
+                      {
+                        character = get_byte (&mixed.subtask);
+                        if (character == EOF)
+                          {
+                            recode_accumulated (&mixed);
+                            recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
+                            put_byte ('*', &mixed.subtask);
+                            break;
+                          }
+                        if (character == '/')
+                          break;
+                        put_byte ('*', &mixed.subtask);
+                      }
+                    else
+                      {
+                        put_byte (character, &mixed.subtask);
+                        character = get_byte (&mixed.subtask);
+                      }
+                  }
 
-		if (character == EOF)
-		  break;
+                if (character == EOF)
+                  break;
 
-		/* Translate comment and dump it.  */
+                /* Translate comment and dump it.  */
 
-		if (!recode_accumulated (&mixed))
-		  recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-		put_byte ('*', &mixed.subtask);
-		put_byte ('/', &mixed.subtask);
-		character = get_byte (&mixed.subtask);
-	      }
-	    break;
+                if (!recode_accumulated (&mixed))
+                  recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
+                put_byte ('*', &mixed.subtask);
+                put_byte ('/', &mixed.subtask);
+                character = get_byte (&mixed.subtask);
+              }
+            break;
 
-	  default:
-	    put_byte (character, &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
-	    break;
-	  }
+          default:
+            put_byte (character, &mixed.subtask);
+            character = get_byte (&mixed.subtask);
+            break;
+          }
     }
 
   if (!close_mixed (&mixed))
@@ -311,123 +311,123 @@ transform_po_source (RECODE_TASK task)
     {
       int character = get_byte (&mixed.subtask);
       while (character != EOF)
-	switch (character)
-	  {
-	  case '#':
-	    /* Copy a comment, recoding only those written by translators.  */
+        switch (character)
+          {
+          case '#':
+            /* Copy a comment, recoding only those written by translators.  */
 
-	    put_byte ('#', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
-	    if (character == EOF)
-	      break;
-	    recode = character == ' ' || character == '\t';
+            put_byte ('#', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
+            if (character == EOF)
+              break;
+            recode = character == ' ' || character == '\t';
 
-	    if (recode)
-	      start_accumulation (&mixed);
+            if (recode)
+              start_accumulation (&mixed);
 
-	    while (character != '\n' && character != EOF)
-	      {
-		put_byte (character, &mixed.subtask);
-		character = get_byte (&mixed.subtask);
-	      }
+            while (character != '\n' && character != EOF)
+              {
+                put_byte (character, &mixed.subtask);
+                character = get_byte (&mixed.subtask);
+              }
 
-	    if (recode && !recode_accumulated (&mixed))
-	      recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
+            if (recode && !recode_accumulated (&mixed))
+              recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
 
-	    if (character == EOF)
-	      break;
-	    put_byte ('\n', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
-	    break;
+            if (character == EOF)
+              break;
+            put_byte ('\n', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
+            break;
 
-	  case 'm':
-	    /* Attempt to recognise `msgstr'.  */
+          case 'm':
+            /* Attempt to recognise `msgstr'.  */
 
-	    msgstr = false;
+            msgstr = false;
 
-	    put_byte ('m', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
-	    if (character != 's')
-	      break;
-	    put_byte ('s', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
-	    if (character != 'g')
-	      break;
-	    put_byte ('g', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
-	    if (character != 's')
-	      break;
-	    put_byte ('s', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
-	    if (character != 't')
-	      break;
-	    put_byte ('t', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
-	    if (character != 'r')
-	      break;
-	    put_byte ('r', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+            put_byte ('m', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
+            if (character != 's')
+              break;
+            put_byte ('s', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
+            if (character != 'g')
+              break;
+            put_byte ('g', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
+            if (character != 's')
+              break;
+            put_byte ('s', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
+            if (character != 't')
+              break;
+            put_byte ('t', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
+            if (character != 'r')
+              break;
+            put_byte ('r', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
 
-	    msgstr = true;
-	    break;
+            msgstr = true;
+            break;
 
-	  case '"':
-	    /* Copy the string, translating only the `msgstr' ones.  */
+          case '"':
+            /* Copy the string, translating only the `msgstr' ones.  */
 
-	    put_byte ('"', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
-	    recode = msgstr;
+            put_byte ('"', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
+            recode = msgstr;
 
-	    if (recode)
-	      start_accumulation (&mixed);
+            if (recode)
+              start_accumulation (&mixed);
 
-	    while (true)
-	      {
-		if (character == EOF)
-		  {
-		    if (recode)
-		      {
-			recode_accumulated (&mixed);
-			recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-		      }
-		    break;
-		  }
-		if (character == '"')
-		  break;
+            while (true)
+              {
+                if (character == EOF)
+                  {
+                    if (recode)
+                      {
+                        recode_accumulated (&mixed);
+                        recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
+                      }
+                    break;
+                  }
+                if (character == '"')
+                  break;
 
-		if (character == '\\')
-		  {
-		    put_byte ('\\', &mixed.subtask);
-		    character = get_byte (&mixed.subtask);
-		    if (character == EOF)
-		      {
-			if (recode)
-			  {
-			    recode_accumulated (&mixed);
-			    recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-			  }
-			break;
-		      }
-		  }
-		put_byte (character, &mixed.subtask);
-		character = get_byte (&mixed.subtask);
-	      }
+                if (character == '\\')
+                  {
+                    put_byte ('\\', &mixed.subtask);
+                    character = get_byte (&mixed.subtask);
+                    if (character == EOF)
+                      {
+                        if (recode)
+                          {
+                            recode_accumulated (&mixed);
+                            recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
+                          }
+                        break;
+                      }
+                  }
+                put_byte (character, &mixed.subtask);
+                character = get_byte (&mixed.subtask);
+              }
 
-	    if (character == EOF)
-	      break;
+            if (character == EOF)
+              break;
 
-	    if (recode && !recode_accumulated (&mixed))
-	      recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
+            if (recode && !recode_accumulated (&mixed))
+              recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
 
-	    put_byte ('"', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
-	    break;
+            put_byte ('"', &mixed.subtask);
+            character = get_byte (&mixed.subtask);
+            break;
 
-	  default:
-	    put_byte (character, &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
-	    break;
-	  }
+          default:
+            put_byte (character, &mixed.subtask);
+            character = get_byte (&mixed.subtask);
+            break;
+          }
     }
 
   if (!close_mixed (&mixed))

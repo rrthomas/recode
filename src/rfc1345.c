@@ -27,7 +27,7 @@
 
 /*----------------------------------------------------------------------.
 | Return an RFC 1345 short form in a CHARSET for a given UCS2 value, or |
-| NULL if this value has no such known short form.		        |
+| NULL if this value has no such known short form.                      |
 `----------------------------------------------------------------------*/
 
 _GL_ATTRIBUTE_PURE const char *
@@ -42,11 +42,11 @@ ucs2_to_rfc1345 (recode_ucs2 code)
       const struct entry *entry = &table[middle];
 
       if (entry->code < code)
-	first = middle + 1;
+        first = middle + 1;
       else if (entry->code > code)
-	last = middle;
+        last = middle;
       else
-	return entry->rfc1345;
+        return entry->rfc1345;
     }
 
   return NULL;
@@ -70,11 +70,11 @@ rfc1345_to_ucs2 (const char *string)
       int value = strcmp (entry->rfc1345, string);
 
       if (value < 0)
-	first = middle + 1;
+        first = middle + 1;
       else if (value > 0)
-	last = middle;
+        last = middle;
       else
-	return entry->code;
+        return entry->code;
     }
 
   return NOT_A_CHARACTER;
@@ -84,7 +84,7 @@ rfc1345_to_ucs2 (const char *string)
 
 struct local
 {
-  char intro;			/* RFC 1345 intro character */
+  char intro;                   /* RFC 1345 intro character */
 };
 
 /*-----------------------------------------------.
@@ -101,39 +101,39 @@ transform_ucs2_rfc1345 (RECODE_SUBTASK subtask)
   while (get_ucs2 (&value, subtask))
     if (IS_ASCII (value))
       if (value == (unsigned)intro)
-	{
-	  put_byte (intro, subtask);
-	  put_byte (intro, subtask);
-	}
+        {
+          put_byte (intro, subtask);
+          put_byte (intro, subtask);
+        }
       else
-	put_byte (value, subtask);
+        put_byte (value, subtask);
     else
       {
-	const char *string = ucs2_to_rfc1345 (value);
+        const char *string = ucs2_to_rfc1345 (value);
 
-	if (!string || !string[0])
-	  RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
-	else if (!string[1])
-	  put_byte (string[0], subtask);
-	else if (!string[2])
-	  {
-	    put_byte (intro, subtask);
-	    put_byte (string[0], subtask);
-	    put_byte (string[1], subtask);
-	  }
-	else
-	  {
-	    const char *cursor = string;
+        if (!string || !string[0])
+          RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
+        else if (!string[1])
+          put_byte (string[0], subtask);
+        else if (!string[2])
+          {
+            put_byte (intro, subtask);
+            put_byte (string[0], subtask);
+            put_byte (string[1], subtask);
+          }
+        else
+          {
+            const char *cursor = string;
 
-	    put_byte (intro, subtask);
-	    put_byte ('_', subtask);
-	    while (*cursor)
-	      {
-		put_byte (*cursor, subtask);
-		cursor++;
-	      }
-	    put_byte ('_', subtask);
-	  }
+            put_byte (intro, subtask);
+            put_byte ('_', subtask);
+            while (*cursor)
+              {
+                put_byte (*cursor, subtask);
+                cursor++;
+              }
+            put_byte ('_', subtask);
+          }
       }
 
   SUBTASK_RETURN (subtask);
@@ -154,69 +154,69 @@ transform_rfc1345_ucs2 (RECODE_SUBTASK subtask)
 
     if (character == intro)
       {
-	character = get_byte (subtask);
-	if (character == EOF)
-	  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+        character = get_byte (subtask);
+        if (character == EOF)
+          RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
 
-	if (character == intro)
-	  put_ucs2 (intro, subtask);
-	else if (character == '_')
-	  {
-	    char buffer[MAX_MNEMONIC_LENGTH + 1];
-	    char *cursor = buffer;
+        if (character == intro)
+          put_ucs2 (intro, subtask);
+        else if (character == '_')
+          {
+            char buffer[MAX_MNEMONIC_LENGTH + 1];
+            char *cursor = buffer;
 
-	    character = get_byte (subtask);
-	    while (true)
-	      if (character == EOF)
-		{
-		  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-		  break;
-		}
-	      else if (character == '_')
-		{
-		  recode_ucs2 value;
+            character = get_byte (subtask);
+            while (true)
+              if (character == EOF)
+                {
+                  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+                  break;
+                }
+              else if (character == '_')
+                {
+                  recode_ucs2 value;
 
-		  *cursor = NUL;
-		  value = rfc1345_to_ucs2 (buffer);
-		  if (value == NOT_A_CHARACTER)
-		    RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-		  else
-		    put_ucs2 (value, subtask);
-		  break;
-		}
-	      else if (cursor == buffer + MAX_MNEMONIC_LENGTH)
-		{
-		  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-		  break;
-		}
-	      else
-		{
-		  *cursor++ = character;
-		  character = get_byte (subtask);
-		}
-	  }
-	else
-	  {
-	    char buffer[3];
-	    recode_ucs2 value;
+                  *cursor = NUL;
+                  value = rfc1345_to_ucs2 (buffer);
+                  if (value == NOT_A_CHARACTER)
+                    RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+                  else
+                    put_ucs2 (value, subtask);
+                  break;
+                }
+              else if (cursor == buffer + MAX_MNEMONIC_LENGTH)
+                {
+                  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+                  break;
+                }
+              else
+                {
+                  *cursor++ = character;
+                  character = get_byte (subtask);
+                }
+          }
+        else
+          {
+            char buffer[3];
+            recode_ucs2 value;
 
-	    buffer[0] = character;
-	    character = get_byte (subtask);
-	    if (character == EOF)
-	      RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	    buffer[1] = character;
-	    buffer[2] = NUL;
+            buffer[0] = character;
+            character = get_byte (subtask);
+            if (character == EOF)
+              RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+            buffer[1] = character;
+            buffer[2] = NUL;
 
-	    value = rfc1345_to_ucs2 (buffer);
-	    if (value == NOT_A_CHARACTER)
-	      RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	    else
-	      {
-		if (IS_ASCII (value))
-		  RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
-		put_ucs2 (value, subtask);
-	      }
-	  }
+            value = rfc1345_to_ucs2 (buffer);
+            if (value == NOT_A_CHARACTER)
+              RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
+            else
+              {
+                if (IS_ASCII (value))
+                  RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
+                put_ucs2 (value, subtask);
+              }
+          }
       }
     else
       put_ucs2 (character, subtask);
@@ -237,8 +237,8 @@ term_rfc1345 (RECODE_STEP step)
 
 static bool
 init_rfc1345 (RECODE_CONST_REQUEST request,
-	      RECODE_STEP step,
-	      RECODE_CONST_OPTION_LIST options _GL_UNUSED)
+              RECODE_STEP step,
+              RECODE_CONST_OPTION_LIST options _GL_UNUSED)
 {
   RECODE_OUTER outer = request->outer;
   struct local *local;
@@ -255,9 +255,9 @@ init_rfc1345 (RECODE_CONST_REQUEST request,
 
 static bool
 init_ucs2_rfc1345 (RECODE_STEP step,
-		   RECODE_CONST_REQUEST request,
-		   RECODE_CONST_OPTION_LIST before_options,
-		   RECODE_CONST_OPTION_LIST after_options)
+                   RECODE_CONST_REQUEST request,
+                   RECODE_CONST_OPTION_LIST before_options,
+                   RECODE_CONST_OPTION_LIST after_options)
 {
   if (before_options)
     return false;
@@ -267,9 +267,9 @@ init_ucs2_rfc1345 (RECODE_STEP step,
 
 static bool
 init_rfc1345_ucs2 (RECODE_STEP step,
-		   RECODE_CONST_REQUEST request,
-		   RECODE_CONST_OPTION_LIST before_options,
-		   RECODE_CONST_OPTION_LIST after_options)
+                   RECODE_CONST_REQUEST request,
+                   RECODE_CONST_OPTION_LIST before_options,
+                   RECODE_CONST_OPTION_LIST after_options)
 {
   if (after_options)
     return false;

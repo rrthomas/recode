@@ -33,8 +33,8 @@
 
 struct translation
   {
-    int code;			/* code being translated */
-    const char *string;		/* translation string */
+    int code;                   /* code being translated */
+    const char *string;         /* translation string */
   };
 
 static struct translation diacritic_translations [] =
