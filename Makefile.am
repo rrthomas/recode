@@ -24,7 +24,7 @@ SUBDIRS = doc lib src po tests contrib
 EXTRA_DIST = COPYING-LIB \
 m4/gnulib-cache.m4 tables.py \
 keld/NomsSeulsfinal.lst keld/charsets.def keld/control.def \
-keld/iso10646.def keld/mnemonics,ds keld/other.def keld/rfc1345.txt
+keld/iso10646.def keld/other.def keld/rfc1345.txt
 
 release: distcheck
 	git diff --exit-code && \
