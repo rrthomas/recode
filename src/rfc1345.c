@@ -30,7 +30,7 @@
 | NULL if this value has no such known short form.		        |
 `----------------------------------------------------------------------*/
 
-_GL_ATTRIBUTE_PURE const char *
+_GL_ATTRIBUTE_CONST const char *
 ucs2_to_rfc1345 (recode_ucs2 code)
 {
   int first = 0;
