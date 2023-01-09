@@ -1,0 +1,77 @@
+name: C/C++ CI
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            shell: bash
+          - os: macos-latest
+            shell: bash
+          - os: windows-latest
+            sys: mingw64
+            arch: x86_64
+            shell: msys2
+          - os: windows-latest
+            sys: mingw32
+            arch: i686
+            shell: msys2
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: ${{ matrix.shell }} {0}
+    steps:
+    - uses: msys2/setup-msys2@v2
+      if: ${{ matrix.os == 'windows-latest' }}
+      with:
+        release: false
+        msystem: ${{matrix.sys}}
+        install: >-
+          patch git groff help2man rsync texinfo flex
+          mingw-w64-${{matrix.arch}}-autotools
+          mingw-w64-${{matrix.arch}}-gcc
+          mingw-w64-${{matrix.arch}}-python3
+          mingw-w64-${{matrix.arch}}-python-setuptools
+          mingw-w64-${{matrix.arch}}-cython
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+        fetch-depth: 0
+    - name: Install dependencies (Ubuntu)
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      run: sudo apt-get -y install python3 cython3 flex help2man autopoint texinfo gettext
+    - name: Install dependencies (macOS)
+      if: ${{ matrix.os == 'macos-latest' }}
+      run: |
+        brew install autoconf automake help2man python cython flex texinfo
+        # Prepend optional brew binary directories to PATH
+        echo "/usr/local/opt/flex/bin:/usr/local/opt/m4/bin:/usr/local/opt/texinfo/bin:/usr/local/opt/gettext/bin:/usr/local/opt/cython/bin" >> $GITHUB_PATH
+    - name: Set up git (Windows)
+      if: ${{ matrix.os == 'windows-latest' }}
+      run: git config --global core.autocrlf input
+    - name: Set up environment (Ubuntu)
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      run: |
+        echo "ASAN=yes" >> $GITHUB_ENV
+        echo "LSAN_OPTIONS=verbosity=1:log_threads=1" >> $GITHUB_ENV
+    - name: Set up environment (macOS)
+      if: ${{ matrix.os == 'macos-latest' }}
+      run: |
+        echo "LDFLAGS=-L/usr/local/opt/flex/lib -L/usr/local/opt/gettext/lib" >> $GITHUB_ENV
+        echo "CPPFLAGS=-I/usr/local/opt/flex/include" >> $GITHUB_ENV
+        echo "PYTHON=/usr/local/bin/python3" >> $GITHUB_ENV
+    - name: Set up environment (Windows)
+      if: ${{ matrix.os == 'windows-latest' }}
+      run: |
+        # Define _POSIX to get a full set of POSIX signal names from signal.h on mingw
+        echo "CPPFLAGS=-D_POSIX" >> $GITHUB_ENV
+    - name: Build
+      run: |
+        ./bootstrap
+        if [[ "$ASAN" == "yes" ]]; then ./configure --enable-silent-rules CFLAGS="-g3 -fsanitize=address -fsanitize=undefined" LDFLAGS="-fsanitize=address -fsanitize=undefined" TESTS_ENVIRONMENT_EXTRA="LD_PRELOAD=/usr/lib/gcc/x86_64-linux-gnu/11/libasan.so PYTHONMALLOC=malloc"; else ./configure --enable-silent-rules; fi
+        make check
+        make distcheck
