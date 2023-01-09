@@ -23,7 +23,7 @@ dist_man_MANS = recode.1
 include_HEADERS = recode.h recodext.h
 
 H_STEPS = common.h decsteps.h inisteps.h tersteps.h \
-$(H_FALLBACKS) $(H_SURFACES)
+$(H_SURFACES)
 
 noinst_HEADERS = $(H_STEPS) cleaner.h charname.h fr-charname.h iconvdecl.h \
 rfc1345.h lat1iso5426.h lat1ansel.h
@@ -38,15 +38,13 @@ java.c mule.c strip-data.c testdump.c ucs.c utf16.c utf7.c utf8.c varia.c vn.c
 
 ALL_STEPS = $(C_STEPS) $(C_FALLBACKS) $(C_SURFACES)
 
-L_STEPS = ascilat1.l iso5426lat1.l ansellat1.l $(L_FALLBACKS) $(L_SURFACES)
+L_STEPS = ascilat1.l iso5426lat1.l ansellat1.l $(L_FALLBACKS)
 
-H_FALLBACKS =
 C_FALLBACKS = flat.c html.c lat1ltex.c lat1btex.c lat1txte.c rfc1345.c texinfo.c
 L_FALLBACKS = ltexlat1.l btexlat1.l txtelat1.l
 
 H_SURFACES = base64.h
 C_SURFACES = base64.c dump.c endline.c permut.c quoted.c
-L_SURFACES =
 
 recode_SOURCES = main.c mixed.c common.h
 recode_LDADD = librecode.la
@@ -65,7 +63,7 @@ loc:
 	cloc \
 	charname.c combine.c fr-charname.c iconv.c \
 	names.c outer.c recode.c request.c task.c \
-	$(ALL_STEPS) $(L_STEPS) common.h $(H_FALLBACKS) $(H_SURFACES) \
+	$(ALL_STEPS) $(L_STEPS) common.h $(H_SURFACES) \
 	$(top_srcdir)/tables.py mergelex.py $(top_srcdir)/tests/Recode.pyx \
 	Makefile.am $(top_srcdir)/configure.ac $(top_srcdir)/Makefile.am \
 	$(top_srcdir)/doc/Makefile.am $(top_srcdir)/tests/Makefile.am $(top_srcdir)/bootstrap.conf
