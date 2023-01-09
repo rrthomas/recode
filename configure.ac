@@ -2,8 +2,8 @@
 # Copyright (C) 1994-2023 Free Software Foundation, Inc.
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.69)
-AC_INIT(recode, 3.7.13, [rrt@sc3d.org])
+AC_PREREQ([2.71])
+AC_INIT([recode],[3.7.13],[rrt@sc3d.org])
 AC_CONFIG_SRCDIR(src/recode.c)
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE
@@ -33,7 +33,7 @@ CURRENT=`expr $RECODE_SONUM + $AGE`
 VERSION_INFO=$CURRENT:$REVISION:$AGE
 AC_SUBST(VERSION_INFO)
 
-AC_PROG_CC_C99
+AC_PROG_CC
 gl_EARLY
 LT_INIT
 AC_PROG_LEX
@@ -104,7 +104,6 @@ AC_SUBST([ISYSTEM])
 AC_SUBST([TESTS_ENVIRONMENT_EXTRA])
 
 AC_CONFIG_HEADERS([config.h])
-AC_HEADER_STDC
 AM_ICONV
 LIBS="$LIBICONV $LIBS"
 
@@ -112,5 +111,6 @@ AM_GNU_GETTEXT_VERSION(0.19)
 AM_GNU_GETTEXT(external)
 AM_XGETTEXT_OPTION([--from-code=UTF-8])
 
-AC_OUTPUT(Makefile contrib/Makefile doc/Makefile lib/Makefile
-          po/Makefile.in src/Makefile tests/Makefile tests/setup.py)
+AC_CONFIG_FILES([Makefile contrib/Makefile doc/Makefile lib/Makefile
+          po/Makefile.in src/Makefile tests/Makefile tests/setup.py])
+AC_OUTPUT
