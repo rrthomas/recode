@@ -57,9 +57,7 @@ definitions = {}
 section = 3
 
 while True:
-    # FIXME: Treating all the input as latin1 is a hack: some of the files
-    # we read are UTF-8 encoded.
-    line = sys.stdin.buffer.readline().decode('latin1')
+    line = sys.stdin.readline()
     if not line:
         break
 
