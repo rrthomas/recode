@@ -50,9 +50,6 @@ jobs:
         brew install autoconf automake help2man python cython flex texinfo
         # Prepend optional brew binary directories to PATH
         echo "/usr/local/opt/flex/bin:/usr/local/opt/m4/bin:/usr/local/opt/texinfo/bin:/usr/local/opt/gettext/bin:/usr/local/opt/cython/bin" >> $GITHUB_PATH
-    - name: Set up git (Windows)
-      if: ${{ matrix.os == 'windows-latest' }}
-      run: git config --global core.autocrlf input
     - name: Set up environment (Ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
