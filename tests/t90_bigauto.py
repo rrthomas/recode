@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Copyright © 1997-2000 Progiciels Bourbeau-Pinard inc.
+# Copyright © 1997-2000 Progiciels Bourbeau-Pinard, Inc.
 # François Pinard <pinard@iro.umontreal.ca>, 1997.
 
 """\

@@ -1,5 +1,5 @@
 /* Vietnamese charset processing.
-   Copyright © 1999-2018 Progiciels Bourbeau-Pinard inc.
+   Copyright © 1999-2018 Progiciels Bourbeau-Pinard, Inc.
    Contributed by François Pinard <pinard@iro.umontreal.ca>, 1999.
 
    This library is free software; you can redistribute it and/or
