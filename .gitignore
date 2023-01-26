@@ -32,6 +32,7 @@ html/
 /ltmain.sh
 /missing
 /po/*.gmo
+/po/*.po
 /po/.reference/
 /po/Makefile.in
 /po/POTFILES
