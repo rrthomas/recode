@@ -31,13 +31,6 @@ html/
 /libtool
 /ltmain.sh
 /missing
-/po/*.gmo
-/po/*.po
-/po/.reference/
-/po/Makefile.in
-/po/POTFILES
-/po/remove-potcdate.sed
-/po/stamp-po
 /python/Recode.c
 /recode-*.tar.gz
 /src/.deps/
