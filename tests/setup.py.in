@@ -31,7 +31,8 @@ try:
     setup(ext_modules=[
         Extension('Recode', ['Recode.c'],
                   include_dirs=[top_builddir, os.path.join(top_srcdir, 'src'),
-                                os.path.join(top_srcdir, 'lib')],
+                                os.path.join(top_srcdir, 'lib'),
+                                os.path.join(top_builddir, 'lib')],
                   library_dirs=[os.path.join(top_builddir, 'src', '.libs'),
                                 os.path.join(top_builddir, 'lib', '.libs')],
                   libraries=['recode', 'gnu'],
