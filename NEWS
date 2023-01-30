@@ -7,6 +7,15 @@ Recode NEWS - User visible changes
 
 :Copyright: © 1993-2023 Free Software Foundation, Inc.
 
+Version 3.7.14
+==============
+
+:Author: Reuben Thomas, 2023-01.
+
++ No user-visible changes; minor clean-ups as part of the Debian
+  packaging process.
+
+
 Version 3.7.13
 ==============
 
