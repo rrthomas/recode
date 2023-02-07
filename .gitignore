@@ -2,7 +2,7 @@
 *.[oa]
 *.l[oa]
 *.pyc
-GNUmakefile
+/GNUmakefile
 Makefile
 Makefile.in
 html/
