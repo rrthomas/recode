@@ -95,9 +95,6 @@ merged.c: mergelex.py $(L_STEPS)
 	grep -av '^# *line [0-9]' merged.tm2 >> merged.c
 	rm merged.tm1 merged.tm2
 
-# Depend on recode$(EXEEXT) rather than explicitly make-ing it, as otherwise
-# we break parallel builds, as libmerged.la can be built twice in parallel,
-# which can fail.
 recode.1: main.c $(top_srcdir)/configure.ac
 ## Exit gracefully if recode.1 is not writeable, such as during distcheck!
 	$(AM_V_GEN)if ( touch $@.w && rm -f $@.w; ) >/dev/null 2>&1; then \
