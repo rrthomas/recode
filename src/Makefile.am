@@ -52,7 +52,7 @@ recode_LDADD = librecode.la
 librecode_la_SOURCES = charname.c combine.c fr-charname.c iconv.c \
 names.c outer.c recode.c request.c strip-pool.c task.c $(ALL_STEPS) \
 $(include_HEADERS) $(noinst_HEADERS) $(H_STEPS)
-librecode_la_LDFLAGS = -version-info $(VERSION_INFO) $(LTLIBINTL) \
+librecode_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO) $(LTLIBINTL) \
 	$(LIB_CLOCK_GETTIME) $(LIB_GETRANDOM) $(LIB_HARD_LOCALE) $(LIB_MBRTOWC) $(LIB_SETLOCALE_NULL)
 librecode_la_LIBADD = ../lib/libgnu.la libmerged.la
 
