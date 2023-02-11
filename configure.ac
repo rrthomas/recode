@@ -105,13 +105,12 @@ AC_SUBST([ISYSTEM])
 # Extra settings for running tests, e.g. LD_PRELOAD for ASAN
 AC_SUBST([TESTS_ENVIRONMENT_EXTRA])
 
-AC_CONFIG_HEADERS([config.h])
-AM_ICONV
-LIBS="$LIBICONV $LIBS"
-
+# Gettext
 AM_GNU_GETTEXT_VERSION(0.19)
 AM_GNU_GETTEXT(external)
 AM_XGETTEXT_OPTION([--from-code=UTF-8])
+
+AC_CONFIG_HEADERS([config.h])
 
 AC_CONFIG_FILES([Makefile contrib/Makefile doc/Makefile lib/Makefile
           po/Makefile.in src/Makefile src/recode.x

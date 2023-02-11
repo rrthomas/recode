@@ -175,3 +175,4 @@ gnulib-comp.m4
 /assert_h.m4
 /c-bool.m4
 /error_h.m4
+/host-cpu-c-abi.m4
