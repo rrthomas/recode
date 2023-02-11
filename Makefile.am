@@ -35,3 +35,9 @@ release: distcheck
 		package=$(PACKAGE) \
 		version=$(VERSION) \
 		dist_type=tar.gz
+
+# Ignore built files that are part of the distribution (specifically,
+# src/recode.1).
+distcleancheck_listfiles = \
+       find . -type f -exec sh -c 'test -f $(srcdir)/$$1 || echo $$1' \
+	    sh '{}' ';'

@@ -41,8 +41,10 @@ AM_PATH_PYTHON([3.5])
 gl_INIT
 
 dnl help2man
-dnl Set a value even if not found, so that an invocation via build-aux/missing works
-AC_PATH_PROG([HELP2MAN], [help2man], [help2man])
+AC_PATH_PROG([PERL], [perl])
+AC_PATH_PROG([HELP2MAN], [help2man])
+CROSS_COMPILING=$cross_compiling
+AC_SUBST([CROSS_COMPILING])
 
 dnl Cython
 AC_CHECK_PROGS([CYTHON], [cython3 cython])
@@ -112,5 +114,7 @@ AM_GNU_GETTEXT(external)
 AM_XGETTEXT_OPTION([--from-code=UTF-8])
 
 AC_CONFIG_FILES([Makefile contrib/Makefile doc/Makefile lib/Makefile
-          po/Makefile.in src/Makefile tests/Makefile tests/setup.py])
+          po/Makefile.in src/Makefile src/recode.x
+          tests/Makefile tests/setup.py])
+AC_CONFIG_FILES([build-aux/x-to-1], [chmod +x build-aux/x-to-1])
 AC_OUTPUT
