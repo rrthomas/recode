@@ -353,9 +353,10 @@ recode_perform_task (RECODE_TASK task)
                   SUBTASK_RETURN (subtask);
                 }
 
-              /* Close the input file. */
+              /* Close the input file when we opened it. */
 
-              if (subtask->input.file)
+              if (subtask->input.file && subtask->input.name &&
+                  subtask->input.name[0])
                 fclose (subtask->input.file);
             }
 #endif
