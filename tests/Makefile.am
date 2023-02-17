@@ -35,6 +35,7 @@ if HAVE_CYTHON
 check-local: Recode@pyextext@
 	export LD_LIBRARY_PATH=$(top_builddir)/src/@objdir@; \
 	export DYLD_LIBRARY_PATH=$(top_builddir)/src/@objdir@; \
+	if test "$(PYTHON_PLATFORM)" = win32; then export PATH="$(top_builddir)/src/@objdir@;$$PATH"; fi; \
 	export LSAN_OPTIONS=$$LSAN_OPTIONS:fast_unwind_on_malloc=0:print_suppressions=0:suppressions=$(srcdir)/asan-suppressions.txt; \
 	RECODE=$(top_builddir)/src/recode$(EXEEXT) PYTHONPATH=.:$(srcdir) \
 	  $(TESTS_ENVIRONMENT_EXTRA) $(PYTHON) $(srcdir)/pytest $(LIMIT) $(srcdir)/t*.py
