@@ -149,6 +149,13 @@ wrapped_transform (iconv_t conversion, RECODE_SUBTASK subtask)
 
 	      /* Invalid or untranslatable input.  */
 	      RETURN_IF_NOGO (recode_error, subtask);
+	      /* Ensure we skip at least one byte.
+		 FIXME: We cannot tell how many bytes to skip for
+		 untranslatable input.  The likely result is that we'll
+		 get an "invalid input" error on the next step. */
+	      assert (input_left > 0);
+	      input++;
+	      input_left--;
 	    }
 	  else if (saved_errno == EINVAL)
 	    {
