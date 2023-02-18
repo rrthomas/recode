@@ -80,9 +80,9 @@ init_latin1_ansel (RECODE_STEP step,
 bool
 module_latin1_ansel (RECODE_OUTER outer)
 {
-  return declare_single (outer, "Latin-1", "Z39.47:1993",
+  return recode_declare_single (outer, "Latin-1", "Z39.47:1993",
                          outer->quality_variable_to_byte, init_latin1_ansel,
-                         transform_byte_to_variable);
+                         recode_transform_byte_to_variable);
 }
 
 void

@@ -181,56 +181,56 @@ init_ascii_cdcnos (RECODE_STEP step,
 
 /* Previous obsolete lex code:
 
-@A			{ put_byte ('@', subtask); }
-@B			{ put_byte ('^', subtask); }
-@D			{ put_byte (':', subtask); }
-@G			{ put_byte ('`', subtask); }
+@A			{ recode_put_byte ('@', subtask); }
+@B			{ recode_put_byte ('^', subtask); }
+@D			{ recode_put_byte (':', subtask); }
+@G			{ recode_put_byte ('`', subtask); }
 
-\^" "			{ put_byte ( 13, subtask); }
-\^!			{ put_byte ( 22, subtask); }
-\^\"			{ put_byte ( 20, subtask); }
-\^#			{ put_byte ( 16, subtask); }
-\^$			{ put_byte ( 11, subtask); }
-\^\%			{ put_byte ( 19, subtask); }
-\^&			{ put_byte ( 23, subtask); }
-\^'			{ put_byte ( 24, subtask); }
-\^\(			{ put_byte (  9, subtask); }
-\^\)			{ put_byte ( 10, subtask); }
-\^\*			{ put_byte (  7, subtask); }
-\^\+			{ put_byte (  5, subtask); }
-\^\,			{ put_byte ( 14, subtask); }
-\^-			{ put_byte (  6, subtask); }
-\^\.			{ put_byte ( 15, subtask); }
-\^\/			{ put_byte (  8, subtask); }
+\^" "			{ recode_put_byte ( 13, subtask); }
+\^!			{ recode_put_byte ( 22, subtask); }
+\^\"			{ recode_put_byte ( 20, subtask); }
+\^#			{ recode_put_byte ( 16, subtask); }
+\^$			{ recode_put_byte ( 11, subtask); }
+\^\%			{ recode_put_byte ( 19, subtask); }
+\^&			{ recode_put_byte ( 23, subtask); }
+\^'			{ recode_put_byte ( 24, subtask); }
+\^\(			{ recode_put_byte (  9, subtask); }
+\^\)			{ recode_put_byte ( 10, subtask); }
+\^\*			{ recode_put_byte (  7, subtask); }
+\^\+			{ recode_put_byte (  5, subtask); }
+\^\,			{ recode_put_byte ( 14, subtask); }
+\^-			{ recode_put_byte (  6, subtask); }
+\^\.			{ recode_put_byte ( 15, subtask); }
+\^\/			{ recode_put_byte (  8, subtask); }
 
-\^0			{ put_byte ('{', subtask); }
-\^1			{ put_byte ('|', subtask); }
-\^2			{ put_byte ('}', subtask); }
-\^3			{ put_byte ('~', subtask); }
-\^4			{ put_byte (127, subtask); }
+\^0			{ recode_put_byte ('{', subtask); }
+\^1			{ recode_put_byte ('|', subtask); }
+\^2			{ recode_put_byte ('}', subtask); }
+\^3			{ recode_put_byte ('~', subtask); }
+\^4			{ recode_put_byte (127, subtask); }
 
-\^5			{ put_byte (  0, subtask); }
-\^6			{ put_byte (  1, subtask); }
-\^7			{ put_byte (  2, subtask); }
-\^8			{ put_byte (  3, subtask); }
-\^9			{ put_byte (  4, subtask); }
+\^5			{ recode_put_byte (  0, subtask); }
+\^6			{ recode_put_byte (  1, subtask); }
+\^7			{ recode_put_byte (  2, subtask); }
+\^8			{ recode_put_byte (  3, subtask); }
+\^9			{ recode_put_byte (  4, subtask); }
 
-\^;			{ put_byte ( 31, subtask); }
-\^<			{ put_byte ( 26, subtask); }
-\^=			{ put_byte ( 12, subtask); }
-\^>			{ put_byte ( 27, subtask); }
-\^?			{ put_byte ( 25, subtask); }
-\^@			{ put_byte ( 28, subtask); }
+\^;			{ recode_put_byte ( 31, subtask); }
+\^<			{ recode_put_byte ( 26, subtask); }
+\^=			{ recode_put_byte ( 12, subtask); }
+\^>			{ recode_put_byte ( 27, subtask); }
+\^?			{ recode_put_byte ( 25, subtask); }
+\^@			{ recode_put_byte ( 28, subtask); }
 
-\^[A-Z]			{ put_byte (yytext[1]-'A'+'a', subtask); }
+\^[A-Z]			{ recode_put_byte (yytext[1]-'A'+'a', subtask); }
 
-\^\[			{ put_byte ( 17, subtask); }
-\^\\			{ put_byte ( 29, subtask); }
-\^]			{ put_byte ( 18, subtask); }
-\^\^			{ put_byte ( 30, subtask); }
-\^_			{ put_byte ( 21, subtask); }
+\^\[			{ recode_put_byte ( 17, subtask); }
+\^\\			{ recode_put_byte ( 29, subtask); }
+\^]			{ recode_put_byte ( 18, subtask); }
+\^\^			{ recode_put_byte ( 30, subtask); }
+\^_			{ recode_put_byte ( 21, subtask); }
 
-\^[a-z]			{ put_byte (yytext[1], subtask); }
+\^[a-z]			{ recode_put_byte (yytext[1], subtask); }
 
 */
 
@@ -239,12 +239,12 @@ transform_cdcnos_ascii (RECODE_SUBTASK subtask)
 {
   int input_char;		/* current character */
 
-  while (input_char = get_byte (subtask), input_char != EOF)
+  while (input_char = recode_get_byte (subtask), input_char != EOF)
     {
       switch (input_char)
 	{
         case '@':
-	  switch (input_char = get_byte (subtask), input_char)
+	  switch (input_char = recode_get_byte (subtask), input_char)
 	    {
 	    case 'A': case 'a': input_char = '@'; break;
 	    case 'B': case 'b': input_char = '^'; break;
@@ -253,14 +253,14 @@ transform_cdcnos_ascii (RECODE_SUBTASK subtask)
 
 	    default:
 	      RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	      put_byte ('@', subtask);
+	      recode_put_byte ('@', subtask);
 	      if (input_char == EOF)
 		SUBTASK_RETURN (subtask);
 	    }
 	  break;
 
 	case '^':
-	  input_char = get_byte (subtask);
+	  input_char = recode_get_byte (subtask);
 	  if (input_char >= 'A' && input_char <= 'Z')
 	    input_char += 'a' - 'A';
 	  else if (input_char < 'a' || input_char > 'z')
@@ -311,7 +311,7 @@ transform_cdcnos_ascii (RECODE_SUBTASK subtask)
 
 	      default:
 		RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	        put_byte ('^', subtask);
+	        recode_put_byte ('^', subtask);
 	        if (input_char == EOF)
 		  SUBTASK_RETURN (subtask);
 	      }
@@ -320,7 +320,7 @@ transform_cdcnos_ascii (RECODE_SUBTASK subtask)
         default:
           break;
 	}
-      put_byte (input_char, subtask);
+      recode_put_byte (input_char, subtask);
     }
   SUBTASK_RETURN (subtask);
 }
@@ -329,13 +329,13 @@ bool
 module_cdcnos (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, "ASCII-BS", "CDC-NOS",
+    recode_declare_single (outer, "ASCII-BS", "CDC-NOS",
 		    outer->quality_byte_to_variable,
-		    init_ascii_cdcnos, transform_byte_to_variable)
-    && declare_single (outer, "CDC-NOS", "ASCII-BS",
+		    init_ascii_cdcnos, recode_transform_byte_to_variable)
+    && recode_declare_single (outer, "CDC-NOS", "ASCII-BS",
 		       outer->quality_variable_to_byte,
 		       NULL, transform_cdcnos_ascii)
-    && declare_alias (outer, "NOS", "CDC-NOS");
+    && recode_declare_alias (outer, "NOS", "CDC-NOS");
 }
 
 void

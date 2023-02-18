@@ -98,103 +98,103 @@
 
 %%
 
-\241 { put_byte (76, subtask); }
-\242 { put_byte (216, subtask); }
-\243  { put_byte (208, subtask); }
-\244 { put_byte (222, subtask); }
-\245 { put_byte (198, subtask); }
+\241 { recode_put_byte (76, subtask); }
+\242 { recode_put_byte (216, subtask); }
+\243  { recode_put_byte (208, subtask); }
+\244 { recode_put_byte (222, subtask); }
+\245 { recode_put_byte (198, subtask); }
 
-\253 { put_byte (177, subtask); }
+\253 { recode_put_byte (177, subtask); }
 
-\261 { put_byte (108, subtask); }
-\262 { put_byte (248, subtask); }
-\263 { put_byte (240, subtask); }
-\264 { put_byte (254, subtask); }
-\265 { put_byte (230, subtask); }
-\266 { put_byte (111, subtask); }
+\261 { recode_put_byte (108, subtask); }
+\262 { recode_put_byte (248, subtask); }
+\263 { recode_put_byte (240, subtask); }
+\264 { recode_put_byte (254, subtask); }
+\265 { recode_put_byte (230, subtask); }
+\266 { recode_put_byte (111, subtask); }
 
-\271 { put_byte (163, subtask); }
+\271 { recode_put_byte (163, subtask); }
 
-\303 { put_byte (169, subtask); }
-\340 { put_byte (191, subtask); }
-\341A { put_byte (192, subtask); }
-\341E { put_byte (200, subtask); }
-\341I { put_byte (204, subtask); }
-\341O { put_byte (210, subtask); }
-\341U { put_byte (217, subtask); }
-\341a { put_byte (224, subtask); }
-\341e { put_byte (232, subtask); }
-\341i { put_byte (236, subtask); }
-\341o { put_byte (242, subtask); }
-\341u { put_byte (249, subtask); }
+\303 { recode_put_byte (169, subtask); }
+\340 { recode_put_byte (191, subtask); }
+\341A { recode_put_byte (192, subtask); }
+\341E { recode_put_byte (200, subtask); }
+\341I { recode_put_byte (204, subtask); }
+\341O { recode_put_byte (210, subtask); }
+\341U { recode_put_byte (217, subtask); }
+\341a { recode_put_byte (224, subtask); }
+\341e { recode_put_byte (232, subtask); }
+\341i { recode_put_byte (236, subtask); }
+\341o { recode_put_byte (242, subtask); }
+\341u { recode_put_byte (249, subtask); }
 
-\342A { put_byte (193, subtask); }
-\342E { put_byte (201, subtask); }
-\342I { put_byte (205, subtask); }
-\342O { put_byte (211, subtask); }
-\342U { put_byte (218, subtask); }
-\342Y { put_byte (221, subtask); }
+\342A { recode_put_byte (193, subtask); }
+\342E { recode_put_byte (201, subtask); }
+\342I { recode_put_byte (205, subtask); }
+\342O { recode_put_byte (211, subtask); }
+\342U { recode_put_byte (218, subtask); }
+\342Y { recode_put_byte (221, subtask); }
 
-\342a { put_byte (225, subtask); }
-\342e { put_byte (233, subtask); }
-\342i { put_byte (237, subtask); }
-\342o { put_byte (243, subtask); }
-\342u { put_byte (250, subtask); }
-\342y { put_byte (253, subtask); }
+\342a { recode_put_byte (225, subtask); }
+\342e { recode_put_byte (233, subtask); }
+\342i { recode_put_byte (237, subtask); }
+\342o { recode_put_byte (243, subtask); }
+\342u { recode_put_byte (250, subtask); }
+\342y { recode_put_byte (253, subtask); }
 
-\343A { put_byte (194, subtask); }
-\343E { put_byte (202, subtask); }
-\343I { put_byte (206, subtask); }
-\343O { put_byte (212, subtask); }
-\343U { put_byte (219, subtask); }
+\343A { recode_put_byte (194, subtask); }
+\343E { recode_put_byte (202, subtask); }
+\343I { recode_put_byte (206, subtask); }
+\343O { recode_put_byte (212, subtask); }
+\343U { recode_put_byte (219, subtask); }
 
-\343a { put_byte (226, subtask); }
-\343e { put_byte (234, subtask); }
-\343i { put_byte (238, subtask); }
-\343o { put_byte (244, subtask); }
-\343u { put_byte (251, subtask); }
+\343a { recode_put_byte (226, subtask); }
+\343e { recode_put_byte (234, subtask); }
+\343i { recode_put_byte (238, subtask); }
+\343o { recode_put_byte (244, subtask); }
+\343u { recode_put_byte (251, subtask); }
 
-\344A { put_byte (195, subtask); }
-\344O { put_byte (213, subtask); }
-\344N { put_byte (209, subtask); }
-\344a { put_byte (227, subtask); }
-\344o { put_byte (245, subtask); }
-\344n { put_byte (241, subtask); }
+\344A { recode_put_byte (195, subtask); }
+\344O { recode_put_byte (213, subtask); }
+\344N { recode_put_byte (209, subtask); }
+\344a { recode_put_byte (227, subtask); }
+\344o { recode_put_byte (245, subtask); }
+\344n { recode_put_byte (241, subtask); }
 
-\345  { put_byte (175, subtask); }
+\345  { recode_put_byte (175, subtask); }
 
-\350A { put_byte (196, subtask); }
-\350E { put_byte (203, subtask); }
-\350I { put_byte (207, subtask); }
-\350O { put_byte (214, subtask); }
-\350U { put_byte (220, subtask); }
+\350A { recode_put_byte (196, subtask); }
+\350E { recode_put_byte (203, subtask); }
+\350I { recode_put_byte (207, subtask); }
+\350O { recode_put_byte (214, subtask); }
+\350U { recode_put_byte (220, subtask); }
 
-\350a { put_byte (228, subtask); }
-\350e { put_byte (235, subtask); }
-\350i { put_byte (239, subtask); }
-\350o { put_byte (246, subtask); }
-\350u { put_byte (252, subtask); }
-\350y { put_byte (255, subtask); }
+\350a { recode_put_byte (228, subtask); }
+\350e { recode_put_byte (235, subtask); }
+\350i { recode_put_byte (239, subtask); }
+\350o { recode_put_byte (246, subtask); }
+\350u { recode_put_byte (252, subtask); }
+\350y { recode_put_byte (255, subtask); }
 
-\352A { put_byte (197, subtask); }
-\352a { put_byte (229, subtask); }
+\352A { recode_put_byte (197, subtask); }
+\352a { recode_put_byte (229, subtask); }
 
-\360C { put_byte (199, subtask); }
-\360c { put_byte (231, subtask); }
+\360C { recode_put_byte (199, subtask); }
+\360c { recode_put_byte (231, subtask); }
 %%
 
 bool
 module_ansel_latin1 (RECODE_OUTER outer)
 {
-  return declare_single (outer, "Z39.47:1993", "Latin-1",
+  return recode_declare_single (outer, "Z39.47:1993", "Latin-1",
                          outer->quality_variable_to_byte, NULL,
                          transform_ansel_latin1)
-    && declare_alias (outer, "8bitANSEL", "Z39.47:1993")
-    && declare_alias (outer, "Z39.47", "Z39.47:1993")
-    && declare_alias (outer, "ANSEL", "Z39.47:1993")
-    && declare_alias (outer, "USMARC", "Z39.47:1993")
-    && declare_alias (outer, "MARC", "Z39.47:1993")
-    && declare_alias (outer, "LOC", "Z39.47:1993"); /* Library of Congress */
+    && recode_declare_alias (outer, "8bitANSEL", "Z39.47:1993")
+    && recode_declare_alias (outer, "Z39.47", "Z39.47:1993")
+    && recode_declare_alias (outer, "ANSEL", "Z39.47:1993")
+    && recode_declare_alias (outer, "USMARC", "Z39.47:1993")
+    && recode_declare_alias (outer, "MARC", "Z39.47:1993")
+    && recode_declare_alias (outer, "LOC", "Z39.47:1993"); /* Library of Congress */
 }
 
 void

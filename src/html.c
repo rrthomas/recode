@@ -518,7 +518,7 @@ transform_ucs2_html (RECODE_SUBTASK subtask)
   Hash_table *table = (Hash_table *) subtask->step->step_table;
   unsigned value;
 
-  while (get_ucs2 (&value, subtask))
+  while (recode_get_ucs2 (&value, subtask))
     {
       struct ucs2_to_string lookup;
       struct ucs2_to_string *entry;
@@ -529,33 +529,33 @@ transform_ucs2_html (RECODE_SUBTASK subtask)
 	{
 	  const char *cursor = entry->string;
 
-	  put_byte ('&', subtask);
+	  recode_put_byte ('&', subtask);
 	  while (*cursor)
 	    {
-	      put_byte (*cursor, subtask);
+	      recode_put_byte (*cursor, subtask);
 	      cursor++;
 	    }
-	  put_byte (';', subtask);
+	  recode_put_byte (';', subtask);
 	}
       else if ((value < 32 && value != '\n' && value != '\t') || value >= 127)
 	{
 	  unsigned divider = 10000;
 
-	  put_byte ('&', subtask);
-	  put_byte ('#', subtask);
+	  recode_put_byte ('&', subtask);
+	  recode_put_byte ('#', subtask);
 	  while (divider > value)
 	    divider /= 10;
 	  while (divider > 1)
 	    {
-	      put_byte ('0' + value / divider, subtask);
+	      recode_put_byte ('0' + value / divider, subtask);
 	      value %= divider;
 	      divider /= 10;
 	    }
-	  put_byte ('0' + value, subtask);
-	  put_byte (';', subtask);
+	  recode_put_byte ('0' + value, subtask);
+	  recode_put_byte (';', subtask);
 	}
       else
-	put_byte(value, subtask);
+	recode_put_byte(value, subtask);
     }
 
   SUBTASK_RETURN (subtask);
@@ -566,10 +566,10 @@ transform_ucs2_html (RECODE_SUBTASK subtask)
 #define ENTITY_BUFFER_LENGTH 20
 
 /*
-&quot;	{ if (request->diacritics_only) ECHO; else put_ucs2 (34, subtask); }
-&amp;	{ if (request->diacritics_only) ECHO; else put_ucs2 (38, subtask); }
-&lt;	{ if (request->diacritics_only) ECHO; else put_ucs2 (60, subtask); }
-&gt;	{ if (request->diacritics_only) ECHO; else put_ucs2 (62, subtask); }
+&quot;	{ if (request->diacritics_only) ECHO; else recode_put_ucs2 (34, subtask); }
+&amp;	{ if (request->diacritics_only) ECHO; else recode_put_ucs2 (38, subtask); }
+&lt;	{ if (request->diacritics_only) ECHO; else recode_put_ucs2 (60, subtask); }
+&gt;	{ if (request->diacritics_only) ECHO; else recode_put_ucs2 (62, subtask); }
 */
 
 /*-------------------------------------.
@@ -703,9 +703,9 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
   RECODE_CONST_REQUEST request = subtask->task->request;
   int input_char;
 
-  input_char = get_byte (subtask);
+  input_char = recode_get_byte (subtask);
   if (input_char != EOF)
-    put_ucs2 (BYTE_ORDER_MARK, subtask);	/* FIXME: experimental */
+    recode_put_ucs2 (BYTE_ORDER_MARK, subtask);	/* FIXME: experimental */
 
   /* According to RFC 2718 and the Unicode Standard, if you declare the
      character encoding of your page using HTTP as either "UTF-16LE" or
@@ -722,10 +722,10 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
 	bool valid = true;
 	bool echo = false;
 
-	input_char = get_byte (subtask);
+	input_char = recode_get_byte (subtask);
 	if (input_char == '#')
 	  {
-	    input_char = get_byte (subtask);
+	    input_char = recode_get_byte (subtask);
 	    if (input_char == 'x' || input_char == 'X')
 	      {
 		unsigned value = 0;
@@ -734,7 +734,7 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
 
 		*cursor++ = '#';
 		*cursor++ = input_char;
-		input_char = get_byte (subtask);
+		input_char = recode_get_byte (subtask);
 
 		while (valid)
 		  {
@@ -754,7 +754,7 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
 		    else
 		      {
 			*cursor++ = input_char;
-			input_char = get_byte (subtask);
+			input_char = recode_get_byte (subtask);
 		      }
 		  }
 
@@ -766,9 +766,9 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
 		    }
 		  else
 		    {
-		      put_ucs2 (value, subtask);
+		      recode_put_ucs2 (value, subtask);
 		      if (input_char == ';')
-			input_char = get_byte (subtask);
+			input_char = recode_get_byte (subtask);
 		    }
 		else
 		  *cursor = '\0';
@@ -795,7 +795,7 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
 		    else
 		      {
 			*cursor++ = input_char;
-			input_char = get_byte (subtask);
+			input_char = recode_get_byte (subtask);
 		      }
 		  }
 
@@ -807,9 +807,9 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
 		    }
 		  else
 		    {
-		      put_ucs2 (value, subtask);
+		      recode_put_ucs2 (value, subtask);
 		      if (input_char == ';')
-			input_char = get_byte (subtask);
+			input_char = recode_get_byte (subtask);
 		    }
 		else
 		  *cursor = '\0';
@@ -821,7 +821,7 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
 	    /* Scan &[A-Za-z][A-Za-z0-9]*; notation.  */
 
 	    *cursor++ = input_char;
-	    input_char = get_byte (subtask);
+	    input_char = recode_get_byte (subtask);
 
 	    while (valid
 		   && input_char != EOF
@@ -833,7 +833,7 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
 	      else
 		{
 		  *cursor++ = input_char;
-		  input_char = get_byte (subtask);
+		  input_char = recode_get_byte (subtask);
 		}
 	    *cursor = '\0';
 
@@ -847,9 +847,9 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
 		  ((const Hash_table *) subtask->step->step_table, &lookup);
 		if (entry)
 		  {
-		    put_ucs2 (entry->code, subtask);
+		    recode_put_ucs2 (entry->code, subtask);
 		    if (input_char == ';')
-		      input_char = get_byte (subtask);
+		      input_char = recode_get_byte (subtask);
 		  }
 		else
 		  valid = false;
@@ -858,15 +858,15 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
 
 	if (echo || !valid)
 	  {
-	    put_ucs2 ('&', subtask);
+	    recode_put_ucs2 ('&', subtask);
 	    for (cursor = buffer; *cursor; cursor++)
-	      put_ucs2 (*cursor, subtask);
+	      recode_put_ucs2 (*cursor, subtask);
 	  }
       }
     else
       {
-	put_ucs2 (input_char, subtask);
-	input_char = get_byte (subtask);
+	recode_put_ucs2 (input_char, subtask);
+	input_char = recode_get_byte (subtask);
       }
 
   SUBTASK_RETURN (subtask);
@@ -877,55 +877,55 @@ bool
 module_html (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, "ISO-10646-UCS-2", "XML-standalone",
+    recode_declare_single (outer, "ISO-10646-UCS-2", "XML-standalone",
 		    outer->quality_byte_to_variable,
 		    init_ucs2_html_v00, transform_ucs2_html)
-    && declare_single (outer, "XML-standalone", "ISO-10646-UCS-2",
+    && recode_declare_single (outer, "XML-standalone", "ISO-10646-UCS-2",
 		       outer->quality_variable_to_byte,
 		       init_html_v00_ucs2, transform_html_ucs2)
-    && declare_single (outer, "ISO-10646-UCS-2", "HTML_1.1",
+    && recode_declare_single (outer, "ISO-10646-UCS-2", "HTML_1.1",
 		    outer->quality_byte_to_variable,
 		    init_ucs2_html_v11, transform_ucs2_html)
-    && declare_single (outer, "HTML_1.1", "ISO-10646-UCS-2",
+    && recode_declare_single (outer, "HTML_1.1", "ISO-10646-UCS-2",
 		       outer->quality_variable_to_byte,
 		       init_html_v11_ucs2, transform_html_ucs2)
-    && declare_single (outer, "ISO-10646-UCS-2", "HTML_2.0",
+    && recode_declare_single (outer, "ISO-10646-UCS-2", "HTML_2.0",
 		       outer->quality_byte_to_variable,
 		       init_ucs2_html_v20, transform_ucs2_html)
-    && declare_single (outer, "HTML_2.0", "ISO-10646-UCS-2",
+    && recode_declare_single (outer, "HTML_2.0", "ISO-10646-UCS-2",
 		       outer->quality_variable_to_byte,
 		       init_html_v20_ucs2, transform_html_ucs2)
-    && declare_single (outer, "ISO-10646-UCS-2", "HTML-i18n",
+    && recode_declare_single (outer, "ISO-10646-UCS-2", "HTML-i18n",
 		       outer->quality_byte_to_variable,
 		       init_ucs2_html_v27, transform_ucs2_html)
-    && declare_single (outer, "HTML-i18n", "ISO-10646-UCS-2",
+    && recode_declare_single (outer, "HTML-i18n", "ISO-10646-UCS-2",
 		       outer->quality_variable_to_byte,
 		       init_html_v27_ucs2, transform_html_ucs2)
-    && declare_single (outer, "ISO-10646-UCS-2", "HTML_3.2",
+    && recode_declare_single (outer, "ISO-10646-UCS-2", "HTML_3.2",
 		       outer->quality_byte_to_variable,
 		       init_ucs2_html_v32, transform_ucs2_html)
-    && declare_single (outer, "HTML_3.2", "ISO-10646-UCS-2",
+    && recode_declare_single (outer, "HTML_3.2", "ISO-10646-UCS-2",
 		       outer->quality_variable_to_byte,
 		       init_html_v32_ucs2, transform_html_ucs2)
-    && declare_single (outer, "ISO-10646-UCS-2", "HTML_4.0",
+    && recode_declare_single (outer, "ISO-10646-UCS-2", "HTML_4.0",
 		       outer->quality_byte_to_variable,
 		       init_ucs2_html_v40, transform_ucs2_html)
-    && declare_single (outer, "HTML_4.0", "ISO-10646-UCS-2",
+    && recode_declare_single (outer, "HTML_4.0", "ISO-10646-UCS-2",
 		       outer->quality_variable_to_byte,
 		       init_html_v40_ucs2, transform_html_ucs2)
 
-    && declare_alias (outer, "h0", "XML-standalone")
-    && declare_alias (outer, "h1", "HTML_1.1")
-    && declare_alias (outer, "RFC1866", "HTML_2.0")
-    && declare_alias (outer, "1866", "HTML_2.0")
-    && declare_alias (outer, "h2", "HTML_2.0")
-    && declare_alias (outer, "RFC2070", "HTML-i18n")
-    && declare_alias (outer, "2070", "HTML-i18n")
-    && declare_alias (outer, "h3", "HTML_3.2")
-    && declare_alias (outer, "h4", "HTML_4.0")
+    && recode_declare_alias (outer, "h0", "XML-standalone")
+    && recode_declare_alias (outer, "h1", "HTML_1.1")
+    && recode_declare_alias (outer, "RFC1866", "HTML_2.0")
+    && recode_declare_alias (outer, "1866", "HTML_2.0")
+    && recode_declare_alias (outer, "h2", "HTML_2.0")
+    && recode_declare_alias (outer, "RFC2070", "HTML-i18n")
+    && recode_declare_alias (outer, "2070", "HTML-i18n")
+    && recode_declare_alias (outer, "h3", "HTML_3.2")
+    && recode_declare_alias (outer, "h4", "HTML_4.0")
     /* HTML defaults to the highest level available.  */
-    && declare_alias (outer, "HTML", "HTML_4.0")
-    && declare_alias (outer, "h", "HTML_4.0");
+    && recode_declare_alias (outer, "HTML", "HTML_4.0")
+    && recode_declare_alias (outer, "h", "HTML_4.0");
 }
 
 void

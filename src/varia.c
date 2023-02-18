@@ -395,21 +395,21 @@ module_varia (RECODE_OUTER outer)
 
   /* Czech tables.  */
 
-       declare_explode_data (outer, data_kamenicky, "KEYBCS2", NULL)
-    && declare_explode_data (outer, data_cork, "CORK", NULL)
-    && declare_explode_data (outer, data_koi8cs2, "KOI-8_CS2", NULL)
+       recode_declare_explode_data (outer, data_kamenicky, "KEYBCS2", NULL)
+    && recode_declare_explode_data (outer, data_cork, "CORK", NULL)
+    && recode_declare_explode_data (outer, data_koi8cs2, "KOI-8_CS2", NULL)
 
-    && declare_alias (outer, "Kamenicky", "KEYBCS2")
-    && declare_alias (outer, "T1", "CORK")
+    && recode_declare_alias (outer, "Kamenicky", "KEYBCS2")
+    && recode_declare_alias (outer, "T1", "CORK")
 
   /* Russian aliases.  */
 
-    && declare_alias (outer, "1489", "KOI8-R")
-    && declare_alias (outer, "RFC1489", "KOI8-R")
+    && recode_declare_alias (outer, "1489", "KOI8-R")
+    && recode_declare_alias (outer, "RFC1489", "KOI8-R")
 
-    && declare_alias (outer, "878", "KOI8-R")
-    && declare_alias (outer, "CP878", "KOI8-R")
-    && declare_alias (outer, "IBM878", "KOI8-R")
+    && recode_declare_alias (outer, "878", "KOI8-R")
+    && recode_declare_alias (outer, "CP878", "KOI8-R")
+    && recode_declare_alias (outer, "IBM878", "KOI8-R")
 
   ;
 }

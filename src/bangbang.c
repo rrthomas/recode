@@ -303,13 +303,13 @@ transform_bangbang_latin1 (RECODE_SUBTASK subtask)
 {
   int input_char;		/* current character */
 
-  while (input_char = get_byte (subtask), input_char != EOF)
+  while (input_char = recode_get_byte (subtask), input_char != EOF)
     {
       if (input_char >= 'A' && input_char <= 'Z')
         input_char += 'a' - 'A';
       else if (input_char == '!')
 	{
-	  input_char = get_byte (subtask);
+	  input_char = recode_get_byte (subtask);
 	  if (input_char >= 'a' && input_char <= 'z')
 	    input_char += 'A' - 'a';
 	  else if (input_char < 'A' || input_char > 'Z')
@@ -340,7 +340,7 @@ transform_bangbang_latin1 (RECODE_SUBTASK subtask)
 	      case '_': input_char = 127; break; /* del */
 
 	      case '!':
-	        input_char = get_byte (subtask);
+	        input_char = recode_get_byte (subtask);
 		if (input_char == 'J' || input_char == 'j')
 		  RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
 
@@ -361,8 +361,8 @@ transform_bangbang_latin1 (RECODE_SUBTASK subtask)
 
 		    default:
 		      RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-		      put_byte ('!', subtask);
-		      put_byte ('!', subtask);
+		      recode_put_byte ('!', subtask);
+		      recode_put_byte ('!', subtask);
 		      if (input_char == EOF)
 		        SUBTASK_RETURN (subtask);
 		    }
@@ -370,12 +370,12 @@ transform_bangbang_latin1 (RECODE_SUBTASK subtask)
 
 	      default:
 		RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	        put_byte ('!', subtask);
+	        recode_put_byte ('!', subtask);
 	        if (input_char == EOF)
 		  SUBTASK_RETURN (subtask);
 	      }
 	}
-      put_byte (input_char, subtask);
+      recode_put_byte (input_char, subtask);
     }
   SUBTASK_RETURN (subtask);
 }
@@ -384,10 +384,10 @@ bool
 module_bangbang (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, "Latin-1", "Bang-Bang",
+    recode_declare_single (outer, "Latin-1", "Bang-Bang",
 		    outer->quality_byte_to_variable,
-		    init_latin1_bangbang, transform_byte_to_variable)
-    && declare_single (outer, "Bang-Bang", "Latin-1",
+		    init_latin1_bangbang, recode_transform_byte_to_variable)
+    && recode_declare_single (outer, "Bang-Bang", "Latin-1",
 		       outer->quality_variable_to_byte,
 		       NULL, transform_bangbang_latin1);
 }

@@ -200,8 +200,8 @@ cdef extern from "common.h":
         unsigned character_count
     ctypedef recode_subtask *RECODE_SUBTASK
 
-    int get_byte(RECODE_SUBTASK)
-    void put_byte(int, RECODE_SUBTASK)
+    int recode_get_byte(RECODE_SUBTASK)
+    void recode_put_byte(int, RECODE_SUBTASK)
     void SET_SUBTASK_ERROR(recode_error_, RECODE_SUBTASK)
     bool SUBTASK_RETURN(RECODE_SUBTASK)
     void RETURN_IF_NOGO(recode_error_, RECODE_SUBTASK)
@@ -312,8 +312,8 @@ cdef extern from "common.h":
 
     int code_to_ucs2(RECODE_CONST_SYMBOL, unsigned)
     bool prepare_for_aliases(RECODE_OUTER)
-    RECODE_ALIAS declare_alias(RECODE_OUTER, char *, char *)
-    bool declare_implied_surface(RECODE_OUTER, RECODE_ALIAS,
+    RECODE_ALIAS recode_declare_alias(RECODE_OUTER, char *, char *)
+    bool recode_declare_implied_surface(RECODE_OUTER, RECODE_ALIAS,
                                  RECODE_CONST_SYMBOL)
     bool make_argmatch_arrays(RECODE_OUTER)
     RECODE_ALIAS find_alias(RECODE_OUTER, char *, alias_find_type)
@@ -373,8 +373,8 @@ cdef extern from "common.h":
             RECODE_OUTER, char *, char *, recode_quality,
             declare_single_Arg5, declare_single_Arg6)
     bool declare_iconv(RECODE_OUTER, char *, char *)
-    bool declare_explode_data(RECODE_OUTER, unsigned short *, char *, char *)
-    bool declare_strip_data(RECODE_OUTER, strip_data *, char *)
+    bool recode_declare_explode_data(RECODE_OUTER, unsigned short *, char *, char *)
+    bool recode_declare_strip_data(RECODE_OUTER, strip_data *, char *)
 
     # pool.c
 
@@ -391,7 +391,7 @@ cdef extern from "common.h":
     # task.c
 
     int get_byte(RECODE_SUBTASK)
-    void put_byte(int, RECODE_SUBTASK)
+    void recode_put_byte(int, RECODE_SUBTASK)
     bool recode_if_nogo(recode_error_, RECODE_SUBTASK)
     bool transform_byte_to_byte(RECODE_SUBTASK)
     bool transform_byte_to_variable(RECODE_SUBTASK)
@@ -418,10 +418,10 @@ cdef extern from "common.h":
 
     RECODE_OUTER recode_new_outer(unsigned)
     bool recode_delete_outer(RECODE_OUTER)
-    bool list_all_symbols(RECODE_OUTER, RECODE_CONST_SYMBOL)
-    bool list_concise_charset(RECODE_OUTER, RECODE_CONST_SYMBOL,
-                              recode_list_format)
-    bool list_full_charset(RECODE_OUTER, RECODE_CONST_SYMBOL)
+    bool recode_list_all_symbols(RECODE_OUTER, RECODE_CONST_SYMBOL)
+    bool recode_list_concise_charset(RECODE_OUTER, RECODE_CONST_SYMBOL,
+                                     recode_list_format)
+    bool recode_list_full_charset(RECODE_OUTER, RECODE_CONST_SYMBOL)
 
     # Recode library at REQUEST level.
 
@@ -568,12 +568,12 @@ cdef class Outer:
         return list
 
     def concise_charset(self, format=NO_FORMAT):
-        ok = list_concise_charset(self.outer, NULL, format)
+        ok = recode_list_concise_charset(self.outer, NULL, format)
         if not ok:
             raise error
 
     def full_charset(self):
-        ok = list_full_charset(self.outer, NULL)
+        ok = recode_list_full_charset(self.outer, NULL)
         if not ok:
             raise error
 

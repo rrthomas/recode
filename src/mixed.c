@@ -124,7 +124,7 @@ recode_accumulated (struct mixed *mixed)
 `-----------------------------------------------------------------------*/
 
 bool
-transform_c_source (RECODE_TASK task)
+recode_transform_c_source (RECODE_TASK task)
 {
   struct mixed mixed;
   int character;
@@ -133,15 +133,15 @@ transform_c_source (RECODE_TASK task)
     recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
   else
     {
-      character = get_byte (&mixed.subtask);
+      character = recode_get_byte (&mixed.subtask);
       while (character != EOF)
 	switch (character)
 	  {
 	  case '\'':
 	    /* Skip character constant, while copying it untranslated.  */
 
-	    put_byte ('\'', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('\'', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 
 	    if (character == EOF)
 	      {
@@ -151,21 +151,21 @@ transform_c_source (RECODE_TASK task)
 
 	    if (character == '\\')
 	      {
-		put_byte ('\\', &mixed.subtask);
-		character = get_byte (&mixed.subtask);
+		recode_put_byte ('\\', &mixed.subtask);
+		character = recode_get_byte (&mixed.subtask);
 		if (character == EOF)
 		  {
 		    recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
 		    break;
 		  }
-		put_byte (character, &mixed.subtask);
-		character = get_byte (&mixed.subtask);
+		recode_put_byte (character, &mixed.subtask);
+		character = recode_get_byte (&mixed.subtask);
 	      }
 
 	    if (character == '\'')
 	      {
-		put_byte ('\'', &mixed.subtask);
-		character = get_byte (&mixed.subtask);
+		recode_put_byte ('\'', &mixed.subtask);
+		character = recode_get_byte (&mixed.subtask);
 	      }
 	    else
 	      recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
@@ -174,8 +174,8 @@ transform_c_source (RECODE_TASK task)
 	  case '"':
 	    /* Copy the string, translated.  */
 
-	    put_byte ('"', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('"', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 
 	    /* Read in string.  */
 
@@ -194,8 +194,8 @@ transform_c_source (RECODE_TASK task)
 
 		if (character == '\\')
 		  {
-		    put_byte ('\\', &mixed.subtask);
-		    character = get_byte (&mixed.subtask);
+		    recode_put_byte ('\\', &mixed.subtask);
+		    character = recode_get_byte (&mixed.subtask);
 		    if (character == EOF)
 		      {
 			recode_accumulated (&mixed);
@@ -203,8 +203,8 @@ transform_c_source (RECODE_TASK task)
 			break;
 		      }
 		  }
-		put_byte (character, &mixed.subtask);
-		character = get_byte (&mixed.subtask);
+		recode_put_byte (character, &mixed.subtask);
+		character = recode_get_byte (&mixed.subtask);
 	      }
 	    if (character == EOF)
 	      break;
@@ -213,21 +213,21 @@ transform_c_source (RECODE_TASK task)
 
 	    if (!recode_accumulated (&mixed))
 	      recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-	    put_byte ('"', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('"', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 	    break;
 
 	  case '/':
-	    put_byte ('/', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('/', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 	    if (character == EOF)
 	      break;
 	    if (character == '*')
 	      {
 		/* Copy the comment, translated.  */
 
-		put_byte ('*', &mixed.subtask);
-		character = get_byte (&mixed.subtask);
+		recode_put_byte ('*', &mixed.subtask);
+		character = recode_get_byte (&mixed.subtask);
 
 		/* Read in comment.  */
 
@@ -242,22 +242,22 @@ transform_c_source (RECODE_TASK task)
 		      }
 		    if (character == '*')
 		      {
-			character = get_byte (&mixed.subtask);
+			character = recode_get_byte (&mixed.subtask);
 			if (character == EOF)
 			  {
 			    recode_accumulated (&mixed);
 			    recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-			    put_byte ('*', &mixed.subtask);
+			    recode_put_byte ('*', &mixed.subtask);
 			    break;
 			  }
 			if (character == '/')
 			  break;
-			put_byte ('*', &mixed.subtask);
+			recode_put_byte ('*', &mixed.subtask);
 		      }
 		    else
 		      {
-			put_byte (character, &mixed.subtask);
-			character = get_byte (&mixed.subtask);
+			recode_put_byte (character, &mixed.subtask);
+			character = recode_get_byte (&mixed.subtask);
 		      }
 		  }
 
@@ -268,15 +268,15 @@ transform_c_source (RECODE_TASK task)
 
 		if (!recode_accumulated (&mixed))
 		  recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
-		put_byte ('*', &mixed.subtask);
-		put_byte ('/', &mixed.subtask);
-		character = get_byte (&mixed.subtask);
+		recode_put_byte ('*', &mixed.subtask);
+		recode_put_byte ('/', &mixed.subtask);
+		character = recode_get_byte (&mixed.subtask);
 	      }
 	    break;
 
 	  default:
-	    put_byte (character, &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte (character, &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 	    break;
 	  }
     }
@@ -299,7 +299,7 @@ transform_c_source (RECODE_TASK task)
    with a real case, to believe it is worth adding the complexity.  */
 
 bool
-transform_po_source (RECODE_TASK task)
+recode_transform_po_source (RECODE_TASK task)
 {
   struct mixed mixed;
   bool recode = false;
@@ -309,15 +309,15 @@ transform_po_source (RECODE_TASK task)
     recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
   else
     {
-      int character = get_byte (&mixed.subtask);
+      int character = recode_get_byte (&mixed.subtask);
       while (character != EOF)
 	switch (character)
 	  {
 	  case '#':
 	    /* Copy a comment, recoding only those written by translators.  */
 
-	    put_byte ('#', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('#', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 	    if (character == EOF)
 	      break;
 	    recode = character == ' ' || character == '\t';
@@ -327,8 +327,8 @@ transform_po_source (RECODE_TASK task)
 
 	    while (character != '\n' && character != EOF)
 	      {
-		put_byte (character, &mixed.subtask);
-		character = get_byte (&mixed.subtask);
+		recode_put_byte (character, &mixed.subtask);
+		character = recode_get_byte (&mixed.subtask);
 	      }
 
 	    if (recode && !recode_accumulated (&mixed))
@@ -336,8 +336,8 @@ transform_po_source (RECODE_TASK task)
 
 	    if (character == EOF)
 	      break;
-	    put_byte ('\n', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('\n', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 	    break;
 
 	  case 'm':
@@ -345,28 +345,28 @@ transform_po_source (RECODE_TASK task)
 
 	    msgstr = false;
 
-	    put_byte ('m', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('m', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 	    if (character != 's')
 	      break;
-	    put_byte ('s', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('s', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 	    if (character != 'g')
 	      break;
-	    put_byte ('g', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('g', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 	    if (character != 's')
 	      break;
-	    put_byte ('s', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('s', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 	    if (character != 't')
 	      break;
-	    put_byte ('t', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('t', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 	    if (character != 'r')
 	      break;
-	    put_byte ('r', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('r', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 
 	    msgstr = true;
 	    break;
@@ -374,8 +374,8 @@ transform_po_source (RECODE_TASK task)
 	  case '"':
 	    /* Copy the string, translating only the `msgstr' ones.  */
 
-	    put_byte ('"', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('"', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 	    recode = msgstr;
 
 	    if (recode)
@@ -397,8 +397,8 @@ transform_po_source (RECODE_TASK task)
 
 		if (character == '\\')
 		  {
-		    put_byte ('\\', &mixed.subtask);
-		    character = get_byte (&mixed.subtask);
+		    recode_put_byte ('\\', &mixed.subtask);
+		    character = recode_get_byte (&mixed.subtask);
 		    if (character == EOF)
 		      {
 			if (recode)
@@ -409,8 +409,8 @@ transform_po_source (RECODE_TASK task)
 			break;
 		      }
 		  }
-		put_byte (character, &mixed.subtask);
-		character = get_byte (&mixed.subtask);
+		recode_put_byte (character, &mixed.subtask);
+		character = recode_get_byte (&mixed.subtask);
 	      }
 
 	    if (character == EOF)
@@ -419,13 +419,13 @@ transform_po_source (RECODE_TASK task)
 	    if (recode && !recode_accumulated (&mixed))
 	      recode_if_nogo (RECODE_SYSTEM_ERROR, &mixed.subtask);
 
-	    put_byte ('"', &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte ('"', &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 	    break;
 
 	  default:
-	    put_byte (character, &mixed.subtask);
-	    character = get_byte (&mixed.subtask);
+	    recode_put_byte (character, &mixed.subtask);
+	    character = recode_get_byte (&mixed.subtask);
 	    break;
 	  }
     }

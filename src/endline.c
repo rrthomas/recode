@@ -28,27 +28,27 @@
 static bool
 transform_data_cr (RECODE_SUBTASK subtask)
 {
-  bool strict = subtask->step->fallback_routine != reversibility;
+  bool strict = subtask->step->fallback_routine != recode_reversibility;
   int character;
 
-  while (character = get_byte (subtask), character != EOF)
+  while (character = recode_get_byte (subtask), character != EOF)
     switch (character)
       {
       case '\n':
-	put_byte (CR, subtask);
+	recode_put_byte (CR, subtask);
 	break;
 
       case CR:
 	if (!strict)
 	  {
-	    put_byte ('\n', subtask);
+	    recode_put_byte ('\n', subtask);
 	    break;
 	  }
 	RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
 	FALLTHROUGH;
 
       default:
-	put_byte (character, subtask);
+	recode_put_byte (character, subtask);
       }
 
   SUBTASK_RETURN (subtask);
@@ -57,27 +57,27 @@ transform_data_cr (RECODE_SUBTASK subtask)
 static bool
 transform_cr_data (RECODE_SUBTASK subtask)
 {
-  bool strict = subtask->step->fallback_routine != reversibility;
+  bool strict = subtask->step->fallback_routine != recode_reversibility;
   int character;
 
-  while (character = get_byte (subtask), character != EOF)
+  while (character = recode_get_byte (subtask), character != EOF)
     switch (character)
       {
       case CR:
-	put_byte ('\n', subtask);
+	recode_put_byte ('\n', subtask);
 	break;
 
       case '\n':
 	if (!strict)
 	  {
-	    put_byte (CR, subtask);
+	    recode_put_byte (CR, subtask);
 	    break;
 	  }
 	RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
 	FALLTHROUGH;
 
       default:
-	put_byte (character, subtask);
+	recode_put_byte (character, subtask);
       }
 
   SUBTASK_RETURN (subtask);
@@ -86,22 +86,22 @@ transform_cr_data (RECODE_SUBTASK subtask)
 static bool
 transform_data_crlf (RECODE_SUBTASK subtask)
 {
-  int character = get_byte (subtask);
+  int character = recode_get_byte (subtask);
 
   while (character != EOF)
     switch (character)
       {
       case '\n':
-	put_byte (CR, subtask);
-	put_byte (LF, subtask);
-	character = get_byte (subtask);
+	recode_put_byte (CR, subtask);
+	recode_put_byte (LF, subtask);
+	character = recode_get_byte (subtask);
 	break;
 
       case CR:
-	character = get_byte (subtask);
+	character = recode_get_byte (subtask);
 	if (character == LF)
 	  RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
-	put_byte (CR, subtask);
+	recode_put_byte (CR, subtask);
 	break;
 
       case OLD_EOF:
@@ -109,8 +109,8 @@ transform_data_crlf (RECODE_SUBTASK subtask)
 	FALLTHROUGH;
 
       default:
-	put_byte (character, subtask);
-	character = get_byte (subtask);
+	recode_put_byte (character, subtask);
+	character = recode_get_byte (subtask);
       }
 
   SUBTASK_RETURN (subtask);
@@ -119,7 +119,7 @@ transform_data_crlf (RECODE_SUBTASK subtask)
 static bool
 transform_crlf_data (RECODE_SUBTASK subtask)
 {
-  int character = get_byte (subtask);
+  int character = recode_get_byte (subtask);
 
   while (character != EOF)
     switch (character)
@@ -129,14 +129,14 @@ transform_crlf_data (RECODE_SUBTASK subtask)
 	SUBTASK_RETURN (subtask);
 
       case CR:
-	character = get_byte (subtask);
+	character = recode_get_byte (subtask);
 	if (character == LF)
 	  {
-	    put_byte ('\n', subtask);
-	    character = get_byte (subtask);
+	    recode_put_byte ('\n', subtask);
+	    character = recode_get_byte (subtask);
 	  }
 	else
-	  put_byte (CR, subtask);
+	  recode_put_byte (CR, subtask);
 	break;
 
       case LF:
@@ -144,8 +144,8 @@ transform_crlf_data (RECODE_SUBTASK subtask)
 	FALLTHROUGH;
 
       default:
-	put_byte (character, subtask);
-	character = get_byte (subtask);
+	recode_put_byte (character, subtask);
+	character = recode_get_byte (subtask);
       }
 
   SUBTASK_RETURN (subtask);
@@ -155,20 +155,20 @@ bool
 module_endline (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, "data", "CR",
+    recode_declare_single (outer, "data", "CR",
 		    outer->quality_byte_to_byte,
 		    NULL, transform_data_cr)
-    && declare_single (outer, "CR", "data",
+    && recode_declare_single (outer, "CR", "data",
 		       outer->quality_byte_to_byte,
 		       NULL, transform_cr_data)
-    && declare_single (outer, "data", "CR-LF",
+    && recode_declare_single (outer, "data", "CR-LF",
 		       outer->quality_byte_to_variable,
 		       NULL, transform_data_crlf)
-    && declare_single (outer, "CR-LF", "data",
+    && recode_declare_single (outer, "CR-LF", "data",
 		       outer->quality_variable_to_byte,
 		       NULL, transform_crlf_data)
 
-    && declare_alias (outer, "cl", "CR-LF");
+    && recode_declare_alias (outer, "cl", "CR-LF");
 }
 
 void

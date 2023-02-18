@@ -90,7 +90,7 @@ recode_realloc (RECODE_OUTER outer, void *pointer, size_t size)
 `------------------------------------------------------------------*/
 
 unsigned char *
-invert_table (RECODE_OUTER outer, const unsigned char *table)
+recode_invert_table (RECODE_OUTER outer, const unsigned char *table)
 {
   unsigned char flag[256];
   unsigned char *result;
@@ -132,11 +132,11 @@ invert_table (RECODE_OUTER outer, const unsigned char *table)
 | NUMBER_OF_PAIRS constraints.  If FIRST_HALF_IMPLIED is not zero, default   |
 | the unconstrained characters of the first 128 to the identity mapping.  If |
 | REVERSE is not zero, use right_table instead of left_table to complete the |
-| table, yet new pairs are created only when fallback is reversibility.      |
+| table, yet new pairs are created only when fallback is recode_reversibility.      |
 `---------------------------------------------------------------------------*/
 
 bool
-complete_pairs (RECODE_OUTER outer, RECODE_STEP step,
+recode_complete_pairs (RECODE_OUTER outer, RECODE_STEP step,
 		const struct recode_known_pair *known_pairs,
 		unsigned number_of_pairs, bool first_half_implied, bool reverse)
 {
@@ -218,7 +218,7 @@ complete_pairs (RECODE_OUTER outer, RECODE_STEP step,
 	  right_table[counter] = counter;
 	}
 
-  if (step->fallback_routine == reversibility)
+  if (step->fallback_routine == recode_reversibility)
     {
       /* If the recoding is not strict, compute a reversible one to one
 	 table.  */
@@ -243,7 +243,7 @@ complete_pairs (RECODE_OUTER outer, RECODE_STEP step,
 
       /* Save a copy of the proper table.  */
 
-      step->transform_routine = transform_byte_to_byte;
+      step->transform_routine = recode_transform_byte_to_byte;
       if (!ALLOC (table, 256, unsigned char))
 	return false;
       memcpy (table, reverse ? right_table : left_table, 256);
@@ -298,7 +298,7 @@ complete_pairs (RECODE_OUTER outer, RECODE_STEP step,
 
       /* Save a one to many recoding table.  */
 
-      step->transform_routine = transform_byte_to_variable;
+      step->transform_routine = recode_transform_byte_to_variable;
       step->step_type = RECODE_BYTE_TO_STRING;
       step->step_table = table2;
       step->step_table_term_routine = free;
@@ -314,28 +314,28 @@ complete_pairs (RECODE_OUTER outer, RECODE_STEP step,
 `-------------------------------------------------------------------------*/
 
 bool
-transform_byte_to_ucs2 (RECODE_SUBTASK subtask)
+recode_transform_byte_to_ucs2 (RECODE_SUBTASK subtask)
 {
   int input_char;		/* current character */
   int output_value;		/* value being output */
 
-  if (input_char = get_byte (subtask), input_char != EOF)
+  if (input_char = recode_get_byte (subtask), input_char != EOF)
     {
       if (subtask->task->byte_order_mark)
-	put_ucs2 (BYTE_ORDER_MARK, subtask);
+	recode_put_ucs2 (BYTE_ORDER_MARK, subtask);
 
       while (input_char != EOF)
 	{
-	  output_value = code_to_ucs2 (subtask->step->before, input_char);
+	  output_value = recode_code_to_ucs2 (subtask->step->before, input_char);
 	  if (output_value < 0)
 	    {
 	      RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
-	      put_ucs2 (REPLACEMENT_CHARACTER, subtask);
+	      recode_put_ucs2 (REPLACEMENT_CHARACTER, subtask);
 	    }
 	  else
-	    put_ucs2 (output_value, subtask);
+	    recode_put_ucs2 (output_value, subtask);
 
-	  input_char = get_byte (subtask);
+	  input_char = recode_get_byte (subtask);
 	}
     }
 
@@ -385,7 +385,7 @@ term_ucs2_to_byte (RECODE_STEP step)
 }
 
 bool
-init_ucs2_to_byte (RECODE_STEP step,
+recode_init_ucs2_to_byte (RECODE_STEP step,
 		   RECODE_CONST_REQUEST request,
 		   RECODE_CONST_OPTION_LIST before_options,
 		   RECODE_CONST_OPTION_LIST after_options)
@@ -411,7 +411,7 @@ init_ucs2_to_byte (RECODE_STEP step,
 
   for (counter = 0; counter < 256; counter++)
     {
-      data[counter].code = code_to_ucs2 (step->after, counter);
+      data[counter].code = recode_code_to_ucs2 (step->after, counter);
       data[counter].byte = counter;
       if (!hash_insert (table, data + counter))
 	{
@@ -435,19 +435,19 @@ init_ucs2_to_byte (RECODE_STEP step,
 }
 
 bool
-transform_ucs2_to_byte (RECODE_SUBTASK subtask)
+recode_transform_ucs2_to_byte (RECODE_SUBTASK subtask)
 {
   Hash_table *table = ((struct ucs2_to_byte_local *) subtask->step->local)->table;
   struct ucs2_to_byte lookup;
   struct ucs2_to_byte *entry;
   unsigned input_value;		/* current UCS-2 character */
 
-  while (get_ucs2 (&input_value, subtask))
+  while (recode_get_ucs2 (&input_value, subtask))
     {
       lookup.code = input_value;
       entry = (struct ucs2_to_byte *) hash_lookup (table, &lookup);
       if (entry)
-	put_byte (entry->byte, subtask);
+	recode_put_byte (entry->byte, subtask);
       else
 	RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
     }
@@ -524,7 +524,7 @@ recode_format_table (RECODE_REQUEST request,
   printf (_("%sConversion table generated mechanically by %s %s"),
 	  start_comment, PACKAGE, VERSION);
   printf (_("%sfor sequence %s.%s"),
-	  wrap_comment, edit_sequence (request, 1), end_comment);
+	  wrap_comment, recode_edit_sequence (request, 1), end_comment);
   printf ("\n");
 
   /* Construct the name of the resulting table.  */
@@ -536,7 +536,7 @@ recode_format_table (RECODE_REQUEST request,
       strcpy (name, header_name);
     }
   else
-    name = edit_sequence (request, 0);
+    name = recode_edit_sequence (request, 0);
 
   /* Ensure the table name contains only valid characters for a C identifier.
      */

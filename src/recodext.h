@@ -1,5 +1,5 @@
 /* Conversion of files between different charsets and surfaces.
-   Copyright © 1990-2022 Free Software Foundation, Inc.
+   Copyright © 1990-2023 Free Software Foundation, Inc.
    Contributed by François Pinard <pinard@iro.umontreal.ca>, 1988.
 
    This library is free software; you can redistribute it and/or
@@ -554,20 +554,20 @@ void recode_perror (RECODE_OUTER, const char *, ...);
 void *recode_malloc (RECODE_OUTER, size_t);
 void *recode_realloc (RECODE_OUTER, void *, size_t);
 
-unsigned char *invert_table (RECODE_OUTER, const unsigned char *);
-bool complete_pairs (RECODE_OUTER, RECODE_STEP,
+unsigned char *recode_invert_table (RECODE_OUTER, const unsigned char *);
+bool recode_complete_pairs (RECODE_OUTER, RECODE_STEP,
                      const struct recode_known_pair *, unsigned,
                      bool, bool);
-bool transform_byte_to_ucs2 (RECODE_SUBTASK);
-bool init_ucs2_to_byte (RECODE_STEP, RECODE_CONST_REQUEST,
-                        RECODE_CONST_OPTION_LIST,
-                        RECODE_CONST_OPTION_LIST);
-bool transform_ucs2_to_byte (RECODE_SUBTASK);
+bool recode_transform_byte_to_ucs2 (RECODE_SUBTASK);
+bool recode_init_ucs2_to_byte (RECODE_STEP, RECODE_CONST_REQUEST,
+                               RECODE_CONST_OPTION_LIST,
+                               RECODE_CONST_OPTION_LIST);
+bool recode_transform_ucs2_to_byte (RECODE_SUBTASK);
 
 /* charname.c and fr-charname.c.  */
 
-const char *ucs2_to_charname (int);
-const char *ucs2_to_french_charname (int);
+const char *recode_ucs2_to_charname (int);
+const char *recode_ucs2_to_french_charname (int);
 
 /* charset.c.  */
 
@@ -580,39 +580,39 @@ enum alias_find_type
   ALIAS_FIND_AS_EITHER		/* disambiguate as a charset or a surface */
 };
 
-int code_to_ucs2 (RECODE_CONST_SYMBOL, unsigned);
-bool prepare_for_aliases (RECODE_OUTER);
-RECODE_ALIAS declare_alias (RECODE_OUTER,
-                            const char *, const char *);
-bool declare_implied_surface (RECODE_OUTER, RECODE_ALIAS,
-                              RECODE_CONST_SYMBOL);
-bool make_argmatch_arrays (RECODE_OUTER);
-void delete_alias (RECODE_ALIAS alias);
-RECODE_ALIAS find_alias (RECODE_OUTER, const char *,
-                         enum alias_find_type);
-bool find_and_report_subsets (RECODE_OUTER);
-bool decode_known_pairs (RECODE_OUTER, const char *);
+int recode_code_to_ucs2 (RECODE_CONST_SYMBOL, unsigned);
+bool recode_prepare_for_aliases (RECODE_OUTER);
+RECODE_ALIAS recode_declare_alias (RECODE_OUTER,
+                                   const char *, const char *);
+bool recode_declare_implied_surface (RECODE_OUTER, RECODE_ALIAS,
+                                     RECODE_CONST_SYMBOL);
+bool recode_make_argmatch_arrays (RECODE_OUTER);
+void recode_delete_alias (RECODE_ALIAS alias);
+RECODE_ALIAS recode_find_alias (RECODE_OUTER, const char *,
+                                enum alias_find_type);
+bool recode_find_and_report_subsets (RECODE_OUTER);
+bool recode_decode_known_pairs (RECODE_OUTER, const char *);
 
 /* combine.c.  */
 
 #define DONE NOT_A_CHARACTER
 #define ELSE BYTE_ORDER_MARK_SWAPPED
 
-bool init_explode (RECODE_STEP, RECODE_CONST_REQUEST,
-                   RECODE_CONST_OPTION_LIST,
-                   RECODE_CONST_OPTION_LIST);
-bool explode_byte_byte (RECODE_SUBTASK);
-bool explode_ucs2_byte (RECODE_SUBTASK);
-bool explode_byte_ucs2 (RECODE_SUBTASK);
-bool explode_ucs2_ucs2 (RECODE_SUBTASK);
+bool recode_init_explode (RECODE_STEP, RECODE_CONST_REQUEST,
+                          RECODE_CONST_OPTION_LIST,
+                          RECODE_CONST_OPTION_LIST);
+bool recode_explode_byte_byte (RECODE_SUBTASK);
+bool recode_explode_ucs2_byte (RECODE_SUBTASK);
+bool recode_explode_byte_ucs2 (RECODE_SUBTASK);
+bool recode_explode_ucs2_ucs2 (RECODE_SUBTASK);
 
-bool init_combine (RECODE_STEP, RECODE_CONST_REQUEST,
-                   RECODE_CONST_OPTION_LIST,
-                   RECODE_CONST_OPTION_LIST);
-bool combine_byte_byte (RECODE_SUBTASK);
-bool combine_ucs2_byte (RECODE_SUBTASK);
-bool combine_byte_ucs2 (RECODE_SUBTASK);
-bool combine_ucs2_ucs2 (RECODE_SUBTASK);
+bool recode_init_combine (RECODE_STEP, RECODE_CONST_REQUEST,
+                          RECODE_CONST_OPTION_LIST,
+                          RECODE_CONST_OPTION_LIST);
+bool recode_combine_byte_byte (RECODE_SUBTASK);
+bool recode_combine_ucs2_byte (RECODE_SUBTASK);
+bool recode_combine_byte_ucs2 (RECODE_SUBTASK);
+bool recode_combine_ucs2_ucs2 (RECODE_SUBTASK);
 
 /* freeze.c.  */
 
@@ -620,33 +620,33 @@ void recode_freeze_tables (RECODE_OUTER);
 
 /* iconv.c.  */
 
-bool transform_with_iconv (RECODE_SUBTASK);
 bool module_iconv (struct recode_outer *);
 void delmodule_iconv (struct recode_outer *);
+bool recode_transform_with_iconv (RECODE_SUBTASK);
 
 /* names.c.  */
 
-bool should_prefer_french (void);
+bool recode_should_prefer_french (void);
 
 /* mixed.c.  */
 
-bool transform_c_source (RECODE_TASK);
-bool transform_po_source (RECODE_TASK);
+bool recode_transform_c_source (RECODE_TASK);
+bool recode_transform_po_source (RECODE_TASK);
 
 /* outer.c.  */
 
-bool reversibility (RECODE_SUBTASK, unsigned);
-RECODE_SINGLE declare_single
+bool recode_reversibility (RECODE_SUBTASK, unsigned);
+RECODE_SINGLE recode_declare_single
   (RECODE_OUTER, const char *, const char *,
    struct recode_quality,
    bool (*) (RECODE_STEP, RECODE_CONST_REQUEST,
              RECODE_CONST_OPTION_LIST, RECODE_CONST_OPTION_LIST),
    bool (*) (RECODE_SUBTASK));
-bool declare_iconv (RECODE_OUTER, const char *, const char *);
-bool declare_explode_data (RECODE_OUTER, const unsigned short *,
-                           const char *, const char *);
-bool declare_strip_data (RECODE_OUTER, struct strip_data *,
-                         const char *);
+bool recode_declare_iconv (RECODE_OUTER, const char *, const char *);
+bool recode_declare_explode_data (RECODE_OUTER, const unsigned short *,
+                                  const char *, const char *);
+bool recode_declare_strip_data (RECODE_OUTER, struct strip_data *,
+                                const char *);
 
 /* pool.c.  */
 
@@ -654,21 +654,21 @@ extern const recode_ucs2 ucs2_data_pool[];
 
 /* request.c.  */
 
-char *edit_sequence (RECODE_REQUEST, bool);
+char *recode_edit_sequence (RECODE_REQUEST, bool);
 
 /* rfc1345.c.  */
 
-const char *ucs2_to_rfc1345 (recode_ucs2);
+const char *recode_ucs2_to_rfc1345 (recode_ucs2);
 
 /* task.c.  */
 
-int get_byte (RECODE_SUBTASK);
-size_t get_bytes (RECODE_SUBTASK, char *, size_t);
-void put_byte (char, RECODE_SUBTASK);
-void put_bytes (const char *, size_t, RECODE_SUBTASK);
+int recode_get_byte (RECODE_SUBTASK);
+size_t recode_get_bytes (RECODE_SUBTASK, char *, size_t);
+void recode_put_byte (char, RECODE_SUBTASK);
+void recode_put_bytes (const char *, size_t, RECODE_SUBTASK);
 bool recode_if_nogo (enum recode_error, RECODE_SUBTASK);
-bool transform_byte_to_byte (RECODE_SUBTASK);
-bool transform_byte_to_variable (RECODE_SUBTASK);
+bool recode_transform_byte_to_byte (RECODE_SUBTASK);
+bool recode_transform_byte_to_variable (RECODE_SUBTASK);
 
 /* ucs.c.  */
 
@@ -684,10 +684,10 @@ bool transform_byte_to_variable (RECODE_SUBTASK);
 /* Never an UCS-2 character.  */
 #define NOT_A_CHARACTER 0xFFFF
 
-bool get_ucs2 (unsigned *, RECODE_SUBTASK);
-bool get_ucs4 (unsigned *, RECODE_SUBTASK);
-bool put_ucs2 (unsigned, RECODE_SUBTASK);
-bool put_ucs4 (unsigned, RECODE_SUBTASK);
+bool recode_get_ucs2 (unsigned *, RECODE_SUBTASK);
+bool recode_get_ucs4 (unsigned *, RECODE_SUBTASK);
+bool recode_put_ucs2 (unsigned, RECODE_SUBTASK);
+bool recode_put_ucs4 (unsigned, RECODE_SUBTASK);
 
 #ifdef __cplusplus
 }
@@ -704,7 +704,7 @@ bool put_ucs4 (unsigned, RECODE_SUBTASK);
     if (request->diacritics_only)				\
       ECHO;							\
     else							\
-      put_byte ((Byte), (Subtask))
+      recode_put_byte ((Byte), (Subtask))
 
 /* ECHO may not have a (Subtask) argument, because some ECHO without argument
    is generated by Flex -- yet Vern tells me it won't happen if I inhibit
@@ -715,7 +715,7 @@ bool put_ucs4 (unsigned, RECODE_SUBTASK);
       const char *cursor = librecode_yytext;			\
       int counter = librecode_yyleng;				\
       for (; counter > 0; cursor++, counter--)			\
-	put_byte (*cursor, subtask);				\
+	recode_put_byte (*cursor, subtask);				\
     } while (false)
 
 #endif /* FLEX_SCANNER */

@@ -27,11 +27,11 @@ transform_latin_mule (RECODE_SUBTASK subtask,
 {
   int character;
 
-  while (character = get_byte (subtask), character != EOF)
+  while (character = recode_get_byte (subtask), character != EOF)
     {
       if (!IS_ASCII (character))
-	put_byte (prefix, subtask);
-      put_byte (character, subtask);
+	recode_put_byte (prefix, subtask);
+      recode_put_byte (character, subtask);
     }
   SUBTASK_RETURN (subtask);
 }
@@ -42,12 +42,12 @@ transform_mule_latin (RECODE_SUBTASK subtask,
 {
   int character;
 
-  while (character = get_byte (subtask), character != EOF)
+  while (character = recode_get_byte (subtask), character != EOF)
     if (IS_ASCII (character))
-      put_byte (character, subtask);
+      recode_put_byte (character, subtask);
     else if ((character & BIT_MASK (8)) == prefix)
       {
-	character = get_byte (subtask);
+	character = recode_get_byte (subtask);
 
 	while ((character & BIT_MASK (8)) == prefix)
 	  {
@@ -55,7 +55,7 @@ transform_mule_latin (RECODE_SUBTASK subtask,
 	       berzerk and generates strings of prefix characters.  Remove
 	       all succeeding prefixes in a row.  This is irreversible.  */
 	    RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	    character = get_byte (subtask);
+	    character = recode_get_byte (subtask);
 	  }
 
 	if (character == EOF)
@@ -66,7 +66,7 @@ transform_mule_latin (RECODE_SUBTASK subtask,
 
 	if (IS_ASCII (character))
 	  RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	put_byte (character, subtask);
+	recode_put_byte (character, subtask);
       }
     else
       RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
@@ -99,16 +99,16 @@ bool
 module_mule (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, "ISO-8859-1", "Mule",
+    recode_declare_single (outer, "ISO-8859-1", "Mule",
 		    outer->quality_byte_to_variable,
 		    NULL, transform_latin1_mule)
-    && declare_single (outer, "Mule", "ISO-8859-1",
+    && recode_declare_single (outer, "Mule", "ISO-8859-1",
 		       outer->quality_variable_to_byte,
 		       NULL, transform_mule_latin1)
-    && declare_single (outer, "ISO-8859-2", "Mule",
+    && recode_declare_single (outer, "ISO-8859-2", "Mule",
 		       outer->quality_byte_to_variable,
 		       NULL, transform_latin2_mule)
-    && declare_single (outer, "Mule", "ISO-8859-2",
+    && recode_declare_single (outer, "Mule", "ISO-8859-2",
 		       outer->quality_variable_to_byte,
 		       NULL, transform_mule_latin2);
 }

@@ -171,11 +171,11 @@ bool
 module_latin1_bibtex (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, "Latin-1", "BibTeX",
+    recode_declare_single (outer, "Latin-1", "BibTeX",
 		    outer->quality_byte_to_variable,
-		    init_latin1_bibtex, transform_byte_to_variable)
-    && declare_alias (outer, "bibtex", "BibTeX")
-    && declare_alias (outer, "btex", "BibTeX");
+		    init_latin1_bibtex, recode_transform_byte_to_variable)
+    && recode_declare_alias (outer, "bibtex", "BibTeX")
+    && recode_declare_alias (outer, "btex", "BibTeX");
 }
 
 void

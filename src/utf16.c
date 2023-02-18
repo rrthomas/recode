@@ -26,10 +26,10 @@ transform_ucs4_utf16 (RECODE_SUBTASK subtask)
 {
   unsigned value;
 
-  if (get_ucs4 (&value, subtask))
+  if (recode_get_ucs4 (&value, subtask))
     {
       if (subtask->task->byte_order_mark)
-	put_ucs2 (BYTE_ORDER_MARK, subtask);
+	recode_put_ucs2 (BYTE_ORDER_MARK, subtask);
 
       while (true)
 	{
@@ -39,13 +39,13 @@ transform_ucs4_utf16 (RECODE_SUBTASK subtask)
 		/* Double UCS-2 character.  */
 
 		value -= 1 << 16;
-		put_ucs2 (0xD800 | (BIT_MASK (10) & value >> 10), subtask);
-		put_ucs2 (0xDC00 | (BIT_MASK (10) & value), subtask);
+		recode_put_ucs2 (0xD800 | (BIT_MASK (10) & value >> 10), subtask);
+		recode_put_ucs2 (0xDC00 | (BIT_MASK (10) & value), subtask);
 	      }
 	    else
 	      {
 		RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
-		put_ucs2 (REPLACEMENT_CHARACTER, subtask);
+		recode_put_ucs2 (REPLACEMENT_CHARACTER, subtask);
 	      }
 	  else
 	    {
@@ -53,10 +53,10 @@ transform_ucs4_utf16 (RECODE_SUBTASK subtask)
 
 	      if (value >= 0xD800 && value < 0xE000)
 		RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
-	      put_ucs2 (value, subtask);
+	      recode_put_ucs2 (value, subtask);
 	    }
 
-	  if (!get_ucs4 (&value, subtask))
+	  if (!recode_get_ucs4 (&value, subtask))
 	    break;
 	}
     }
@@ -69,7 +69,7 @@ transform_utf16_ucs4 (RECODE_SUBTASK subtask)
 {
   unsigned value;
 
-  if (get_ucs2 (&value, subtask))
+  if (recode_get_ucs2 (&value, subtask))
     {
       while (true)
 	if (value >= 0xD800 && value < 0xE000)
@@ -77,15 +77,15 @@ transform_utf16_ucs4 (RECODE_SUBTASK subtask)
 	    {
 	      unsigned chunk;
 
-	      if (!get_ucs2 (&chunk, subtask))
+	      if (!recode_get_ucs2 (&chunk, subtask))
 		break;
 
 	      if (chunk >= 0xDC00 && chunk < 0xE000)
 		{
-		  put_ucs4 ((((1 << 16) + ((value - 0xD800) << 10))
+		  recode_put_ucs4 ((((1 << 16) + ((value - 0xD800) << 10))
 			     | (chunk - 0xDC00)),
 			    subtask);
-		  if (!get_ucs2 (&value, subtask))
+		  if (!recode_get_ucs2 (&value, subtask))
 		    break;
 		}
 	      else
@@ -101,13 +101,13 @@ transform_utf16_ucs4 (RECODE_SUBTASK subtask)
 	      /* Discard a second chunk when presented first.  */
 
 	      RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	      if (!get_ucs2 (&value, subtask))
+	      if (!recode_get_ucs2 (&value, subtask))
 		break;
 	    }
 	else
 	  {
-	    put_ucs4 (value, subtask);
-	    if (!get_ucs2 (&value, subtask))
+	    recode_put_ucs4 (value, subtask);
+	    if (!recode_get_ucs2 (&value, subtask))
 	      break;
 	  }
     }
@@ -123,11 +123,11 @@ transform_ucs2_utf16 (RECODE_SUBTASK subtask)
   /* This function does nothing, besides checking that the number of input
      bytes is even, and that special UTF-16 values do not appear.  */
 
-  while (get_ucs2 (&value, subtask))
+  while (recode_get_ucs2 (&value, subtask))
     {
       if (value >= 0xD800 && value < 0xE000)
 	RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
-      put_ucs2 (value, subtask);
+      recode_put_ucs2 (value, subtask);
     }
 
   SUBTASK_RETURN (subtask);
@@ -142,10 +142,10 @@ transform_utf16_ucs2 (RECODE_SUBTASK subtask)
      valid UTF-16, and replacing UTF-16 extended values with the replacement
      character.  */
 
-  if (get_ucs2 (&value, subtask))
+  if (recode_get_ucs2 (&value, subtask))
     {
       if (subtask->task->byte_order_mark)
-	put_ucs2 (BYTE_ORDER_MARK, subtask);
+	recode_put_ucs2 (BYTE_ORDER_MARK, subtask);
 
       while (true)
 	if (value >= 0xD800 && value < 0xE000)
@@ -153,14 +153,14 @@ transform_utf16_ucs2 (RECODE_SUBTASK subtask)
 	    {
 	      unsigned chunk;
 
-	      if (!get_ucs2 (&chunk, subtask))
+	      if (!recode_get_ucs2 (&chunk, subtask))
 		break;
 
 	      if (chunk >= 0xDC00 && chunk < 0xE000)
 		{
 		  RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
-		  put_ucs2 (REPLACEMENT_CHARACTER, subtask);
-		  if (!get_ucs2 (&value, subtask))
+		  recode_put_ucs2 (REPLACEMENT_CHARACTER, subtask);
+		  if (!recode_get_ucs2 (&value, subtask))
 		    break;
 		}
 	      else
@@ -176,13 +176,13 @@ transform_utf16_ucs2 (RECODE_SUBTASK subtask)
 	      /* Discard a second chunk when presented first.  */
 
 	      RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
-	      if (!get_ucs2 (&value, subtask))
+	      if (!recode_get_ucs2 (&value, subtask))
 		break;
 	    }
 	else
 	  {
-	    put_ucs2 (value, subtask);
-	    if (!get_ucs2 (&value, subtask))
+	    recode_put_ucs2 (value, subtask);
+	    if (!recode_get_ucs2 (&value, subtask))
 	      break;
 	  }
     }
@@ -194,22 +194,22 @@ bool
 module_utf16 (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, "ISO-10646-UCS-4", "UTF-16",
+    recode_declare_single (outer, "ISO-10646-UCS-4", "UTF-16",
 		    outer->quality_variable_to_variable,
 		    NULL, transform_ucs4_utf16)
-    && declare_single (outer, "UTF-16", "ISO-10646-UCS-4",
+    && recode_declare_single (outer, "UTF-16", "ISO-10646-UCS-4",
 		       outer->quality_variable_to_variable,
 		       NULL, transform_utf16_ucs4)
-    && declare_single (outer, "ISO-10646-UCS-2", "UTF-16",
+    && recode_declare_single (outer, "ISO-10646-UCS-2", "UTF-16",
 		       outer->quality_variable_to_variable,
 		       NULL, transform_ucs2_utf16)
-    && declare_single (outer, "UTF-16", "ISO-10646-UCS-2",
+    && recode_declare_single (outer, "UTF-16", "ISO-10646-UCS-2",
 		       outer->quality_variable_to_variable,
 		       NULL, transform_utf16_ucs2)
 
-    && declare_alias (outer, "Unicode", "UTF-16")
-    && declare_alias (outer, "TF-16", "UTF-16")
-    && declare_alias (outer, "u6", "UTF-16");
+    && recode_declare_alias (outer, "Unicode", "UTF-16")
+    && recode_declare_alias (outer, "TF-16", "UTF-16")
+    && recode_declare_alias (outer, "u6", "UTF-16");
 }
 
 void

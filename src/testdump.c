@@ -37,11 +37,11 @@ test7_data (RECODE_SUBTASK subtask)
   int value;
 
   for (counter = 0; counter < 1 << 7; counter++)
-    put_byte (counter, subtask);
+    recode_put_byte (counter, subtask);
 
   /* Copy the rest verbatim.  */
-  while (value = get_byte (subtask), value != EOF)
-    put_byte (value, subtask);
+  while (value = recode_get_byte (subtask), value != EOF)
+    recode_put_byte (value, subtask);
 
   SUBTASK_RETURN (subtask);
 }
@@ -53,11 +53,11 @@ test8_data (RECODE_SUBTASK subtask)
   int value;
 
   for (counter = 0; counter < 1 << 8; counter++)
-    put_byte (counter, subtask);
+    recode_put_byte (counter, subtask);
 
   /* Copy the rest verbatim.  */
-  while (value = get_byte (subtask), value != EOF)
-    put_byte (value, subtask);
+  while (value = recode_get_byte (subtask), value != EOF)
+    recode_put_byte (value, subtask);
 
   SUBTASK_RETURN (subtask);
 }
@@ -68,11 +68,11 @@ test15_data (RECODE_SUBTASK subtask)
   unsigned counter;
   unsigned value;
 
-  put_ucs2 (BYTE_ORDER_MARK, subtask);
+  recode_put_ucs2 (BYTE_ORDER_MARK, subtask);
 
   /* Before surrogate area.  */
   for (counter = 0; counter < 0xDC00; counter++)
-    put_ucs2 (counter, subtask);
+    recode_put_ucs2 (counter, subtask);
   /* After surrogate area.  */
   for (counter = 0xE000; counter < 1 << 16; counter++)
     switch (counter)
@@ -84,12 +84,12 @@ test15_data (RECODE_SUBTASK subtask)
 	break;
 
       default:
-	put_ucs2 (counter, subtask);
+	recode_put_ucs2 (counter, subtask);
       }
 
   /* Copy the rest verbatim.  */
-  while (value = get_byte (subtask), value != (unsigned)EOF)
-    put_byte (value, subtask);
+  while (value = recode_get_byte (subtask), value != (unsigned)EOF)
+    recode_put_byte (value, subtask);
 
   SUBTASK_RETURN (subtask);
 }
@@ -101,11 +101,11 @@ test16_data (RECODE_SUBTASK subtask)
   unsigned value;
 
   for (counter = 0; counter < 1 << 16; counter++)
-    put_ucs2 (counter, subtask);
+    recode_put_ucs2 (counter, subtask);
 
   /* Copy the rest verbatim.  */
-  while (value = get_byte (subtask), value != (unsigned)EOF)
-    put_byte (value, subtask);
+  while (value = recode_get_byte (subtask), value != (unsigned)EOF)
+    recode_put_byte (value, subtask);
 
   SUBTASK_RETURN (subtask);
 }
@@ -156,7 +156,7 @@ put_string (const char *string, RECODE_SUBTASK subtask)
   const char *cursor;
 
   for (cursor = string; *cursor; cursor++)
-    put_byte (*cursor, subtask);
+    recode_put_byte (*cursor, subtask);
 }
 
 static bool
@@ -177,7 +177,7 @@ produce_count (RECODE_SUBTASK subtask)
   {
     unsigned character;		/* current character being counted */
 
-    while (get_ucs2 (&character, subtask))
+    while (recode_get_ucs2 (&character, subtask))
       {
 	struct ucs2_to_count lookup;
 	struct ucs2_to_count *entry;
@@ -242,18 +242,18 @@ produce_count (RECODE_SUBTASK subtask)
     for (cursor = array; cursor < array + size; cursor++)
       {
 	unsigned character = (*cursor)->code;
-	const char *mnemonic = ucs2_to_rfc1345 (character);
+	const char *mnemonic = recode_ucs2_to_rfc1345 (character);
 
 	if (column + count_width + non_count_width > 80)
 	  {
-	    put_byte ('\n', subtask);
+	    recode_put_byte ('\n', subtask);
 	    delayed = 0;
 	    column = 0;
 	  }
 	else
 	  while (delayed)
 	    {
-	      put_byte (' ', subtask);
+	      recode_put_byte (' ', subtask);
 	      delayed--;
 	    }
 
@@ -263,7 +263,7 @@ produce_count (RECODE_SUBTASK subtask)
         free (buffer);
 	if (mnemonic)
 	  {
-	    put_byte (' ', subtask);
+	    recode_put_byte (' ', subtask);
 	    put_string (mnemonic, subtask);
 	    delayed = 6 - 1 - strlen (mnemonic);
 	  }
@@ -274,7 +274,7 @@ produce_count (RECODE_SUBTASK subtask)
       }
 
     if (column)
-      put_byte ('\n', subtask);
+      recode_put_byte ('\n', subtask);
   }
 
   /* Clean-up.  */
@@ -296,9 +296,9 @@ produce_full_dump (RECODE_SUBTASK subtask)
 
   /* Dump all characters.  */
 
-  if (get_ucs2 (&character, subtask))
+  if (recode_get_ucs2 (&character, subtask))
     {
-      bool french = should_prefer_french();
+      bool french = recode_should_prefer_french();
       const char *charname;	/* charname for code */
       char buffer[50];
 
@@ -306,7 +306,7 @@ produce_full_dump (RECODE_SUBTASK subtask)
 
       while (1)
 	{
-	  const char *mnemonic = ucs2_to_rfc1345 (character);
+	  const char *mnemonic = recode_ucs2_to_rfc1345 (character);
 
 	  sprintf (buffer, "%.4X", character);
           put_string (buffer, subtask);
@@ -320,15 +320,15 @@ produce_full_dump (RECODE_SUBTASK subtask)
 
 	  if (french)
 	    {
-	      charname = ucs2_to_french_charname (character);
+	      charname = recode_ucs2_to_french_charname (character);
 	      if (!charname)
-		charname = ucs2_to_charname (character);
+		charname = recode_ucs2_to_charname (character);
 	    }
 	  else
 	    {
-	      charname = ucs2_to_charname (character);
+	      charname = recode_ucs2_to_charname (character);
 	      if (!charname)
-		charname = ucs2_to_french_charname (character);
+		charname = recode_ucs2_to_french_charname (character);
 	    }
 
 	  if (charname)
@@ -336,9 +336,9 @@ produce_full_dump (RECODE_SUBTASK subtask)
 	      put_string ("   ", subtask);
 	      put_string (charname, subtask);
 	    }
-	  put_byte ('\n', subtask);
+	  recode_put_byte ('\n', subtask);
 
-	  if (!get_ucs2 (&character, subtask))
+	  if (!recode_get_ucs2 (&character, subtask))
 	    break;
 	}
     }
@@ -355,30 +355,30 @@ module_testdump (RECODE_OUTER outer)
 {
   /* Test surfaces.  */
 
-  if (!declare_single (outer, "test7", "data",
+  if (!recode_declare_single (outer, "test7", "data",
 		       outer->quality_variable_to_byte,
 		       NULL, test7_data))
     return false;
-  if (!declare_single (outer, "test8", "data",
+  if (!recode_declare_single (outer, "test8", "data",
 		       outer->quality_variable_to_byte,
 		       NULL, test8_data))
     return false;
-  if (!declare_single (outer, "test15", "data",
+  if (!recode_declare_single (outer, "test15", "data",
 		       outer->quality_variable_to_ucs2,
 		       NULL, test15_data))
     return false;
-  if (!declare_single (outer, "test16", "data",
+  if (!recode_declare_single (outer, "test16", "data",
 		       outer->quality_variable_to_ucs2,
 		       NULL, test16_data))
     return false;
 
   /* Analysis charsets.  */
 
-  if (!declare_single (outer, "ISO-10646-UCS-2", "count-characters",
+  if (!recode_declare_single (outer, "ISO-10646-UCS-2", "count-characters",
 		       outer->quality_ucs2_to_variable,
 		       NULL, produce_count))
     return false;
-  if (!declare_single (outer, "ISO-10646-UCS-2", "dump-with-names",
+  if (!recode_declare_single (outer, "ISO-10646-UCS-2", "dump-with-names",
 		       outer->quality_ucs2_to_variable,
 		       NULL, produce_full_dump))
     return false;

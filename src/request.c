@@ -99,7 +99,7 @@ add_work_string (RECODE_REQUEST request, const char *string)
 `----------------------------------------------------------------------*/
 
 char *
-edit_sequence (RECODE_REQUEST request, bool edit_quality)
+recode_edit_sequence (RECODE_REQUEST request, bool edit_quality)
 {
   RECODE_OUTER outer = request->outer;
 
@@ -369,12 +369,12 @@ table_type (RECODE_CONST_REQUEST request,
     switch (step->step_type)
       {
       case RECODE_BYTE_TO_BYTE:
-	if (step->transform_routine != transform_byte_to_byte)
+	if (step->transform_routine != recode_transform_byte_to_byte)
 	  return RECODE_NO_STEP_TABLE;
 	break;
 
       case RECODE_BYTE_TO_STRING:
-	if (step->transform_routine != transform_byte_to_variable)
+	if (step->transform_routine != recode_transform_byte_to_variable)
 	  return RECODE_NO_STEP_TABLE;
 	break;
 
@@ -406,7 +406,7 @@ compare_struct_item (const void *void_first, const void *void_second)
 | Complete the initialisation of a double step which just has been merged |
 | into a single STEP.  Establish known pairings by comparing UCS-2 values |
 | between the before and after charsets.  Create new pairs only when      |
-| fallback is reversibility.                                              |
+| fallback is recode_reversibility.                                              |
 `------------------------------------------------------------------------*/
 
 static bool
@@ -436,7 +436,7 @@ complete_double_ucs2_step (RECODE_OUTER outer, RECODE_STEP step)
   struct recode_known_pair pair_array[256]; /* obtained pairings */
   struct recode_known_pair *pair_cursor; /* cursor in array of pairings */
 
-  /* For ensuring reversibility, known pairs should be computed the same
+  /* For ensuring recode_reversibility, known pairs should be computed the same
      way regardless of the direction of recoding.  This canonalisation is
      ensured through the charset values, which are increasing along the
      initialisation order.  This should also reflect the charset order in
@@ -526,7 +526,7 @@ complete_double_ucs2_step (RECODE_OUTER outer, RECODE_STEP step)
   /* Complete the recoding table out of this.  */
 
   return
-    complete_pairs (outer, step,
+    recode_complete_pairs (outer, step,
 		    pair_array, pair_cursor - pair_array, false, reversed);
 }
 
@@ -570,7 +570,7 @@ simplify_sequence (RECODE_REQUEST request)
   /* Tell users what is the goal.  */
 
   if (request->verbose_flag)
-    fprintf (stderr, _("Request: %s\n"), edit_sequence (request, 0));
+    fprintf (stderr, _("Request: %s\n"), recode_edit_sequence (request, 0));
 
   saved_steps = 0;
 
@@ -596,7 +596,7 @@ simplify_sequence (RECODE_REQUEST request)
 	out->after = in[1].after;
 	out->quality = in[0].quality;
 	merge_qualities (&out->quality, in[1].quality);
-	out->transform_routine = transform_byte_to_byte;
+	out->transform_routine = recode_transform_byte_to_byte;
 
 	/* Initialize the new single step, so it can be later merged with
 	   others.  */
@@ -620,7 +620,7 @@ simplify_sequence (RECODE_REQUEST request)
 	out->after = in[1].after;
 	out->quality = in[0].quality;
 	merge_qualities (&out->quality, in[1].quality);
-	out->transform_routine = transform_with_iconv;
+	out->transform_routine = recode_transform_with_iconv;
 
 	in += 2;
 	saved_steps++;
@@ -696,7 +696,7 @@ simplify_sequence (RECODE_REQUEST request)
                 out->term_routine = delete_compressed_one_to_many;
               }
             out->step_table_term_routine = free;
-	    out->transform_routine = transform_byte_to_variable;
+	    out->transform_routine = recode_transform_byte_to_variable;
 	    out->after = in->after;
 	    merge_qualities (&out->quality, in->quality);
 	    in++;
@@ -708,7 +708,7 @@ simplify_sequence (RECODE_REQUEST request)
 
 	    out->step_type = RECODE_BYTE_TO_BYTE;
 	    out->step_table = accum;
-	    out->transform_routine = transform_byte_to_byte;
+	    out->transform_routine = recode_transform_byte_to_byte;
 	  }
 
 	out++;
@@ -737,7 +737,7 @@ simplify_sequence (RECODE_REQUEST request)
   /* Tell the user if something changed.  */
 
   if (saved_steps > 0 && request->verbose_flag)
-    fprintf (stderr, _("Shrunk to: %s\n"), edit_sequence (request, 0));
+    fprintf (stderr, _("Shrunk to: %s\n"), recode_edit_sequence (request, 0));
   return true;
 }
 
@@ -839,7 +839,7 @@ scan_unsurfacers (RECODE_REQUEST request)
   scan_identifier (request);
   if (*request->scanned_string)
     {
-      RECODE_ALIAS alias = find_alias (outer, request->scanned_string,
+      RECODE_ALIAS alias = recode_find_alias (outer, request->scanned_string,
 					  ALIAS_FIND_AS_SURFACE);
 
       if (!alias)
@@ -910,7 +910,7 @@ scan_charset (RECODE_REQUEST request,
   RECODE_OPTION_LIST charset_options = NULL;
 
   scan_identifier (request);
-  alias = find_alias (outer, request->scanned_string, ALIAS_FIND_AS_EITHER);
+  alias = recode_find_alias (outer, request->scanned_string, ALIAS_FIND_AS_EITHER);
   if (*request->scan_cursor == '+')
     charset_options = scan_options (request);
   if (!alias)
@@ -947,7 +947,7 @@ scan_charset (RECODE_REQUEST request,
 		  if (*request->scanned_string)
 		    {
 		      RECODE_ALIAS alias2
-			= find_alias (outer, request->scanned_string,
+			= recode_find_alias (outer, request->scanned_string,
 				      ALIAS_FIND_AS_SURFACE);
 
 		      if (!alias2)

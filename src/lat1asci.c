@@ -191,9 +191,9 @@ init_latin1_ascii (RECODE_STEP step,
 bool
 module_latin1_ascii (RECODE_OUTER outer)
 {
-  if (!declare_single (outer, "Latin-1", "ASCII-BS",
+  if (!recode_declare_single (outer, "Latin-1", "ASCII-BS",
 		       outer->quality_byte_to_variable,
-		       init_latin1_ascii, transform_byte_to_variable))
+		       init_latin1_ascii, recode_transform_byte_to_variable))
     return false;
 
   return true;

@@ -47,7 +47,7 @@ wrapped_transform (iconv_t conversion, RECODE_SUBTASK subtask)
 {
   char output_buffer[BUFFER_SIZE];
   char input_buffer[BUFFER_SIZE];
-  int input_char = get_byte (subtask);
+  int input_char = recode_get_byte (subtask);
   char *cursor = input_buffer;
   bool drain_first = false;
 
@@ -78,7 +78,7 @@ wrapped_transform (iconv_t conversion, RECODE_SUBTASK subtask)
           while (input_char != EOF && cursor < input_buffer + BUFFER_SIZE)
             {
               *cursor++ = input_char;
-              input_char = get_byte (subtask);
+              input_char = recode_get_byte (subtask);
             }
 
           if (cursor == input_buffer)
@@ -107,7 +107,7 @@ wrapped_transform (iconv_t conversion, RECODE_SUBTASK subtask)
 
       /* Send the converted result, so freeing the output buffer.  */
       for (cursor = output_buffer; cursor < output; cursor++)
-        put_byte (*cursor, subtask);
+        recode_put_byte (*cursor, subtask);
 
       /* Act according to the outcome of the iconv call.  */
 
@@ -200,7 +200,7 @@ iconv_fix_options (RECODE_OUTER outer, const char *charset)
 }
 
 bool
-transform_with_iconv (RECODE_SUBTASK subtask)
+recode_transform_with_iconv (RECODE_SUBTASK subtask)
 {
   RECODE_OUTER outer = subtask->task->request->outer;
   RECODE_CONST_STEP step = subtask->step;
@@ -243,7 +243,7 @@ module_iconv (RECODE_OUTER outer)
       while (*cursor)
 	{
           RECODE_ALIAS alias
-            = find_alias (outer, *cursor, ALIAS_FIND_AS_CHARSET);
+            = recode_find_alias (outer, *cursor, ALIAS_FIND_AS_CHARSET);
 
 	  if (alias)
 	    {
@@ -253,7 +253,7 @@ module_iconv (RECODE_OUTER outer)
 	  cursor++;
 	}
 
-      if (!declare_iconv (outer, charset_name, *aliases))
+      if (!recode_declare_iconv (outer, charset_name, *aliases))
 	return false;
 
       /* Declare all aliases, given they bring something we do not already
@@ -263,12 +263,12 @@ module_iconv (RECODE_OUTER outer)
       for (cursor = aliases; *cursor; cursor++)
 	{
 	  RECODE_ALIAS alias
-	    = find_alias (outer, *cursor, ALIAS_FIND_AS_CHARSET);
+	    = recode_find_alias (outer, *cursor, ALIAS_FIND_AS_CHARSET);
 
-	  /* If there is a charset contradiction, call declare_alias
+	  /* If there is a charset contradiction, call recode_declare_alias
 	     nevertheless, as the error processing will occur there.  */
 	  if (!alias || alias->symbol->name != charset_name)
-	    if (!declare_alias (outer, *cursor, charset_name))
+	    if (!recode_declare_alias (outer, *cursor, charset_name))
 	      return false;
 	}
     }

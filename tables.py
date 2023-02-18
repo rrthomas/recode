@@ -427,17 +427,17 @@ class Explodes(Options):
               '{\n')
         count = 0
         while self.declare_charset:
-            write('  if (!declare_explode_data (outer, &data_%d, "%s"))\n'
+            write('  if (!recode_declare_explode_data (outer, &data_%d, "%s"))\n'
                   '    return false;\n'
                   % (count, self.declare_charset[0]))
             del self.declare_charset[0]
             count += 1
         write('\n')
-        while declare_alias:
-            write('  if (!declare_alias (outer, "%s", "%s"))\n'
+        while recode_declare_alias:
+            write('  if (!recode_declare_alias (outer, "%s", "%s"))\n'
                   '    return false;\n'
-                  % declare_alias[0])
-            del declare_alias[0]
+                  % recode_declare_alias[0])
+            del recode_declare_alias[0]
         write('\n'
               '  return true;\n'
               '}\n'
@@ -722,7 +722,7 @@ class Strips(Options):
     # While digesting files.
     used_map = {}
     table = []
-    declare_alias = []
+    recode_declare_alias = []
     implied_surface = {}
 
     def __init__(self):
@@ -809,12 +809,12 @@ class Strips(Options):
                     self.implied_surface[match.group(2)] = 'crlf'
                     self.implied_surface['CP' + match.group(2)] = 'crlf'
                     self.implied_surface['IBM' + match.group(2)] = 'crlf'
-                    self.declare_alias.append((charset, charset))
+                    self.recode_declare_alias.append((charset, charset))
                     self.alias_count += 1
                     continue
                 if charset in ('macintosh', 'macintosh_ce'):
                     self.implied_surface[charset] = 'cr'
-                    self.declare_alias.append((charset, charset))
+                    self.recode_declare_alias.append((charset, charset))
                     self.alias_count += 1
                     continue
                 continue
@@ -856,7 +856,7 @@ class Strips(Options):
                     self.implied_surface['IBM' + match.group(2)] = 'crlf'
                 elif alias in ('mac', 'macce'):
                     self.implied_surface[alias] = 'cr'
-                self.declare_alias.append((alias, charset))
+                self.recode_declare_alias.append((alias, charset))
                 self.alias_count += 1
                 continue
             if input.match('&g[0-4]esc'):
@@ -948,7 +948,7 @@ class Strips(Options):
             self.used_map[hashname] = charset
 
             aliases.append(alias)
-            self.declare_alias.append((alias, charset))
+            self.recode_declare_alias.append((alias, charset))
             self.alias_count += 1
         # Read table contents.
         while True:
@@ -977,7 +977,7 @@ class Strips(Options):
     def charset_done(self, charset, remark, aliases):
         if self.discard_charset:
             while self.alias_count > 0:
-                del self.declare_alias[-1]
+                del self.recode_declare_alias[-1]
                 self.alias_count -= 1
             self.discard_charset = False
             self.comment = ''
@@ -1075,28 +1075,28 @@ class Strips(Options):
               '\n')
         count = 0
         while self.declare_charset:
-            write('  if (!declare_strip_data (outer, &data_%d, "%s"))\n'
+            write('  if (!recode_declare_strip_data (outer, &data_%d, "%s"))\n'
                   '    return false;\n'
                   % (count, self.declare_charset[0]))
             del self.declare_charset[0]
             count += 1
         write('\n')
-        while self.declare_alias:
-            alias, charset = self.declare_alias[0]
+        while self.recode_declare_alias:
+            alias, charset = self.recode_declare_alias[0]
             if alias in self.implied_surface:
-                write('  if (alias = declare_alias (outer, "%s", "%s"),'
+                write('  if (alias = recode_declare_alias (outer, "%s", "%s"),'
                       ' !alias)\n'
                       '    return false;\n'
-                      % self.declare_alias[0])
-                write('  if (!declare_implied_surface (outer, alias,'
+                      % self.recode_declare_alias[0])
+                write('  if (!recode_declare_implied_surface (outer, alias,'
                       ' outer->%s_surface))\n'
                       '    return false;\n'
                       % self.implied_surface[alias])
             else:
-                write('  if (!declare_alias (outer, "%s", "%s"))\n'
+                write('  if (!recode_declare_alias (outer, "%s", "%s"))\n'
                       '    return false;\n'
-                      % self.declare_alias[0])
-            del self.declare_alias[0]
+                      % self.recode_declare_alias[0])
+            del self.recode_declare_alias[0]
         write('\n'
               '  return true;\n'
               '}\n'

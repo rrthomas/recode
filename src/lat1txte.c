@@ -219,10 +219,10 @@ bool
 module_latin1_texte (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, "Latin-1", "Texte",
+    recode_declare_single (outer, "Latin-1", "Texte",
 		    outer->quality_byte_to_variable,
-		    init_latin1_texte, transform_byte_to_variable)
-    && declare_alias (outer, "txte", "Texte");
+		    init_latin1_texte, recode_transform_byte_to_variable)
+    && recode_declare_alias (outer, "txte", "Texte");
 }
 
 void

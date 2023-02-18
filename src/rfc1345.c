@@ -31,7 +31,7 @@
 `----------------------------------------------------------------------*/
 
 _GL_ATTRIBUTE_CONST const char *
-ucs2_to_rfc1345 (recode_ucs2 code)
+recode_ucs2_to_rfc1345 (recode_ucs2 code)
 {
   int first = 0;
   int last = TABLE_LENGTH;
@@ -98,41 +98,41 @@ transform_ucs2_rfc1345 (RECODE_SUBTASK subtask)
   const char intro = local->intro;
   unsigned value;
 
-  while (get_ucs2 (&value, subtask))
+  while (recode_get_ucs2 (&value, subtask))
     if (IS_ASCII (value))
       if (value == (unsigned)intro)
 	{
-	  put_byte (intro, subtask);
-	  put_byte (intro, subtask);
+	  recode_put_byte (intro, subtask);
+	  recode_put_byte (intro, subtask);
 	}
       else
-	put_byte (value, subtask);
+	recode_put_byte (value, subtask);
     else
       {
-	const char *string = ucs2_to_rfc1345 (value);
+	const char *string = recode_ucs2_to_rfc1345 (value);
 
 	if (!string || !string[0])
 	  RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
 	else if (!string[1])
-	  put_byte (string[0], subtask);
+	  recode_put_byte (string[0], subtask);
 	else if (!string[2])
 	  {
-	    put_byte (intro, subtask);
-	    put_byte (string[0], subtask);
-	    put_byte (string[1], subtask);
+	    recode_put_byte (intro, subtask);
+	    recode_put_byte (string[0], subtask);
+	    recode_put_byte (string[1], subtask);
 	  }
 	else
 	  {
 	    const char *cursor = string;
 
-	    put_byte (intro, subtask);
-	    put_byte ('_', subtask);
+	    recode_put_byte (intro, subtask);
+	    recode_put_byte ('_', subtask);
 	    while (*cursor)
 	      {
-		put_byte (*cursor, subtask);
+		recode_put_byte (*cursor, subtask);
 		cursor++;
 	      }
-	    put_byte ('_', subtask);
+	    recode_put_byte ('_', subtask);
 	  }
       }
 
@@ -150,22 +150,22 @@ transform_rfc1345_ucs2 (RECODE_SUBTASK subtask)
   const char intro = local->intro;
   int character;
 
-  while (character = get_byte (subtask), character != EOF)
+  while (character = recode_get_byte (subtask), character != EOF)
 
     if (character == intro)
       {
-	character = get_byte (subtask);
+	character = recode_get_byte (subtask);
 	if (character == EOF)
 	  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
 
 	if (character == intro)
-	  put_ucs2 (intro, subtask);
+	  recode_put_ucs2 (intro, subtask);
 	else if (character == '_')
 	  {
 	    char buffer[MAX_MNEMONIC_LENGTH + 1];
 	    char *cursor = buffer;
 
-	    character = get_byte (subtask);
+	    character = recode_get_byte (subtask);
 	    while (true)
 	      if (character == EOF)
 		{
@@ -181,7 +181,7 @@ transform_rfc1345_ucs2 (RECODE_SUBTASK subtask)
 		  if (value == NOT_A_CHARACTER)
 		    RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
 		  else
-		    put_ucs2 (value, subtask);
+		    recode_put_ucs2 (value, subtask);
 		  break;
 		}
 	      else if (cursor == buffer + MAX_MNEMONIC_LENGTH)
@@ -192,7 +192,7 @@ transform_rfc1345_ucs2 (RECODE_SUBTASK subtask)
 	      else
 		{
 		  *cursor++ = character;
-		  character = get_byte (subtask);
+		  character = recode_get_byte (subtask);
 		}
 	  }
 	else
@@ -201,7 +201,7 @@ transform_rfc1345_ucs2 (RECODE_SUBTASK subtask)
 	    recode_ucs2 value;
 
 	    buffer[0] = character;
-	    character = get_byte (subtask);
+	    character = recode_get_byte (subtask);
 	    if (character == EOF)
 	      RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
 	    buffer[1] = character;
@@ -214,12 +214,12 @@ transform_rfc1345_ucs2 (RECODE_SUBTASK subtask)
 	      {
 		if (IS_ASCII (value))
 		  RETURN_IF_NOGO (RECODE_AMBIGUOUS_OUTPUT, subtask);
-		put_ucs2 (value, subtask);
+		recode_put_ucs2 (value, subtask);
 	      }
 	  }
       }
     else
-      put_ucs2 (character, subtask);
+      recode_put_ucs2 (character, subtask);
 
   SUBTASK_RETURN (subtask);
 }
@@ -287,20 +287,20 @@ module_rfc1345 (RECODE_OUTER outer)
   RECODE_ALIAS alias;
 
   if
-    (!declare_single (outer, "ISO-10646-UCS-2", "RFC1345",
+    (!recode_declare_single (outer, "ISO-10646-UCS-2", "RFC1345",
                       outer->quality_variable_to_variable,
                       init_ucs2_rfc1345, transform_ucs2_rfc1345)
-     || !declare_single (outer, "RFC1345", "ISO-10646-UCS-2",
+     || !recode_declare_single (outer, "RFC1345", "ISO-10646-UCS-2",
                          outer->quality_variable_to_variable,
                          init_rfc1345_ucs2, transform_rfc1345_ucs2)
-     || !declare_alias (outer, "1345", "RFC1345")
-     || !declare_alias (outer, "mnemonic", "RFC1345"))
+     || !recode_declare_alias (outer, "1345", "RFC1345")
+     || !recode_declare_alias (outer, "mnemonic", "RFC1345"))
     return false;
 
   /* Aliases for obsolete built-in encodings */
-  if (alias = declare_alias (outer, "Apple-Mac", "macintosh"), !alias)
+  if (alias = recode_declare_alias (outer, "Apple-Mac", "macintosh"), !alias)
     return false;
-  if (!declare_implied_surface (outer, alias, outer->cr_surface))
+  if (!recode_declare_implied_surface (outer, alias, outer->cr_surface))
     return false;
 
   return true;

@@ -68,7 +68,7 @@ static bool verbose_flag = false;
    it does not prevent recodings to be aborted or exit status to be set.  */
 static bool quiet_flag = false;
 
-/* If the recoding yields some problems in reversibility in some file, this
+/* If the recoding yields some problems in recode_reversibility in some file, this
    file replacement is denied and it is left unrecoded or, if recode is used
    as a mere filter, the recoding is aborted.  The following flag forces
    the recoding to run to completion and the replacement to be done even if
@@ -82,7 +82,7 @@ static bool force_flag = false;
    thus effectively `touching' the file.  */
 static bool touch_option = false;
 
-/* With strict mapping, all reversibility fallbacks get defeated.  */
+/* With strict mapping, all recode_reversibility fallbacks get defeated.  */
 static bool strict_mapping = false;
 
 /* Use iconv if possible. */
@@ -351,7 +351,7 @@ new_outer(unsigned flags)
   if (ignored_name)
     {
       RECODE_ALIAS alias
-	= find_alias (outer, ignored_name, ALIAS_FIND_AS_CHARSET);
+	= recode_find_alias (outer, ignored_name, ALIAS_FIND_AS_CHARSET);
 
       if (!alias)
 	{
@@ -380,7 +380,7 @@ int
 main (int argc, char *const *argv)
 {
   int option_char;		/* option character */
-  bool success = true;		/* reversibility of all recodings */
+  bool success = true;		/* recode_reversibility of all recodings */
 
   static bool (*processor) (RECODE_TASK);
   struct recode_outer outer_option;
@@ -468,15 +468,15 @@ main (int argc, char *const *argv)
               break;
 
 	    case 0:
-	      processor = transform_c_source;
+	      processor = recode_transform_c_source;
 	      break;
 
 	    case 2:
-	      processor = transform_po_source;
+	      processor = recode_transform_po_source;
 	      break;
 	    }
 	else
-	  processor = transform_c_source;
+	  processor = recode_transform_c_source;
 	break;
 
       case 'T':
@@ -657,14 +657,14 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
 
   if (find_subsets)
     {
-      find_and_report_subsets (outer);
+      recode_find_and_report_subsets (outer);
       exit (EXIT_SUCCESS);
     }
 
   if (show_symbols || charset_restrictions)
     {
       if (charset_restrictions)
-	if (!decode_known_pairs (outer, charset_restrictions))
+	if (!recode_decode_known_pairs (outer, charset_restrictions))
 	  {
 	    error (0, 0, "Could not understand `%s'", charset_restrictions);
 	    usage (EXIT_FAILURE, 0);
@@ -681,7 +681,7 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
       if (optind < argc)
 	{
 	  RECODE_ALIAS alias
-	    = find_alias (outer, argv[optind], ALIAS_FIND_AS_CHARSET);
+	    = recode_find_alias (outer, argv[optind], ALIAS_FIND_AS_CHARSET);
 
 	  if (!alias)
 	    {
@@ -695,7 +695,7 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
       else if (list_format != RECODE_NO_FORMAT || charset_restrictions)
 	{
 	  RECODE_ALIAS alias
-	    = find_alias (outer, NULL, ALIAS_FIND_AS_CHARSET);
+	    = recode_find_alias (outer, NULL, ALIAS_FIND_AS_CHARSET);
 
 	  if (!alias)
 	    {
@@ -712,14 +712,14 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
       /* List the charset(s) appropriately.  */
 
       if (charset_restrictions)
-	list_all_symbols (outer, list_charset);
+	recode_list_all_symbols (outer, list_charset);
       else if (list_charset)
 	if (list_format == RECODE_FULL_FORMAT)
-	  list_full_charset (outer, list_charset);
+	  recode_list_full_charset (outer, list_charset);
 	else
-	  list_concise_charset (outer, list_charset, list_format);
+	  recode_list_concise_charset (outer, list_charset, list_format);
       else
-	list_all_symbols (outer, NULL);
+	recode_list_all_symbols (outer, NULL);
 
       /* Then get out.  */
 

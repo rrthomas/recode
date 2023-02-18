@@ -38,7 +38,7 @@ bool recode_interrupted = 0;	/* set by signal handler when some signal has been 
 `-------------------------------------------------------------------*/
 
 int
-get_byte (RECODE_SUBTASK subtask)
+recode_get_byte (RECODE_SUBTASK subtask)
 {
   if (subtask->input.file)
     return getc (subtask->input.file);
@@ -54,7 +54,7 @@ get_byte (RECODE_SUBTASK subtask)
 `-------------------------------------------------------------------*/
 
 size_t
-get_bytes (RECODE_SUBTASK subtask, char *data, size_t n)
+recode_get_bytes (RECODE_SUBTASK subtask, char *data, size_t n)
 {
   if (subtask->input.file)
     return fread (data, 1, n, subtask->input.file);
@@ -73,7 +73,7 @@ get_bytes (RECODE_SUBTASK subtask, char *data, size_t n)
 `-----------------------------------------*/
 
 void
-put_byte (char byte, RECODE_SUBTASK subtask)
+recode_put_byte (char byte, RECODE_SUBTASK subtask)
 {
   if (subtask->output.file)
     {
@@ -81,7 +81,7 @@ put_byte (char byte, RECODE_SUBTASK subtask)
         recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
     }
   else if (subtask->output.cursor == subtask->output.limit)
-    put_bytes (&byte, 1, subtask);
+    recode_put_bytes (&byte, 1, subtask);
   else
     *subtask->output.cursor++ = byte;
 }
@@ -91,7 +91,7 @@ put_byte (char byte, RECODE_SUBTASK subtask)
 `-----------------------------------------------------*/
 
 void
-put_bytes (const char *data, size_t n, RECODE_SUBTASK subtask)
+recode_put_bytes (const char *data, size_t n, RECODE_SUBTASK subtask)
 {
   if (subtask->output.file)
     {
@@ -157,17 +157,17 @@ transform_mere_copy (RECODE_SUBTASK subtask)
       char buffer[BUFSIZ];
       size_t size;
 
-      while (size = get_bytes (subtask, buffer, BUFSIZ),
+      while (size = recode_get_bytes (subtask, buffer, BUFSIZ),
 	     size == BUFSIZ)
-	put_bytes (buffer, BUFSIZ, subtask);
+	recode_put_bytes (buffer, BUFSIZ, subtask);
       if (size > 0)
-	put_bytes (buffer, size, subtask);
+	recode_put_bytes (buffer, size, subtask);
     }
   else
     /* Reading from buffer.  */
 
     if (subtask->input.cursor < subtask->input.limit)
-      put_bytes (subtask->input.cursor,
+      recode_put_bytes (subtask->input.cursor,
                  (unsigned) (subtask->input.limit - subtask->input.cursor),
                  subtask);
 }
@@ -177,14 +177,14 @@ transform_mere_copy (RECODE_SUBTASK subtask)
 `--------------------------------------------------*/
 
 bool
-transform_byte_to_byte (RECODE_SUBTASK subtask)
+recode_transform_byte_to_byte (RECODE_SUBTASK subtask)
 {
   unsigned const char *table
     = (unsigned const char *) subtask->step->step_table;
   int input_char;
 
-  while (input_char = get_byte (subtask), input_char != EOF)
-    put_byte (table[input_char], subtask);
+  while (input_char = recode_get_byte (subtask), input_char != EOF)
+    recode_put_byte (table[input_char], subtask);
 
   SUBTASK_RETURN (subtask);
 }
@@ -194,7 +194,7 @@ transform_byte_to_byte (RECODE_SUBTASK subtask)
 `---------------------------------------------------*/
 
 bool
-transform_byte_to_variable (RECODE_SUBTASK subtask)
+recode_transform_byte_to_variable (RECODE_SUBTASK subtask)
 {
   const char *const *table = (const char *const *) subtask->step->step_table;
   int input_char;
@@ -202,11 +202,11 @@ transform_byte_to_variable (RECODE_SUBTASK subtask)
 
   /* Copy the file through the one to many recoding table.  */
 
-  while (input_char = get_byte (subtask), input_char != EOF)
+  while (input_char = recode_get_byte (subtask), input_char != EOF)
     if (output_string = table[input_char], output_string)
       while (*output_string)
 	{
-	  put_byte (*output_string, subtask);
+	  recode_put_byte (*output_string, subtask);
 	  output_string++;
 	}
    else

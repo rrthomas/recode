@@ -172,20 +172,20 @@ static struct recode_known_pair known_pairs[] =
 static bool
 transform_latin1_ibmpc (RECODE_SUBTASK subtask)
 {
-  if (subtask->step->fallback_routine == reversibility)
+  if (subtask->step->fallback_routine == recode_reversibility)
     {
       const unsigned char *table
 	= (const unsigned char *) subtask->step->step_table;
       int input_char;
 
-      while (input_char = get_byte (subtask), input_char != EOF)
+      while (input_char = recode_get_byte (subtask), input_char != EOF)
 	if (input_char == '\n')
 	  {
-	    put_byte (DOS_CR, subtask);
-	    put_byte (DOS_LF, subtask);
+	    recode_put_byte (DOS_CR, subtask);
+	    recode_put_byte (DOS_LF, subtask);
 	  }
 	else
-	  put_byte (table[input_char], subtask);
+	  recode_put_byte (table[input_char], subtask);
     }
   else
     {
@@ -193,14 +193,14 @@ transform_latin1_ibmpc (RECODE_SUBTASK subtask)
 	= (const char *const *) subtask->step->step_table;
       int input_char;
 
-      while (input_char = get_byte (subtask), input_char != EOF)
+      while (input_char = recode_get_byte (subtask), input_char != EOF)
 	if (input_char == '\n')
 	  {
-	    put_byte (DOS_CR, subtask);
-	    put_byte (DOS_LF, subtask);
+	    recode_put_byte (DOS_CR, subtask);
+	    recode_put_byte (DOS_LF, subtask);
 	  }
 	else if (table[input_char])
-	  put_byte (*table[input_char], subtask);
+	  recode_put_byte (*table[input_char], subtask);
 	else
 	  RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
     }
@@ -210,11 +210,11 @@ transform_latin1_ibmpc (RECODE_SUBTASK subtask)
 static bool
 transform_ibmpc_latin1 (RECODE_SUBTASK subtask)
 {
-  if (subtask->step->fallback_routine == reversibility)
+  if (subtask->step->fallback_routine == recode_reversibility)
     {
       const unsigned char *table
 	= (const unsigned char *) subtask->step->step_table;
-      int input_char = get_byte (subtask);
+      int input_char = recode_get_byte (subtask);
 
       while (input_char != EOF)
 	switch (input_char)
@@ -225,14 +225,14 @@ transform_ibmpc_latin1 (RECODE_SUBTASK subtask)
 	    break;
 
 	  case DOS_CR:
-	    input_char = get_byte (subtask);
+	    input_char = recode_get_byte (subtask);
 	    if (input_char == DOS_LF)
 	      {
-		put_byte ('\n', subtask);
-		input_char = get_byte (subtask);
+		recode_put_byte ('\n', subtask);
+		input_char = recode_get_byte (subtask);
 	      }
 	    else
-	      put_byte (table[DOS_CR], subtask);
+	      recode_put_byte (table[DOS_CR], subtask);
 	    break;
 
 	  case DOS_LF:
@@ -240,15 +240,15 @@ transform_ibmpc_latin1 (RECODE_SUBTASK subtask)
 	    FALLTHROUGH;
 
 	  default:
-	    put_byte (table[input_char], subtask);
-	    input_char = get_byte (subtask);
+	    recode_put_byte (table[input_char], subtask);
+	    input_char = recode_get_byte (subtask);
 	  }
     }
   else
     {
       const char *const *table
 	= (const char *const *) subtask->step->step_table;
-      int input_char = get_byte (subtask);
+      int input_char = recode_get_byte (subtask);
 
       while (input_char != EOF)
 	switch (input_char)
@@ -259,14 +259,14 @@ transform_ibmpc_latin1 (RECODE_SUBTASK subtask)
 	    break;
 
 	  case DOS_CR:
-	    input_char = get_byte (subtask);
+	    input_char = recode_get_byte (subtask);
 	    if (input_char == DOS_LF)
 	      {
-		put_byte ('\n', subtask);
-		input_char = get_byte (subtask);
+		recode_put_byte ('\n', subtask);
+		input_char = recode_get_byte (subtask);
 	      }
 	    else if (table[DOS_CR])
-	      put_byte (*table[DOS_CR], subtask);
+	      recode_put_byte (*table[DOS_CR], subtask);
 	    else
 	      RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
 	    break;
@@ -277,10 +277,10 @@ transform_ibmpc_latin1 (RECODE_SUBTASK subtask)
 
 	  default:
 	    if (table[input_char])
-	      put_byte (*table[input_char], subtask);
+	      recode_put_byte (*table[input_char], subtask);
 	    else
 	      RETURN_IF_NOGO (RECODE_UNTRANSLATABLE, subtask);
-	    input_char = get_byte (subtask);
+	    input_char = recode_get_byte (subtask);
 	  }
     }
 
@@ -296,16 +296,16 @@ init_latin1_ibmpc (RECODE_STEP step,
   if (before_options || after_options)
     return false;
 
-  if (!complete_pairs (request->outer, step,
+  if (!recode_complete_pairs (request->outer, step,
 		       known_pairs, NUMBER_OF_PAIRS, true, true))
     return false;
 
   if (auto_crlf)
     step->transform_routine = transform_latin1_ibmpc;
-  else if (step->fallback_routine == reversibility)
-    step->transform_routine = transform_byte_to_byte;
+  else if (step->fallback_routine == recode_reversibility)
+    step->transform_routine = recode_transform_byte_to_byte;
   else
-    step->transform_routine = transform_byte_to_variable;
+    step->transform_routine = recode_transform_byte_to_variable;
 
   return true;
 }
@@ -322,16 +322,16 @@ init_ibmpc_latin1 (RECODE_STEP step,
   if (before_options || after_options)
     return false;
 
-  if (!complete_pairs (outer, step,
+  if (!recode_complete_pairs (outer, step,
 		       known_pairs, NUMBER_OF_PAIRS, true, false))
     return false;
 
   if (auto_crlf)
     step->transform_routine = transform_ibmpc_latin1;
-  else if (step->fallback_routine == reversibility)
-    step->transform_routine = transform_byte_to_byte;
+  else if (step->fallback_routine == recode_reversibility)
+    step->transform_routine = recode_transform_byte_to_byte;
   else
-    step->transform_routine = transform_byte_to_variable;
+    step->transform_routine = recode_transform_byte_to_variable;
 
   /* FIXME: Allow ascii_graphics even with strict mapping.  Reported by
      David E. A. Wilson <david@osiris.cs.uow.edu.au>.  */
@@ -354,33 +354,33 @@ module_ibmpc (RECODE_OUTER outer)
 {
   RECODE_ALIAS alias;
 
-  if (!declare_single (outer, "Latin-1", "IBM-PC",
+  if (!recode_declare_single (outer, "Latin-1", "IBM-PC",
 		       outer->quality_byte_to_variable,
 		       init_latin1_ibmpc, transform_latin1_ibmpc))
     return false;
-  if (!declare_single (outer, "IBM-PC", "Latin-1",
+  if (!recode_declare_single (outer, "IBM-PC", "Latin-1",
 		       outer->quality_variable_to_variable,
 		       init_ibmpc_latin1, transform_ibmpc_latin1))
     return false;
 
-  if (alias = declare_alias (outer, "IBM-PC", "IBM-PC"), !alias)
+  if (alias = recode_declare_alias (outer, "IBM-PC", "IBM-PC"), !alias)
     return false;
-  if (!declare_implied_surface (outer, alias, outer->crlf_surface))
-    return false;
-
-  if (alias = declare_alias (outer, "dos", "IBM-PC"), !alias)
-    return false;
-  if (!declare_implied_surface (outer, alias, outer->crlf_surface))
+  if (!recode_declare_implied_surface (outer, alias, outer->crlf_surface))
     return false;
 
-  if (alias = declare_alias (outer, "MSDOS", "IBM-PC"), !alias)
+  if (alias = recode_declare_alias (outer, "dos", "IBM-PC"), !alias)
     return false;
-  if (!declare_implied_surface (outer, alias, outer->crlf_surface))
+  if (!recode_declare_implied_surface (outer, alias, outer->crlf_surface))
     return false;
 
-  if (alias = declare_alias (outer, "pc", "IBM-PC"), !alias)
+  if (alias = recode_declare_alias (outer, "MSDOS", "IBM-PC"), !alias)
     return false;
-  if (!declare_implied_surface (outer, alias, outer->crlf_surface))
+  if (!recode_declare_implied_surface (outer, alias, outer->crlf_surface))
+    return false;
+
+  if (alias = recode_declare_alias (outer, "pc", "IBM-PC"), !alias)
+    return false;
+  if (!recode_declare_implied_surface (outer, alias, outer->crlf_surface))
     return false;
 
   return true;

@@ -27,7 +27,7 @@
 `--------------------------------------------------------------------*/
 
 const char *
-ucs2_to_french_charname (int ucs2)
+recode_ucs2_to_french_charname (int ucs2)
 {
   static char result[MAX_CHARNAME_LENGTH + 1];
   int first;

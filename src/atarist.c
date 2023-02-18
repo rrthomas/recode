@@ -98,7 +98,7 @@ static struct strip_data table =
 bool
 module_atarist (RECODE_OUTER outer)
 {
-  return declare_strip_data (outer, &table, "AtariST");
+  return recode_declare_strip_data (outer, &table, "AtariST");
 }
 
 void

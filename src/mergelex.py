@@ -37,7 +37,7 @@ static RECODE_SUBTASK subtask;
 
 #define YY_INPUT(buf, result, max_size) \
   { \
-    int c = get_byte (subtask); \
+    int c = recode_get_byte (subtask); \
     result = (c == EOF) ? YY_NULL : (buf[0] = c, 1); \
   }
 %}

@@ -29,19 +29,19 @@ permute_21 (RECODE_SUBTASK subtask)
 
   while (true)
     {
-      character1 = get_byte (subtask);
+      character1 = recode_get_byte (subtask);
       if (character1 == EOF)
 	break;
 
-      character2 = get_byte (subtask);
+      character2 = recode_get_byte (subtask);
       if (character2 == EOF)
 	{
-	  put_byte (character1, subtask);
+	  recode_put_byte (character1, subtask);
 	  break;
 	}
 
-      put_byte (character2, subtask);
-      put_byte (character1, subtask);
+      recode_put_byte (character2, subtask);
+      recode_put_byte (character1, subtask);
     }
 
   SUBTASK_RETURN (subtask);
@@ -57,38 +57,38 @@ permute_4321 (RECODE_SUBTASK subtask)
 
   while (true)
     {
-      character1 = get_byte (subtask);
+      character1 = recode_get_byte (subtask);
       if (character1 == EOF)
 	break;
 
-      character2 = get_byte (subtask);
+      character2 = recode_get_byte (subtask);
       if (character2 == EOF)
 	{
-	  put_byte (character1, subtask);
+	  recode_put_byte (character1, subtask);
 	  break;
 	}
 
-      character3 = get_byte (subtask);
+      character3 = recode_get_byte (subtask);
       if (character3 == EOF)
 	{
-	  put_byte (character2, subtask);
-	  put_byte (character1, subtask);
+	  recode_put_byte (character2, subtask);
+	  recode_put_byte (character1, subtask);
 	  break;
 	}
 
-      character4 = get_byte (subtask);
+      character4 = recode_get_byte (subtask);
       if (character4 == EOF)
 	{
-	  put_byte (character3, subtask);
-	  put_byte (character2, subtask);
-	  put_byte (character1, subtask);
+	  recode_put_byte (character3, subtask);
+	  recode_put_byte (character2, subtask);
+	  recode_put_byte (character1, subtask);
 	  break;
 	}
 
-      put_byte (character4, subtask);
-      put_byte (character3, subtask);
-      put_byte (character2, subtask);
-      put_byte (character1, subtask);
+      recode_put_byte (character4, subtask);
+      recode_put_byte (character3, subtask);
+      recode_put_byte (character2, subtask);
+      recode_put_byte (character1, subtask);
     }
 
   SUBTASK_RETURN (subtask);
@@ -98,19 +98,19 @@ bool
 module_permutations (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, "data", "21-Permutation",
+    recode_declare_single (outer, "data", "21-Permutation",
 		    outer->quality_variable_to_variable,
 		    NULL, permute_21)
-    && declare_single (outer, "21-Permutation", "data",
+    && recode_declare_single (outer, "21-Permutation", "data",
 		       outer->quality_variable_to_variable,
 		       NULL, permute_21)
-    && declare_single (outer, "data", "4321-Permutation",
+    && recode_declare_single (outer, "data", "4321-Permutation",
 		       outer->quality_variable_to_variable,
 		       NULL, permute_4321)
-    && declare_single (outer, "4321-Permutation", "data",
+    && recode_declare_single (outer, "4321-Permutation", "data",
 		       outer->quality_variable_to_variable,
 		       NULL, permute_4321)
-    && declare_alias (outer, "swabytes", "21-Permutation");
+    && recode_declare_alias (outer, "swabytes", "21-Permutation");
 }
 
 void

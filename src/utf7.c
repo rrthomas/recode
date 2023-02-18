@@ -72,7 +72,7 @@ transform_utf16_utf7 (RECODE_SUBTASK subtask)
 {
   unsigned value;
 
-  if (!get_ucs2 (&value, subtask))
+  if (!recode_get_ucs2 (&value, subtask))
     SUBTASK_RETURN (subtask);
 
   while (true)
@@ -81,15 +81,15 @@ transform_utf16_utf7 (RECODE_SUBTASK subtask)
       {
 	/* Copy one direct character.  */
 
-	put_byte (value, subtask);
-	if (!get_ucs2 (&value, subtask))
+	recode_put_byte (value, subtask);
+	if (!recode_get_ucs2 (&value, subtask))
 	  SUBTASK_RETURN (subtask);
       }
     else
       {
 	/* Copy a string of non-direct characters.  */
 
-	put_byte ('+', subtask);
+	recode_put_byte ('+', subtask);
 
 	while (!IS_BODY_DIRECT (value))
 	  {
@@ -97,12 +97,12 @@ transform_utf16_utf7 (RECODE_SUBTASK subtask)
 
 	    /* Process first UCS-2 value of a triplet.  */
 
-	    put_byte (base64_value_to_char[BIT_MASK (6) & value >> 10], subtask);
-	    put_byte (base64_value_to_char[BIT_MASK (6) & value >> 4], subtask);
+	    recode_put_byte (base64_value_to_char[BIT_MASK (6) & value >> 10], subtask);
+	    recode_put_byte (base64_value_to_char[BIT_MASK (6) & value >> 4], subtask);
 	    split = (value & BIT_MASK (4)) << 2;
-	    if (!get_ucs2 (&value, subtask))
+	    if (!recode_get_ucs2 (&value, subtask))
 	      {
-		put_byte (base64_value_to_char[split], subtask);
+		recode_put_byte (base64_value_to_char[split], subtask);
 		SUBTASK_RETURN (subtask);
 	      }
 
@@ -110,17 +110,17 @@ transform_utf16_utf7 (RECODE_SUBTASK subtask)
 
 	    if (IS_BODY_DIRECT (value))
 	      {
-		put_byte (base64_value_to_char[split], subtask);
+		recode_put_byte (base64_value_to_char[split], subtask);
 		break;
 	      }
-	    put_byte (base64_value_to_char[split | (BIT_MASK (2) & value >> 14)],
+	    recode_put_byte (base64_value_to_char[split | (BIT_MASK (2) & value >> 14)],
 		      subtask);
-	    put_byte (base64_value_to_char[BIT_MASK (6) & value >> 8], subtask);
-	    put_byte (base64_value_to_char[BIT_MASK (6) & value >> 2], subtask);
+	    recode_put_byte (base64_value_to_char[BIT_MASK (6) & value >> 8], subtask);
+	    recode_put_byte (base64_value_to_char[BIT_MASK (6) & value >> 2], subtask);
 	    split = (value & BIT_MASK (2)) << 4;
-	    if (!get_ucs2 (&value, subtask))
+	    if (!recode_get_ucs2 (&value, subtask))
 	      {
-		put_byte (base64_value_to_char[split], subtask);
+		recode_put_byte (base64_value_to_char[split], subtask);
 		SUBTASK_RETURN (subtask);
 	      }
 
@@ -128,19 +128,19 @@ transform_utf16_utf7 (RECODE_SUBTASK subtask)
 
 	    if (IS_BODY_DIRECT (value))
 	      {
-		put_byte (base64_value_to_char[split], subtask);
+		recode_put_byte (base64_value_to_char[split], subtask);
 		break;
 	      }
-	    put_byte (base64_value_to_char[split | (BIT_MASK (4) & value >> 12)],
+	    recode_put_byte (base64_value_to_char[split | (BIT_MASK (4) & value >> 12)],
 		      subtask);
-	    put_byte (base64_value_to_char[BIT_MASK (6) & value >> 6], subtask);
-	    put_byte (base64_value_to_char[BIT_MASK (6) & value], subtask);
-	    if (!get_ucs2 (&value, subtask))
+	    recode_put_byte (base64_value_to_char[BIT_MASK (6) & value >> 6], subtask);
+	    recode_put_byte (base64_value_to_char[BIT_MASK (6) & value], subtask);
+	    if (!recode_get_ucs2 (&value, subtask))
 	      SUBTASK_RETURN (subtask);
 	  }
 
 	if (IS_BASE64 (value))
-	  put_byte ('-', subtask);
+	  recode_put_byte ('-', subtask);
       }
 
   SUBTASK_RETURN (subtask);
@@ -153,21 +153,21 @@ transform_utf7_utf16 (RECODE_SUBTASK subtask)
   unsigned value;
   unsigned split;
 
-  character = get_byte (subtask);
+  character = recode_get_byte (subtask);
 
   if (character != EOF && subtask->task->byte_order_mark)
-    put_ucs2 (BYTE_ORDER_MARK, subtask);
+    recode_put_ucs2 (BYTE_ORDER_MARK, subtask);
 
   while (character != EOF)
     if (character == '+')
       {
-	character = get_byte (subtask);
+	character = recode_get_byte (subtask);
 	while (IS_BASE64 (character))
 	  {
 	    /* Process first byte of first quadruplet.  */
 
 	    value = base64_char_to_value[character] << 10;
-	    character = get_byte (subtask);
+	    character = recode_get_byte (subtask);
 
 	    /* Process second byte of first quadruplet.  */
 
@@ -177,7 +177,7 @@ transform_utf7_utf16 (RECODE_SUBTASK subtask)
 		break;
 	      }
 	    value |= base64_char_to_value[character] << 4;
-	    character = get_byte (subtask);
+	    character = recode_get_byte (subtask);
 
 	    /* Process third byte of first quadruplet.  */
 
@@ -190,8 +190,8 @@ transform_utf7_utf16 (RECODE_SUBTASK subtask)
 	    value |= split >> 2;
 	    if (IS_BODY_DIRECT (value))
 	      RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	    put_ucs2 (value, subtask);
-	    character = get_byte (subtask);
+	    recode_put_ucs2 (value, subtask);
+	    character = recode_get_byte (subtask);
 
 	    /* Process fourth byte of first quadruplet.  */
 
@@ -203,7 +203,7 @@ transform_utf7_utf16 (RECODE_SUBTASK subtask)
 	      }
 	    value = ((BIT_MASK (2) & split) << 14
 		     | base64_char_to_value[character] << 8);
-	    character = get_byte (subtask);
+	    character = recode_get_byte (subtask);
 
 	    /* Process first byte of second quadruplet.  */
 
@@ -213,7 +213,7 @@ transform_utf7_utf16 (RECODE_SUBTASK subtask)
 		break;
 	      }
 	    value |= base64_char_to_value[character] << 2;
-	    character = get_byte (subtask);
+	    character = recode_get_byte (subtask);
 
 	    /* Process second byte of second quadruplet.  */
 
@@ -226,8 +226,8 @@ transform_utf7_utf16 (RECODE_SUBTASK subtask)
 	    value |= split >> 4;
 	    if (IS_BODY_DIRECT (value))
 	      RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	    put_ucs2 (value, subtask);
-	    character = get_byte (subtask);
+	    recode_put_ucs2 (value, subtask);
+	    character = recode_get_byte (subtask);
 
 	    /* Process third byte of second quadruplet.  */
 
@@ -239,7 +239,7 @@ transform_utf7_utf16 (RECODE_SUBTASK subtask)
 	      }
 	    value = ((BIT_MASK (4) & split) << 12
 		     | base64_char_to_value[character] << 6);
-	    character = get_byte (subtask);
+	    character = recode_get_byte (subtask);
 
 	    /* Process fourth byte of second quadruplet.  */
 
@@ -251,12 +251,12 @@ transform_utf7_utf16 (RECODE_SUBTASK subtask)
 	    value |= base64_char_to_value[character];
 	    if (IS_BODY_DIRECT (value))
 	      RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	    put_ucs2 (value, subtask);
-	    character = get_byte (subtask);
+	    recode_put_ucs2 (value, subtask);
+	    character = recode_get_byte (subtask);
 	  }
 	if (character == '-')
 	  {
-	    character = get_byte (subtask);
+	    character = recode_get_byte (subtask);
 	    if (!IS_BASE64 (character))
 	      RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
 	  }
@@ -265,9 +265,9 @@ transform_utf7_utf16 (RECODE_SUBTASK subtask)
       {
 	if (!IS_BODY_DIRECT (character))
 	  RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-	put_byte (NUL, subtask);
-	put_byte (character, subtask);
-	character = get_byte (subtask);
+	recode_put_byte (NUL, subtask);
+	recode_put_byte (character, subtask);
+	character = recode_get_byte (subtask);
       }
 
   SUBTASK_RETURN (subtask);
@@ -277,19 +277,19 @@ bool
 module_utf7 (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, "UTF-16", "UNICODE-1-1-UTF-7",	/* RFC1642 */
+    recode_declare_single (outer, "UTF-16", "UNICODE-1-1-UTF-7",	/* RFC1642 */
 		    outer->quality_variable_to_variable,
 		    NULL, transform_utf16_utf7)
-    && declare_single (outer, "UNICODE-1-1-UTF-7", "UTF-16",
+    && recode_declare_single (outer, "UNICODE-1-1-UTF-7", "UTF-16",
 		       outer->quality_variable_to_variable,
 		       NULL, transform_utf7_utf16)
 
-    && declare_alias (outer, "UTF-7", "UNICODE-1-1-UTF-7")
-    && declare_alias (outer, "TF-7", "UNICODE-1-1-UTF-7")
-    && declare_alias (outer, "u7", "UNICODE-1-1-UTF-7")
+    && recode_declare_alias (outer, "UTF-7", "UNICODE-1-1-UTF-7")
+    && recode_declare_alias (outer, "TF-7", "UNICODE-1-1-UTF-7")
+    && recode_declare_alias (outer, "u7", "UNICODE-1-1-UTF-7")
 
     /* Simple UCS-2 does not have to go through UTF-16.  */
-    && declare_single (outer, "ISO-10646-UCS-2", "UNICODE-1-1-UTF-7",
+    && recode_declare_single (outer, "ISO-10646-UCS-2", "UNICODE-1-1-UTF-7",
 		       outer->quality_variable_to_variable,
 		       NULL, transform_utf16_utf7);
 }

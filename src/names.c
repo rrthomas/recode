@@ -30,7 +30,7 @@
 `-------------------------------------------------------------------------*/
 
 _GL_ATTRIBUTE_PURE int
-code_to_ucs2 (RECODE_CONST_SYMBOL charset, unsigned code)
+recode_code_to_ucs2 (RECODE_CONST_SYMBOL charset, unsigned code)
 {
   /* FIXME: if no specific UCS-2 translation, assume an identity map.  */
   if (charset->data_type != RECODE_STRIP_DATA)
@@ -64,10 +64,10 @@ check_restricted (RECODE_CONST_OUTER outer,
       /* Reject the charset if the characters in the pair do not exist of
 	 if their respective definition do not match.  */
 
-      left = code_to_ucs2 (before, pair->left);
+      left = recode_code_to_ucs2 (before, pair->left);
       if (left < 0)
 	return true;
-      right = code_to_ucs2 (after, pair->right);
+      right = recode_code_to_ucs2 (after, pair->right);
       if (right < 0)
 	return true;
       if (left != right)
@@ -117,7 +117,7 @@ alias_free (void *void_alias)
 }
 
 bool
-prepare_for_aliases (RECODE_OUTER outer)
+recode_prepare_for_aliases (RECODE_OUTER outer)
 {
   outer->symbol_list = NULL;
   outer->number_of_symbols = 0;
@@ -240,7 +240,7 @@ disambiguate_name (RECODE_OUTER outer,
 `----------------------------------------------------------------------------*/
 
 void
-delete_alias (RECODE_ALIAS alias)
+recode_delete_alias (RECODE_ALIAS alias)
 {
   free (alias->symbol);
   free (alias);
@@ -255,7 +255,7 @@ delete_alias (RECODE_ALIAS alias)
 `----------------------------------------------------------------------------*/
 
 RECODE_ALIAS
-find_alias (RECODE_OUTER outer, const char *name,
+recode_find_alias (RECODE_OUTER outer, const char *name,
 	    enum alias_find_type find_type)
 {
   struct recode_alias lookup;
@@ -316,7 +316,7 @@ find_alias (RECODE_OUTER outer, const char *name,
   alias->implied_surfaces = NULL;
   if (!hash_insert ((Hash_table *) outer->alias_table, alias))
     {
-      delete_alias (alias);
+      recode_delete_alias (alias);
       return NULL;
     }
 
@@ -332,7 +332,7 @@ find_alias (RECODE_OUTER outer, const char *name,
 `-----------------------------------------------------------------------*/
 
 RECODE_ALIAS
-declare_alias (RECODE_OUTER outer, const char *name, const char *old_name)
+recode_declare_alias (RECODE_OUTER outer, const char *name, const char *old_name)
 {
   struct recode_alias lookup;
   RECODE_ALIAS alias;
@@ -340,7 +340,7 @@ declare_alias (RECODE_OUTER outer, const char *name, const char *old_name)
 
   /* Find the symbol.  */
 
-  if (alias = find_alias (outer, old_name, SYMBOL_CREATE_CHARSET), !alias)
+  if (alias = recode_find_alias (outer, old_name, SYMBOL_CREATE_CHARSET), !alias)
     return NULL;
   symbol = alias->symbol;
 
@@ -377,7 +377,7 @@ declare_alias (RECODE_OUTER outer, const char *name, const char *old_name)
 `-------------------------------------------------------------------------*/
 
 bool
-declare_implied_surface (RECODE_OUTER outer, RECODE_ALIAS alias,
+recode_declare_implied_surface (RECODE_OUTER outer, RECODE_ALIAS alias,
 			 RECODE_CONST_SYMBOL surface)
 {
   struct recode_surface_list *list;
@@ -459,7 +459,7 @@ make_argmatch_walker_2 (void *void_alias, void *void_walk)
 }
 
 bool
-make_argmatch_arrays (RECODE_OUTER outer)
+recode_make_argmatch_arrays (RECODE_OUTER outer)
 {
   struct make_argmatch_walk walk; /* wanderer's data */
 
@@ -661,7 +661,7 @@ list_symbols_walker_2 (void *void_alias, void *void_walk)
 }
 
 bool
-list_all_symbols (RECODE_OUTER outer, RECODE_CONST_SYMBOL after)
+recode_list_all_symbols (RECODE_OUTER outer, RECODE_CONST_SYMBOL after)
 {
   struct list_symbols_walk walk; /* wanderer's data */
   RECODE_ALIAS alias;		/* cursor into sorted array */
@@ -743,7 +743,7 @@ list_all_symbols (RECODE_OUTER outer, RECODE_CONST_SYMBOL after)
 `-----------------------------------------------------------------*/
 
 bool
-decode_known_pairs (RECODE_OUTER outer, const char *string)
+recode_decode_known_pairs (RECODE_OUTER outer, const char *string)
 {
   const char *cursor;
   char *after;
@@ -829,9 +829,9 @@ decode_known_pairs (RECODE_OUTER outer, const char *string)
 `-----------------------------------------------------------------*/
 
 bool
-list_concise_charset (RECODE_OUTER outer,
-		      RECODE_CONST_SYMBOL charset,
-		      const enum recode_list_format list_format)
+recode_list_concise_charset (RECODE_OUTER outer,
+                             RECODE_CONST_SYMBOL charset,
+                             const enum recode_list_format list_format)
 {
   unsigned half;		/* half 0, half 1 of the table */
   const char *format;		/* format string */
@@ -883,7 +883,7 @@ list_concise_charset (RECODE_OUTER outer,
       /* Skip printing this half if it is empty.  */
 
       for (code = 128 * half; code < 128 * (half + 1); code++)
-	if (code_to_ucs2 (charset, code) >= 0)
+	if (recode_code_to_ucs2 (charset, code) >= 0)
 	  break;
       if (code == 128 * (half + 1))
 	continue;
@@ -901,8 +901,8 @@ list_concise_charset (RECODE_OUTER outer,
 	      printf ("  ");
 
 	    code = counter + counter2;
-	    ucs2 = code_to_ucs2 (charset, code);
-	    mnemonic = ucs2 >= 0 ? ucs2_to_rfc1345 (ucs2) : NULL;
+	    ucs2 = recode_code_to_ucs2 (charset, code);
+	    mnemonic = ucs2 >= 0 ? recode_ucs2_to_rfc1345 (ucs2) : NULL;
 
 	    /* FIXME: Trailing space elimination is not always effective.  */
 
@@ -931,7 +931,7 @@ list_concise_charset (RECODE_OUTER outer,
 static void
 list_full_charset_line (int code, recode_ucs2 ucs2, bool french)
 {
-  const char *mnemonic = ucs2_to_rfc1345 (ucs2);
+  const char *mnemonic = recode_ucs2_to_rfc1345 (ucs2);
   const char *charname;
 
   if (code >= 0)
@@ -948,15 +948,15 @@ list_full_charset_line (int code, recode_ucs2 ucs2, bool french)
 
   if (french)
     {
-      charname = ucs2_to_french_charname (ucs2);
+      charname = recode_ucs2_to_french_charname (ucs2);
       if (!charname)
-	charname = ucs2_to_charname (ucs2);
+	charname = recode_ucs2_to_charname (ucs2);
     }
   else
     {
-      charname = ucs2_to_charname (ucs2);
+      charname = recode_ucs2_to_charname (ucs2);
       if (!charname)
-	charname = ucs2_to_french_charname (ucs2);
+	charname = recode_ucs2_to_french_charname (ucs2);
     }
 
   if (charname)
@@ -972,7 +972,7 @@ list_full_charset_line (int code, recode_ucs2 ucs2, bool french)
 `-----------------------------------------------*/
 
 bool
-should_prefer_french (void)
+recode_should_prefer_french (void)
 {
   const char *string = setlocale(LC_MESSAGES, NULL);
 
@@ -980,9 +980,9 @@ should_prefer_french (void)
 }
 
 bool
-list_full_charset (RECODE_OUTER outer, RECODE_CONST_SYMBOL charset)
+recode_list_full_charset (RECODE_OUTER outer, RECODE_CONST_SYMBOL charset)
 {
-  bool french = should_prefer_french();
+  bool french = recode_should_prefer_french();
 
   /* See which data is available.  */
 
@@ -1047,7 +1047,7 @@ list_full_charset (RECODE_OUTER outer, RECODE_CONST_SYMBOL charset)
 	insert_white = true;
 
 	for (code = 0; code < 256; code++)
-	  if ((ucs2 = code_to_ucs2 (charset, code)), ucs2 >= 0)
+	  if ((ucs2 = recode_code_to_ucs2 (charset, code)), ucs2 >= 0)
 	    {
 	      if (insert_white)
 		{
@@ -1074,7 +1074,7 @@ list_full_charset (RECODE_OUTER outer, RECODE_CONST_SYMBOL charset)
 `----------------------------------------------------------------------------*/
 
 bool
-find_and_report_subsets (RECODE_OUTER outer)
+recode_find_and_report_subsets (RECODE_OUTER outer)
 {
   bool success = true;
   RECODE_SYMBOL charset1;

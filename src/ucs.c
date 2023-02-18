@@ -376,7 +376,7 @@ static const unsigned short combining_data [] =
    the first, starting with a byte order mark, regardless of byte order.  */
 
 bool
-get_ucs2 (unsigned *value, RECODE_SUBTASK subtask)
+recode_get_ucs2 (unsigned *value, RECODE_SUBTASK subtask)
 {
   while (true)
     {
@@ -384,10 +384,10 @@ get_ucs2 (unsigned *value, RECODE_SUBTASK subtask)
       int character2;
       unsigned chunk;
 
-      character1 = get_byte (subtask);
+      character1 = recode_get_byte (subtask);
       if (character1 == EOF)
 	return false;
-      character2 = get_byte (subtask);
+      character2 = recode_get_byte (subtask);
       if (character2 == EOF)
 	{
 	  recode_if_nogo (RECODE_INVALID_INPUT, subtask);
@@ -466,10 +466,10 @@ get_ucs2 (unsigned *value, RECODE_SUBTASK subtask)
 `-------------------------------*/
 
 bool
-put_ucs2 (unsigned value, RECODE_SUBTASK subtask)
+recode_put_ucs2 (unsigned value, RECODE_SUBTASK subtask)
 {
-  put_byte (BIT_MASK (8) & value >> 8, subtask);
-  put_byte (BIT_MASK (8) & value, subtask);
+  recode_put_byte (BIT_MASK (8) & value >> 8, subtask);
+  recode_put_byte (BIT_MASK (8) & value, subtask);
   return true;
 }
 
@@ -480,17 +480,17 @@ put_ucs2 (unsigned value, RECODE_SUBTASK subtask)
 `-------------------------------*/
 
 bool
-get_ucs4 (unsigned *value, RECODE_SUBTASK subtask)
+recode_get_ucs4 (unsigned *value, RECODE_SUBTASK subtask)
 {
   int character;
   unsigned chunk;
 
-  character = get_byte (subtask);
+  character = recode_get_byte (subtask);
   if (character == EOF)
     return false;
   chunk = (BIT_MASK (8) & character) << 24;
 
-  character = get_byte (subtask);
+  character = recode_get_byte (subtask);
   if (character == EOF)
     {
       recode_if_nogo (RECODE_INVALID_INPUT, subtask);
@@ -498,7 +498,7 @@ get_ucs4 (unsigned *value, RECODE_SUBTASK subtask)
     }
   chunk |= (BIT_MASK (8) & character) << 16;
 
-  character = get_byte (subtask);
+  character = recode_get_byte (subtask);
   if (character == EOF)
     {
       recode_if_nogo (RECODE_INVALID_INPUT, subtask);
@@ -506,7 +506,7 @@ get_ucs4 (unsigned *value, RECODE_SUBTASK subtask)
     }
   chunk |= (BIT_MASK (8) & character) << 8;
 
-  character = get_byte (subtask);
+  character = recode_get_byte (subtask);
   if (character == EOF)
     {
       recode_if_nogo (RECODE_INVALID_INPUT, subtask);
@@ -523,12 +523,12 @@ get_ucs4 (unsigned *value, RECODE_SUBTASK subtask)
 `-------------------------------*/
 
 bool
-put_ucs4 (unsigned value, RECODE_SUBTASK subtask)
+recode_put_ucs4 (unsigned value, RECODE_SUBTASK subtask)
 {
-  put_byte (BIT_MASK (8) & value >> 24, subtask);
-  put_byte (BIT_MASK (8) & value >> 16, subtask);
-  put_byte (BIT_MASK (8) & value >> 8, subtask);
-  put_byte (BIT_MASK (8) & value, subtask);
+  recode_put_byte (BIT_MASK (8) & value >> 24, subtask);
+  recode_put_byte (BIT_MASK (8) & value >> 16, subtask);
+  recode_put_byte (BIT_MASK (8) & value >> 8, subtask);
+  recode_put_byte (BIT_MASK (8) & value, subtask);
   return true;
 }
 
@@ -546,7 +546,7 @@ init_combined_ucs2 (RECODE_STEP step,
 {
   step->before->data_type = RECODE_EXPLODE_DATA;
   step->before->data = (void *) combining_data;
-  return init_explode (step, request, before_options, after_options);
+  return recode_init_explode (step, request, before_options, after_options);
 }
 
 static bool
@@ -557,7 +557,7 @@ init_ucs2_combined (RECODE_STEP step,
 {
   step->after->data_type = RECODE_EXPLODE_DATA;
   step->after->data = (void *) combining_data;
-  return init_combine (step, request, before_options, after_options);
+  return recode_init_combine (step, request, before_options, after_options);
 }
 
 /*-----------------------------.
@@ -569,8 +569,8 @@ transform_latin1_ucs4 (RECODE_SUBTASK subtask)
 {
   int character;
 
-  while (character = get_byte (subtask), character != EOF)
-    put_ucs4 (BIT_MASK (8) & character, subtask);
+  while (character = recode_get_byte (subtask), character != EOF)
+    recode_put_ucs4 (BIT_MASK (8) & character, subtask);
 
   SUBTASK_RETURN (subtask);
 }
@@ -584,8 +584,8 @@ transform_ucs2_ucs4 (RECODE_SUBTASK subtask)
 {
   unsigned value;
 
-  while (get_ucs2 (&value, subtask))
-    put_ucs4 (value, subtask);
+  while (recode_get_ucs2 (&value, subtask))
+    recode_put_ucs4 (value, subtask);
 
   SUBTASK_RETURN (subtask);
 }
@@ -598,32 +598,32 @@ bool
 module_ucs (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, "combined-UCS-2", "ISO-10646-UCS-2",
+    recode_declare_single (outer, "combined-UCS-2", "ISO-10646-UCS-2",
 		    outer->quality_ucs2_to_variable,
-		    init_combined_ucs2, explode_ucs2_ucs2)
-    && declare_single (outer, "ISO-10646-UCS-2", "combined-UCS-2",
+		    init_combined_ucs2, recode_explode_ucs2_ucs2)
+    && recode_declare_single (outer, "ISO-10646-UCS-2", "combined-UCS-2",
 		       outer->quality_variable_to_ucs2,
-		       init_ucs2_combined, combine_ucs2_ucs2)
-    && declare_single (outer, "latin1", "ISO-10646-UCS-4",
+		       init_ucs2_combined, recode_combine_ucs2_ucs2)
+    && recode_declare_single (outer, "latin1", "ISO-10646-UCS-4",
 		       outer->quality_byte_to_variable,
 		       NULL, transform_latin1_ucs4)
-    && declare_single (outer, "ISO-10646-UCS-2", "ISO-10646-UCS-4",
+    && recode_declare_single (outer, "ISO-10646-UCS-2", "ISO-10646-UCS-4",
 		       outer->quality_variable_to_variable,
 		       NULL, transform_ucs2_ucs4)
 
-    && declare_alias (outer, "UCS", "ISO-10646-UCS-4")
-    && declare_alias (outer, "UCS-4", "ISO-10646-UCS-4")
-    && declare_alias (outer, "ISO_10646", "ISO-10646-UCS-4")
-    && declare_alias (outer, "10646", "ISO-10646-UCS-4")
-    && declare_alias (outer, "u4", "ISO-10646-UCS-4")
+    && recode_declare_alias (outer, "UCS", "ISO-10646-UCS-4")
+    && recode_declare_alias (outer, "UCS-4", "ISO-10646-UCS-4")
+    && recode_declare_alias (outer, "ISO_10646", "ISO-10646-UCS-4")
+    && recode_declare_alias (outer, "10646", "ISO-10646-UCS-4")
+    && recode_declare_alias (outer, "u4", "ISO-10646-UCS-4")
 
-    && declare_alias (outer, "UCS-2", "ISO-10646-UCS-2")
-    && declare_alias (outer, "UNICODE-1-1", "ISO-10646-UCS-2") /* RFC1641 */
-    && declare_alias (outer, "BMP", "ISO-10646-UCS-2")
-    && declare_alias (outer, "u2", "ISO-10646-UCS-2")
-    && declare_alias (outer, "rune", "ISO-10646-UCS-2")
+    && recode_declare_alias (outer, "UCS-2", "ISO-10646-UCS-2")
+    && recode_declare_alias (outer, "UNICODE-1-1", "ISO-10646-UCS-2") /* RFC1641 */
+    && recode_declare_alias (outer, "BMP", "ISO-10646-UCS-2")
+    && recode_declare_alias (outer, "u2", "ISO-10646-UCS-2")
+    && recode_declare_alias (outer, "rune", "ISO-10646-UCS-2")
 
-    && declare_alias (outer, "co", "combined-UCS-2");
+    && recode_declare_alias (outer, "co", "combined-UCS-2");
 }
 
 void

@@ -24,7 +24,7 @@
 static bool
 transform_java_utf16 (RECODE_SUBTASK subtask)
 {
-  int character = get_byte (subtask);
+  int character = recode_get_byte (subtask);
 
   while (character != EOF)
     if (character == '\\')
@@ -35,13 +35,13 @@ transform_java_utf16 (RECODE_SUBTASK subtask)
         bool canonical = true;
 
         *cursor++ = character;
-        character = get_byte (subtask);
+        character = recode_get_byte (subtask);
         if (character == 'u' || character == 'U')
           {
             if (character == 'U')
               canonical = false;
             *cursor++ = character;
-            character = get_byte (subtask);
+            character = recode_get_byte (subtask);
             while (cursor < buffer + 6)
               {
                 if (character >= '0' && character <= '9')
@@ -56,24 +56,24 @@ transform_java_utf16 (RECODE_SUBTASK subtask)
                 else
                   break;
                 *cursor++ = character;
-                character = get_byte (subtask);
+                character = recode_get_byte (subtask);
               }
             if (cursor == buffer + 6)
               {
                 if (!canonical)
                   RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
-                put_ucs2 (value, subtask);
+                recode_put_ucs2 (value, subtask);
                 continue;
               }
           }
         *cursor = '\0';
         for (cursor = buffer; *cursor; cursor++)
-          put_ucs2 (*cursor, subtask);
+          recode_put_ucs2 (*cursor, subtask);
       }
     else
       {
-        put_ucs2 (character, subtask);
-        character = get_byte (subtask);
+        recode_put_ucs2 (character, subtask);
+        character = recode_get_byte (subtask);
       }
 
   SUBTASK_RETURN (subtask);
@@ -84,9 +84,9 @@ transform_utf16_java (RECODE_SUBTASK subtask)
 {
   unsigned value;
 
-  while (get_ucs2 (&value, subtask))
+  while (recode_get_ucs2 (&value, subtask))
     if (value < 128)
-      put_byte (value, subtask);
+      recode_put_byte (value, subtask);
     else
       {
         char buffer[11];
@@ -94,7 +94,7 @@ transform_utf16_java (RECODE_SUBTASK subtask)
 
         sprintf (buffer, "\\u%04x", value);
         for (cursor = buffer; *cursor; cursor++)
-          put_byte (*cursor, subtask);
+          recode_put_byte (*cursor, subtask);
       }
 
   SUBTASK_RETURN (subtask);
@@ -104,10 +104,10 @@ bool
 module_java (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, "UTF-16", "Java",
+    recode_declare_single (outer, "UTF-16", "Java",
 		       outer->quality_ucs2_to_variable,
 		       NULL, transform_utf16_java)
-    && declare_single (outer, "Java", "UTF-16",
+    && recode_declare_single (outer, "Java", "UTF-16",
 		       outer->quality_variable_to_ucs2,
 		       NULL, transform_java_utf16);
 }

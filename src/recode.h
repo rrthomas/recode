@@ -62,10 +62,10 @@ extern "C" {
 RECODE_OUTER recode_new_outer (unsigned);
 bool recode_delete_outer (RECODE_OUTER);
 
-bool list_all_symbols (RECODE_OUTER, RECODE_CONST_SYMBOL);
-bool list_concise_charset (RECODE_OUTER, RECODE_CONST_SYMBOL,
-                           const enum recode_list_format);
-bool list_full_charset (RECODE_OUTER, RECODE_CONST_SYMBOL);
+bool recode_list_all_symbols (RECODE_OUTER, RECODE_CONST_SYMBOL);
+bool recode_list_concise_charset (RECODE_OUTER, RECODE_CONST_SYMBOL,
+                                  const enum recode_list_format);
+bool recode_list_full_charset (RECODE_OUTER, RECODE_CONST_SYMBOL);
 
 /*----------------------------------.
 | Recode library at REQUEST level.  |

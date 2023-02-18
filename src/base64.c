@@ -83,7 +83,7 @@ transform_data_base64 (RECODE_SUBTASK subtask)
   counter = 0;
   while (true)
     {
-      character = get_byte (subtask);
+      character = recode_get_byte (subtask);
       if (character == EOF)
 	break;
 
@@ -93,47 +93,47 @@ transform_data_base64 (RECODE_SUBTASK subtask)
 	counter++;
       else
 	{
-	  put_byte ('\n', subtask);
+	  recode_put_byte ('\n', subtask);
 	  counter = 1;
 	}
 
       /* Process first byte of a triplet.  */
 
-      put_byte (base64_value_to_char[BIT_MASK (6) & character >> 2], subtask);
+      recode_put_byte (base64_value_to_char[BIT_MASK (6) & character >> 2], subtask);
       value = (BIT_MASK (2) & character) << 4;
 
       /* Process second byte of a triplet.  */
 
-      character = get_byte (subtask);
+      character = recode_get_byte (subtask);
       if (character == EOF)
 	{
-	  put_byte (base64_value_to_char[value], subtask);
-	  put_byte ('=', subtask);
-	  put_byte ('=', subtask);
+	  recode_put_byte (base64_value_to_char[value], subtask);
+	  recode_put_byte ('=', subtask);
+	  recode_put_byte ('=', subtask);
 	  break;
 	}
-      put_byte (base64_value_to_char[value | (BIT_MASK (4) & character >> 4)],
+      recode_put_byte (base64_value_to_char[value | (BIT_MASK (4) & character >> 4)],
 		subtask);
       value = (BIT_MASK (4) & character) << 2;
 
       /* Process third byte of a triplet.  */
 
-      character = get_byte (subtask);
+      character = recode_get_byte (subtask);
       if (character == EOF)
 	{
-	  put_byte (base64_value_to_char[value], subtask);
-	  put_byte ('=', subtask);
+	  recode_put_byte (base64_value_to_char[value], subtask);
+	  recode_put_byte ('=', subtask);
 	  break;
 	}
-      put_byte (base64_value_to_char[value | (BIT_MASK (2) & character >> 6)],
+      recode_put_byte (base64_value_to_char[value | (BIT_MASK (2) & character >> 6)],
 		subtask);
-      put_byte (base64_value_to_char[BIT_MASK (6) & character], subtask);
+      recode_put_byte (base64_value_to_char[BIT_MASK (6) & character], subtask);
     }
 
   /* Complete last partial line.  */
 
   if (counter > 0)
-    put_byte ('\n', subtask);
+    recode_put_byte ('\n', subtask);
 
   SUBTASK_RETURN (subtask);
 }
@@ -149,7 +149,7 @@ transform_base64_data (RECODE_SUBTASK subtask)
     {
       /* Accept wrapping lines, reversibly if at each 76 characters.  */
 
-      character = get_byte (subtask);
+      character = recode_get_byte (subtask);
 
     top:
       if (character == EOF)
@@ -157,7 +157,7 @@ transform_base64_data (RECODE_SUBTASK subtask)
 
       if (character == '\n')
 	{
-          character = get_byte (subtask);
+          character = recode_get_byte (subtask);
 	  if (character == EOF)
             SUBTASK_RETURN (subtask);
 	  if (counter != MIME_LINE_LENGTH / 4)
@@ -187,7 +187,7 @@ transform_base64_data (RECODE_SUBTASK subtask)
 
       /* Process second byte of a quadruplet.  */
 
-      character = get_byte (subtask);
+      character = recode_get_byte (subtask);
       if (character == EOF)
 	{
 	  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
@@ -199,11 +199,11 @@ transform_base64_data (RECODE_SUBTASK subtask)
       else
 	RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
 
-      put_byte (value >> 16, subtask);
+      recode_put_byte (value >> 16, subtask);
 
       /* Process third byte of a quadruplet.  */
 
-      character = get_byte (subtask);
+      character = recode_get_byte (subtask);
       if (character == EOF)
 	{
 	  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
@@ -212,7 +212,7 @@ transform_base64_data (RECODE_SUBTASK subtask)
 
       if (character == '=')
 	{
-	  character = get_byte (subtask);
+	  character = recode_get_byte (subtask);
 	  if (character != '=')
 	    RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
 	  continue;
@@ -223,11 +223,11 @@ transform_base64_data (RECODE_SUBTASK subtask)
       else
 	RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
 
-      put_byte (BIT_MASK (8) & value >> 8, subtask);
+      recode_put_byte (BIT_MASK (8) & value >> 8, subtask);
 
       /* Process fourth byte of a quadruplet.  */
 
-      character = get_byte (subtask);
+      character = recode_get_byte (subtask);
       if (character == EOF)
 	{
 	  RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
@@ -242,7 +242,7 @@ transform_base64_data (RECODE_SUBTASK subtask)
       else
 	RETURN_IF_NOGO (RECODE_INVALID_INPUT, subtask);
 
-      put_byte (BIT_MASK (8) & value, subtask);
+      recode_put_byte (BIT_MASK (8) & value, subtask);
     }
 }
 
@@ -250,14 +250,14 @@ bool
 module_base64 (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, "data", "Base64",
+    recode_declare_single (outer, "data", "Base64",
 		    outer->quality_variable_to_variable,
 		    NULL, transform_data_base64)
-    && declare_single (outer, "Base64", "data",
+    && recode_declare_single (outer, "Base64", "data",
 		       outer->quality_variable_to_variable,
 		       NULL, transform_base64_data)
-    && declare_alias (outer, "b64", "Base64")
-    && declare_alias (outer, "64", "Base64");
+    && recode_declare_alias (outer, "b64", "Base64")
+    && recode_declare_alias (outer, "64", "Base64");
 }
 
 void

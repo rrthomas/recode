@@ -80,9 +80,9 @@ bool
 module_texinfo (RECODE_OUTER outer)
 {
   return
-    declare_explode_data (outer, texinfo_data, "Latin-1", "Texinfo")
-    && declare_alias (outer, "texi", "Texinfo")
-    && declare_alias (outer, "ti", "Texinfo");
+    recode_declare_explode_data (outer, texinfo_data, "Latin-1", "Texinfo")
+    && recode_declare_alias (outer, "texi", "Texinfo")
+    && recode_declare_alias (outer, "ti", "Texinfo");
 }
 
 void

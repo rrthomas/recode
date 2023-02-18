@@ -161,7 +161,7 @@ init_ebcdic_ascii (RECODE_STEP step,
   if (before_options || after_options)
     return false;
 
-  if (step->step_table = invert_table (request->outer, ascii_to_ebcdic),
+  if (step->step_table = recode_invert_table (request->outer, ascii_to_ebcdic),
       step->step_table)
     {
       step->step_type = RECODE_BYTE_TO_BYTE;
@@ -197,7 +197,7 @@ init_ebcdic_ccc_ascii (RECODE_STEP step,
   if (before_options || after_options)
     return false;
 
-  if (step->step_table = invert_table (request->outer, ascii_to_ebcdic_ccc),
+  if (step->step_table = recode_invert_table (request->outer, ascii_to_ebcdic_ccc),
       step->step_table)
     {
       step->step_type = RECODE_BYTE_TO_BYTE;
@@ -232,7 +232,7 @@ init_ebcdic_ibm_ascii (RECODE_STEP step,
   if (before_options || after_options)
     return false;
 
-  if (step->step_table = invert_table (request->outer, ascii_to_ebcdic_ibm),
+  if (step->step_table = recode_invert_table (request->outer, ascii_to_ebcdic_ibm),
       step->step_table)
     {
       step->step_type = RECODE_BYTE_TO_BYTE;
@@ -247,24 +247,24 @@ bool
 module_ebcdic (RECODE_OUTER outer)
 {
   return
-    declare_single (outer, ASCII, "EBCDIC",
+    recode_declare_single (outer, ASCII, "EBCDIC",
 		    outer->quality_byte_reversible,
-		    init_ascii_ebcdic, transform_byte_to_byte)
-    && declare_single (outer, "EBCDIC", ASCII,
+		    init_ascii_ebcdic, recode_transform_byte_to_byte)
+    && recode_declare_single (outer, "EBCDIC", ASCII,
 		       outer->quality_byte_reversible,
-		       init_ebcdic_ascii, transform_byte_to_byte)
-    && declare_single (outer, ASCII, "EBCDIC-CCC",
+		       init_ebcdic_ascii, recode_transform_byte_to_byte)
+    && recode_declare_single (outer, ASCII, "EBCDIC-CCC",
 		       outer->quality_byte_reversible,
-		       init_ascii_ebcdic_ccc, transform_byte_to_byte)
-    && declare_single (outer, "EBCDIC-CCC", ASCII,
+		       init_ascii_ebcdic_ccc, recode_transform_byte_to_byte)
+    && recode_declare_single (outer, "EBCDIC-CCC", ASCII,
 		       outer->quality_byte_reversible,
-		       init_ebcdic_ccc_ascii, transform_byte_to_byte)
-    && declare_single (outer, ASCII, "EBCDIC-IBM",
+		       init_ebcdic_ccc_ascii, recode_transform_byte_to_byte)
+    && recode_declare_single (outer, ASCII, "EBCDIC-IBM",
 		       outer->quality_byte_reversible,
-		       init_ascii_ebcdic_ibm, transform_byte_to_byte)
-    && declare_single (outer, "EBCDIC-IBM", ASCII,
+		       init_ascii_ebcdic_ibm, recode_transform_byte_to_byte)
+    && recode_declare_single (outer, "EBCDIC-IBM", ASCII,
 		       outer->quality_byte_reversible,
-		       init_ebcdic_ibm_ascii, transform_byte_to_byte);
+		       init_ebcdic_ibm_ascii, recode_transform_byte_to_byte);
 }
 
 void

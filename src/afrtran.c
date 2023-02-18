@@ -315,22 +315,22 @@ static const unsigned short lin_data[] =
 bool
 module_afrtran (RECODE_OUTER outer)
 {
-    return declare_explode_data (outer, ful_data,
+    return recode_declare_explode_data (outer, ful_data,
                                  "AFRFUL-102-BPI_OCIL", "AFRFUL-103-BPI_OCIL")
-        && declare_alias (outer, "t-bambara", "AFRFUL-103-BPI_OCIL")
-        && declare_alias (outer, "t-bra", "AFRFUL-103-BPI_OCIL")
-        && declare_alias (outer, "t-ewondo", "AFRFUL-103-BPI_OCIL")
-        && declare_alias (outer, "t-fulfulde", "AFRFUL-103-BPI_OCIL")
-        && declare_explode_data (outer, l1_data,
+        && recode_declare_alias (outer, "t-bambara", "AFRFUL-103-BPI_OCIL")
+        && recode_declare_alias (outer, "t-bra", "AFRFUL-103-BPI_OCIL")
+        && recode_declare_alias (outer, "t-ewondo", "AFRFUL-103-BPI_OCIL")
+        && recode_declare_alias (outer, "t-fulfulde", "AFRFUL-103-BPI_OCIL")
+        && recode_declare_explode_data (outer, l1_data,
                                  "ISO-8859-1", "AFRL1-101-BPI_OCIL")
-        && declare_alias (outer, "t-francais", "AFRL1-101-BPI_OCIL")
-        && declare_alias (outer, "t-fra", "AFRL1-101-BPI_OCIL")
-        && declare_explode_data (outer, lin_data,
+        && recode_declare_alias (outer, "t-francais", "AFRL1-101-BPI_OCIL")
+        && recode_declare_alias (outer, "t-fra", "AFRL1-101-BPI_OCIL")
+        && recode_declare_explode_data (outer, lin_data,
                                  "AFRLIN-104-BPI_OCIL", "AFRLIN-105-BPI_OCIL")
-        && declare_alias (outer, "t-lingala", "AFRLIN-105-BPI_OCIL")
-        && declare_alias (outer, "t-lin", "AFRLIN-105-BPI_OCIL")
-        && declare_alias (outer, "t-sango", "AFRLIN-105-BPI_OCIL")
-        && declare_alias (outer, "t-wolof", "AFRLIN-105-BPI_OCIL");
+        && recode_declare_alias (outer, "t-lingala", "AFRLIN-105-BPI_OCIL")
+        && recode_declare_alias (outer, "t-lin", "AFRLIN-105-BPI_OCIL")
+        && recode_declare_alias (outer, "t-sango", "AFRLIN-105-BPI_OCIL")
+        && recode_declare_alias (outer, "t-wolof", "AFRLIN-105-BPI_OCIL");
 }
 
 void

@@ -27,7 +27,7 @@
 `-----------------------------------------------------------------------*/
 
 _GL_ATTRIBUTE_CONST bool
-reversibility (_GL_UNUSED RECODE_SUBTASK subtask, _GL_UNUSED unsigned code)
+recode_reversibility (_GL_UNUSED RECODE_SUBTASK subtask, _GL_UNUSED unsigned code)
 {
   return false;
 }
@@ -51,7 +51,7 @@ new_single_step (RECODE_OUTER outer)
   single->initial_step_table = NULL;
   single->init_routine = NULL;
   single->transform_routine = NULL;
-  single->fallback_routine = reversibility;
+  single->fallback_routine = recode_reversibility;
 
   return single;
 }
@@ -63,7 +63,7 @@ new_single_step (RECODE_OUTER outer)
 `-------------------------------------------------------------------------*/
 
 RECODE_SINGLE
-declare_single (RECODE_OUTER outer,
+recode_declare_single (RECODE_OUTER outer,
 		const char *before_name, const char *after_name,
 		struct recode_quality quality,
 		Recode_init init_routine, Recode_transform transform_routine)
@@ -77,29 +77,29 @@ declare_single (RECODE_OUTER outer,
   if (strcmp (before_name, "data") == 0)
     {
       single->before = outer->data_symbol;
-      after = find_alias (outer, after_name, SYMBOL_CREATE_DATA_SURFACE);
+      after = recode_find_alias (outer, after_name, SYMBOL_CREATE_DATA_SURFACE);
       single->after = after->symbol;
     }
   else if (strcmp(after_name, "data") == 0)
     {
-      before = find_alias (outer, before_name, SYMBOL_CREATE_DATA_SURFACE);
+      before = recode_find_alias (outer, before_name, SYMBOL_CREATE_DATA_SURFACE);
       single->before = before->symbol;
       single->after = outer->data_symbol;
     }
   else
     {
-      before = find_alias (outer, before_name, SYMBOL_CREATE_CHARSET);
+      before = recode_find_alias (outer, before_name, SYMBOL_CREATE_CHARSET);
       single->before = before->symbol;
-      after = find_alias (outer, after_name, SYMBOL_CREATE_CHARSET);
+      after = recode_find_alias (outer, after_name, SYMBOL_CREATE_CHARSET);
       single->after = after->symbol;
     }
 
   if (!single->before || !single->after)
     {
       if (before)
-        delete_alias (before);
+        recode_delete_alias (before);
       if (after)
-        delete_alias (after);
+        recode_delete_alias (after);
       outer->single_list = single->next;
       free (single);
       return NULL;
@@ -142,14 +142,14 @@ internal_iconv (RECODE_SUBTASK subtask)
 }
 
 bool
-declare_iconv (RECODE_OUTER outer, const char *name, const char *iconv_name)
+recode_declare_iconv (RECODE_OUTER outer, const char *name, const char *iconv_name)
 {
   RECODE_ALIAS alias;
   RECODE_SINGLE single;
 
-  if (alias = find_alias (outer, name, ALIAS_FIND_AS_EITHER),
+  if (alias = recode_find_alias (outer, name, ALIAS_FIND_AS_EITHER),
       !alias)
-    if (alias = find_alias (outer, name, SYMBOL_CREATE_CHARSET),
+    if (alias = recode_find_alias (outer, name, SYMBOL_CREATE_CHARSET),
 	!alias)
       return false;
   assert(alias->symbol->type == RECODE_CHARSET);
@@ -183,7 +183,7 @@ declare_iconv (RECODE_OUTER outer, const char *name, const char *iconv_name)
 `--------------------------------------------------------------------------*/
 
 bool
-declare_explode_data (RECODE_OUTER outer, const unsigned short *data,
+recode_declare_explode_data (RECODE_OUTER outer, const unsigned short *data,
 		      const char *name_combined, const char *name_exploded)
 {
   RECODE_ALIAS alias;
@@ -191,7 +191,7 @@ declare_explode_data (RECODE_OUTER outer, const unsigned short *data,
   RECODE_SYMBOL charset_exploded;
   RECODE_SINGLE single;
 
-  if (alias = find_alias (outer, name_combined, SYMBOL_CREATE_CHARSET),
+  if (alias = recode_find_alias (outer, name_combined, SYMBOL_CREATE_CHARSET),
       !alias)
     return false;
 
@@ -200,7 +200,7 @@ declare_explode_data (RECODE_OUTER outer, const unsigned short *data,
 
   if (name_exploded)
     {
-      if (alias = find_alias (outer, name_exploded, SYMBOL_CREATE_CHARSET),
+      if (alias = recode_find_alias (outer, name_exploded, SYMBOL_CREATE_CHARSET),
 	  !alias)
 	return false;
 
@@ -222,9 +222,9 @@ declare_explode_data (RECODE_OUTER outer, const unsigned short *data,
   single->after = charset_exploded;
   single->quality = outer->quality_byte_to_variable;
   single->initial_step_table = (void *) data;
-  single->init_routine = init_explode;
+  single->init_routine = recode_init_explode;
   single->transform_routine
-    = name_exploded ? explode_byte_byte : explode_byte_ucs2;
+    = name_exploded ? recode_explode_byte_byte : recode_explode_byte_ucs2;
 
   single = new_single_step (outer);
   if (!single)
@@ -234,9 +234,9 @@ declare_explode_data (RECODE_OUTER outer, const unsigned short *data,
   single->after = charset_combined;
   single->quality = outer->quality_variable_to_byte;
   single->initial_step_table = (void *) data;
-  single->init_routine = init_combine;
+  single->init_routine = recode_init_combine;
   single->transform_routine
-    = name_exploded ? combine_byte_byte : combine_ucs2_byte;
+    = name_exploded ? recode_combine_byte_byte : recode_combine_ucs2_byte;
 
   return true;
 }
@@ -246,14 +246,14 @@ declare_explode_data (RECODE_OUTER outer, const unsigned short *data,
 `-------------------------------------------------------------------*/
 
 bool
-declare_strip_data (RECODE_OUTER outer, struct strip_data *data,
+recode_declare_strip_data (RECODE_OUTER outer, struct strip_data *data,
 		    const char *name)
 {
   RECODE_ALIAS alias;
   RECODE_SYMBOL charset;
   RECODE_SINGLE single;
 
-  if (alias = find_alias (outer, name, SYMBOL_CREATE_CHARSET), !alias)
+  if (alias = recode_find_alias (outer, name, SYMBOL_CREATE_CHARSET), !alias)
     return false;
 
   charset = alias->symbol;
@@ -268,7 +268,7 @@ declare_strip_data (RECODE_OUTER outer, struct strip_data *data,
   single->before = charset;
   single->after = outer->ucs2_charset;
   single->quality = outer->quality_byte_to_ucs2;
-  single->transform_routine = transform_byte_to_ucs2;
+  single->transform_routine = recode_transform_byte_to_ucs2;
 
   single = new_single_step (outer);
   if (!single)
@@ -277,8 +277,8 @@ declare_strip_data (RECODE_OUTER outer, struct strip_data *data,
   single->before = outer->ucs2_charset;
   single->after = charset;
   single->quality = outer->quality_ucs2_to_byte;
-  single->init_routine = init_ucs2_to_byte;
-  single->transform_routine = transform_ucs2_to_byte;
+  single->init_routine = recode_init_ucs2_to_byte;
+  single->transform_routine = recode_transform_ucs2_to_byte;
 
   return true;
 }
@@ -385,53 +385,53 @@ register_all_modules (RECODE_OUTER outer)
     table[counter] = counter;
   outer->one_to_same = table;
 
-  prepare_for_aliases (outer);
+  recode_prepare_for_aliases (outer);
   outer->single_list = NULL;
   outer->number_of_singles = 0;
 
-  if (alias = find_alias (outer, "data", SYMBOL_CREATE_CHARSET), !alias)
+  if (alias = recode_find_alias (outer, "data", SYMBOL_CREATE_CHARSET), !alias)
     return false;
   outer->data_symbol = alias->symbol;
 
-  if (alias = find_alias (outer, "ISO-10646-UCS-2", SYMBOL_CREATE_CHARSET),
+  if (alias = recode_find_alias (outer, "ISO-10646-UCS-2", SYMBOL_CREATE_CHARSET),
       !alias)
     return false;
   assert(alias->symbol->type == RECODE_CHARSET);
   outer->ucs2_charset = alias->symbol;
 
-  if (alias = find_alias (outer, ":iconv:", SYMBOL_CREATE_CHARSET),
+  if (alias = recode_find_alias (outer, ":iconv:", SYMBOL_CREATE_CHARSET),
       !alias)
     return false;
   assert(alias->symbol->type == RECODE_CHARSET);
   outer->iconv_pivot = alias->symbol;
-  if (!declare_alias (outer, ":", ":iconv:"))
+  if (!recode_declare_alias (outer, ":", ":iconv:"))
     return false;
   /* Needed for compatibility with Recode 3.6.  */
-  if (!declare_alias (outer, ":libiconv:", ":iconv:"))
+  if (!recode_declare_alias (outer, ":libiconv:", ":iconv:"))
     return false;
 
-  if (alias = find_alias (outer, "CR-LF", SYMBOL_CREATE_CHARSET), !alias)
+  if (alias = recode_find_alias (outer, "CR-LF", SYMBOL_CREATE_CHARSET), !alias)
     return false;
   alias->symbol->type = RECODE_DATA_SURFACE;
   outer->crlf_surface = alias->symbol;
 
-  if (alias = find_alias (outer, "CR", SYMBOL_CREATE_CHARSET), !alias)
+  if (alias = recode_find_alias (outer, "CR", SYMBOL_CREATE_CHARSET), !alias)
     return false;
   alias->symbol->type = RECODE_DATA_SURFACE;
   outer->cr_surface = alias->symbol;
 
-  if (!declare_alias (outer, "ASCII", "ANSI_X3.4-1968"))
+  if (!recode_declare_alias (outer, "ASCII", "ANSI_X3.4-1968"))
     return false;
-  if (!declare_alias (outer, "BS", "ASCII-BS"))
+  if (!recode_declare_alias (outer, "BS", "ASCII-BS"))
     return false;
-  if (!declare_alias (outer, "Latin-1", "ISO-8859-1"))
+  if (!recode_declare_alias (outer, "Latin-1", "ISO-8859-1"))
     return false;
 
 #include "inisteps.h"
 
   /* Force this one last: it does not segregate between charsets and aliases,
      confusing some other initialisations that would come after it.  */
-  if (!make_argmatch_arrays (outer))
+  if (!recode_make_argmatch_arrays (outer))
     return false;
   if (outer->use_iconv)
     if (!module_iconv (outer))
@@ -478,7 +478,7 @@ recode_new_outer (unsigned flags)
   outer->strict_mapping = (flags & RECODE_STRICT_MAPPING_FLAG) != 0;
   outer->force = (flags & RECODE_FORCE_FLAG) != 0;
 
-  if (!register_all_modules (outer) || !make_argmatch_arrays (outer))
+  if (!register_all_modules (outer) || !recode_make_argmatch_arrays (outer))
     {
       recode_delete_outer (outer);
       return NULL;

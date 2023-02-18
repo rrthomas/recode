@@ -80,9 +80,9 @@ init_latin1_iso5426 (RECODE_STEP step,
 bool
 module_latin1_iso5426 (RECODE_OUTER outer)
 {
-  return declare_single (outer, "Latin-1", "ISO_5426:1983-DB-MAB2", 
+  return recode_declare_single (outer, "Latin-1", "ISO_5426:1983-DB-MAB2", 
                          outer->quality_variable_to_byte, init_latin1_iso5426,
-                         transform_byte_to_variable);
+                         recode_transform_byte_to_variable);
 }
 
 void

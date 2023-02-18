@@ -81,7 +81,7 @@ combined_compare (const void *void_first, const void *void_second)
 }
 
 bool
-init_explode (RECODE_STEP step,
+recode_init_explode (RECODE_STEP step,
 	      RECODE_CONST_REQUEST request _GL_UNUSED,
 	      RECODE_CONST_OPTION_LIST before_options,
 	      RECODE_CONST_OPTION_LIST after_options)
@@ -121,12 +121,12 @@ init_explode (RECODE_STEP step,
 `------------------------------------*/
 
 bool
-explode_byte_byte (RECODE_SUBTASK subtask)
+recode_explode_byte_byte (RECODE_SUBTASK subtask)
 {
   Hash_table *table = (Hash_table *) subtask->step->step_table;
   unsigned value;
 
-  while (value = get_byte (subtask), value != (unsigned)EOF)
+  while (value = recode_get_byte (subtask), value != (unsigned)EOF)
     {
       unsigned short lookup = value;
       unsigned short *result = (unsigned short *) hash_lookup (table, &lookup);
@@ -136,24 +136,24 @@ explode_byte_byte (RECODE_SUBTASK subtask)
 	  result++;
 	  while (*result != DONE && *result != ELSE)
 	    {
-	      put_byte (*result, subtask);
+	      recode_put_byte (*result, subtask);
 	      result++;
 	    }
 	}
       else
-	put_byte (value, subtask);
+	recode_put_byte (value, subtask);
     }
 
   SUBTASK_RETURN (subtask);
 }
 
 bool
-explode_ucs2_byte (RECODE_SUBTASK subtask)
+recode_explode_ucs2_byte (RECODE_SUBTASK subtask)
 {
   Hash_table *table = (Hash_table *) subtask->step->step_table;
   unsigned value;
 
-  while (get_ucs2 (&value, subtask))
+  while (recode_get_ucs2 (&value, subtask))
     {
       unsigned short lookup = value;
       unsigned short *result = (unsigned short *) hash_lookup (table, &lookup);
@@ -163,27 +163,27 @@ explode_ucs2_byte (RECODE_SUBTASK subtask)
 	  result++;
 	  while (*result != DONE && *result != ELSE)
 	    {
-	      put_byte (*result, subtask);
+	      recode_put_byte (*result, subtask);
 	      result++;
 	    }
 	}
       else
-	put_byte (value, subtask);
+	recode_put_byte (value, subtask);
     }
 
   SUBTASK_RETURN (subtask);
 }
 
 bool
-explode_byte_ucs2 (RECODE_SUBTASK subtask)
+recode_explode_byte_ucs2 (RECODE_SUBTASK subtask)
 {
   Hash_table *table = (Hash_table *) subtask->step->step_table;
   unsigned value;
 
-  if (value = get_byte (subtask), value != (unsigned)EOF)
+  if (value = recode_get_byte (subtask), value != (unsigned)EOF)
     {
       if (subtask->task->byte_order_mark)
-	put_ucs2 (BYTE_ORDER_MARK, subtask);
+	recode_put_ucs2 (BYTE_ORDER_MARK, subtask);
 
       while (true)
 	{
@@ -195,12 +195,12 @@ explode_byte_ucs2 (RECODE_SUBTASK subtask)
 	    {
 	      result++;
 	      while (*result != DONE && *result != ELSE)
-		put_ucs2 (*result++, subtask);
+		recode_put_ucs2 (*result++, subtask);
 	    }
 	  else
-	    put_ucs2 (value, subtask);
+	    recode_put_ucs2 (value, subtask);
 
-	  if (value = get_byte (subtask), value == (unsigned)EOF)
+	  if (value = recode_get_byte (subtask), value == (unsigned)EOF)
 	    break;
 	}
     }
@@ -209,15 +209,15 @@ explode_byte_ucs2 (RECODE_SUBTASK subtask)
 }
 
 bool
-explode_ucs2_ucs2 (RECODE_SUBTASK subtask)
+recode_explode_ucs2_ucs2 (RECODE_SUBTASK subtask)
 {
   Hash_table *table = (Hash_table *) subtask->step->step_table;
   unsigned value;
 
-  if (get_ucs2 (&value, subtask))
+  if (recode_get_ucs2 (&value, subtask))
     {
       if (subtask->task->byte_order_mark)
-	put_ucs2 (BYTE_ORDER_MARK, subtask);
+	recode_put_ucs2 (BYTE_ORDER_MARK, subtask);
 
       while (true)
 	{
@@ -229,12 +229,12 @@ explode_ucs2_ucs2 (RECODE_SUBTASK subtask)
 	    {
 	      result++;
 	      while (*result != DONE && *result != ELSE)
-		put_ucs2 (*result++, subtask);
+		recode_put_ucs2 (*result++, subtask);
 	    }
 	  else
-	    put_ucs2 (value, subtask);
+	    recode_put_ucs2 (value, subtask);
 
-	  if (!get_ucs2 (&value, subtask))
+	  if (!recode_get_ucs2 (&value, subtask))
 	    break;
 	}
     }
@@ -375,7 +375,7 @@ find_shifted_state (struct state *state, unsigned character,
 }
 
 bool
-init_combine (RECODE_STEP step,
+recode_init_combine (RECODE_STEP step,
 	      RECODE_CONST_REQUEST request _GL_UNUSED,
 	      RECODE_CONST_OPTION_LIST before_options,
 	      RECODE_CONST_OPTION_LIST after_options)
@@ -453,10 +453,10 @@ backtrack_byte (struct state *state, RECODE_SUBTASK subtask)
   if (state->result == NOT_A_CHARACTER)
     {
       backtrack_byte (state->unshift, subtask);
-      put_byte (state->character, subtask);
+      recode_put_byte (state->character, subtask);
     }
   else
-    put_byte (state->result, subtask);
+    recode_put_byte (state->result, subtask);
 }
 
 static void
@@ -465,10 +465,10 @@ backtrack_ucs2 (struct state *state,  RECODE_SUBTASK subtask)
   if (state->result == NOT_A_CHARACTER)
     {
       backtrack_ucs2 (state->unshift, subtask);
-      put_ucs2 (state->character, subtask);
+      recode_put_ucs2 (state->character, subtask);
     }
   else
-    put_ucs2 (state->result, subtask);
+    recode_put_ucs2 (state->result, subtask);
 }
 
 /*------------------------------------.
@@ -476,12 +476,12 @@ backtrack_ucs2 (struct state *state,  RECODE_SUBTASK subtask)
 `------------------------------------*/
 
 bool
-combine_byte_byte (RECODE_SUBTASK subtask)
+recode_combine_byte_byte (RECODE_SUBTASK subtask)
 {
   struct state *state = NULL;
   unsigned value;
 
-  if (value = get_byte (subtask), value != (unsigned)EOF)
+  if (value = recode_get_byte (subtask), value != (unsigned)EOF)
     {
       while (true)
 	{
@@ -491,7 +491,7 @@ combine_byte_byte (RECODE_SUBTASK subtask)
 	  if (shift)
 	    {
 	      state = shift;
-	      if (value = get_byte (subtask), value == (unsigned)EOF)
+	      if (value = recode_get_byte (subtask), value == (unsigned)EOF)
 		break;
 	    }
 	  else if (state)
@@ -499,13 +499,13 @@ combine_byte_byte (RECODE_SUBTASK subtask)
 	      if (state->result == NOT_A_CHARACTER)
 		backtrack_byte (state, subtask);
 	      else
-		put_byte (state->result, subtask);
+		recode_put_byte (state->result, subtask);
 	      state = NULL;
 	    }
 	  else
 	    {
-	      put_byte (value, subtask);
-	      if (value = get_byte (subtask), value == (unsigned)EOF)
+	      recode_put_byte (value, subtask);
+	      if (value = recode_get_byte (subtask), value == (unsigned)EOF)
 		break;
 	    }
 	}
@@ -515,7 +515,7 @@ combine_byte_byte (RECODE_SUBTASK subtask)
 	  if (state->result == NOT_A_CHARACTER)
 	    backtrack_byte (state, subtask);
 	  else
-	    put_byte (state->result, subtask);
+	    recode_put_byte (state->result, subtask);
 	}
     }
 
@@ -523,12 +523,12 @@ combine_byte_byte (RECODE_SUBTASK subtask)
 }
 
 bool
-combine_ucs2_byte (RECODE_SUBTASK subtask)
+recode_combine_ucs2_byte (RECODE_SUBTASK subtask)
 {
   struct state *state = NULL;
   unsigned value;
 
-  if (get_ucs2 (&value, subtask))
+  if (recode_get_ucs2 (&value, subtask))
     {
       while (true)
 	{
@@ -538,7 +538,7 @@ combine_ucs2_byte (RECODE_SUBTASK subtask)
 	  if (shift)
 	    {
 	      state = shift;
-	      if (!get_ucs2 (&value, subtask))
+	      if (!recode_get_ucs2 (&value, subtask))
 		break;
 	    }
 	  else if (state)
@@ -546,13 +546,13 @@ combine_ucs2_byte (RECODE_SUBTASK subtask)
 	      if (state->result == NOT_A_CHARACTER)
 		backtrack_byte (state, subtask);
 	      else
-		put_byte (state->result, subtask);
+		recode_put_byte (state->result, subtask);
 	      state = NULL;
 	    }
 	  else
 	    {
-	      put_byte (value, subtask);
-	      if (!get_ucs2 (&value, subtask))
+	      recode_put_byte (value, subtask);
+	      if (!recode_get_ucs2 (&value, subtask))
 		break;
 	    }
 	}
@@ -562,7 +562,7 @@ combine_ucs2_byte (RECODE_SUBTASK subtask)
 	  if (state->result == NOT_A_CHARACTER)
 	    backtrack_byte (state, subtask);
 	  else
-	    put_byte (state->result, subtask);
+	    recode_put_byte (state->result, subtask);
 	}
     }
 
@@ -570,16 +570,16 @@ combine_ucs2_byte (RECODE_SUBTASK subtask)
 }
 
 bool
-combine_byte_ucs2 (RECODE_SUBTASK subtask)
+recode_combine_byte_ucs2 (RECODE_SUBTASK subtask)
 {
   unsigned value;
 
-  if (value = get_byte (subtask), value != (unsigned)EOF)
+  if (value = recode_get_byte (subtask), value != (unsigned)EOF)
     {
       struct state *state = NULL;
 
       if (subtask->task->byte_order_mark)
-	put_ucs2 (BYTE_ORDER_MARK, subtask);
+	recode_put_ucs2 (BYTE_ORDER_MARK, subtask);
 
       while (true)
 	{
@@ -589,7 +589,7 @@ combine_byte_ucs2 (RECODE_SUBTASK subtask)
 	  if (shift)
 	    {
 	      state = shift;
-	      if (value = get_byte (subtask), value == (unsigned)EOF)
+	      if (value = recode_get_byte (subtask), value == (unsigned)EOF)
 		break;
 	    }
 	  else if (state)
@@ -597,13 +597,13 @@ combine_byte_ucs2 (RECODE_SUBTASK subtask)
 	      if (state->result == NOT_A_CHARACTER)
 		backtrack_ucs2 (state, subtask);
 	      else
-		put_ucs2 (state->result, subtask);
+		recode_put_ucs2 (state->result, subtask);
 	      state = NULL;
 	    }
 	  else
 	    {
-	      put_ucs2 (value, subtask);
-	      if (value = get_byte (subtask), value == (unsigned)EOF)
+	      recode_put_ucs2 (value, subtask);
+	      if (value = recode_get_byte (subtask), value == (unsigned)EOF)
 		break;
 	    }
 	}
@@ -613,7 +613,7 @@ combine_byte_ucs2 (RECODE_SUBTASK subtask)
 	  if (state->result == NOT_A_CHARACTER)
 	    backtrack_ucs2 (state, subtask);
 	  else
-	    put_ucs2 (state->result, subtask);
+	    recode_put_ucs2 (state->result, subtask);
 	}
     }
 
@@ -621,16 +621,16 @@ combine_byte_ucs2 (RECODE_SUBTASK subtask)
 }
 
 bool
-combine_ucs2_ucs2 (RECODE_SUBTASK subtask)
+recode_combine_ucs2_ucs2 (RECODE_SUBTASK subtask)
 {
   unsigned value;
 
-  if (get_ucs2 (&value, subtask))
+  if (recode_get_ucs2 (&value, subtask))
     {
       struct state *state = NULL;
 
       if (subtask->task->byte_order_mark)
-	put_ucs2 (BYTE_ORDER_MARK, subtask);
+	recode_put_ucs2 (BYTE_ORDER_MARK, subtask);
 
       while (true)
 	{
@@ -640,7 +640,7 @@ combine_ucs2_ucs2 (RECODE_SUBTASK subtask)
 	  if (shift)
 	    {
 	      state = shift;
-	      if (!get_ucs2 (&value, subtask))
+	      if (!recode_get_ucs2 (&value, subtask))
 		break;
 	    }
 	  else if (state)
@@ -648,13 +648,13 @@ combine_ucs2_ucs2 (RECODE_SUBTASK subtask)
 	      if (state->result == NOT_A_CHARACTER)
 		backtrack_ucs2 (state, subtask);
 	      else
-		put_ucs2 (state->result, subtask);
+		recode_put_ucs2 (state->result, subtask);
 	      state = NULL;
 	    }
 	  else
 	    {
-	      put_ucs2 (value, subtask);
-	      if (!get_ucs2 (&value, subtask))
+	      recode_put_ucs2 (value, subtask);
+	      if (!recode_get_ucs2 (&value, subtask))
 		break;
 	    }
 	}
@@ -664,7 +664,7 @@ combine_ucs2_ucs2 (RECODE_SUBTASK subtask)
 	  if (state->result == NOT_A_CHARACTER)
 	    backtrack_ucs2 (state, subtask);
 	  else
-	    put_ucs2 (state->result, subtask);
+	    recode_put_ucs2 (state->result, subtask);
 	}
     }
 

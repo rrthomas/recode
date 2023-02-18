@@ -59,7 +59,7 @@ dump (RECODE_SUBTASK subtask,
 {
   unsigned per_line = per_line_table[base][size];
   unsigned column = 0;
-  int character = get_byte (subtask);
+  int character = recode_get_byte (subtask);
 
   while (character != EOF)
     {
@@ -70,7 +70,7 @@ dump (RECODE_SUBTASK subtask,
 
       for (byte_count = 1; byte_count < size; byte_count++)
 	{
-	  character = get_byte (subtask);
+	  character = recode_get_byte (subtask);
 	  if (character == EOF)
 	    break;
 	  value = (value << 8) | (BIT_MASK (8) & character);
@@ -80,16 +80,16 @@ dump (RECODE_SUBTASK subtask,
 
       if (column == per_line)
 	{
-	  put_byte (',', subtask);
-	  put_byte ('\n', subtask);
+	  recode_put_byte (',', subtask);
+	  recode_put_byte ('\n', subtask);
 	  column = 1;
 	}
       else if (column == 0)
 	column = 1;
       else
 	{
-	  put_byte (',', subtask);
-	  put_byte (' ', subtask);
+	  recode_put_byte (',', subtask);
+	  recode_put_byte (' ', subtask);
 	  column++;
 	}
 
@@ -100,15 +100,15 @@ dump (RECODE_SUBTASK subtask,
       sprintf (buffer, format_table[base][byte_count], value);
 #pragma GCC diagnostic pop
       for (cursor = buffer; *cursor; cursor++)
-	put_byte (*cursor, subtask);
+	recode_put_byte (*cursor, subtask);
 
       /* Prepare for next iteration.  */
 
       if (character != EOF)
-	character = get_byte (subtask);
+	character = recode_get_byte (subtask);
     }
 
-  put_byte ('\n', subtask);
+  recode_put_byte ('\n', subtask);
   SUBTASK_RETURN (subtask);
 }
 
@@ -118,7 +118,7 @@ undump (RECODE_SUBTASK subtask,
 {
   unsigned per_line = per_line_table[expected_base][expected_size];
   unsigned column = 0;
-  int character = get_byte (subtask);
+  int character = recode_get_byte (subtask);
   bool last_is_short = false;
   bool comma_on_last = character != EOF;
 
@@ -138,7 +138,7 @@ undump (RECODE_SUBTASK subtask,
 	  else
 	    RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
 
-	  character = get_byte (subtask);
+	  character = recode_get_byte (subtask);
 	}
       if (character == EOF)
 	{
@@ -152,7 +152,7 @@ undump (RECODE_SUBTASK subtask,
 
       if (character == '0')
 	{
-	  character = get_byte (subtask);
+	  character = recode_get_byte (subtask);
 
 	  if (character == 'x')
 	    {
@@ -160,7 +160,7 @@ undump (RECODE_SUBTASK subtask,
 		RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
 	      width = 0;
 	      base = HEXADECIMAL;
-	      character = get_byte (subtask);
+	      character = recode_get_byte (subtask);
 	    }
 	  else if (character >= '0' && character <= '9')
 	    {
@@ -188,9 +188,9 @@ undump (RECODE_SUBTASK subtask,
 
 	  RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
 	  while (character != '\n' && character != EOF)
-	    character = get_byte (subtask);
+	    character = recode_get_byte (subtask);
 	  if (character == '\n')
-	    character = get_byte (subtask);
+	    character = recode_get_byte (subtask);
 
 	  continue;
 	}
@@ -207,7 +207,7 @@ undump (RECODE_SUBTASK subtask,
 	    {
 	      value = (value << 3) | (character - '0');
 	      width++;
-	      character = get_byte (subtask);
+	      character = recode_get_byte (subtask);
 	    }
 	  break;
 
@@ -216,7 +216,7 @@ undump (RECODE_SUBTASK subtask,
 	    {
 	      value = value * 10 + character - '0';
 	      width++;
-	      character = get_byte (subtask);
+	      character = recode_get_byte (subtask);
 	    }
 	  break;
 
@@ -226,19 +226,19 @@ undump (RECODE_SUBTASK subtask,
 	      {
 		value = (value << 4) | (character - '0');
 		width++;
-		character = get_byte (subtask);
+		character = recode_get_byte (subtask);
 	      }
 	    else if (character >= 'A' && character <= 'F')
 	      {
 		value = (value << 4) | (character - 'A' + 10);
 		width++;
-		character = get_byte (subtask);
+		character = recode_get_byte (subtask);
 	      }
 	    else if (character >= 'a' && character <= 'f')
 	      {
 		value = (value << 4) | (character - 'a' + 10);
 		width++;
-		character = get_byte (subtask);
+		character = recode_get_byte (subtask);
 	      }
 	    else
 	      break;
@@ -285,7 +285,7 @@ undump (RECODE_SUBTASK subtask,
 
 	  /* Produce the output bytes.  */
           for (unsigned shift = size; shift != 0; shift--)
-            put_byte (BIT_MASK (8) & value >> ((shift * 8) - 8), subtask);
+            recode_put_byte (BIT_MASK (8) & value >> ((shift * 8) - 8), subtask);
 	}
 
       /* Skip separators.  */
@@ -294,24 +294,24 @@ undump (RECODE_SUBTASK subtask,
       if (!comma_on_last)
 	{
 	  if (character == '\n')
-	    character = get_byte (subtask);
+	    character = recode_get_byte (subtask);
 	  else
 	    RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
 	}
       else
 	{
-	  character = get_byte (subtask);
+	  character = recode_get_byte (subtask);
 	  if (character == ' ')
 	    {
 	      column++;
-	      character = get_byte (subtask);
+	      character = recode_get_byte (subtask);
 	    }
 	  else if (character == '\n')
 	    {
 	      if (column + 1!= per_line)
 		RETURN_IF_NOGO (RECODE_NOT_CANONICAL, subtask);
 	      column = 0;
-	      character = get_byte (subtask);
+	      character = recode_get_byte (subtask);
 	    }
 	}
     }
@@ -356,81 +356,81 @@ module_dump (RECODE_OUTER outer)
 
   /* Single bytes.  */
 
-       declare_single (outer, "data", "Octal-1",
+       recode_declare_single (outer, "data", "Octal-1",
                        outer->quality_variable_to_variable,
                        NULL, data_oct1)
-    && declare_single (outer, "data", "Decimal-1",
+    && recode_declare_single (outer, "data", "Decimal-1",
                        outer->quality_variable_to_variable,
                        NULL, data_dec1)
-    && declare_single (outer, "data", "Hexadecimal-1",
+    && recode_declare_single (outer, "data", "Hexadecimal-1",
                        outer->quality_variable_to_variable,
                        NULL, data_hex1)
-    && declare_single (outer, "Octal-1", "data",
+    && recode_declare_single (outer, "Octal-1", "data",
                        outer->quality_variable_to_variable,
                        NULL, oct1_data)
-    && declare_single (outer, "Decimal-1", "data",
+    && recode_declare_single (outer, "Decimal-1", "data",
                        outer->quality_variable_to_variable,
                        NULL, dec1_data)
-    && declare_single (outer, "Hexadecimal-1", "data",
+    && recode_declare_single (outer, "Hexadecimal-1", "data",
                        outer->quality_variable_to_variable,
                        NULL, hex1_data)
 
-    && declare_alias (outer, "o1", "Octal-1")
-    && declare_alias (outer, "d1", "Decimal-1")
-    && declare_alias (outer, "x1", "Hexadecimal-1")
-    && declare_alias (outer, "o", "Octal-1")
-    && declare_alias (outer, "d", "Decimal-1")
-    && declare_alias (outer, "x", "Hexadecimal-1")
+    && recode_declare_alias (outer, "o1", "Octal-1")
+    && recode_declare_alias (outer, "d1", "Decimal-1")
+    && recode_declare_alias (outer, "x1", "Hexadecimal-1")
+    && recode_declare_alias (outer, "o", "Octal-1")
+    && recode_declare_alias (outer, "d", "Decimal-1")
+    && recode_declare_alias (outer, "x", "Hexadecimal-1")
 
   /* Double bytes.  */
 
-    && declare_single (outer, "data", "Octal-2",
+    && recode_declare_single (outer, "data", "Octal-2",
 		       outer->quality_variable_to_variable,
 		       NULL, data_oct2)
-    && declare_single (outer, "data", "Decimal-2",
+    && recode_declare_single (outer, "data", "Decimal-2",
 		       outer->quality_variable_to_variable,
 		       NULL, data_dec2)
-    && declare_single (outer, "data", "Hexadecimal-2",
+    && recode_declare_single (outer, "data", "Hexadecimal-2",
 		       outer->quality_variable_to_variable,
 		       NULL, data_hex2)
-    && declare_single (outer, "Octal-2", "data",
+    && recode_declare_single (outer, "Octal-2", "data",
 		       outer->quality_variable_to_variable,
 		       NULL, oct2_data)
-    && declare_single (outer, "Decimal-2", "data",
+    && recode_declare_single (outer, "Decimal-2", "data",
 		       outer->quality_variable_to_variable,
 		       NULL, dec2_data)
-    && declare_single (outer, "Hexadecimal-2", "data",
+    && recode_declare_single (outer, "Hexadecimal-2", "data",
 		       outer->quality_variable_to_variable,
 		       NULL, hex2_data)
 
-    && declare_alias (outer, "o2", "Octal-2")
-    && declare_alias (outer, "d2", "Decimal-2")
-    && declare_alias (outer, "x2", "Hexadecimal-2")
+    && recode_declare_alias (outer, "o2", "Octal-2")
+    && recode_declare_alias (outer, "d2", "Decimal-2")
+    && recode_declare_alias (outer, "x2", "Hexadecimal-2")
 
   /* Quadruple bytes.  */
 
-    && declare_single (outer, "data", "Octal-4",
+    && recode_declare_single (outer, "data", "Octal-4",
 		       outer->quality_variable_to_variable,
 		       NULL, data_oct4)
-    && declare_single (outer, "data", "Decimal-4",
+    && recode_declare_single (outer, "data", "Decimal-4",
 		       outer->quality_variable_to_variable,
 		       NULL, data_dec4)
-    && declare_single (outer, "data", "Hexadecimal-4",
+    && recode_declare_single (outer, "data", "Hexadecimal-4",
 		       outer->quality_variable_to_variable,
 		       NULL, data_hex4)
-    && declare_single (outer, "Octal-4", "data",
+    && recode_declare_single (outer, "Octal-4", "data",
 		       outer->quality_variable_to_variable,
 		       NULL, oct4_data)
-    && declare_single (outer, "Decimal-4", "data",
+    && recode_declare_single (outer, "Decimal-4", "data",
 		       outer->quality_variable_to_variable,
 		       NULL, dec4_data)
-    && declare_single (outer, "Hexadecimal-4", "data",
+    && recode_declare_single (outer, "Hexadecimal-4", "data",
 		       outer->quality_variable_to_variable,
 		       NULL, hex4_data)
 
-    && declare_alias (outer, "o4", "Octal-4")
-    && declare_alias (outer, "d4", "Decimal-4")
-    && declare_alias (outer, "x4", "Hexadecimal-4")
+    && recode_declare_alias (outer, "o4", "Octal-4")
+    && recode_declare_alias (outer, "d4", "Decimal-4")
+    && recode_declare_alias (outer, "x4", "Hexadecimal-4")
 
     ;
 }

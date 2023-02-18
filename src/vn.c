@@ -440,15 +440,15 @@ static const unsigned short viscii_vni_data[] =
 bool
 module_vietnamese (RECODE_OUTER outer)
 {
-  if (!declare_strip_data (outer, &tcvn_strip_data, "TCVN"))
+  if (!recode_declare_strip_data (outer, &tcvn_strip_data, "TCVN"))
     return false;
-  if (!declare_strip_data (outer, &viscii_strip_data, "VISCII"))
+  if (!recode_declare_strip_data (outer, &viscii_strip_data, "VISCII"))
     return false;
-  if (!declare_strip_data (outer, &vps_strip_data, "VPS"))
+  if (!recode_declare_strip_data (outer, &vps_strip_data, "VPS"))
     return false;
-  if (!declare_explode_data (outer, viscii_viqr_data, "VISCII", "VIQR"))
+  if (!recode_declare_explode_data (outer, viscii_viqr_data, "VISCII", "VIQR"))
     return false;
-  if (!declare_explode_data (outer, viscii_vni_data, "VISCII", "VNI"))
+  if (!recode_declare_explode_data (outer, viscii_vni_data, "VISCII", "VNI"))
     return false;
   return true;
 }
