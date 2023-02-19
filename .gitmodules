@@ -4,3 +4,6 @@
 [submodule "gl-mod/bootstrap"]
 	path = gl-mod/bootstrap
 	url = https://github.com/gnulib-modules/bootstrap.git
+[submodule "libiconv"]
+	path = libiconv
+	url = https://git.savannah.gnu.org/git/libiconv.git
