@@ -9,10 +9,8 @@ srcdir = '@srcdir@'
 top_builddir = '@top_builddir@'
 top_srcdir = '@top_srcdir@'
 libintl = '@LIBINTL@'
-libiconv = '@LIBICONV@'
 extra_libs = []
 extra_libs.extend(libintl.split())
-extra_libs.extend(libiconv.split())
 
 # FIXME: On Mingw, Cython seems to call gcc in such a way that it doesn't understand UNIX paths
 if os.name == 'nt':

@@ -81,7 +81,7 @@ sets and surface encodings.  When this cannot be achieved exactly, it
 may get rid of the offending characters or fall back on approximations.
 The library recognises or produces more than 300 different character sets
 and is able to convert files between almost any pair.  Most @w{RFC 1345}
-character sets, and all character sets from a pre-installed  @code{iconv}
+character sets, and all character sets from the include GNU @code{libiconv}
 library, are supported.
 The @code{recode} program is a handy front-end to the library.
 
@@ -404,11 +404,9 @@ those of Keld Simonsen and Bruno Haible.
 
 @cindex charsets, overview
 Recoding is currently possible between many charsets, the bulk of which
-is described by @w{RFC 1345} tables or available in a pre-installed
-external @code{iconv} library. @xref{Tabular}, and
-@pxref{iconv}@footnote{Because @code{iconv} can vary from system to
-system, and is itself a complex tool, it can cause recode to behave in
-unexpected ways. Therefore, by default it is only used when a conversion
+is described by @w{RFC 1345} tables or available in the included
+GNU @code{libiconv} library. @xref{Tabular}, and
+@pxref{iconv}@footnote{By default, @code{iconv} is only used when a conversion
 would not be possible without it. To request that @code{iconv} be used,
 use @code{--prefer-iconv}; see @xref{prefer-iconv}.  Conversely, you can
 disable it with the @code{-x:} option; see @xref{disable-iconv}.}.  The
