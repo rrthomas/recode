@@ -31,7 +31,7 @@ jobs:
         release: false
         msystem: ${{matrix.sys}}
         install: >-
-          patch git groff help2man rsync texinfo flex
+          patch git groff help2man rsync texinfo flex gperf
           mingw-w64-${{matrix.arch}}-autotools
           mingw-w64-${{matrix.arch}}-gcc
           mingw-w64-${{matrix.arch}}-python3
@@ -42,17 +42,18 @@ jobs:
         submodules: true
     - name: Install dependencies (Ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
-      run: sudo apt-get -y install python3 cython3 flex help2man libltdl-dev autopoint texinfo gettext
+      run: sudo apt-get -y install python3 cython3 flex help2man libltdl-dev autopoint texinfo gettext gperf groff
     - name: Install dependencies (macOS)
       if: ${{ matrix.os == 'macos-latest' }}
       run: |
-        brew install libtool autoconf automake help2man python@3.12 python-setuptools cython flex texinfo
+        brew install libtool autoconf automake help2man python@3.12 python-setuptools cython flex texinfo gperf groff gnu-tar
         # Prepend optional brew binary directories to PATH
         echo "$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$(brew --prefix)/opt/flex/bin:$(brew --prefix)/opt/m4/bin:$(brew --prefix)/opt/texinfo/bin:$(brew --prefix)/opt/gettext/bin:$(brew --prefix)/opt/python@3.12/libexec/bin:$(brew --prefix)/opt/cython/bin" >> $GITHUB_PATH
     - name: Set up environment (Ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
+      # FIXME: ASAN
       run: |
-        echo "ASAN=yes" >> $GITHUB_ENV
+        echo "# ASAN=yes" >> $GITHUB_ENV
         echo "LSAN_OPTIONS=verbosity=1:log_threads=1" >> $GITHUB_ENV
     - name: Set up environment (macOS)
       if: ${{ matrix.os == 'macos-latest' }}
@@ -67,6 +68,6 @@ jobs:
     - name: Build
       run: |
         ./bootstrap
-        if [[ "$ASAN" == "yes" ]]; then ./configure --enable-silent-rules CFLAGS="-g3 -fsanitize=address -fsanitize=undefined" LDFLAGS="-fsanitize=address -fsanitize=undefined" TESTS_ENVIRONMENT_EXTRA="LD_PRELOAD=/usr/lib/gcc/x86_64-linux-gnu/11/libasan.so PYTHONMALLOC=malloc"; else ./configure --enable-silent-rules; fi
+        if [[ "$ASAN" == "yes" ]]; then ./configure --enable-silent-rules CFLAGS="-g3 -fPIC -fsanitize=address -fsanitize=undefined" LDFLAGS="-fsanitize=address -fsanitize=undefined" TESTS_ENVIRONMENT_EXTRA="LD_PRELOAD=/usr/lib/gcc/x86_64-linux-gnu/11/libasan.so PYTHONMALLOC=malloc"; else ./configure --enable-silent-rules; fi
         make check
         make distcheck

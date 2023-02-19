@@ -53,9 +53,9 @@ recode_LDADD = librecode.la
 librecode_la_SOURCES = charname.c combine.c fr-charname.c iconv.c \
 names.c outer.c recode.c request.c strip-pool.c task.c $(ALL_STEPS) \
 $(include_HEADERS) $(noinst_HEADERS) $(H_STEPS)
-librecode_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO) $(LTLIBICONV) $(LTLIBINTL) \
+librecode_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO) $(LTLIBINTL) \
 	$(LIB_CLOCK_GETTIME) $(LIB_GETRANDOM) $(LIB_HARD_LOCALE) $(LIB_MBRTOWC) $(LIB_SETLOCALE_NULL)
-librecode_la_LIBADD = ../lib/libgnu.la libmerged.la
+librecode_la_LIBADD = ../lib/libgnu.la libmerged.la ../libiconv/lib/libiconv.la
 
 libmerged_la_SOURCES = merged.c
 libmerged_la_CPPFLAGS = $(NON_WARN_CFLAGS)
@@ -166,3 +166,5 @@ strip-pool.c strip-data.c: stamp-strip
 stamp-strip: ../tables.py $(MNEMONICS_DS) $(CHARSETS_DEF)
 	$(TABLES_PY) -C $(srcdir) -p $(MNEMONICS_DS) $(CHARSETS_DEF)
 	@echo timestamp > $(srcdir)/$@
+
+DISTCLEANFILES = iconv.h libiconv.a libiconv.la

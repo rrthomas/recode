@@ -21,7 +21,7 @@
 #include "config.h"
 #include "common.h"
 #include "decsteps.h"
-#include <iconv.h>
+#include "iconv.h"
 #include "iconvdecl.h"
 
 /*--------------------------------------.

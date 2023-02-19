@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # Automatically derive Recode table files from various sources.
-# Copyright © 1993-2000 Free Software Foundation, Inc.
+# Copyright © 1993-2023 Free Software Foundation, Inc.
 # François Pinard <pinard@iro.umontreal.ca>, 1993.
 
 # This program is free software; you can redistribute it and/or modify
@@ -40,7 +40,7 @@ from Keld's chset* packages.  The digesting order is usually important.
 When `-F' and `-n' are used, process Alain's tables.
 """
 
-import re, sys, io
+import re, sys, os, io
 
 # Character constants.
 REPLACEMENT_CHARACTER = 0xFFFD
@@ -98,7 +98,6 @@ class Main:
 
         # Read all data tables.
         if self.directory:
-            import os
             os.chdir(self.directory)
         if self.iconv:
             self.iconv.digest()
@@ -464,32 +463,22 @@ class Iconv(Options):
             canonical[charset.upper()] = charset
 
         # Read in the encodings.def file.
-        sys.stdout.write("Reading from `iconv -l'\n")
-        libc = None
-        import os
+        sys.stdout.write("Reading from `iconv_no_18n -l'\n")
         names = []
-        for line in os.popen('iconv -l'):
-            if libc is None:
-                libc = len(line.split('/')) == 3
-            if libc:
-                first, second, empty = line.split('/')
-                assert empty == '\n', repr(line)
-                name = second or first
-                if name not in names:
-                    names.append(name)
-                    self.data.append((name, ()))
-            else:
-                aliases = []
-                for alias in line.split():
-                    if alias in canonical:
-                        alias = canonical[alias]
-                    aliases.append(alias)
-                self.data.append((aliases[0], aliases[1:]))
+        for line in os.popen('../libiconv/src/iconv_no_i18n -l'):
+            aliases = []
+            for alias in line.split():
+                if alias in canonical:
+                    alias = canonical[alias]
+                aliases.append(alias)
+            self.data.append((aliases[0], aliases[1:]))
 
     def complete(self, french):
-        def write_charset(format, charset):
-            write(format % charset)
-            write(format % (charset + "-translit"))
+        def write_charset_with_aliases(charset, suffix=''):
+            write(f'    "{charset + suffix}",\n')
+            for alias in aliases[:-1]:
+                write(f'\t"{alias + suffix}",\n')
+            write(f'\t"{aliases[-1] + suffix}", NULL,\n')
         if not self.do_sources:
             return
         write = Output(self.SOURCES).write
@@ -505,12 +494,11 @@ class Iconv(Options):
               % count)
         for charset, aliases in self.data:
             if aliases:
-                write_charset('    "%s",\n', charset)
-                for alias in aliases[:-1]:
-                    write_charset('\t"%s",\n', alias)
-                write_charset('\t"%s", NULL,\n', aliases[-1])
+                write_charset_with_aliases(charset)
+                write_charset_with_aliases(charset, '-translit')
             else:
-                write_charset('    "%s", NULL,\n', charset)
+                write(f'    "{charset}", NULL,\n')
+                write(f'    "{charset}-translit", NULL,\n')
         write('    NULL\n'
               '  };\n')
 

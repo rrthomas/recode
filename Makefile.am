@@ -19,12 +19,22 @@ AUTOMAKE_OPTIONS = gnits
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = doc lib src po tests contrib
+SUBDIRS = libiconv doc lib src po tests contrib
 
 EXTRA_DIST = COPYING-LIB \
 m4/gnulib-cache.m4 tables.py \
 keld/NomsSeulsfinal.lst keld/charsets.def keld/control.def \
 keld/iso10646.def keld/other.def keld/rfc1345.txt
+
+dist-hook:
+	@if test "$(VPATH)" = ""; then \
+	  cd libiconv && \
+	  make dist && \
+	  cd ../$(PACKAGE)-$(VERSION) && \
+	  tar -z -x -f ../libiconv/libiconv-*.tar.gz --transform="s|^libiconv-[^/]*|libiconv|"; \
+	else \
+	  echo "I can't make a proper dist tarball in a VPATH build!"; \
+	fi
 
 release: distcheck
 	git diff --exit-code && \
@@ -37,7 +47,7 @@ release: distcheck
 		dist_type=tar.gz
 
 # Ignore built files that are part of the distribution (specifically,
-# src/recode.1).
+# src/recode.1), and the libiconv subdirectory.
 distcleancheck_listfiles = \
-       find . -type f -exec sh -c 'test -f $(srcdir)/$$1 || echo $$1' \
+       find . -prune libiconv -type f -exec sh -c 'test -f $(srcdir)/$$1 || echo $$1' \
 	    sh '{}' ';'

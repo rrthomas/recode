@@ -5,6 +5,7 @@
 AC_PREREQ([2.71])
 AC_INIT([recode],[3.7.15],[rrt@sc3d.org])
 AC_CONFIG_SRCDIR(src/recode.c)
+AC_CONFIG_SUBDIRS([libiconv])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE
 AC_CONFIG_MACRO_DIR(m4)
@@ -110,8 +111,8 @@ AM_GNU_GETTEXT_VERSION(0.19)
 AM_GNU_GETTEXT(external)
 AM_XGETTEXT_OPTION([--from-code=UTF-8])
 
+# Output
 AC_CONFIG_HEADERS([config.h])
-
 AC_CONFIG_FILES([Makefile contrib/Makefile doc/Makefile lib/Makefile
           po/Makefile.in src/Makefile src/recode.x
           tests/Makefile tests/setup.py])
