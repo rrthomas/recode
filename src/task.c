@@ -114,7 +114,10 @@ recode_put_bytes (const char *data, size_t n, RECODE_SUBTASK subtask)
             subtask->output.limit = subtask->output.buffer + new_size;
           }
         else
-          recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
+          {
+            recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
+            return;
+          }
       }
     memcpy (subtask->output.cursor, data, n);
     subtask->output.cursor += n;
