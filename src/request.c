@@ -899,10 +899,39 @@ add_unsurfacers_to_sequence (RECODE_REQUEST request,
 `---------------------------------------------------------------------------*/
 
 static RECODE_SYMBOL
-scan_charset (RECODE_REQUEST request,
-	      RECODE_CONST_SYMBOL before,
-	      RECODE_CONST_OPTION_LIST before_options,
-	      RECODE_OPTION_LIST *options_pointer)
+scan_charset_before (RECODE_REQUEST request, RECODE_OPTION_LIST *options_pointer)
+{
+  RECODE_OUTER outer = request->outer;
+  RECODE_ALIAS alias;
+
+  *options_pointer = NULL;
+  scan_identifier (request);
+  alias = recode_find_alias (outer, request->scanned_string, ALIAS_FIND_AS_EITHER);
+  if (*request->scan_cursor == '+')
+    *options_pointer = scan_options (request);
+  if (!alias)
+    return NULL;
+
+  /* We are scanning in a BEFORE position.  */
+
+  if (*request->scan_cursor == '/')
+    {
+      if (!scan_unsurfacers (request))
+        return NULL;
+    }
+  else if (alias->implied_surfaces && !request->make_header_flag)
+    {
+      if (!add_unsurfacers_to_sequence (request, alias->implied_surfaces))
+        return NULL;
+    }
+
+  return alias->symbol;
+}
+
+static RECODE_SYMBOL
+scan_charset_after (RECODE_REQUEST request,
+	      	    RECODE_CONST_SYMBOL before,
+	      	    RECODE_CONST_OPTION_LIST before_options)
 {
   RECODE_OUTER outer = request->outer;
   RECODE_ALIAS alias;
@@ -917,86 +946,66 @@ scan_charset (RECODE_REQUEST request,
     return NULL;
   charset = alias->symbol;
 
-  if (before)
+  /* We are scanning in an AFTER position.  */
+
+  if (!find_sequence (request, before, before_options,
+		      charset, charset_options))
     {
-      /* We are scanning in an AFTER position.  */
-
-      if (!find_sequence (request, before, before_options,
-			  charset, charset_options))
-	{
-	  recode_error (outer, _("No way to recode from `%s' to `%s'"),
-			before->name, charset->name);
-	  return NULL;
-	}
-
-      /* Ignore everything about surfaces, except in last position of a
-	 subrequest.  This optimises out the application of surfaces, when
-	 these would be immediately followed by their removal.  */
-
-      if (scan_check_if_last_charset (request))
-	{
-	  if (*request->scan_cursor == '/')
-	    {
-	      while (*request->scan_cursor == '/')
-		{
-		  RECODE_SYMBOL surface = NULL;
-		  RECODE_OPTION_LIST surface_options = NULL;
-
-		  request->scan_cursor++;
-		  scan_identifier (request);
-		  if (*request->scanned_string)
-		    {
-		      RECODE_ALIAS alias2
-			= recode_find_alias (outer, request->scanned_string,
-				      ALIAS_FIND_AS_SURFACE);
-
-		      if (!alias2)
-			{
-			  recode_error (outer,
-					_("Unrecognised surface name `%s'"),
-					request->scanned_string);
-			  return NULL;
-			}
-		      surface = alias2->symbol;
-		      /* FIXME: Should check that it does not itself have
-			 implied surfaces?  */
-		    }
-		  if (*request->scan_cursor == '+')
-		    surface_options = scan_options (request);
-
-		  if (surface && surface->resurfacer)
-		    if (!add_to_sequence (request, surface->resurfacer,
-					  NULL, surface_options))
-		      return NULL;
-		}
-	    }
-	  else if (alias->implied_surfaces && !request->make_header_flag)
-	    {
-	      struct recode_surface_list *list;
-
-	      for (list = alias->implied_surfaces; list; list = list->next)
-		if (list->surface->resurfacer)
-		  if (!add_to_sequence (request, list->surface->resurfacer,
-					NULL, NULL))
-		    return NULL;
-	    }
-	}
+      recode_error (outer, _("No way to recode from `%s' to `%s'"),
+		    before->name, charset->name);
+      return NULL;
     }
-  else
+
+  /* Ignore everything about surfaces, except in last position of a
+     subrequest.  This optimises out the application of surfaces, when
+     these would be immediately followed by their removal.  */
+
+  if (scan_check_if_last_charset (request))
     {
-      /* We are scanning in a BEFORE position.  */
-
-      *options_pointer = charset_options;
-
       if (*request->scan_cursor == '/')
 	{
-	  if (!scan_unsurfacers (request))
-	    return NULL;
+	  while (*request->scan_cursor == '/')
+	    {
+	      RECODE_SYMBOL surface = NULL;
+	      RECODE_OPTION_LIST surface_options = NULL;
+
+	      request->scan_cursor++;
+	      scan_identifier (request);
+	      if (*request->scanned_string)
+		{
+		  RECODE_ALIAS alias2
+		    = recode_find_alias (outer, request->scanned_string,
+					 ALIAS_FIND_AS_SURFACE);
+
+		  if (!alias2)
+		    {
+		      recode_error (outer,
+				    _("Unrecognised surface name `%s'"),
+				    request->scanned_string);
+		      return NULL;
+		    }
+		  surface = alias2->symbol;
+		  /* FIXME: Should check that it does not itself have
+		     implied surfaces?  */
+		}
+	      if (*request->scan_cursor == '+')
+		surface_options = scan_options (request);
+
+	      if (surface && surface->resurfacer)
+		if (!add_to_sequence (request, surface->resurfacer,
+				      NULL, surface_options))
+		  return NULL;
+	    }
 	}
       else if (alias->implied_surfaces && !request->make_header_flag)
-	{
-	  if (!add_unsurfacers_to_sequence (request, alias->implied_surfaces))
-	    return NULL;
+        {
+	  struct recode_surface_list *list;
+
+	  for (list = alias->implied_surfaces; list; list = list->next)
+	    if (list->surface->resurfacer)
+	      if (!add_to_sequence (request, list->surface->resurfacer,
+				    NULL, NULL))
+		return NULL;
 	}
     }
 
@@ -1011,8 +1020,8 @@ static bool
 scan_request (RECODE_REQUEST request)
 {
   RECODE_OUTER outer = request->outer;
-  RECODE_OPTION_LIST options;
-  RECODE_SYMBOL charset = scan_charset (request, NULL, NULL, &options);
+  RECODE_OPTION_LIST before_options;
+  RECODE_SYMBOL charset = scan_charset_before (request, &before_options);
 
   if (!charset)
     return false;
@@ -1021,14 +1030,14 @@ scan_request (RECODE_REQUEST request)
     while (request->scan_cursor[0] == '.' && request->scan_cursor[1] == '.')
       {
 	request->scan_cursor += 2;
-	charset = scan_charset (request, charset, options, NULL);
+	charset = scan_charset_after (request, charset, before_options);
 	if (!charset)
 	  return false;
       }
   else if (*request->scan_cursor == NUL)
     {
       /* No `..' at all implies a conversion to the default charset.  */
-      charset = scan_charset (request, charset, options, NULL);
+      charset = scan_charset_after (request, charset, before_options);
       if (!charset)
 	return false;
     }
