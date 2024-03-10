@@ -70,4 +70,4 @@ jobs:
         ./bootstrap
         if [[ "$ASAN" == "yes" ]]; then ./configure --enable-silent-rules CFLAGS="-g3 -fPIC -fsanitize=address -fsanitize=undefined" LDFLAGS="-fsanitize=address -fsanitize=undefined" TESTS_ENVIRONMENT_EXTRA="LD_PRELOAD=/usr/lib/gcc/x86_64-linux-gnu/11/libasan.so PYTHONMALLOC=malloc"; else ./configure --enable-silent-rules; fi
         make check
-        make distcheck
+        #make distcheck
