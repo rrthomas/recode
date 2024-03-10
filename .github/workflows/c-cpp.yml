@@ -46,9 +46,9 @@ jobs:
     - name: Install dependencies (macOS)
       if: ${{ matrix.os == 'macos-latest' }}
       run: |
-        brew install autoconf automake help2man python cython flex texinfo
+        brew install autoconf automake help2man python@3.12 python-setuptools cython flex texinfo
         # Prepend optional brew binary directories to PATH
-        echo "/usr/local/opt/flex/bin:/usr/local/opt/m4/bin:/usr/local/opt/texinfo/bin:/usr/local/opt/gettext/bin:/usr/local/opt/cython/bin" >> $GITHUB_PATH
+        echo "$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$(brew --prefix)/opt/flex/bin:$(brew --prefix)/opt/m4/bin:$(brew --prefix)/opt/texinfo/bin:$(brew --prefix)/opt/gettext/bin:$(brew --prefix)/opt/python@3.12/libexec/bin:$(brew --prefix)/opt/cython/bin" >> $GITHUB_PATH
     - name: Set up environment (Ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
@@ -59,7 +59,6 @@ jobs:
       run: |
         echo "LDFLAGS=-L/usr/local/opt/flex/lib -L/usr/local/opt/gettext/lib" >> $GITHUB_ENV
         echo "CPPFLAGS=-I/usr/local/opt/flex/include" >> $GITHUB_ENV
-        echo "PYTHON=/usr/local/bin/python3" >> $GITHUB_ENV
     - name: Set up environment (Windows)
       if: ${{ matrix.os == 'windows-latest' }}
       run: |
