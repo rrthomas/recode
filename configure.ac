@@ -37,7 +37,7 @@ AC_PROG_CC
 gl_EARLY
 LT_INIT
 AC_PROG_LEX([noyywrap])
-AM_PATH_PYTHON([3.5])
+AM_PATH_PYTHON([3.8])
 gl_INIT
 
 dnl help2man

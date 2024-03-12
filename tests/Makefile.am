@@ -33,9 +33,9 @@ DISTCLEANFILES = Recode.c
 if HAVE_CYTHON
 # TESTS_ENVIRONMENT_EXTRA can be set at configure time
 check-local: Recode@pyextext@
-	export LD_LIBRARY_PATH=$(top_builddir)/src/@objdir@; \
-	export DYLD_LIBRARY_PATH=$(top_builddir)/src/@objdir@; \
-	if test "$(PYTHON_PLATFORM)" = win32; then export PATH="$(top_builddir)/src/@objdir@;$$PATH"; fi; \
+	export SHARED_LIB_DIR=$(abs_top_builddir)/src/@objdir@; \
+	export LD_LIBRARY_PATH=$$SHARED_LIB_DIR; \
+	export DYLD_LIBRARY_PATH=$$SHARED_LIB_DIR; \
 	export LSAN_OPTIONS=$$LSAN_OPTIONS:fast_unwind_on_malloc=0:print_suppressions=0:suppressions=$(srcdir)/asan-suppressions.txt; \
 	RECODE=$(top_builddir)/src/recode$(EXEEXT) PYTHONPATH=.:$(srcdir) \
 	  $(TESTS_ENVIRONMENT_EXTRA) $(PYTHON) $(srcdir)/pytest $(LIMIT) $(srcdir)/t*.py

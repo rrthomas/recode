@@ -43,6 +43,9 @@ __metaclass__ = type
 import inspect, os, sys, time, traceback
 from io import StringIO
 
+if os.name == 'nt':
+    os.add_dll_directory(os.environ['SHARED_LIB_DIR'])
+
 # How many displayable characters in an output line.
 WIDTH = 79
 
