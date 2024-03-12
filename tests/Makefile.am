@@ -37,7 +37,7 @@ check-local: Recode@pyextext@
 	export LD_LIBRARY_PATH=$$SHARED_LIB_DIR; \
 	export DYLD_LIBRARY_PATH=$$SHARED_LIB_DIR; \
 	export LSAN_OPTIONS=$$LSAN_OPTIONS:fast_unwind_on_malloc=0:print_suppressions=0:suppressions=$(srcdir)/asan-suppressions.txt; \
-	RECODE=$(top_builddir)/src/recode$(EXEEXT) PYTHONPATH=.:$(srcdir) \
+	RECODE=$(top_builddir)/src/recode$(EXEEXT) PYTHONPATH=.:$(abs_srcdir) \
 	  $(TESTS_ENVIRONMENT_EXTRA) $(PYTHON) $(srcdir)/pytest $(LIMIT) $(srcdir)/t*.py
 
 Recode@pyextext@: Recode.c setup.py
