@@ -46,7 +46,7 @@ jobs:
     - name: Install dependencies (macOS)
       if: ${{ matrix.os == 'macos-latest' }}
       run: |
-        brew install autoconf automake help2man python@3.12 python-setuptools cython flex texinfo
+        brew install libtool autoconf automake help2man python@3.12 python-setuptools cython flex texinfo
         # Prepend optional brew binary directories to PATH
         echo "$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$(brew --prefix)/opt/flex/bin:$(brew --prefix)/opt/m4/bin:$(brew --prefix)/opt/texinfo/bin:$(brew --prefix)/opt/gettext/bin:$(brew --prefix)/opt/python@3.12/libexec/bin:$(brew --prefix)/opt/cython/bin" >> $GITHUB_PATH
     - name: Set up environment (Ubuntu)
