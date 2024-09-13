@@ -5,7 +5,7 @@ from common import setup_module, teardown_module
 # Some characters were lost while u8..l1 recoding goes.
 # Submitted 2001-09-28 by Volker Wysk <post@volker-wysk.de>.
 
-input = '''\
+input = r'''\
 :- module(inferenz, [anfrage/2, anfrage/1, anfrage_l/3, anfrage_l/2,
                      ohne/4,
                      loese/4, loese/6, loese_pos/6

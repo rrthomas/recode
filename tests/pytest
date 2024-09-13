@@ -27,7 +27,7 @@ repeated; then a test should match at least one of -k options if any,
 one of -o options is any, and none of -x options.
 
 When PATH names a directory, it is recursively searched to find files
-matching "test_.*\.py".  Otherwise, it should give a ".py" ended file name
+matching "test_.*\\.py".  Otherwise, it should give a ".py" ended file name
 containing tests.  If no PATH are given, the current directory is implied.
 
 Test progression is first displayed on standard error.  Then, unless
