@@ -855,12 +855,19 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
 		  valid = false;
 	      }
 	  }
+	else /* Not '#' or A-z, so not a valid entity.  */
+	  {
+	    valid = false;
+	    /* Push back '&', but do not output current input_char yet.  */
+	    *cursor = '\0';
+	  }
 
 	if (echo || !valid)
 	  {
 	    recode_put_ucs2 ('&', subtask);
 	    for (cursor = buffer; *cursor; cursor++)
 	      recode_put_ucs2 (*cursor, subtask);
+	    /* input_char is processed again in the next iteration.  */
 	  }
       }
     else
