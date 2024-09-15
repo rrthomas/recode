@@ -758,6 +758,10 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
 		      }
 		  }
 
+		/* No digit found at all?  */
+		if ((cursor - buffer) == 2)
+		  valid = false;
+
 		if (valid)
 		  if (request->diacritics_only)
 		    {
@@ -798,6 +802,10 @@ transform_html_ucs2 (RECODE_SUBTASK subtask)
 			input_char = recode_get_byte (subtask);
 		      }
 		  }
+
+		/* No digit found at all?  */
+		if ((cursor - buffer) == 1)
+		  valid = false;
 
 		if (valid)
 		  if (request->diacritics_only)
