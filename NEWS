@@ -5,7 +5,17 @@ Recode NEWS - User visible changes
 .. contents::
 .. sectnum::
 
-:Copyright: © 1993-2023 Free Software Foundation, Inc.
+:Copyright: © 1993-2025 Free Software Foundation, Inc.
+
+Version 3.7.15
+==============
+
+:Author: Reuben Thomas, 2025-03.
+
++ Bug fix: do not free an input file handle passed to librecode by its
+  caller.
++ Several fixes and updates to the build system.
+
 
 Version 3.7.14
 ==============
