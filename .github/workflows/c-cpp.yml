@@ -42,7 +42,7 @@ jobs:
         submodules: true
     - name: Install dependencies (Ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
-      run: sudo apt-get -y install python3 cython3 flex help2man autopoint texinfo gettext
+      run: sudo apt-get -y install python3 cython3 flex help2man libltdl-dev autopoint texinfo gettext
     - name: Install dependencies (macOS)
       if: ${{ matrix.os == 'macos-latest' }}
       run: |
