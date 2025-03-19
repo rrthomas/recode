@@ -1,5 +1,5 @@
 # Makefile for Recode sources.
-# Copyright © 1991-2023 Free Software Foundation, Inc.
+# Copyright © 1991-2025 Free Software Foundation, Inc.
 # François Pinard <pinard@iro.umontreal.ca>, 1988.
 
 # This program is free software; you can redistribute it and/or modify
@@ -25,8 +25,9 @@ include_HEADERS = recode.h recodext.h
 H_STEPS = common.h decsteps.h inisteps.h tersteps.h \
 $(H_SURFACES)
 
-noinst_HEADERS = $(H_STEPS) cleaner.h charname.h fr-charname.h iconvdecl.h \
+noinst_HEADERS = $(H_STEPS) cleaner.h charname.h fr-charname.h \
 rfc1345.h lat1iso5426.h lat1ansel.h
+nodist_noinst_HEADERS = iconvdecl.h
 
 EXTRA_DIST = stamp-steps stamp-strip $(L_STEPS) mergelex.py $(MANS) lat1ansel.h lat1iso5426.h
 
