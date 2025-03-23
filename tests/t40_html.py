@@ -21,3 +21,13 @@ class Test:
         output =   'a &#ZZ &#; &#'
         common.request('html..')
         common.validate(input, output)
+    # Multiple encoding levels should be decodable.  Bug #66.
+    def test_4(self):
+        input = '&amp;&amp;#35;40;Parenthetical&amp;&amp;#35;41;'
+        intermediate1 = '&&#35;40;Parenthetical&&#35;41;'
+        intermediate2 = '&#40;Parenthetical&#41;'
+        output = '(Parenthetical)'
+        common.request('html..')
+        common.validate(input, intermediate1)
+        common.validate(intermediate1, intermediate2)
+        common.validate(intermediate2, output)
