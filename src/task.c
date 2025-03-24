@@ -218,6 +218,31 @@ recode_transform_byte_to_variable (RECODE_SUBTASK subtask)
   SUBTASK_RETURN (subtask);
 }
 
+/*-------------------------------------------------------------------.
+| Close the subtask input file pointer if it is owned by librecode.  |
+`-------------------------------------------------------------------*/
+
+static bool
+close_subtask_input (RECODE_SUBTASK subtask)
+{
+  if (subtask->input.file)
+    {
+      if (subtask->input.file && subtask->input.name &&
+          subtask->input.name[0])
+        {
+          if (fclose (subtask->input.file) != 0)
+            {
+              recode_perror (NULL, "fclose (%s)", subtask->input.name);
+              recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
+              return false;
+            }
+        }
+
+      subtask->input.file = NULL;
+    }
+  return true;
+}
+
 /*------------------------------------------------------------------------.
 | Execute the conversion sequence for a recoding TASK.  If no conversions |
 | are needed, merely copy the input onto the output.                      |
@@ -327,18 +352,8 @@ recode_perform_task (RECODE_TASK task)
 
 	  /* Post-step clean up for memory sequence.  */
 
-	  if (subtask->input.file)
-	    {
-	      FILE *fp = subtask->input.file;
-
-	      subtask->input.file = NULL;
-	      if (fclose (fp) != 0)
-		{
-		  recode_perror (NULL, "fclose (%s)", subtask->input.name);
-		  recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
-		  goto exit;
-		}
-	    }
+          if (!close_subtask_input (subtask))
+            goto exit;
 
 	  /* Prepare for next step.  */
 
