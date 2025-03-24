@@ -300,6 +300,9 @@ recode_perform_task (RECODE_TASK task)
           subtask->output.cursor = subtask->output.buffer;
 
 #if HAVE_PIPE
+          /* Flush all outputs to avoid duplicated buffers after calling fork */
+          fflush (NULL);
+
           /* Create all subprocesses, from the first to the last, and
              interconnect them.  */
 
