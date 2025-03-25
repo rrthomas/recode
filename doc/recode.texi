@@ -123,7 +123,6 @@ How to use this program
 * Listings::            Asking for various lists
 * Recoding::            Controlling how files are recoded
 * Reversibility::       Reversibility issues
-* Sequencing::          Selecting sequencing methods
 * Mixed::               Using mixed charset input
 * Emacs::               Using Recode within Emacs
 * Debugging::           Debugging considerations
@@ -548,7 +547,6 @@ control.
 * Listings::            Asking for various lists
 * Recoding::            Controlling how files are recoded
 * Reversibility::       Reversibility issues
-* Sequencing::          Selecting sequencing methods
 * Mixed::               Using mixed charset input
 * Emacs::               Using Recode within Emacs
 * Debugging::           Debugging considerations
@@ -1209,7 +1207,7 @@ requests offers a finer control, @pxref{Requests}).
 @var{charset} may be abbreviated to any unambiguous prefix.
 @end table
 
-@node Reversibility, Sequencing, Recoding, Invoking recode
+@node Reversibility, Mixed, Recoding, Invoking recode
 @section Reversibility issues
 
 The following options are somewhat related to reversibility issues:
@@ -1411,56 +1409,7 @@ length 3.  On the other end, recoding six times in the same direction
 would recover all characters in cycles of length 1, 2, 3 or 6.
 @end enumerate
 
-@node Sequencing, Mixed, Reversibility, Invoking recode
-@section Selecting sequencing methods
-
-@cindex sequencing
-Recode can split itself into multiple parallel processes when it is
-discovered that many passes are needed to comply with the @var{request}.
-For example, suppose that four elementary steps were selected at
-recoding path optimisation time.  Then Recode will split itself into
-four different interconnected tasks, logically equivalent to:
-
-@example
-@var{step1} <@var{input} | @var{step2} | @var{step3} | @var{step4} >@var{output}
-@end example
-
-On systems where the pipes method is not available, the steps are
-performed in series.
-
-@table @samp
-@item --sequence=memory
-@opindex --sequence
-@cindex memory sequencing
-When the recoding requires a combination of two or more elementary
-recoding steps, this option forces many passes over the data, using
-in-memory buffers to hold all intermediate results.
-If this option is selected in filter
-mode, that is, when the program reads standard input and writes standard
-output, it might take longer for programs further down the pipe chain to
-start receiving some recoded data.
-
-@item -p
-@itemx --sequence=pipe
-@opindex -p
-@cindex pipe sequencing
-When the recoding requires a combination of two or more elementary
-recoding steps, this option forces the program to fork itself into a few
-copies interconnected with pipes, using the @code{pipe(2)} system call.
-All copies of the program operate in parallel.  This is the default
-behaviour in filter mode.  If this option is used when files are recoded
-over themselves, this should also save disk space because some temporary
-files might not be needed, at the cost of more system overhead.
-
-@item -i
-@itemx --sequence=files
-@opindex -i
-@cindex file sequencing
-This option is accepted for backwards compatibility, and acts like
-@samp{--sequence=memory}.
-@end table
-
-@node Mixed, Emacs, Sequencing, Invoking recode
+@node Mixed, Emacs, Reversibility, Invoking recode
 @section Using mixed charset input
 
 In real life and practice, textual files are often made up of many charsets

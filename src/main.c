@@ -133,35 +133,6 @@ task_perror (RECODE_CONST_TASK task)
       return _("Internal recoding bug");
     }
 }
-
-/*-----------------.
-| Signal handler.  |
-`-----------------*/
-
-#ifdef HAVE_PIPE
-static void
-sig_catch(int sig, void (*handler) (int))
-{
-  struct sigaction sa;
-  sa.sa_handler = handler;
-  sa.sa_flags = 0;
-  sigemptyset (&sa.sa_mask);
-  sigaction (sig, &sa, NULL);  /* ignore error: none possible */
-}
-
-static void
-signal_handler (int number)
-{
-  recode_interrupted = 1;
-  sig_catch (number, signal_handler);
-}
-
-static void
-setup_signals (void)
-{
- sig_catch (SIGPIPE, signal_handler);
-}
-#endif
 
 /* Main control.  */
 
@@ -776,10 +747,6 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
 
   /* Discard the request argument.  */
   optind++;
-
-#if HAVE_PIPE
-  setup_signals ();
-#endif
 
   {
     RECODE_TASK task;

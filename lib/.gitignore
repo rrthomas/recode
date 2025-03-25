@@ -82,7 +82,6 @@
 /msvc-nothrow.c
 /msvc-nothrow.h
 /pathmax.h
-/pipe.c
 /printf-args.c
 /printf-args.h
 /printf-frexp.c

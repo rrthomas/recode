@@ -232,11 +232,6 @@ recode_perform_task (RECODE_TASK task)
   struct recode_subtask subtask_block;
   RECODE_SUBTASK subtask = &subtask_block;
 
-#if HAVE_PIPE
-  int pipe_pair[2];		/* pair of file descriptors for a pipe */
-  pid_t wait_status;		/* status returned by wait() */
-#endif
-
   struct recode_read_write_text input;
   struct recode_read_write_text output;
   memset (&input, 0, sizeof (struct recode_read_write_text));
@@ -298,71 +293,6 @@ recode_perform_task (RECODE_TASK task)
 	{
           subtask->output = output;
           subtask->output.cursor = subtask->output.buffer;
-
-#if HAVE_PIPE
-          /* Create all subprocesses, from the first to the last, and
-             interconnect them.  */
-
-          if (pipe (pipe_pair) < 0)
-            {
-              recode_perror (NULL, "pipe ()");
-              recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
-              SUBTASK_RETURN (subtask);
-            }
-          xset_binary_mode (pipe_pair[0], O_BINARY);
-          xset_binary_mode (pipe_pair[1], O_BINARY);
-          if (child_process = fork (), child_process < 0)
-            {
-              recode_perror (NULL, "fork ()");
-              recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
-              SUBTASK_RETURN (subtask);
-            }
-          if (child_process == 0)
-            {
-              /* The child executes its recoding step, reading from the
-                 current input file and writing to the pipe; then it exits.  */
-
-              if (close (pipe_pair[0]) < 0)
-                {
-                  recode_perror (NULL, "close ()");
-                  recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
-                }
-              if (subtask->output.file = fdopen (pipe_pair[1], "w"),
-                  subtask->output.file == NULL)
-                {
-                  recode_perror (NULL, "fdopen ()");
-                  recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
-                }
-            }
-          else
-            {
-              /* The parent saves the read end of the pipe for the next step.  */
-
-              if (input.file = fdopen (pipe_pair[0], "r"),
-                  input.file == NULL)
-                {
-                  recode_perror (NULL, "fdopen ()");
-                  recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
-                  close (pipe_pair[0]);
-                  close (pipe_pair[1]);
-                  SUBTASK_RETURN (subtask);
-                }
-              if (close (pipe_pair[1]) < 0)
-                {
-                  recode_perror (NULL, "close ()");
-                  recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
-                  close (pipe_pair[0]);
-                  fclose (input.file);
-                  SUBTASK_RETURN (subtask);
-                }
-
-              /* Close the input file when we opened it. */
-
-              if (subtask->input.file && subtask->input.name &&
-                  subtask->input.name[0])
-                fclose (subtask->input.file);
-            }
-#endif
 	}
       else
 	{
@@ -395,9 +325,6 @@ recode_perform_task (RECODE_TASK task)
 	  subtask->step = request->sequence_array + sequence_index;
 	  (*subtask->step->transform_routine) (subtask);
 
-#if HAVE_PIPE
-          break;	/* child/top-level process: escape from loop */
-#else
 	  /* Post-step clean up for memory sequence.  */
 
 	  if (subtask->input.file)
@@ -422,7 +349,6 @@ recode_perform_task (RECODE_TASK task)
 	      output = input;
 	      input = subtask->output;
 	    }
-#endif
 	}
 
       if (sequence_index + 1 == (unsigned)request->sequence_length)
@@ -444,57 +370,8 @@ recode_perform_task (RECODE_TASK task)
       recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
     }
 
-#if HAVE_PIPE
-  /* Child process exits here. */
-
-  if (child_process == 0)
-    exit (task->error_so_far < task->fail_level ? EXIT_SUCCESS
-          : EXIT_FAILURE);
-  else
-    {
-      /* Wait on all children, mainly to avoid synchronisation problems on
-         output file contents, but also to reduce the number of zombie
-         processes in case the user recodes many files at once.  */
-
-      while (wait (&wait_status) > 0)
-        {
-          /* Diagnose and abort on any abnormally terminating child.  */
-
-          if (!(WIFEXITED (wait_status)
-                || (WIFSIGNALED (wait_status)
-                    && WTERMSIG (wait_status) == SIGPIPE)))
-            {
-              recode_error (NULL, _("Child process wait status is 0x%0.2x"),
-                            wait_status);
-              recode_if_nogo (RECODE_SYSTEM_ERROR, subtask);
-              SUBTASK_RETURN (subtask);
-            }
-
-          /* Check for a nonzero exit from the terminating child.  */
-
-          if (WIFEXITED (wait_status)
-              ? WEXITSTATUS (wait_status) != 0
-              : WTERMSIG (wait_status) != 0)
-            /* FIXME: It is not very clear what happened in sub-processes.  */
-            if (task->error_so_far < task->fail_level)
-              {
-                task->error_so_far = task->fail_level;
-                task->error_at_step = request->sequence_array + (unsigned)request->sequence_length - 1;
-              }
-        }
-
-      if (recode_interrupted)
-        /* FIXME: It is not very clear what happened in sub-processes.  */
-        if (task->error_so_far < task->fail_level)
-          {
-            task->error_so_far = task->fail_level;
-            task->error_at_step = request->sequence_array + (unsigned)request->sequence_length - 1;
-          }
-    }
-#else
   free (input.buffer);
   free (output.buffer);
-#endif
 
   task->output = subtask->output;
   SUBTASK_RETURN (subtask);
