@@ -58,7 +58,7 @@ librecode_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO) $(LTLIBICONV)
 librecode_la_LIBADD = ../lib/libgnu.la libmerged.la
 
 libmerged_la_SOURCES = merged.c
-libmerged_la_CPPFLAGS = $(NON_WARN_CFLAGS)
+libmerged_la_CFLAGS = $(NON_WARN_CFLAGS)
 
 loc:
 	cloc \
@@ -78,7 +78,7 @@ RFC1345_TXT = $(KELD)/rfc1345.txt
 NOMS_CARACS = $(ALAIN)/NomsSeulsfinal.lst
 
 NON_WARN_CFLAGS = -I.. -I$(srcdir) $(ISYSTEM)$(top_builddir)/lib $(ISYSTEM)$(top_srcdir)/lib
-AM_CPPFLAGS = $(NON_WARN_CFLAGS) $(WARN_CFLAGS)
+AM_CFLAGS = $(NON_WARN_CFLAGS) $(WARN_CFLAGS)
 DEFS = -DLIBDIR=\"$(libdir)\" @DEFS@
 
 ETAGS_ARGS = $(L_STEPS)
