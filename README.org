@@ -42,6 +42,9 @@ The [[https://github.com/rrthomas/Recode][Git repository]] for Recode gives acce
 GitHub, to all distribution releases, be they actual or past, pretest or
 official, as well as individual files.
 
+Recode is translated as part of the [[https://translationproject.org/][Translation Project]]. See that site for
+more information.
+
 * Installation
 ** In a hurry?
 See =INSTALL=. (For installing from git, see =HACKING.org=.)
