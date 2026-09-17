@@ -132,7 +132,7 @@ recode_invert_table (RECODE_OUTER outer, const unsigned char *table)
 | NUMBER_OF_PAIRS constraints.  If FIRST_HALF_IMPLIED is not zero, default   |
 | the unconstrained characters of the first 128 to the identity mapping.  If |
 | REVERSE is not zero, use right_table instead of left_table to complete the |
-| table, yet new pairs are created only when fallback is recode_reversibility.      |
+| table, yet new pairs are created only when fallback is reversibility.      |
 `---------------------------------------------------------------------------*/
 
 bool
@@ -206,7 +206,7 @@ recode_complete_pairs (RECODE_OUTER outer, RECODE_STEP step,
 	}
     }
 
-  /* Set all the implied correspondances.  */
+  /* Set all the implied correspondences.  */
 
   if (first_half_implied)
     for (counter = 0; counter < 128; counter++)

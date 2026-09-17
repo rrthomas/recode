@@ -435,17 +435,17 @@ recode_init_combine (RECODE_STEP step,
 }
 
 /*------------------.
-| Handle bactrack.  |
+| Handle backtrack.  |
 `------------------*/
 
 /* When we cannot shift into a state allowing a terminal resulting character,
-   we ought to backtrack until such a terminal character if found, then output
+   we ought to backtrack until such a terminal character is found, then output
    this resulting character for representing the partial sequence which ends
    with that state.  Then, we merely copy characters seen after that state.
 
    This approach does not properly scan for combinings which might exist in
    the copied characters, presuming that this case does not occur in practice.
-   If we later find that it does, backtracing will have to be revisited.  */
+   If we later find that it does, backtracking will have to be revisited.  */
 
 static void
 backtrack_byte (struct state *state, RECODE_SUBTASK subtask)

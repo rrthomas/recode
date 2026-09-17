@@ -13,7 +13,7 @@
    Public License for more details.
 
    You should have received a copy of the GNU General Public License along
-   along with this program; if not, see <https://www.gnu.org/licenses/>.
+   with this program; if not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "config.h"
@@ -68,7 +68,7 @@ static bool verbose_flag = false;
    it does not prevent recodings to be aborted or exit status to be set.  */
 static bool quiet_flag = false;
 
-/* If the recoding yields some problems in recode_reversibility in some file, this
+/* If the recoding yields some problems in reversibility in some file, this
    file replacement is denied and it is left unrecoded or, if recode is used
    as a mere filter, the recoding is aborted.  The following flag forces
    the recoding to run to completion and the replacement to be done even if
@@ -78,11 +78,11 @@ static bool force_flag = false;
 /* When a file is recoded over itself, precautions are taken to move the
    timestamps of the original file into the recoded file, so to make the
    recoding the most transparent possible to make, and other tools.
-   However, selecting the following option inhibit the timestamps handling,
+   However, selecting the following option inhibits the timestamps handling,
    thus effectively `touching' the file.  */
 static bool touch_option = false;
 
-/* With strict mapping, all recode_reversibility fallbacks get defeated.  */
+/* With strict mapping, all reversibility fallbacks get defeated.  */
 static bool strict_mapping = false;
 
 /* Use iconv if possible. */
@@ -351,7 +351,7 @@ int
 main (int argc, char *const *argv)
 {
   int option_char;		/* option character */
-  bool success = true;		/* recode_reversibility of all recodings */
+  bool success = true;		/* reversibility of all recodings */
 
   static bool (*processor) (RECODE_TASK);
   struct recode_outer outer_option;
@@ -359,7 +359,7 @@ main (int argc, char *const *argv)
   struct recode_task task_option;
 
   program_name = argv[0];
-  /* libtool creates a temporary executable whose names is prefixed with
+  /* libtool creates a temporary executable whose name is prefixed with
      "lt-".  Remove this prefix here.  */
   if (strncmp (program_name, "lt-", 3) == 0)
     program_name += 3;

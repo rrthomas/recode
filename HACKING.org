@@ -54,7 +54,7 @@ Recode 4 should be organised thus:
 - More steps from Recodec get moved into Recode, either coexisting
   with or taking over the previous wrapping of Python codecs.
 - The remaining code from the Recodec engine gets moved into Recode,
-  replacing C code having the same fonctionality.
+  replacing C code having the same functionality.
 - Special care is given to GNU *libc* or *libiconv* support, maybe going
   from the C side to the Python side.
 - Proper documentation and decisions follow extensive comparison and

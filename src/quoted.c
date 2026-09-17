@@ -169,7 +169,7 @@ transform_data_quoted_printable (RECODE_SUBTASK subtask)
 
 	default:
 
-	  /* Case of an inconditional quotable character.  */
+	  /* Case of an unconditionally quotable character.  */
 
 	  if (available > 3)
 	    {

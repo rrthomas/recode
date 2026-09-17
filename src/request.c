@@ -265,7 +265,7 @@ add_to_sequence (RECODE_REQUEST request, RECODE_SINGLE single,
 
 /*----------------------------------------------------------------------.
 | Find a SEQUENCE of single steps to achieve a conversion from charset  |
-| BEFORE to charset AFTER.  Return false only if no sequence could been |
+| BEFORE to charset AFTER.  Return false only if no sequence could be   |
 | found.  Explain what was selected if VERBOSE.                         |
 `----------------------------------------------------------------------*/
 
@@ -406,7 +406,7 @@ compare_struct_item (const void *void_first, const void *void_second)
 | Complete the initialisation of a double step which just has been merged |
 | into a single STEP.  Establish known pairings by comparing UCS-2 values |
 | between the before and after charsets.  Create new pairs only when      |
-| fallback is recode_reversibility.                                              |
+| fallback is reversibility.                                              |
 `------------------------------------------------------------------------*/
 
 static bool
@@ -436,8 +436,8 @@ complete_double_ucs2_step (RECODE_OUTER outer, RECODE_STEP step)
   struct recode_known_pair pair_array[256]; /* obtained pairings */
   struct recode_known_pair *pair_cursor; /* cursor in array of pairings */
 
-  /* For ensuring recode_reversibility, known pairs should be computed the same
-     way regardless of the direction of recoding.  This canonalisation is
+  /* For ensuring reversibility, known pairs should be computed the same
+     way regardless of the direction of recoding.  This canonicalisation is
      ensured through the charset values, which are increasing along the
      initialisation order.  This should also reflect the charset order in
      rfc1345.txt.  */
