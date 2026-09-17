@@ -670,8 +670,13 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
 
 	  if (!alias)
 	    {
+	      /* No charset was given: report the default one.  */
+	      const char *name = getenv ("DEFAULT_CHARSET");
+
+	      if (!name || !*name)
+		name = locale_charset ();
 	      error (0, 0, _("Charset `%s' is unknown or ambiguous"),
-		     argv[optind]);
+		     name ? name : "");
 	      usage (EXIT_FAILURE, 1);
 	    }
 
