@@ -78,29 +78,28 @@ recode_declare_single (RECODE_OUTER outer,
     {
       single->before = outer->data_symbol;
       after = recode_find_alias (outer, after_name, SYMBOL_CREATE_DATA_SURFACE);
-      single->after = after->symbol;
+      single->after = after ? after->symbol : NULL;
     }
   else if (strcmp(after_name, "data") == 0)
     {
       before = recode_find_alias (outer, before_name, SYMBOL_CREATE_DATA_SURFACE);
-      single->before = before->symbol;
+      single->before = before ? before->symbol : NULL;
       single->after = outer->data_symbol;
     }
   else
     {
       before = recode_find_alias (outer, before_name, SYMBOL_CREATE_CHARSET);
-      single->before = before->symbol;
+      single->before = before ? before->symbol : NULL;
       after = recode_find_alias (outer, after_name, SYMBOL_CREATE_CHARSET);
-      single->after = after->symbol;
+      single->after = after ? after->symbol : NULL;
     }
 
   if (!single->before || !single->after)
     {
-      if (before)
-        recode_delete_alias (before);
-      if (after)
-        recode_delete_alias (after);
+      /* The aliases, if any, are owned by the alias table, which releases
+	 them together with the outer.  */
       outer->single_list = single->next;
+      outer->number_of_singles--;
       free (single);
       return NULL;
     }
