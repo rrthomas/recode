@@ -529,14 +529,13 @@ recode_format_table (RECODE_REQUEST request,
 
   /* Construct the name of the resulting table.  */
 
-  if (header_name)
-    {
-      if (!ALLOC (name, strlen (header_name) + 1, char))
-	return false;
-      strcpy (name, header_name);
-    }
-  else
-    name = recode_edit_sequence (request, 0);
+  /* NAME is modified in place below, then freed: always work on a copy,
+     as recode_edit_sequence returns the request's own work string.  */
+  if (!header_name)
+    header_name = recode_edit_sequence (request, 0);
+  if (!ALLOC (name, strlen (header_name) + 1, char))
+    return false;
+  strcpy (name, header_name);
 
   /* Ensure the table name contains only valid characters for a C identifier.
      */
