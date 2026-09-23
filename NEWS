@@ -5,7 +5,29 @@ Recode NEWS - User visible changes
 .. contents::
 .. sectnum::
 
-:Copyright: © 1993-2025 Free Software Foundation, Inc.
+:Copyright: © 1993-2026 Free Software Foundation, Inc.
+
+Version 3.7.16
+==============
+
+:Author: Reuben Thomas, 2026-09.
+
+* Remove the pipe mode of operation. This was a nice idea, but added
+  complexity and created problems.
+* Add tests for multiple encoding levels in HTML (from Benjamin
+  Riefenstahl).
+* Bug fix from @oreo639: fix input stream ownership check.
+* Various minor fixes to the build system.
+* Bug fix from @hanjinpeng: fix a double free in recode_format_table.
+* Bug fix from @hanjinpeng: fix UTF-7 encoding of `+': recognize `+-' as
+  encoding `+', and emit that encoding rather than a longer-winded one.
+* Bug fix from @hanjinpeng: fix recode_get_bytes when reading from memory.
+* Bug fix from @hanjinpeng: fix an error path in recode_declare_single on
+  allocation failure.
+* Bug fix from @hanjinpeng: don’t print a NULL charset name when reporting
+  an unknown charset.
+* Bug fix from @hanjinpeng: fix various documentation typos.
+
 
 Version 3.7.15
 ==============
