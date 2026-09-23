@@ -357,7 +357,7 @@ struct recode_request
        the other charset, one can edit text as well as LaTeX directives.  */
     bool diacritics_only : 1;
 
-    /* For `ibmpc' charset, characters 176 to 223 are use to draw boxes.  If
+    /* For `ibmpc' charset, characters 176 to 223 are used to draw boxes.  If
        this field is set, while getting out of `ibmpc', ASCII characters are
        selected so to approximate these boxes.  */
     bool ascii_graphics : 1;
@@ -513,7 +513,7 @@ typedef unsigned short recode_ucs2;
 /* "Are we speaking slips, strips or bars?" (of gold-pressed latinum :-) */
 #define STRIP_SIZE 8
 
-/* An struct strip_data is a pointer to a pool of strips, and an array
+/* A struct strip_data is a pointer to a pool of strips, and an array
    of 256/STRIP_SIZE offsets for the start of strips into the pool, each strip
    describes STRIP_SIZE UCS-2 characters.  A missing character in a strip is
    indicated by all 16 bits set.  */

@@ -30,7 +30,7 @@ static const bool auto_crlf = false;
 #define DOS_CR 13		/* carriage return */
 #define DOS_LF 10		/* line feed */
 
-/* Correspondance for IBM PC ruler graphics characters into ASCII graphics
+/* Correspondence for IBM PC ruler graphics characters into ASCII graphics
    approximations.  The current principles are:
 
    - Single horizontal rulers are made up of dashes.
@@ -121,7 +121,7 @@ static struct recode_known_pair known_pairs[] =
     {144, 201},			/* capital letter E with acute accent */
     {145, 230},			/* small ligature a with e */
     {146, 198},			/* capital ligature A with E */
-    {147, 244},			/* small letter o with circumblex accent */
+    {147, 244},			/* small letter o with circumflex accent */
     {148, 246},			/* small letter o with diaeresis */
     {149, 242},			/* small letter o with grave accent */
     {150, 251},			/* small letter u with circumflex accent */

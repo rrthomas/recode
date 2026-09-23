@@ -2616,7 +2616,7 @@ are @code{UCS-2}, @code{BMP}, @code{rune} and @code{u2}.
 @cindex combining characters
 The Recode library is able to combine @code{UCS-2} some sequences
 of codes into single code characters, to represent a few diacriticized
-characters, ligatures or diphtongs which have been included to ease
+characters, ligatures or diphthongs which have been included to ease
 mapping with other existing charsets.  It is also able to explode
 such single code characters into the corresponding sequence of codes.
 The request syntax for triggering such operations is rudimentary and
@@ -3066,7 +3066,7 @@ Internally, @w{RFC 1345} associates which each character an unambiguous
 mnemonic of a few characters, taken from @w{ISO 646}, which is a minimal
 ASCII subset of 83 characters.  The charset made up by these mnemonics
 is available in Recode under the name @code{RFC1345}.  It has
-@code{mnemonic} and @code{1345} for aliases.  As implemened, this charset
+@code{mnemonic} and @code{1345} for aliases.  As implemented, this charset
 exactly corresponds to @code{mnemonic+ascii+38}, using @w{RFC 1345}
 nomenclature.  Roughly said, @w{ISO 646} characters represent themselves,
 except for the ampersand (@kbd{&}) which appears doubled.  A prefix of a
@@ -3466,10 +3466,10 @@ lines being reachable by setting @code{RT} to @samp{Z}.  If 6-bit bytes
 in a file are sequentially counted from 1, a traditional end of line
 does exist if bytes 10*@var{n}+9 and 10@var{n}+10 are both zero for a
 given @var{n}, in which case these two bytes are not to be interpreted as
-@kbd{::}.  Also, up to 9 immediately preceeding zero bytes, going backward,
+@kbd{::}.  Also, up to 9 immediately preceding zero bytes, going backward,
 are to be considered as part of the end of line and not interpreted as
 @kbd{:}@footnote{This convention replaced an older one saying that up to 4
-immediately preceeding @emph{pairs} of zero bytes, going backward, are to
+immediately preceding @emph{pairs} of zero bytes, going backward, are to
 be considered as part of the end of line and not interpreted as @kbd{::}.}.
 
 @node CDC-NOS, Bang-Bang, Display Code, CDC
@@ -4241,7 +4241,7 @@ This chapter presents all surfaces currently available.
 @cindex permutations of groups of bytes
 
 @cindex byte order swapping
-@cindex endiannes, changing
+@cindex endianness, changing
 A permutation is a surface transformation which reorders groups of
 eight-bit bytes.  A @emph{21} permutation exchanges pairs of successive
 bytes.  If the text contains an odd number of bytes, the last byte is

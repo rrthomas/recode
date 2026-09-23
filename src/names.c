@@ -61,7 +61,7 @@ check_restricted (RECODE_CONST_OUTER outer,
        pair < outer->pair_restriction + outer->pair_restrictions;
        pair++)
     {
-      /* Reject the charset if the characters in the pair do not exist of
+      /* Reject the charset if the characters in the pair do not exist or
 	 if their respective definition do not match.  */
 
       left = recode_code_to_ucs2 (before, pair->left);
@@ -993,7 +993,7 @@ recode_list_full_charset (RECODE_OUTER outer, RECODE_CONST_SYMBOL charset)
 	const unsigned short *data = (const unsigned short *) charset->data;
 	unsigned code;		/* code counter */
 	unsigned expected;	/* expected value for code counter */
-	bool insert_white;	/* insert a while line before printing */
+	bool insert_white;	/* insert a white line before printing */
 
 	/* Print the long table according to explode data.  */
 
@@ -1039,7 +1039,7 @@ recode_list_full_charset (RECODE_OUTER outer, RECODE_CONST_SYMBOL charset)
       {
 	unsigned code;		/* code counter */
 	int ucs2;		/* UCS-2 translation */
-	bool insert_white;	/* insert a while line before printing */
+	bool insert_white;	/* insert a white line before printing */
 
 	/* Print the long table according to strip data.  */
 

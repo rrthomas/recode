@@ -292,7 +292,7 @@ estimate_single_cost (_GL_UNUSED RECODE_OUTER outer, RECODE_SINGLE single)
   int cost;
 
   /* Ensure a small average cost for each single step, yet much trying to
-     avoid single steps prone to loosing information.  */
+     avoid single steps prone to losing information.  */
 
   cost = single->quality.reversible ? 10 : 200;
 
