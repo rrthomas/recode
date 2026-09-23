@@ -675,8 +675,7 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"),
 
 	      if (!name || !*name)
 		name = locale_charset ();
-	      error (0, 0, _("Charset `%s' is unknown or ambiguous"),
-		     name ? name : "");
+	      error (0, 0, _("Charset `%s' is unknown or ambiguous"), name);
 	      usage (EXIT_FAILURE, 1);
 	    }
 
