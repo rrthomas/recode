@@ -60,10 +60,10 @@ recode_get_bytes (RECODE_SUBTASK subtask, char *data, size_t n)
     return fread (data, 1, n, subtask->input.file);
   else
     {
-      size_t bytes_left = subtask->output.limit - subtask->output.cursor;
+      size_t bytes_left = subtask->input.limit - subtask->input.cursor;
       size_t bytes_to_copy = MIN (n, bytes_left);
-      memcpy (data, subtask->output.cursor, bytes_to_copy);
-      subtask->output.cursor += bytes_to_copy;
+      memcpy (data, subtask->input.cursor, bytes_to_copy);
+      subtask->input.cursor += bytes_to_copy;
       return bytes_to_copy;
     }
 }
