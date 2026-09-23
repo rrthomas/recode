@@ -85,6 +85,15 @@ transform_utf16_utf7 (RECODE_SUBTASK subtask)
 	if (!recode_get_ucs2 (&value, subtask))
 	  SUBTASK_RETURN (subtask);
       }
+    else if (value == '+')
+      {
+	/* A plus sign is simply written as "+-".  */
+
+	recode_put_byte ('+', subtask);
+	recode_put_byte ('-', subtask);
+	if (!recode_get_ucs2 (&value, subtask))
+	  SUBTASK_RETURN (subtask);
+      }
     else
       {
 	/* Copy a string of non-direct characters.  */
@@ -162,6 +171,13 @@ transform_utf7_utf16 (RECODE_SUBTASK subtask)
     if (character == '+')
       {
 	character = recode_get_byte (subtask);
+	if (character == '-')
+	  {
+	    /* "+-" is the encoding of a plus sign itself.  */
+	    recode_put_ucs2 ('+', subtask);
+	    character = recode_get_byte (subtask);
+	    continue;
+	  }
 	while (IS_BASE64 (character))
 	  {
 	    /* Process first byte of first quadruplet.  */
