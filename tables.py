@@ -468,6 +468,7 @@ class Iconv(Options):
         libc = None
         import os
         names = []
+        seen = set()
         for line in os.popen('iconv -l'):
             if libc is None:
                 libc = len(line.split('/')) == 3
@@ -484,7 +485,19 @@ class Iconv(Options):
                     if alias in canonical:
                         alias = canonical[alias]
                     aliases.append(alias)
-                self.data.append((aliases[0], aliases[1:]))
+                # Prefer the first charset group for each alias name.  Some
+                # iconv implementations (macOS libiconv) repeat names across
+                # groups — e.g. WINDOWS-874 under both CP1162 and CP874 —
+                # which would otherwise make module_iconv abort.
+                filtered = []
+                for alias in aliases:
+                    key = alias.upper()
+                    if key in seen:
+                        continue
+                    seen.add(key)
+                    filtered.append(alias)
+                if filtered:
+                    self.data.append((filtered[0], filtered[1:]))
 
     def complete(self, french):
         def write_charset(format, charset):
