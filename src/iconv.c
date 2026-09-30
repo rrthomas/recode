@@ -272,18 +272,13 @@ module_iconv (RECODE_OUTER outer)
 	  RECODE_ALIAS alias
 	    = recode_find_alias (outer, *cursor, ALIAS_FIND_AS_CHARSET);
 
+	  /* Only declare aliases not already known.  Some iconv
+	     implementations (notably macOS libiconv) list the same alias
+	     under more than one charset group, e.g. WINDOWS-874 under both
+	     CP1162 and CP874; keep the first binding rather than aborting.  */
 	  if (!alias)
-	    {
-	      if (!recode_declare_alias (outer, *cursor, charset_name))
-		return false;
-	    }
-	  else if (alias->symbol->name != charset_name)
-	    {
-	      /* Some iconv implementations (notably macOS libiconv) list the
-		 same alias under more than one charset group — e.g.
-		 WINDOWS-874 appears with both CP1162 and CP874.  Keep the
-		 first binding instead of aborting initialization.  */
-	    }
+	    if (!recode_declare_alias (outer, *cursor, charset_name))
+	      return false;
 	}
     }
 
