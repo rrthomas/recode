@@ -5,12 +5,15 @@ on: [ push, pull_request ]
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, macos-15-intel]
         include:
           - os: ubuntu-latest
             shell: bash
           - os: macos-latest
+            shell: bash
+          - os: macos-15-intel
             shell: bash
           - os: windows-latest
             sys: mingw64
@@ -37,28 +40,37 @@ jobs:
           mingw-w64-${{matrix.arch}}-python3
           mingw-w64-${{matrix.arch}}-python-setuptools
           mingw-w64-${{matrix.arch}}-cython
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
       with:
         submodules: true
+    # Use setup-python rather than Homebrew's python: the Intel runner image
+    # ships a python.org framework whose /usr/local/bin links make
+    # `brew install python@3.12` fail at the link step.
+    - uses: actions/setup-python@v7
+      if: ${{ runner.os == 'macOS' }}
+      with:
+        python-version: '3.12'
     - name: Install dependencies (Ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: sudo apt-get -y install python3 cython3 flex help2man libltdl-dev autopoint texinfo gettext
     - name: Install dependencies (macOS)
-      if: ${{ matrix.os == 'macos-latest' }}
+      if: ${{ runner.os == 'macOS' }}
       run: |
-        brew install libtool autoconf automake help2man python@3.12 python-setuptools cython flex texinfo
+        python -m pip install setuptools cython
+        brew install libtool autoconf automake help2man flex texinfo
         # Prepend optional brew binary directories to PATH
-        echo "$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$(brew --prefix)/opt/flex/bin:$(brew --prefix)/opt/m4/bin:$(brew --prefix)/opt/texinfo/bin:$(brew --prefix)/opt/gettext/bin:$(brew --prefix)/opt/python@3.12/libexec/bin:$(brew --prefix)/opt/cython/bin" >> $GITHUB_PATH
+        echo "$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$(brew --prefix)/opt/flex/bin:$(brew --prefix)/opt/m4/bin:$(brew --prefix)/opt/texinfo/bin:$(brew --prefix)/opt/gettext/bin" >> $GITHUB_PATH
     - name: Set up environment (Ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
         echo "ASAN=yes" >> $GITHUB_ENV
         echo "LSAN_OPTIONS=verbosity=1:log_threads=1" >> $GITHUB_ENV
     - name: Set up environment (macOS)
-      if: ${{ matrix.os == 'macos-latest' }}
+      if: ${{ runner.os == 'macOS' }}
       run: |
-        echo "LDFLAGS=-L/usr/local/opt/flex/lib -L/usr/local/opt/gettext/lib" >> $GITHUB_ENV
-        echo "CPPFLAGS=-I/usr/local/opt/flex/include" >> $GITHUB_ENV
+        # Homebrew lives in /opt/homebrew on Apple silicon and /usr/local on Intel
+        echo "LDFLAGS=-L$(brew --prefix)/opt/flex/lib -L$(brew --prefix)/opt/gettext/lib" >> $GITHUB_ENV
+        echo "CPPFLAGS=-I$(brew --prefix)/opt/flex/include" >> $GITHUB_ENV
     - name: Set up environment (Windows)
       if: ${{ matrix.os == 'windows-latest' }}
       run: |
@@ -67,6 +79,6 @@ jobs:
     - name: Build
       run: |
         ./bootstrap
-        if [[ "$ASAN" == "yes" ]]; then ./configure --enable-silent-rules CFLAGS="-g3 -fsanitize=address -fsanitize=undefined" LDFLAGS="-fsanitize=address -fsanitize=undefined" TESTS_ENVIRONMENT_EXTRA="LD_PRELOAD=/usr/lib/gcc/x86_64-linux-gnu/11/libasan.so PYTHONMALLOC=malloc"; else ./configure --enable-silent-rules; fi
+        if [[ "$ASAN" == "yes" ]]; then ./configure --enable-silent-rules CFLAGS="-g3 -fsanitize=address -fsanitize=undefined" LDFLAGS="-fsanitize=address -fsanitize=undefined" TESTS_ENVIRONMENT_EXTRA="LD_PRELOAD=$(gcc -print-file-name=libasan.so) PYTHONMALLOC=malloc"; else ./configure --enable-silent-rules; fi
         make check
         make distcheck
